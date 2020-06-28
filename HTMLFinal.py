@@ -513,4 +513,4 @@ parse_tables(in_thousands, in_millions, final_cash_flows_list, cash_flows_file)
             year = year.date()
         unit = item['unit']
         statement = item['statement']
-        statement_insert = item['insert'] Gay shit"""
+        statement_insert = item['insert']"""
