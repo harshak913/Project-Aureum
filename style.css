@@ -1,0 +1,140 @@
+@import url('https://fonts.googleapis.com/css?family=Nunito+Sans:700&display=swap');
+body {
+  margin: 0;
+  background: #ffffff;
+  font-family: 'Nunito Sans', sans-serif;
+  font-weight: 700;
+}
+.headernav {
+  width: 85%;
+  padding: 0px 0px 0px 150px;
+}
+.headernav a {
+  list-style-type: none;
+  float: right;
+  text-align: center;
+  padding: none;
+}
+header {
+  background: #0178bd;
+}
+header::after {
+  content: '';
+  display: table;
+  clear: both;
+}
+.logo {
+  float: left;
+  padding: 10px 75px;
+}
+nav {
+  float: right;
+}
+nav ul {
+  margin: 0px;
+  padding: 10px;
+  list-style: none;
+}
+nav li {
+  display: inline-block;
+  margin-left: 50px;
+  padding-top: 10px;
+  position: relative;
+}
+nav a {
+  color: #fff;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 10px;
+}
+nav a:hover {
+  color: #000;
+}
+nav a::before {
+  content: '';
+  display: block;
+  height: 5px;
+  background-color: #fff;
+  position: absolute;
+  top: 0%;
+  width: 0%;
+  transition: all ease-in-out 250ms;
+}
+nav a:hover::before {
+  width: 100%;
+}
+
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #ECECEC;
+  overflow-x: hidden;
+  transition: 0.5s;
+  display: inline-block;
+  padding-top: 60px;
+}
+
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 20px;
+  color: #636363;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidenav a:hover {
+  color: #111;
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  margin-left: 75px;
+  font-size: 36px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+
+
+/*Search Bar*/
+body{
+  background: #f2f2f2;
+  font-family: 'Nunito Sans', sans-serif;
+}
+
+.search {
+  width: 100%;
+  position: absolute;
+  display: flex;
+}
+
+.searchTerm {
+  width: 100%;
+  border-right: none;
+  padding: 5px;
+  height: 40px;
+  border-radius: 10px 10px 10px 10px;
+  outline: none;
+  color: #9DBFAF;
+}
+
+.searchTerm:focus{
+  color: #0178bd;
+}
+.wrap{
+  width: 50%;
+  position: absolute;
+  top: 1%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+

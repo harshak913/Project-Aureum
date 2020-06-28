@@ -1,0 +1,57 @@
+<!DOCTYPE hmtl>
+<html>
+ <head>
+   <title>Aureum</title>
+   <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:700&display=swap" rel="stylesheet">
+   <link href="style.css" type="text/css" rel="stylesheet"/>
+   <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+ <head>
+<body>
+ <header>
+  <img src="Logo3.png" alt="Aureum Logo" class="logo" style="width:109px;height:33px">
+  <div class="headernav">
+    <nav>
+     <ul>
+      <li><a href="#">Help</a></li>
+      <li><a href="#">Contact Us</a></li>
+      <li><a href="#">Account</a></li>
+    </ul>
+   </nav>
+  </div>
+ </header>
+ <div id="mySidenav" class="sidenav">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <a href="#">Menu</a>
+  <a href="#">Watchlist</a>
+  <a href="#">Dashboard</a>
+  <a href="#">Tasks</a>
+  <a href="#">Projects</a>
+  <a href="#">Alerts</a>
+  <a href="#">Activity Logs</a>
+  <a href="#">Aureum Vault</a>
+ </div>
+ <div style = "position:absolute; left:15px; top:12px;">
+  <span style="font-size:20px;cursor:pointer;color:#ffff;" onclick="openNav()">&#9776;</span>
+ </div>
+ <script>
+function openNav() {
+  document.getElementById("mySidenav").style.width = "190px";
+}
+
+function closeNav() {
+  document.getElementById("mySidenav").style.width = "0";
+}
+</script>
+<div class="wrap">
+   <div class="search">
+      <input type="text" class="searchTerm" placeholder="Search Person, Company, Stock, etc">
+        <i class="fa fa-search"></i>
+   </div>
+</div>
+</body>
+
+
+     
+     
+     
+  
