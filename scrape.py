@@ -7,7 +7,7 @@ import psycopg2
 import xml.etree.ElementTree as ET
 
 
-conn = psycopg2.connect(host="localhost", dbname="postgres", user="postgres", password="DB^oo^ec@^h@ckth!$0913")
+conn = psycopg2.connect(host="ec2-34-233-226-84.compute-1.amazonaws.com", dbname="d77knu57t1q9j9", user="jsnmfiqtcggjyu", password="368e05099543272efb167e9fa3173338be43c1e787666ed2478f51ef050707b9")
 conn.autocommit = True
 cursor = conn.cursor()
 
@@ -21,11 +21,8 @@ def makeURL(baseURL, add):
     return url
 
 years = list(range(2002, 2003))
-financialDataSet = {}
-for year in years:
 
-    # Add dictionary field for the year we are extracting
-    financialDataSet[year] = []
+for year in years:
     
     # Define base URL to access daily filings
     baseURL = r"https://www.sec.gov/Archives/edgar/daily-index"
@@ -69,7 +66,7 @@ for year in years:
                     index_split = index.strip().split('|')
                     if index_split[2] != '10-K' and index_split[2] != '10-Q':
                         continue
-                    rows = cursor.execute('''SELECT * FROM database.company WHERE cik=%s'''%(int(index_split[0])))
+                    ciks = cursor.execute('''SELECT * FROM database.company WHERE cik=%s'''%(int(index_split[0])))
                     if len(cursor.fetchall()) < 1:
                         continue
 
@@ -84,22 +81,24 @@ for year in years:
 
                     # Create the dictionary
                     filing_dict = dict(zip(headers, index_split))
-                    financialDataSet[year].append(filing_dict)
-
-for year in years:
-    filing_dicts = financialDataSet[year]
-    for filing in filing_dicts:
-        text_filing = filing['filename']
-        response = requests.get(text_filing)
-        soup = BeautifulSoup(response.content, 'lxml')
-        if soup.find('html') is None:
-            continue
-        accession_number = text_filing.split('/')[-1].strip('.txt') #Extract accession number (after last '/') & remove '.txt'
-        url_list = text_filing.split('/')
-        url_xml = ''
-        for part in url_list[:-1]:
-            url_xml = url_xml + '' + part + '/'
-        url_xml = url_xml + 'FilingSummary.xml'
-        tree = ET.fromstring(requests.get(url_xml).text)
-        if tree[0].text == 'NoSuchKey':
-            print(filing['cik'] + ' ' + "Error")
+                    text_filing = filing_dict['filename']
+                    response = requests.get(text_filing)
+                    soup = BeautifulSoup(response.content, 'lxml')
+                    if len(soup.find_all('filename')) == 0:
+                        continue
+                    if '.htm' not in soup.find_all("filename")[0].get_text():
+                        continue
+                    accession_number = text_filing.split('/')[-1].strip('.txt') #Extract accession number (after last '/') & remove '.txt'
+                    accession_exist = cursor.execute("SELECT * FROM database.scrape WHERE accession_number = '%s'"%(accession_number))
+                    if len(cursor.fetchall()) > 0:
+                        continue
+                    url_list = text_filing.split('/')
+                    url_xml = ''
+                    for part in url_list[:-1]:
+                        url_xml = url_xml + '' + part + '/'
+                    url_xml = url_xml + 'FilingSummary.xml'
+                    tree = ET.fromstring(requests.get(url_xml).text)
+                    if 'NoSuchKey' in tree[0].text:
+                        sql_statement = "INSERT INTO database.scrape (cik_id, filing_type, year, file_name, accession_number) VALUES(%s, '%s', %s, '%s', '%s');"%(int(filing_dict["cik"]), filing_dict["formtype"], filing_dict["datefiled"][0:4], filing_dict["filename"], accession_number)
+                        cursor.execute(sql_statement)
+                        print(sql_statement)
