@@ -198,6 +198,7 @@ def parse_tables(in_thousands, in_millions, final_list, table_filename):
         else:
             year_pattern = year_pattern + '|' + str(years[year])
     month_pattern = '|'.join(month_name[1:])
+    month_abbrev = 'Jan|Feb|Mar|Apr|May|June|July|Aug|Sept|Oct|Nov|Dec'
     month_list = []
     year_list = []
     row_list = []
@@ -208,9 +209,9 @@ def parse_tables(in_thousands, in_millions, final_list, table_filename):
         table_count += 1
         for tr in table.find_all('tr'):
             if tr.get_text().strip() != '' and 'in millions' not in tr.get_text().strip().lower():
-                if re.search(month_pattern, tr.get_text().strip(), re.IGNORECASE) is not None or re.search(year_pattern, tr.get_text().strip(), re.IGNORECASE) is not None:
+                if re.search(month_pattern, tr.get_text().strip(), re.IGNORECASE) is not None or re.search(year_pattern, tr.get_text().strip(), re.IGNORECASE) is not None or re.search(month_abbrev, tr.get_text().strip(), re.IGNORECASE) is not None:
                     for td in tr.find_all('td'):
-                        if re.search(month_pattern, td.get_text().strip(), re.IGNORECASE) is not None:
+                        if re.search(month_pattern, td.get_text().strip(), re.IGNORECASE) is not None or re.search(month_abbrev, tr.get_text().strip(), re.IGNORECASE) is not None:
                             month_list.append(td.get_text().strip())
                         elif td.get_text().strip().isdigit():
                             year_list.append(td.get_text().strip())
@@ -275,62 +276,19 @@ def parse_tables(in_thousands, in_millions, final_list, table_filename):
                                 row_list.append('')
                             if len(row_list) == len(header_list)-1:
                                 row_list.insert(0, 'Total')
+                            row_list_text_split = row_list[0].split()
+                            row_list[0] = row_list_text_split[0]
+                            for text in row_list_text_split[1:]:
+                                if text == '' or text == '\n':
+                                    continue
+                                row_list[0] = row_list[0] + ' ' + text
                             writer.writerow(row_list)
                             row_list.clear()
-
-#html_text_filing = r"https://www.sec.gov/Archives/edgar/data/59558/000136231009002975/0001362310-09-002975.txt"
-html_text_filing = r"https://www.sec.gov/Archives/edgar/data/50493/000119312510271350/0001193125-10-271350.txt"
-#html_text_filing = r"https://www.sec.gov/Archives/edgar/data/1067983/000095013408003848/0000950134-08-003848.txt"
-
-
-response = requests.get(html_text_filing)
-soup = BeautifulSoup(response.content, 'lxml')
-
-url_list = html_text_filing.split('/')
-accession_number = html_text_filing.split('/')[-1].strip('.txt') #Extract accession number (after last '/') & remove '.txt'
-
-master_filing_dict = {}
-master_filing_dict[accession_number] = {}
-
-for document in soup.find_all('document')[:1]: #Only read the first document tag since it contains all the info we need
-    # Make sure they don't read the entire document (Recursive = True means it returns ALL text, but we only want text associated with the type)
-    document_type = document.type.find(text=True, recursive=False).strip()
-    document_sequence = document.sequence.find(text=True, recursive=False).strip()
-    document_filename = document.filename.find(text=True, recursive=False).strip()
-
-    master_filing_dict[accession_number]['type'] = document_type
-    master_filing_dict[accession_number]['sequence'] = document_sequence
-    master_filing_dict[accession_number]['filename'] = document_filename
-
-    #Remove accession number from the URL (and '.txt') and replace with the HTM link from the filename tag
-    actual_filing_url = ''
-    for part in url_list[:-1]:
-        actual_filing_url = actual_filing_url + '' + part + '/'
-    actual_filing_url = actual_filing_url + '' + document_filename
-
-get_html = requests.get(actual_filing_url)
-parser = BeautifulSoup(get_html.content, 'lxml')
-
-td_tags = parser.select('td')
-h1_tags = parser.select('h1')
-div_tags = parser.select('div')
-p_tags = parser.select('p')
-
-in_thousands = parser.find_all(text=re.compile('thousands'))
-in_millions = parser.find_all(text=re.compile('millions'))
-
-#Create balance sheet, income statement, and cash flows files
-strip_htm = document_filename.split('.')
-balance_sheet_file = '%s-balance_sheet.csv' % (strip_htm[0])
-income_statement_file = '%s-income_statement.csv' % (strip_htm[0])
-cash_flows_file = '%s-cash_flows.csv' % (strip_htm[0])
 
 balance_sheet_variations = ['Statement of Net Assets', 'Statements of Net Assets', 'Statement of Financial Position', 'Statements of Financial Position', 'Balance Sheet'] #Balance sheet title variations
 balance_sheet_content_variations = ['Current assets', 'Current liabilities', 'Total liabilities', 'Total assets', 'Stockholders\' equity', 'Shareholders\' equity',
                                     'Stockholders\' investment', 'Shareholders\' investment', 'Total investment', 'Total equity', 'Shareholder/stockholders\' equity', 'Accounts payable', 'Accounts receivable',
                                     'Liabilities and Stockholders\' Equity'] #Balance sheet row name variations
-balance_sheet_list = pull_tables(td_tags, h1_tags, div_tags, p_tags, balance_sheet_variations, balance_sheet_file, balance_sheet_content_variations)
-balance_sheet_file_list = check_variations(balance_sheet_list, balance_sheet_file, balance_sheet_content_variations)
 
 income_statement_variations = ['Statement of Earnings', 'Statements of Earnings', 'Statement of Operations', 'Statements of Operations', 'Statement of Income', 'Statements of Income', 'Income Statement'] #Income statement title variations
 income_statement_content_variations = {}
@@ -338,179 +296,207 @@ income_statement_content_variations['Revenue'] = ['Sales, net', 'Earning', 'Net 
 income_statement_content_variations['Costs/Expenses'] = ['Cost & expenses', 'Cost and expenses', 'Costs & expenses', 'Costs and expenses', 'Cost of product', 'Cost of good', 'Cost of sale', 'Cost of revenue']
 income_statement_content_variations['Operating Profit/Expenses'] = ['Total operating', 'Operating cost', 'Operating profit', 'Operating income', 'Gross profit', 'Total expense', 'Operating expense']
 income_statement_content_variations['Misc'] = ['Interest expense', 'Administrative', 'Income tax expense', 'Operating income', 'Gross margin', 'Gross profit', 'Research and development', 'Research & development', 'Basic', 'Diluted'] #Income statement row name variations
-income_statement_list = pull_tables(td_tags, h1_tags, div_tags, p_tags, income_statement_variations, income_statement_file, income_statement_content_variations)
-income_statement_file_list = check_variations(income_statement_list, income_statement_file, income_statement_content_variations)
 
 cash_flows_variations = ['Statement of Cash Flows', 'Statements of Cash Flows', 'Cash Flows Statement'] #Cash flows title variations
 cash_flows_content_variations = ['Cash and cash equivalents', 'Cash & cash equivalents', 'Cash and cash', 'Cash & cash', 'Cash & equivalents', 'Cash'] #Cash flows row name variations
-cash_flows_list = pull_tables(td_tags, h1_tags, div_tags, p_tags, cash_flows_variations, cash_flows_file, cash_flows_content_variations)
-cash_flows_file_list = check_variations(cash_flows_list, cash_flows_file, cash_flows_content_variations)
 
-# Narrow down to only the appropriate tables
-complete_temp_table_list = parser.select('table')
+def HTMLParse(html_text_filing, strip_htm):
+    #html_text_filing = r"https://www.sec.gov/Archives/edgar/data/59558/000136231009002975/0001362310-09-002975.txt"
+    #html_text_filing = r"https://www.sec.gov/Archives/edgar/data/46080/000004608002000011/0000046080-02-000011.txt"
+    #html_text_filing = r"https://www.sec.gov/Archives/edgar/data/1067983/000095013408003848/0000950134-08-003848.txt"
 
-#Remove tables with 'PAGE', page numbers, or empty non-breaking spaces
-complete_table_list = []
-for t in range(len(complete_temp_table_list)):
-    uniString = complete_temp_table_list[t].get_text()
-    if not('PAGE' in uniString.upper()) and not(uniString.isdigit() == True) and not(uniString.strip() == ''):
-        complete_table_list.append(complete_temp_table_list[t])
+    response = requests.get(html_text_filing)
+    parser = BeautifulSoup(response.content, 'lxml')
 
-final_balance_list = []
-final_income_list = []
-final_cash_flows_list = []
+    td_tags = parser.select('td')
+    h1_tags = parser.select('h1')
+    div_tags = parser.select('div')
+    p_tags = parser.select('p')
 
-balance_complete_index = 0
-found_balance = False
-for m in range(len(complete_table_list)-1):
-    for n in range(len(balance_sheet_file_list)):
-        if complete_table_list[m] == balance_sheet_file_list[n]: #If table matches one of the balance sheet tables
-            previous_table = complete_table_list[m-1] #Grab previous table
-            next_table = complete_table_list[m+1] #Grab next table
-            for o in income_statement_file_list:
-                if previous_table == o or next_table == o or is_balance(next_table, balance_sheet_content_variations): #Validates proper balance sheet by checking all variations in table order
-                    final_balance_list.append(balance_sheet_file_list[n]) #Append validated balance sheet to final balance sheet table
-                    del balance_sheet_file_list[n] #Delete balance sheet table from original list
-                    balance_complete_index = m
-                    found_balance = True
-                    break
-        if found_balance == True:
+    in_thousands = parser.find_all(text=re.compile('thousands'))
+    in_millions = parser.find_all(text=re.compile('millions'))
+
+    #Create balance sheet, income statement, and cash flows files
+    balance_sheet_file = '%s-balance_sheet.csv' % (strip_htm[0])
+    income_statement_file = '%s-income_statement.csv' % (strip_htm[0])
+    cash_flows_file = '%s-cash_flows.csv' % (strip_htm[0])
+
+    balance_sheet_list = pull_tables(td_tags, h1_tags, div_tags, p_tags, balance_sheet_variations, balance_sheet_file, balance_sheet_content_variations)
+    balance_sheet_file_list = check_variations(balance_sheet_list, balance_sheet_file, balance_sheet_content_variations)
+
+    income_statement_list = pull_tables(td_tags, h1_tags, div_tags, p_tags, income_statement_variations, income_statement_file, income_statement_content_variations)
+    income_statement_file_list = check_variations(income_statement_list, income_statement_file, income_statement_content_variations)
+
+    cash_flows_list = pull_tables(td_tags, h1_tags, div_tags, p_tags, cash_flows_variations, cash_flows_file, cash_flows_content_variations)
+    cash_flows_file_list = check_variations(cash_flows_list, cash_flows_file, cash_flows_content_variations)
+
+    # Narrow down to only the appropriate tables
+    complete_temp_table_list = parser.select('table')
+
+    #Remove tables with 'PAGE', page numbers, or empty non-breaking spaces
+    complete_table_list = []
+    for t in range(len(complete_temp_table_list)):
+        uniString = complete_temp_table_list[t].get_text()
+        if not('PAGE' in uniString.upper()) and not(uniString.isdigit() == True) and not(uniString.strip() == ''):
+            complete_table_list.append(complete_temp_table_list[t])
+
+    final_balance_list = []
+    final_income_list = []
+    final_cash_flows_list = []
+
+    balance_complete_index = 0
+    found_balance = False
+    for m in range(len(complete_table_list)-1):
+        for n in range(len(balance_sheet_file_list)):
+            if complete_table_list[m] == balance_sheet_file_list[n]: #If table matches one of the balance sheet tables
+                previous_table = complete_table_list[m-1] #Grab previous table
+                next_table = complete_table_list[m+1] #Grab next table
+                for o in income_statement_file_list:
+                    if previous_table == o or next_table == o or is_balance(next_table, balance_sheet_content_variations): #Validates proper balance sheet by checking all variations in table order
+                        final_balance_list.append(balance_sheet_file_list[n]) #Append validated balance sheet to final balance sheet table
+                        del balance_sheet_file_list[n] #Delete balance sheet table from original list
+                        balance_complete_index = m
+                        found_balance = True
+                        break
+            if found_balance == True:
+                break
+        if found_balance == True: #Break out of entire loop if balance sheet has been found
             break
-    if found_balance == True: #Break out of entire loop if balance sheet has been found
-        break
 
-complete_index = balance_complete_index
-cash_flows_index = 0
-next_is_income = False
-while complete_index < len(complete_table_list)-1:
-    previous_table = complete_table_list[complete_index-1] #Grab previous table
-    next_table = complete_table_list[complete_index+1] #Grab next table
-    for p in income_statement_file_list:
-        if previous_table == p: #If previous table is income, add it to final income list and delete from original list
-            final_income_list.append(p)
-            income_statement_file_list.remove(p)
-            break
-        elif next_table == p: #If next table is income, add it to final income list and delete from original list
-            final_income_list.append(p)
-            income_statement_file_list.remove(p)
-            next_is_income = True #Set next income flag to True because if income is next, then balance sheet CANNOT be next
-            complete_index += 1
-            break
-    if next_is_income != True: #Only executes is the next table is not an income statement (ONLY in cases where balance sheet might be split into 2 tables)
-        for q in balance_sheet_file_list:
-            if next_table == q:
-                final_balance_list.append(q)
-                balance_sheet_file_list.remove(q)
+    complete_index = balance_complete_index
+    cash_flows_index = 0
+    next_is_income = False
+    while complete_index < len(complete_table_list)-1:
+        previous_table = complete_table_list[complete_index-1] #Grab previous table
+        next_table = complete_table_list[complete_index+1] #Grab next table
+        for p in income_statement_file_list:
+            if previous_table == p: #If previous table is income, add it to final income list and delete from original list
+                final_income_list.append(p)
+                income_statement_file_list.remove(p)
+                break
+            elif next_table == p: #If next table is income, add it to final income list and delete from original list
+                final_income_list.append(p)
+                income_statement_file_list.remove(p)
+                next_is_income = True #Set next income flag to True because if income is next, then balance sheet CANNOT be next
                 complete_index += 1
                 break
-    cash_flows_index = complete_index #Sets cash flows index to last table we traversed (income statement or balance sheet)
-    if is_cash_flows(next_table, cash_flows_content_variations) == True:
-        break
-    elif is_balance(next_table, balance_sheet_content_variations) == False and is_income(next_table, income_statement_content_variations) == False:
-        break
-
-complete_index = cash_flows_index
-while complete_index < len(complete_table_list)-1:
-    next_table = complete_table_list[complete_index+1] #Grab next table
-    for r in cash_flows_file_list:
-        if next_table == r: #If next table is a cash flow, add it to final cash flows list and delete from original list
-            final_cash_flows_list.append(r)
-            cash_flows_file_list.remove(r)
+        if next_is_income != True: #Only executes is the next table is not an income statement (ONLY in cases where balance sheet might be split into 2 tables)
+            for q in balance_sheet_file_list:
+                if next_table == q:
+                    final_balance_list.append(q)
+                    balance_sheet_file_list.remove(q)
+                    complete_index += 1
+                    break
+        cash_flows_index = complete_index #Sets cash flows index to last table we traversed (income statement or balance sheet)
+        if is_cash_flows(next_table, cash_flows_content_variations) == True:
             break
-    complete_index += 1
-    if complete_index - cash_flows_index >= 3 and is_cash_flows(next_table, cash_flows_content_variations) == False:
-        break
+        elif is_balance(next_table, balance_sheet_content_variations) == False and is_income(next_table, income_statement_content_variations) == False:
+            break
 
-#Write final balance sheet, income statement, and cash flows tables to files
-parse_tables(in_thousands, in_millions, final_balance_list, balance_sheet_file)
-parse_tables(in_thousands, in_millions, final_income_list, income_statement_file)
-parse_tables(in_thousands, in_millions, final_cash_flows_list, cash_flows_file)
+    complete_index = cash_flows_index
+    while complete_index < len(complete_table_list)-1:
+        next_table = complete_table_list[complete_index+1] #Grab next table
+        for r in cash_flows_file_list:
+            if next_table == r: #If next table is a cash flow, add it to final cash flows list and delete from original list
+                final_cash_flows_list.append(r)
+                cash_flows_file_list.remove(r)
+                break
+        complete_index += 1
+        if complete_index - cash_flows_index >= 3 and is_cash_flows(next_table, cash_flows_content_variations) == False:
+            break
+
+    #Write final balance sheet, income statement, and cash flows tables to files
+    parse_tables(in_thousands, in_millions, final_balance_list, balance_sheet_file)
+    parse_tables(in_thousands, in_millions, final_income_list, income_statement_file)
+    parse_tables(in_thousands, in_millions, final_cash_flows_list, cash_flows_file)
 
 
-"""     insert_list = []
-    insert_list.append(balance_sheet_file)
-    insert_list.append(income_statement_file)
-    insert_list.append(cash_flows_file)
+    """     insert_list = []
+        insert_list.append(balance_sheet_file)
+        insert_list.append(income_statement_file)
+        insert_list.append(cash_flows_file)
 
-    all_dict = []
-    for item in insert_list:
-        if 'balance' in item:
-            statement_insert = 'balance'
-            statement = 'Balance Sheet'
-        elif 'income' in item:
-            statement_insert = 'income'
-            statement = 'Income Statement'
-        elif 'cash' in item:
-            statement_insert = 'cash_flow'
-            statement = 'Cash Flow Statement'
+        all_dict = []
+        for item in insert_list:
+            if 'balance' in item:
+                statement_insert = 'balance'
+                statement = 'Balance Sheet'
+            elif 'income' in item:
+                statement_insert = 'income'
+                statement = 'Income Statement'
+            elif 'cash' in item:
+                statement_insert = 'cash_flow'
+                statement = 'Cash Flow Statement'
 
-        csvfile = open(item, 'r')
-        reader = csv.DictReader(csvfile)
-        rows = list(reader)
-        keys = list(reader.fieldnames)
-        for key in keys:
-            if key == 'Title':
-                keys.remove(key)
-            if key == 'Value':
-                keys.remove(key)
+            csvfile = open(item, 'r')
+            reader = csv.DictReader(csvfile)
+            rows = list(reader)
+            keys = list(reader.fieldnames)
+            for key in keys:
+                if key == 'Title':
+                    keys.remove(key)
+                if key == 'Value':
+                    keys.remove(key)
 
-        member = ''
-        header = ''
-        for row in rows:
-            if row['Title'] != 'Title' and row['Value'] != 'Value':
-                i = 0
-                for key in keys:
-                    if row[key]:
-                        i+=1
-                if i == 0:
-                    next = rows[rows.index(row)+1]
+            member = ''
+            header = ''
+            for row in rows:
+                if row['Title'] != 'Title' and row['Value'] != 'Value':
+                    i = 0
                     for key in keys:
-                        if next[key]:
+                        if row[key]:
                             i+=1
                     if i == 0:
-                        member = row['Title']
-                    else:
-                        header = row['Title']
-                else:
-                    for key in keys:
-                        dict = {}
-                        dict['member'] = member
-                        dict['header'] = header
-                        dict['eng_name'] = row['Title']
-                        dict['value'] = row[key]
-                        dict['year'] = key
-                        if str(row['Value']).strip() == '':
-                            dict['unit'] = 'As Displayed'
+                        next = rows[rows.index(row)+1]
+                        for key in keys:
+                            if next[key]:
+                                i+=1
+                        if i == 0:
+                            member = row['Title']
                         else:
-                            dict['unit'] = row['Value']
-                        dict['statement'] = statement
-                        dict['insert'] = statement_insert
-                        all_dict.append(dict)
+                            header = row['Title']
+                    else:
+                        for key in keys:
+                            dict = {}
+                            dict['member'] = member
+                            dict['header'] = header
+                            dict['eng_name'] = row['Title']
+                            dict['value'] = row[key]
+                            dict['year'] = key
+                            if str(row['Value']).strip() == '':
+                                dict['unit'] = 'As Displayed'
+                            else:
+                                dict['unit'] = row['Value']
+                            dict['statement'] = statement
+                            dict['insert'] = statement_insert
+                            all_dict.append(dict)
 
 
-    seen = set()
-    new_l = []
-    for d in all_dict:
-        t = tuple(d.items())
-        if t not in seen:
-            seen.add(t)
-            new_l.append(d)
+        seen = set()
+        new_l = []
+        for d in all_dict:
+            t = tuple(d.items())
+            if t not in seen:
+                seen.add(t)
+                new_l.append(d)
 
-    for item in new_l:
-        connection = mariadb.connect(host="localhost",user="root",passwd="DB^oo^ec@^h@ckth!$0913",database="database",autocommit=True)
-        cursor = connection.cursor()
-        member = item['member']
-        header = item['header']
-        eng_name = item['eng_name']
-        value = item['value']
-        if ',' not in item['year']:
-            year = '1-1-'+item['year']
-            year = parse(year)
-            year = year.date()
-        else:
-            year = item['year']
-            year = parse(year)
-            year = year.date()
-        unit = item['unit']
-        statement = item['statement']
-        statement_insert = item['insert']"""
+        for item in new_l:
+            connection = mariadb.connect(host="localhost",user="root",passwd="DB^oo^ec@^h@ckth!$0913",database="database",autocommit=True)
+            cursor = connection.cursor()
+            member = item['member']
+            header = item['header']
+            eng_name = item['eng_name']
+            value = item['value']
+            if ',' not in item['year']:
+                year = '1-1-'+item['year']
+                year = parse(year)
+                year = year.date()
+            else:
+                year = item['year']
+                year = parse(year)
+                year = year.date()
+            unit = item['unit']
+            statement = item['statement']
+            statement_insert = item['insert']"""
+
+HTMLParse("https://www.sec.gov/Archives/edgar/data/46080/000004608002000011/0000046080-02-000011.txt", "q30210q")
