@@ -157,7 +157,7 @@ def get_fixed_tag_text(tag_name):
     return ' '.join(tag_name.get_text().strip().split())
 
 
-def find_value(in_thousands, in_millions, final_list):
+def find_value(in_thousands_lower, in_millions_lower, in_thousands_upper, in_millions_upper, final_list):
     value_list = []
     for item in final_list:
         if 'thousands' in ' '.join(item.get_text().strip().lower().split()):
@@ -168,11 +168,23 @@ def find_value(in_thousands, in_millions, final_list):
             value_list.append('In millions')
     if len(value_list) != 0:
         return value_list
-    for thousands in in_thousands:
+
+    for thousands in in_thousands_lower:
         for item in final_list:
             if thousands.find_next('table') == item:
                 value_list.append('In thousands')
-    for millions in in_millions:
+
+    for millions in in_millions_lower:
+        for item in final_list:
+            if millions.find_next('table') == item:
+                value_list.append('In millions')
+
+    for thousands in in_thousands_upper:
+        for item in final_list:
+            if thousands.find_next('table') == item:
+                value_list.append('In thousands')
+
+    for millions in in_millions_upper:
         for item in final_list:
             if millions.find_next('table') == item:
                 value_list.append('In millions')
@@ -188,9 +200,9 @@ def restore_windows_1252_characters(restore_string):
     return re.sub(r'[\u0080-\u0099]', to_windows_1252, restore_string)
 
 #Parses HTML tables and puts them in a CSV format
-def parse_tables(in_thousands, in_millions, final_list, table_filename):
-    value_list = find_value(in_thousands, in_millions, final_list)
-    years = list(range(2002, datetime.datetime.today().year+1))
+def parse_tables(in_thousands_lower, in_millions_lower, in_thousands_upper, in_millions_upper, final_list, table_filename):
+    value_list = find_value(in_thousands_lower, in_millions_lower, in_thousands_upper, in_millions_upper, final_list)
+    years = list(range(2000, datetime.datetime.today().year+1))
     year_pattern = ''
     for year in range(len(years)):
         if year == 0:
@@ -211,7 +223,7 @@ def parse_tables(in_thousands, in_millions, final_list, table_filename):
             if tr.get_text().strip() != '' and 'in millions' not in tr.get_text().strip().lower():
                 if re.search(month_pattern, tr.get_text().strip(), re.IGNORECASE) is not None or re.search(year_pattern, tr.get_text().strip(), re.IGNORECASE) is not None or re.search(month_abbrev, tr.get_text().strip(), re.IGNORECASE) is not None:
                     for td in tr.find_all('td'):
-                        if re.search(month_pattern, td.get_text().strip(), re.IGNORECASE) is not None or re.search(month_abbrev, tr.get_text().strip(), re.IGNORECASE) is not None:
+                        if re.search(month_pattern, td.get_text().strip(), re.IGNORECASE) is not None or re.search(month_abbrev, td.get_text().strip(), re.IGNORECASE) is not None:
                             month_list.append(td.get_text().strip())
                         elif td.get_text().strip().isdigit():
                             year_list.append(td.get_text().strip())
@@ -313,13 +325,15 @@ def HTMLParse(html_text_filing, strip_htm):
     div_tags = parser.select('div')
     p_tags = parser.select('p')
 
-    in_thousands = parser.find_all(text=re.compile('thousands'))
-    in_millions = parser.find_all(text=re.compile('millions'))
+    in_thousands_lower = parser.find_all(text=re.compile('thousands'))
+    in_thousands_upper = parser.find_all(text=re.compile('Thousands'))
+    in_millions_lower = parser.find_all(text=re.compile('millions'))
+    in_millions_upper = parser.find_all(text=re.compile('Millions'))
 
     #Create balance sheet, income statement, and cash flows files
-    balance_sheet_file = '%s-balance_sheet.csv' % (strip_htm[0])
-    income_statement_file = '%s-income_statement.csv' % (strip_htm[0])
-    cash_flows_file = '%s-cash_flows.csv' % (strip_htm[0])
+    balance_sheet_file = '%s-balance_sheet.csv' % (strip_htm)
+    income_statement_file = '%s-income_statement.csv' % (strip_htm)
+    cash_flows_file = '%s-cash_flows.csv' % (strip_htm)
 
     balance_sheet_list = pull_tables(td_tags, h1_tags, div_tags, p_tags, balance_sheet_variations, balance_sheet_file, balance_sheet_content_variations)
     balance_sheet_file_list = check_variations(balance_sheet_list, balance_sheet_file, balance_sheet_content_variations)
@@ -406,9 +420,20 @@ def HTMLParse(html_text_filing, strip_htm):
             break
 
     #Write final balance sheet, income statement, and cash flows tables to files
-    parse_tables(in_thousands, in_millions, final_balance_list, balance_sheet_file)
-    parse_tables(in_thousands, in_millions, final_income_list, income_statement_file)
-    parse_tables(in_thousands, in_millions, final_cash_flows_list, cash_flows_file)
+    if len(final_balance_list) != 0:
+        parse_tables(in_thousands_lower, in_millions_lower, in_thousands_upper, in_millions_upper, final_balance_list, balance_sheet_file)
+    else:
+        print("No balance sheets found")
+    
+    if len(final_income_list) != 0:
+        parse_tables(in_thousands_lower, in_millions_lower, in_thousands_upper, in_millions_upper, final_income_list, income_statement_file)
+    else:
+        print("No income statements found")
+    
+    if len(final_cash_flows_list) != 0:
+        parse_tables(in_thousands_lower, in_millions_lower, in_thousands_upper, in_millions_upper, final_cash_flows_list, cash_flows_file)
+    else:
+        print("No cash flows statements found")
 
 
     """     insert_list = []
@@ -499,4 +524,5 @@ def HTMLParse(html_text_filing, strip_htm):
             statement = item['statement']
             statement_insert = item['insert']"""
 
-HTMLParse("https://www.sec.gov/Archives/edgar/data/46080/000004608002000011/0000046080-02-000011.txt", "q30210q")
+HTMLParse("https://www.sec.gov/Archives/edgar/data/26172/000002617202000002/0000026172-02-000002.txt", "form10k")
+# UPDATE parse_tables method so that it removes '$' and '=' from the CSV output (edit row_list before writerow)
