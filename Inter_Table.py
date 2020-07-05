@@ -139,7 +139,7 @@ for report in reports:
 all_dict = []
 
 #NOW SAVE THE NOTES OF TO THE FINANCIAL STATEMENTS
-'''
+
 for item in dict_2:
     if 'htm' in item['link']:
         doc_name = str(item.get('name'))
@@ -163,7 +163,7 @@ for item in dict_2:
         pretty = soup.prettify()
         with open(filename, "w") as f:
             f.write(pretty)
-'''
+
 
 #TIME TO PARSE THE ACTUAL FINANCIAL STATEMENTS
 for item in dicts:
