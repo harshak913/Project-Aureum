@@ -14,9 +14,13 @@ from dateutil.relativedelta import relativedelta
 #filing_summary = "https://www.sec.gov/Archives/edgar/data/27093/000117152016001006/0001171520-16-001006.txt"
 #filing_summary = "https://www.sec.gov/Archives/edgar/data/1638290/000155837016008267/0001558370-16-008267.txt"
 #filing_summary = "https://www.sec.gov/Archives/edgar/data/32689/000104746912001313/0001047469-12-001313.txt"
-#filing_summary = "https://www.sec.gov/Archives/edgar/data/1067983/000156459020005874/0001564590-20-005874.txt" #BRK2020
-filing_summary = "https://www.sec.gov/Archives/edgar/data/1467858/000146785814000043/0001467858-14-000043.txt" #GM2012
-#filing_summary = "https://www.sec.gov/Archives/edgar/data/27093/000117152016001006/0001171520-16-001006.txt"
+#filing_summary = "https://www.sec.gov/Archives/edgar/data/789019/000119312510090116/0001193125-10-090116.txt"
+
+#filing_summary = "https://www.sec.gov/Archives/edgar/data/1067983/000115752310002982/0001157523-10-002982.txt" #Q1
+#filing_summary = "https://www.sec.gov/Archives/edgar/data/1067983/000115752310004882/0001157523-10-004882.txt" #Q2
+filing_summary = "https://www.sec.gov/Archives/edgar/data/1067983/000115752310006675/0001157523-10-006675.txt" #Q3
+
+#filing_summary = "https://www.sec.gov/Archives/edgar/data/1067983/000095012319009995/0000950123-19-009995.txt" #Q3
 
 
 #SPLIT APART THE URL
@@ -77,14 +81,7 @@ soup = BeautifulSoup(page, features="lxml")
 pretty = soup.prettify()
 with open(xml_filepath, "w") as f:
     f.write(pretty)
-'''
-#now download the txt page and save it for reading, and save the file path for later
-txt_filepath = "/Users/octavian/Desktop/XML/%s/%s"%(latter,txt)
-response = urllib.request.urlopen(filing_summary)
-webContent = response.read()
-f = open(txt_filepath, 'wb')
-f.write(webContent)
-'''
+
 #CHECK THE INTERACTIVE PAGE AND GET THE NUMBER LINKS FOR NOTES AND FINANCIAL STATEMENTS
 html = open("%s.htm"%latter).read()
 soup = BeautifulSoup(html, features="lxml")
@@ -142,6 +139,7 @@ for report in reports:
 all_dict = []
 
 #NOW SAVE THE NOTES OF TO THE FINANCIAL STATEMENTS
+'''
 for item in dict_2:
     if 'htm' in item['link']:
         doc_name = str(item.get('name'))
@@ -165,7 +163,7 @@ for item in dict_2:
         pretty = soup.prettify()
         with open(filename, "w") as f:
             f.write(pretty)
-
+'''
 
 #TIME TO PARSE THE ACTUAL FINANCIAL STATEMENTS
 for item in dicts:
@@ -202,16 +200,43 @@ for item in dicts:
         id = 1
         member_header = ''
         header = ''
+        months_ended = []
+        extension = 0
+        col_id = 1
+        for one in ones:
+            l = one.text.strip()
+            if re.search('months ended', l, re.IGNORECASE) is not None:
+                months = {}
+                if one.has_attr('colspan') and col_id==1:
+                    col = int(one.get('colspan'))
+                    months['start_span'] = extension
+                    months['end_span'] = col
+                    extension += col
+                    col_id+=1
+                elif one.has_attr('colspan') and col_id != 1:
+                    col = int(one.get('colspan'))
+                    months['start_span'] = extension
+                    extension += col
+                    months['end_span'] = extension
+                months['months_ended'] = l.strip()
+                months_ended.append(months)
         for one in ones:
             l = one.text.strip()
             if re.match(r'.*([1-3][0-9]{3})', l) is not None:
                 date = {}
                 date['id'] = id
-                date['date'] = l.split('USD', 1)[0].strip()
+                date['date'] = l.upper().split('USD', 1)[0].strip()
+                for item in months_ended:
+                    if item.get('start_span') is not None:
+                        start_span = int(item.get('start_span'))
+                        end_span = int(item.get('end_span'))
+                        if id > start_span and id <= end_span:
+                            date['months_ended'] = item.get('months_ended')
                 all_dates.append(date)
                 id+=1
-
+        #print(months_ended)
         #CHECK IF THIS STATEMENT IS PARSABLE BECAUSE WE DON'T WANT TO GET THE SHAREHOLDER'S EQUITY
+
         go = 0
         for item in all_dates:
             if 'date' in item:
@@ -260,6 +285,10 @@ for item in dicts:
                                 for item in all_dates:
                                     if item['id'] == id:
                                         date = item['date']
+                                        if item.get('months_ended') is not None:
+                                            months_ended = item['months_ended']
+                                        else:
+                                            months_ended = ''
                                 if child.find('sup') is None and child.find('span') is not None:
                                     dict = {}
                                     dict['member'] = member_header.strip()
@@ -267,12 +296,14 @@ for item in dicts:
                                     dict['eng_name'] = eng_name.strip()
                                     dict['value'] = child.text.strip()
                                     dict['date'] = ' '.join(date.split())
+                                    dict['months_ended'] = months_ended
                                     dict['statement'] = statement_name.strip()
                                     dict['acc_name'] = acc_name.strip()
                                     dict['unit'] = unit.strip()
                                     print(dict)
                                     all_dict.append(dict)
                                     id+=1
+
 
 
     elif 'xml' in item['link']:
@@ -305,7 +336,9 @@ for item in dicts:
             for label in labels:
                 l = label.get('label')
                 if re.match(r'.*([1-3][0-9]{3})', l) is not None:
-                    dates['date'] = l.split('USD', 1)[0].strip()
+                    dates['date'] = l.upper().split('USD', 1)[0].strip()
+                if re.search('months ended', l, re.IGNORECASE) is not None:
+                    dates['months_ended'] = l.strip()
             dates['id'] = element.find('id').text.strip()
             all_dates.append(dates)
         member_header = ''
@@ -349,11 +382,16 @@ for item in dicts:
                         for item in all_dates:
                             if id == item['id']:
                                 current_date = item['date']
+                                if item.get('months_ended') is not None:
+                                    months_ended = item['months_ended']
+                                else:
+                                    months_ended = ''
                         dict['member'] = member_header.strip()
                         dict['header'] = header.strip()
                         dict['eng_name'] = eng_name.strip()
                         dict['value'] = value.strip()
                         dict['date'] = current_date.strip()
+                        dict['months_ended'] = months_ended
                         dict['statement'] = statement_name.strip()
                         dict['acc_name'] = acc_name.strip()
                         dict['unit'] = unit.strip()
