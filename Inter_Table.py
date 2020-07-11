@@ -12,13 +12,13 @@ from dateutil.relativedelta import relativedelta
 #filing_summary = "https://www.sec.gov/Archives/edgar/data/65172/000155837018002967/0001558370-18-002967.txt"
 #filing_summary = "https://www.sec.gov/Archives/edgar/data/1067983/000119312510043450/0001193125-10-043450.txt"
 #filing_summary = "https://www.sec.gov/Archives/edgar/data/27093/000117152016001006/0001171520-16-001006.txt"
-#filing_summary = "https://www.sec.gov/Archives/edgar/data/1638290/000155837016008267/0001558370-16-008267.txt"
+filing_summary = "https://www.sec.gov/Archives/edgar/data/1638290/000155837016008267/0001558370-16-008267.txt"
 #filing_summary = "https://www.sec.gov/Archives/edgar/data/32689/000104746912001313/0001047469-12-001313.txt"
 #filing_summary = "https://www.sec.gov/Archives/edgar/data/789019/000119312510090116/0001193125-10-090116.txt"
 
 #filing_summary = "https://www.sec.gov/Archives/edgar/data/1067983/000115752310002982/0001157523-10-002982.txt" #Q1
 #filing_summary = "https://www.sec.gov/Archives/edgar/data/1067983/000115752310004882/0001157523-10-004882.txt" #Q2
-filing_summary = "https://www.sec.gov/Archives/edgar/data/1067983/000115752310006675/0001157523-10-006675.txt" #Q3
+#filing_summary = "https://www.sec.gov/Archives/edgar/data/1067983/000115752310006675/0001157523-10-006675.txt" #Q3
 
 #filing_summary = "https://www.sec.gov/Archives/edgar/data/1067983/000095012319009995/0000950123-19-009995.txt" #Q3
 
@@ -72,6 +72,7 @@ pretty = soup.prettify()
 with open("%s.htm"%latter, "w") as file:
     file.write(pretty)
 
+'''
 #now download the xml page and save it for reading, and save the file path for later
 xml_filepath = "/Users/octavian/Desktop/XML/%s/%s"%(latter,xml)
 xml_filepath = str(xml_filepath)
@@ -81,6 +82,7 @@ soup = BeautifulSoup(page, features="lxml")
 pretty = soup.prettify()
 with open(xml_filepath, "w") as f:
     f.write(pretty)
+'''
 
 #CHECK THE INTERACTIVE PAGE AND GET THE NUMBER LINKS FOR NOTES AND FINANCIAL STATEMENTS
 html = open("%s.htm"%latter).read()
@@ -138,6 +140,8 @@ for report in reports:
 
 all_dict = []
 
+os.remove("%s.htm"%latter)
+
 #NOW SAVE THE NOTES OF TO THE FINANCIAL STATEMENTS
 '''
 for item in dict_2:
@@ -170,7 +174,7 @@ for item in dicts:
     if 'htm' in item['link']:
         #CREATE THE DOCUMENT AND BEAUTIFULSOUP PARSE IT
         doc_name = str(item.get('name'))
-        filename = "/Users/octavian/Desktop/HTM/%s/%s.htm"%(latter, doc_name)
+        filename = "/Users/octavian/Desktop/HTM/%s.htm"%(doc_name)
         os.makedirs(os.path.dirname(filename), exist_ok=True)
         report_access = 'https://www.sec.gov%s'%str(item.get('link'))
         page = urllib.request.urlopen(report_access).read()
@@ -303,12 +307,12 @@ for item in dicts:
                                     #print(dict)
                                     all_dict.append(dict)
                                     id+=1
-
+        os.remove(filename)
 
 
     elif 'xml' in item['link']:
         doc_name = str(item.get('name'))
-        filename = "/Users/octavian/Desktop/HTM/%s/%s.xml"%(latter, doc_name)
+        filename = "/Users/octavian/Desktop/HTM/%s.xml"%(doc_name)
         os.makedirs(os.path.dirname(filename), exist_ok=True)
         report_access = 'https://www.sec.gov%s'%str(item.get('link'))
         page = urllib.request.urlopen(report_access).read()
@@ -397,8 +401,8 @@ for item in dicts:
                         dict['unit'] = unit.strip()
                         #print(dict)
                         all_dict.append(dict)
+        os.remove(filename)
 
-os.remove("%s.htm"%latter)
 
 #store data in MYSQL
 balance_sheet_variations = ['NET ASSET', 'FINANCIAL POSITION', 'BALANCE SHEET']
