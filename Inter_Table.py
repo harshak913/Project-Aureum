@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup, NavigableString
 import os
 import xml.etree.ElementTree as ET
 import requests
-import mysql.connector as mariadb
+import psycopg2
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 #begin code
@@ -18,10 +18,15 @@ from dateutil.relativedelta import relativedelta
 
 #filing_summary = "https://www.sec.gov/Archives/edgar/data/1067983/000115752310002982/0001157523-10-002982.txt" #Q1
 #filing_summary = "https://www.sec.gov/Archives/edgar/data/1067983/000115752310004882/0001157523-10-004882.txt" #Q2
-filing_summary = "https://www.sec.gov/Archives/edgar/data/1067983/000115752310006675/0001157523-10-006675.txt" #Q3
+#filing_summary = "https://www.sec.gov/Archives/edgar/data/1067983/000115752310006675/0001157523-10-006675.txt" #Q3
 
 #filing_summary = "https://www.sec.gov/Archives/edgar/data/1067983/000095012319009995/0000950123-19-009995.txt" #Q3
 
+
+#Database Connection
+psycopg2.connect(host="ec2-34-233-226-84.compute-1.amazonaws.com", dbname="d77knu57t1q9j9", user="jsnmfiqtcggjyu", password="368e05099543272efb167e9fa3173338be43c1e787666ed2478f51ef050707b9")
+connection.autocommit = True
+cursor = connection.cursor()
 
 #SPLIT APART THE URL
 url_list = filing_summary.split('/')
@@ -411,8 +416,6 @@ non_signs = ['PARENTHETICAL', 'COMPREHENSIVE','SUPPLEMENTARY', 'EQUITY']
 
 
 for item in all_dict:
-    connection = mariadb.connect(host="localhost",user="root",passwd="plano5628",database="Database",autocommit=True)
-    cursor = connection.cursor()
     member = str(item.get('member'))
     header = str(item.get('header'))
     acc_name = str(item.get('acc_name'))
