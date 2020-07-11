@@ -12,7 +12,7 @@ from dateutil.relativedelta import relativedelta
 #filing_summary = "https://www.sec.gov/Archives/edgar/data/65172/000155837018002967/0001558370-18-002967.txt"
 #filing_summary = "https://www.sec.gov/Archives/edgar/data/1067983/000119312510043450/0001193125-10-043450.txt"
 #filing_summary = "https://www.sec.gov/Archives/edgar/data/27093/000117152016001006/0001171520-16-001006.txt"
-#filing_summary = "https://www.sec.gov/Archives/edgar/data/1638290/000155837016008267/0001558370-16-008267.txt"
+filing_summary = "https://www.sec.gov/Archives/edgar/data/1638290/000155837016008267/0001558370-16-008267.txt"
 #filing_summary = "https://www.sec.gov/Archives/edgar/data/32689/000104746912001313/0001047469-12-001313.txt"
 #filing_summary = "https://www.sec.gov/Archives/edgar/data/789019/000119312510090116/0001193125-10-090116.txt"
 
@@ -77,6 +77,7 @@ pretty = soup.prettify()
 with open("%s.htm"%latter, "w") as file:
     file.write(pretty)
 
+'''
 #now download the xml page and save it for reading, and save the file path for later
 xml_filepath = "/Users/octavian/Desktop/XML/%s/%s"%(latter,xml)
 xml_filepath = str(xml_filepath)
@@ -86,6 +87,7 @@ soup = BeautifulSoup(page, features="lxml")
 pretty = soup.prettify()
 with open(xml_filepath, "w") as f:
     f.write(pretty)
+'''
 
 #CHECK THE INTERACTIVE PAGE AND GET THE NUMBER LINKS FOR NOTES AND FINANCIAL STATEMENTS
 html = open("%s.htm"%latter).read()
@@ -143,8 +145,10 @@ for report in reports:
 
 all_dict = []
 
-#NOW SAVE THE NOTES OF TO THE FINANCIAL STATEMENTS
+os.remove("%s.htm"%latter)
 
+#NOW SAVE THE NOTES OF TO THE FINANCIAL STATEMENTS
+'''
 for item in dict_2:
     if 'htm' in item['link']:
         doc_name = str(item.get('name'))
@@ -168,14 +172,14 @@ for item in dict_2:
         pretty = soup.prettify()
         with open(filename, "w") as f:
             f.write(pretty)
-
+'''
 
 #TIME TO PARSE THE ACTUAL FINANCIAL STATEMENTS
 for item in dicts:
     if 'htm' in item['link']:
         #CREATE THE DOCUMENT AND BEAUTIFULSOUP PARSE IT
         doc_name = str(item.get('name'))
-        filename = "/Users/octavian/Desktop/HTM/%s/%s.htm"%(latter, doc_name)
+        filename = "/Users/octavian/Desktop/HTM/%s.htm"%(doc_name)
         os.makedirs(os.path.dirname(filename), exist_ok=True)
         report_access = 'https://www.sec.gov%s'%str(item.get('link'))
         page = urllib.request.urlopen(report_access).read()
@@ -239,14 +243,14 @@ for item in dicts:
                             date['months_ended'] = item.get('months_ended')
                 all_dates.append(date)
                 id+=1
-        #print(months_ended)
+
         #CHECK IF THIS STATEMENT IS PARSABLE BECAUSE WE DON'T WANT TO GET THE SHAREHOLDER'S EQUITY
 
         go = 0
         for item in all_dates:
             if 'date' in item:
                 go +=1
-        #IF GO IS 0 THEN IT CONTAINS DATES AND IS PARSABLE
+        #IF GO IS NOT 0 THEN IT CONTAINS DATES AND IS PARSABLE
         if go != 0:
             #FIND ALL THE ROWS IN THE TABLE
             for element in soup.find('table').find_all('tr'):
@@ -305,15 +309,15 @@ for item in dicts:
                                     dict['statement'] = statement_name.strip()
                                     dict['acc_name'] = acc_name.strip()
                                     dict['unit'] = unit.strip()
-                                    print(dict)
+                                    #print(dict)
                                     all_dict.append(dict)
                                     id+=1
-
+        os.remove(filename)
 
 
     elif 'xml' in item['link']:
         doc_name = str(item.get('name'))
-        filename = "/Users/octavian/Desktop/HTM/%s/%s.xml"%(latter, doc_name)
+        filename = "/Users/octavian/Desktop/HTM/%s.xml"%(doc_name)
         os.makedirs(os.path.dirname(filename), exist_ok=True)
         report_access = 'https://www.sec.gov%s'%str(item.get('link'))
         page = urllib.request.urlopen(report_access).read()
@@ -400,10 +404,10 @@ for item in dicts:
                         dict['statement'] = statement_name.strip()
                         dict['acc_name'] = acc_name.strip()
                         dict['unit'] = unit.strip()
-                        print(dict)
+                        #print(dict)
                         all_dict.append(dict)
+        os.remove(filename)
 
-os.remove("%s.htm"%latter)
 
 #store data in MYSQL
 balance_sheet_variations = ['NET ASSET', 'FINANCIAL POSITION', 'BALANCE SHEET']
@@ -427,6 +431,7 @@ for item in all_dict:
         continue
     eng_name = str(item.get('eng_name'))
     statement = str(item.get('statement'))
+    months_ended = str(item.get('months_ended'))
     unit = str(item.get('unit'))
 
 
@@ -448,9 +453,9 @@ for item in all_dict:
         statement_insert = 'non_statement'
 
     statement_sql ="""
-INSERT INTO `Database`.`%s`(`member`,`header`,`eng_name`,`acc_name`,`value`,`unit`,`year`,`statement`,`report_period`) VALUES ("%s","%s","%s","%s","%s","%s","%s","%s","%s");"""%(statement_insert,member,header,eng_name,acc_name,value,unit,year,statement,report_period)
+INSERT INTO `Database`.`%s`(`member`,`header`,`eng_name`,`acc_name`,`value`,`unit`,`year`,`months_ended`,`statement`,`report_period`) VALUES ("%s","%s","%s","%s","%s","%s","%s","%s","%s","%s");"""%(statement_insert,member,header,eng_name,acc_name,value,unit,year,months_ended,statement,report_period)
     print(statement_sql)
-    cursor.execute(statement_sql)
-print('PROGRAM IS FINISHED')
+    #cursor.execute(statement_sql)
+#print('PROGRAM IS FINISHED')
 
 #print(all_dict)
