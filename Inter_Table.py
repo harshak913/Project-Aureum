@@ -300,7 +300,7 @@ for item in dicts:
                                     dict['statement'] = statement_name.strip()
                                     dict['acc_name'] = acc_name.strip()
                                     dict['unit'] = unit.strip()
-                                    print(dict)
+                                    #print(dict)
                                     all_dict.append(dict)
                                     id+=1
 
@@ -395,7 +395,7 @@ for item in dicts:
                         dict['statement'] = statement_name.strip()
                         dict['acc_name'] = acc_name.strip()
                         dict['unit'] = unit.strip()
-                        print(dict)
+                        #print(dict)
                         all_dict.append(dict)
 
 os.remove("%s.htm"%latter)
@@ -424,6 +424,7 @@ for item in all_dict:
         continue
     eng_name = str(item.get('eng_name'))
     statement = str(item.get('statement'))
+    months_ended = str(item.get('months_ended'))
     unit = str(item.get('unit'))
 
 
@@ -445,9 +446,9 @@ for item in all_dict:
         statement_insert = 'non_statement'
 
     statement_sql ="""
-INSERT INTO `Database`.`%s`(`member`,`header`,`eng_name`,`acc_name`,`value`,`unit`,`year`,`statement`,`report_period`) VALUES ("%s","%s","%s","%s","%s","%s","%s","%s","%s");"""%(statement_insert,member,header,eng_name,acc_name,value,unit,year,statement,report_period)
+INSERT INTO `Database`.`%s`(`member`,`header`,`eng_name`,`acc_name`,`value`,`unit`,`year`,`months_ended`,`statement`,`report_period`) VALUES ("%s","%s","%s","%s","%s","%s","%s","%s","%s","%s");"""%(statement_insert,member,header,eng_name,acc_name,value,unit,year,months_ended,statement,report_period)
     print(statement_sql)
-    cursor.execute(statement_sql)
-print('PROGRAM IS FINISHED')
+    #cursor.execute(statement_sql)
+#print('PROGRAM IS FINISHED')
 
 #print(all_dict)
