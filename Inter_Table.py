@@ -444,10 +444,11 @@ def interParse(filing_index, accession_number, filing_type):
         else:
             statement_insert = 'non_statement'
 
-        statement_sql ="""
-    INSERT INTO `Database`.`%s`(`member`,`header`,`eng_name`,`acc_name`,`value`,`unit`,`year`,`months_ended`,`statement`,`report_period`) VALUES ("%s","%s","%s","%s","%s","%s","%s","%s","%s","%s");"""%(statement_insert,member,header,eng_name,acc_name,value,unit,year,months_ended,statement,report_period)
-        print(statement_sql)
-        #cursor.execute(statement_sql)
-    #print('PROGRAM IS FINISHED')
+    else:
+        statement_insert = 'non_statement'
+    sql_statement = "INSERT INTO database.%s (accession_number, member, header, eng_name, acc_name, value, unit, year, statement, report_period, filing_type, months_ended) VALUES(%s, '%s', %s, '%s', '%s');"%(statement_insert, accession_number, member, header, eng_name, acc_name, value, unit, year, statement, report_period, filing_type, months_ended)
+    print(statement_sql)
+    #cursor.execute(statement_sql)
+#print('PROGRAM IS FINISHED')
 
-    #print(all_dict)
+#print(all_dict)
