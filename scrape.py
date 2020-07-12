@@ -1,3 +1,4 @@
+from os import access
 import requests
 import urllib
 import datetime
@@ -5,6 +6,7 @@ import os
 from bs4 import BeautifulSoup
 import psycopg2
 import xml.etree.ElementTree as ET
+import Inter_Table
 
 
 conn = psycopg2.connect(host="ec2-34-233-226-84.compute-1.amazonaws.com", dbname="d77knu57t1q9j9", user="jsnmfiqtcggjyu", password="368e05099543272efb167e9fa3173338be43c1e787666ed2478f51ef050707b9")
@@ -76,6 +78,7 @@ for year in years:
                     index_split_accession = ''.join(index_split_modify[3].strip('.txt').split('-'))
                     for x in index_split_modify[:-1]:
                         index_split[4] = index_split[4] + '/' + x
+                    index_report_period_url = index_split[4] + '/' + index_split_accession + '/' + index_split_modify[-1].strip('.txt') + '-index.htm'
                     index_split[4] = index_split[4] + '/' + index_split_accession + '/' + index_split_modify[-1]
                     index_split[4] = "https://www.sec.gov/Archives" + index_split[4]
 
@@ -98,7 +101,12 @@ for year in years:
                         url_xml = url_xml + '' + part + '/'
                     url_xml = url_xml + 'FilingSummary.xml'
                     tree = ET.fromstring(requests.get(url_xml).text)
-                    if 'NoSuchKey' in tree[0].text:
+                    if 'NoSuchKey' in tree[0].text and index_split[2] == '10-K':
                         sql_statement = "INSERT INTO database.scrape (cik_id, filing_type, year, file_name, accession_number) VALUES(%s, '%s', %s, '%s', '%s');"%(int(filing_dict["cik"]), filing_dict["formtype"], filing_dict["datefiled"][0:4], filing_dict["filename"], accession_number)
                         cursor.execute(sql_statement)
                         print(sql_statement)
+                    elif 'NoSuchKey' not in tree[0].text and (index_split[2] == '10-K' or index_split[2] == '10-Q'):
+                        sql_statement = "INSERT INTO database.scrape (cik_id, filing_type, year, file_name, accession_number) VALUES(%s, '%s', %s, '%s', '%s');"%(int(filing_dict["cik"]), filing_dict["formtype"], filing_dict["datefiled"][0:4], filing_dict["filename"], accession_number)
+                        cursor.execute(sql_statement)
+                        print(sql_statement)
+                        interParse(index_report_period_url, accession_number, index_split[2])
