@@ -451,7 +451,7 @@ for item in all_dict:
             statement_insert = 'non_statement'
     else:
         statement_insert = 'non_statement'
-
+    sql_statement = "INSERT INTO database.%s (accession_number, member, header, eng_name, acc_name, value, unit, year, statement, report_period, filing_type, months_ended) VALUES(%s, '%s', %s, '%s', '%s');"%(statement_insert, accession_number, member, header, eng_name, acc_name, value, unit, year, statement, report_period, filing_type, months_ended)
     statement_sql ="""
 INSERT INTO `Database`.`%s`(`member`,`header`,`eng_name`,`acc_name`,`value`,`unit`,`year`,`months_ended`,`statement`,`report_period`) VALUES ("%s","%s","%s","%s","%s","%s","%s","%s","%s","%s");"""%(statement_insert,member,header,eng_name,acc_name,value,unit,year,months_ended,statement,report_period)
     print(statement_sql)
