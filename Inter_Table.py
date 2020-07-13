@@ -414,6 +414,7 @@ def interParse(filing_index, accession_number, filing_type):
 
 
     for item in all_dict:
+        #get the variables for inserting from the item dict
         member = str(item.get('member'))
         header = str(item.get('header'))
         acc_name = str(item.get('acc_name'))
