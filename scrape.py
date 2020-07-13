@@ -102,11 +102,11 @@ for year in years:
                     url_xml = url_xml + 'FilingSummary.xml'
                     tree = ET.fromstring(requests.get(url_xml).text)
                     if 'NoSuchKey' in tree[0].text and index_split[2] == '10-K':
-                        sql_statement = "INSERT INTO database.scrape (cik_id, filing_type, year, file_name, accession_number) VALUES(%s, '%s', %s, '%s', '%s');"%(int(filing_dict["cik"]), filing_dict["formtype"], filing_dict["datefiled"][0:4], filing_dict["filename"], accession_number)
+                        sql_statement = "INSERT INTO database.scrape (cik_id, filing_type, year, file_name, accession_number, inter_or_htm) VALUES(%s, '%s', %s, '%s', '%s', '%s');"%(int(filing_dict["cik"]), filing_dict["formtype"], filing_dict["datefiled"][0:4], filing_dict["filename"], accession_number, 'HTM')
                         cursor.execute(sql_statement)
                         print(sql_statement)
                     elif 'NoSuchKey' not in tree[0].text and (index_split[2] == '10-K' or index_split[2] == '10-Q'):
-                        sql_statement = "INSERT INTO database.scrape (cik_id, filing_type, year, file_name, accession_number) VALUES(%s, '%s', %s, '%s', '%s');"%(int(filing_dict["cik"]), filing_dict["formtype"], filing_dict["datefiled"][0:4], filing_dict["filename"], accession_number)
+                        sql_statement = "INSERT INTO database.scrape (cik_id, filing_type, year, file_name, accession_number, inter_or_htm) VALUES(%s, '%s', %s, '%s', '%s', '%s');"%(int(filing_dict["cik"]), filing_dict["formtype"], filing_dict["datefiled"][0:4], filing_dict["filename"], accession_number, 'Inter')
                         cursor.execute(sql_statement)
                         print(sql_statement)
                         interParse(index_report_period_url, accession_number, index_split[2])
