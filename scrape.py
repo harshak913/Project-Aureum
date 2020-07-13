@@ -21,11 +21,11 @@ def makeURL(baseURL, add):
     for i in add:
         url = '{}/{}'.format(url, i)
     return url
-
+#run for just 2016 (2016,2017)
 years = list(range(2002, 2003))
 
 for year in years:
-    
+
     # Define base URL to access daily filings
     baseURL = r"https://www.sec.gov/Archives/edgar/daily-index"
 
@@ -44,7 +44,7 @@ for year in years:
 
             # Grab the Master IDX file URL
             if 'master' in fileURL:
-                
+
                 # Request that new content, this will NOT be a JSON STRUCTURE
                 fileContent = requests.get(fileURL).content
 
@@ -54,7 +54,7 @@ for year in years:
                 # We now have a byte stream of data
                 with open('master_file_text.txt','r') as f:
                     byteData = f.readlines()
-                
+
                 os.remove('master_file_text.txt')
 
                 headers = byteData[5].strip().split('|')

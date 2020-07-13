@@ -106,6 +106,7 @@ def interParse(filing_index, accession_number, filing_type):
         dicts.append(numbers)
 
     #GET THE NAME AND NUMBER FOR THE NOTES TO FINANCIAL REPORTS
+    '''
     for mark in marks:
         numbers = {}
         number = str(mark['href'])
@@ -114,6 +115,7 @@ def interParse(filing_index, accession_number, filing_type):
         numbers['number'] = str(number)
         numbers['name'] = str(mark.text).strip()
         dict_2.append(numbers)
+    '''
 
     reports = []
     #ASSEMBLE THE LIST OF ALL THE POSSIBLE LINKS TO THE ARCHIVE
