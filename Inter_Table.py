@@ -31,6 +31,7 @@ cursor = connection.cursor()
 
 def interParse(filing_index, accession_number, filing_type):
     #once you get filing index url, get the xml_url and xml file name
+    '''
     response = requests.get(filing_index)
     soup = BeautifulSoup(response.content, 'lxml')
     report_period = soup.find('div', text='Period of Report')
@@ -50,7 +51,7 @@ def interParse(filing_index, accession_number, filing_type):
     xml_url = xml_url + '' + xml
 
     ticker = xml.split('-')[0]
-
+    '''
     #index portion
     index = filing_index
     result = index.split('/')
