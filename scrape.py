@@ -22,7 +22,7 @@ def makeURL(baseURL, add):
         url = '{}/{}'.format(url, i)
     return url
 #run for just 2016 (2016,2017)
-years = list(range(2002, 2003))
+years = list(range(2016, 2017))
 
 for year in years:
 
