@@ -12,7 +12,7 @@ from dateutil.relativedelta import relativedelta
 #filing_summary = "https://www.sec.gov/Archives/edgar/data/65172/000155837018002967/0001558370-18-002967.txt"
 #filing_summary = "https://www.sec.gov/Archives/edgar/data/1067983/000119312510043450/0001193125-10-043450.txt"
 #filing_summary = "https://www.sec.gov/Archives/edgar/data/27093/000117152016001006/0001171520-16-001006.txt"
-filing_summary = "https://www.sec.gov/Archives/edgar/data/1638290/000155837016008267/0001558370-16-008267.txt"
+#filing_summary = "https://www.sec.gov/Archives/edgar/data/1638290/000155837016008267/0001558370-16-008267.txt"
 #filing_summary = "https://www.sec.gov/Archives/edgar/data/32689/000104746912001313/0001047469-12-001313.txt"
 #filing_summary = "https://www.sec.gov/Archives/edgar/data/789019/000119312510090116/0001193125-10-090116.txt"
 
@@ -106,6 +106,7 @@ def interParse(filing_index, accession_number, filing_type):
         dicts.append(numbers)
 
     #GET THE NAME AND NUMBER FOR THE NOTES TO FINANCIAL REPORTS
+    '''
     for mark in marks:
         numbers = {}
         number = str(mark['href'])
@@ -114,6 +115,7 @@ def interParse(filing_index, accession_number, filing_type):
         numbers['number'] = str(number)
         numbers['name'] = str(mark.text).strip()
         dict_2.append(numbers)
+    '''
 
     reports = []
     #ASSEMBLE THE LIST OF ALL THE POSSIBLE LINKS TO THE ARCHIVE
@@ -412,6 +414,7 @@ def interParse(filing_index, accession_number, filing_type):
 
 
     for item in all_dict:
+        #get the variables for inserting from the item dict
         member = str(item.get('member'))
         header = str(item.get('header'))
         acc_name = str(item.get('acc_name'))
@@ -446,9 +449,9 @@ def interParse(filing_index, accession_number, filing_type):
 
     else:
         statement_insert = 'non_statement'
-    sql_statement = "INSERT INTO database.%s (accession_number, member, header, eng_name, acc_name, value, unit, year, statement, report_period, filing_type, months_ended) VALUES(%s, '%s', %s, '%s', '%s');"%(statement_insert, accession_number, member, header, eng_name, acc_name, value, unit, year, statement, report_period, filing_type, months_ended)
+    sql_statement = "INSERT INTO database.%s (accession_number, member, header, eng_name, acc_name, value, unit, year, statement, report_period, filing_type, months_ended) VALUES(%s, '%s', %s, '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');"%(statement_insert, accession_number, member, header, eng_name, acc_name, value, unit, year, statement, report_period, filing_type, months_ended)
     print(statement_sql)
-    #cursor.execute(statement_sql)
+    cursor.execute(statement_sql)
 #print('PROGRAM IS FINISHED')
 
 #print(all_dict)
