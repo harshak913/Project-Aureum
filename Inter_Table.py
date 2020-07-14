@@ -24,18 +24,18 @@ from dateutil.relativedelta import relativedelta
 
 
 #Database Connection
-connection = psycopg2.connect(host="ec2-34-233-226-84.compute-1.amazonaws.com", dbname="d77knu57t1q9j9", user="jsnmfiqtcggjyu", password="368e05099543272efb167e9fa3173338be43c1e787666ed2478f51ef050707b9")
+connection = psycopg2.connect(host="ec2-34-197-188-147.compute-1.amazonaws.com", dbname="d7p3fuehaleleo", user="snbetggfklcniv", password="7798f45239eda70f8278ce3c05dc632ad57b97957b601681a3c516f37153403a")
 connection.autocommit = True
 cursor = connection.cursor()
 
 
 def interParse(filing_index, accession_number, filing_type):
-    #once you get filing index url, get the xml_url and xml file name
-    '''
+    #once you get filing index url find the report period
     response = requests.get(filing_index)
     soup = BeautifulSoup(response.content, 'lxml')
     report_period = soup.find('div', text='Period of Report')
     report_period = report_period.find_next_sibling('div').text
+    '''
     data_files = soup.find('table', attrs={'summary':'Data Files'})
     if data_files.find('td', text='EX-101.INS') is not None:
         file_type = data_files.find('td', text='EX-101.INS')
@@ -87,14 +87,18 @@ def interParse(filing_index, accession_number, filing_type):
     soup = BeautifulSoup(html, features="lxml")
     JS_Portion = soup.find("script", attrs={"type" : 'text/javascript' ,"language" : 'javascript'}).text
     for element in soup.find_all('a'):
-        if str(element.text).strip() == 'Financial Statements':
+        if str(element.text).strip() == 'Financial Statements' and element.find_next_sibling('ul') is not None:
             relevant = element.find_next_sibling('ul')
             dicts = []
             children = relevant.findChildren('a')
-        if str(element.text).strip() == 'Notes to Financial Statements':
+        '''
+        if str(element.text).strip() == 'Notes to Financial Statements' and element.find_next_sibling('ul') is not None:
             john = element.find_next_sibling('ul')
             dict_2 = []
             marks = john.findChildren('a')
+        Refer to link bellow to see a case where 'Notes to Financial Statements' comes up twice
+        '''
+        #https://www.sec.gov/cgi-bin/viewer?action=view&cik=49826&accession_number=0000049826-16-000151&xbrl_type=v#
 
     #GET THE NAME AND NUMBER FOR THE FINANCIAL REPORTS
     for child in children:
@@ -106,8 +110,8 @@ def interParse(filing_index, accession_number, filing_type):
         numbers['name'] = str(child.text).strip()
         dicts.append(numbers)
 
-    #GET THE NAME AND NUMBER FOR THE NOTES TO FINANCIAL REPORTS
     '''
+    #GET THE NAME AND NUMBER FOR THE NOTES TO FINANCIAL REPORTS
     for mark in marks:
         numbers = {}
         number = str(mark['href'])
@@ -133,10 +137,12 @@ def interParse(filing_index, accession_number, filing_type):
             if item["number"] == comp:
                 link = report.split('= "', 1)[1]
                 item['link'] = link.replace('";', '')
+        '''
         for item in dict_2:
             if item["number"] == comp:
                 link = report.split('= "', 1)[1]
                 item['link'] = link.replace('";', '')
+        '''
 
     all_dict = []
 
@@ -416,21 +422,21 @@ def interParse(filing_index, accession_number, filing_type):
 
     for item in all_dict:
         #get the variables for inserting from the item dict
-        member = str(item.get('member'))
-        header = str(item.get('header'))
+        member = str(item.get('member')).replace("'", '')
+        header = str(item.get('header')).replace("'", '')
         acc_name = str(item.get('acc_name'))
-        value = str(item.get('value'))
+        value = str(item.get('value')).replace('$', '')
         try:
             year = datetime.strptime(str(item.get('date')), '%b. %d, %Y')
             year = year.strftime('%Y-%m-%d')
         except:
             continue
-        eng_name = str(item.get('eng_name'))
-        statement = str(item.get('statement'))
-        months_ended = str(item.get('months_ended'))
-        unit = str(item.get('unit'))
+        eng_name = str(item.get('eng_name')).replace("'", '')
+        statement = str(item.get('statement')).replace("'", '')
+        months_ended = str(item.get('months_ended')).replace("'", '')
+        unit = str(item.get('unit')).replace("'", '')
 
-
+#.replace("'", '')
         #run the code for unit and context first
         if not any(x in statement.upper() for x in non_signs):
             if any(x in statement.upper() for x in cash_flows_variations):
@@ -448,11 +454,9 @@ def interParse(filing_index, accession_number, filing_type):
         else:
             statement_insert = 'non_statement'
 
-    else:
-        statement_insert = 'non_statement'
-    sql_statement = "INSERT INTO database.%s (accession_number, member, header, eng_name, acc_name, value, unit, year, statement, report_period, filing_type, months_ended) VALUES(%s, '%s', %s, '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');"%(statement_insert, accession_number, member, header, eng_name, acc_name, value, unit, year, statement, report_period, filing_type, months_ended)
-    print(statement_sql)
-    cursor.execute(statement_sql)
+        sql_statement = """INSERT INTO database.%s (accession_number, member, header, eng_name, acc_name, value, unit, year, statement, report_period, filing_type, months_ended) VALUES('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');"""%(statement_insert, accession_number, member, header, eng_name, acc_name, value, unit, year, statement, report_period, filing_type, months_ended)
+        print(sql_statement)
+        cursor.execute(sql_statement)
 #print('PROGRAM IS FINISHED')
 
 #print(all_dict)

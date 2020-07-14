@@ -9,9 +9,9 @@ import xml.etree.ElementTree as ET
 from Inter_Table import interParse
 
 
-conn = psycopg2.connect(host="ec2-34-233-226-84.compute-1.amazonaws.com", dbname="d77knu57t1q9j9", user="jsnmfiqtcggjyu", password="368e05099543272efb167e9fa3173338be43c1e787666ed2478f51ef050707b9")
-conn.autocommit = True
-cursor = conn.cursor()
+connection = psycopg2.connect(host="ec2-34-197-188-147.compute-1.amazonaws.com", dbname="d7p3fuehaleleo", user="snbetggfklcniv", password="7798f45239eda70f8278ce3c05dc632ad57b97957b601681a3c516f37153403a")
+connection.autocommit = True
+cursor = connection.cursor()
 
 # Makes building a URL easy
 def makeURL(baseURL, add):
