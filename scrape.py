@@ -78,7 +78,7 @@ for year in years:
                     index_split_accession = ''.join(index_split_modify[3].strip('.txt').split('-'))
                     for x in index_split_modify[:-1]:
                         index_split[4] = index_split[4] + '/' + x
-                    index_report_period_url = index_split[4] + '/' + index_split_accession + '/' + index_split_modify[-1].strip('.txt') + '-index.htm'
+                    index_report_period_url = 'https://www.sec.gov/Archives/' + index_split_accession + '/' + index_split_modify[-1].strip('.txt') + '-index.htm'
                     index_split[4] = index_split[4] + '/' + index_split_accession + '/' + index_split_modify[-1]
                     index_split[4] = "https://www.sec.gov/Archives" + index_split[4]
 
