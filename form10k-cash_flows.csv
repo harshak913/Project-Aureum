@@ -1,43 +1,41 @@
-Title,2001,2000,1999,Value
-Net earnings (loss),(102),$      8,$  160,In millions
-Adjustments to reconcile net earnings (loss) to net cash flows from operating activities:,,,,In millions
-Depreciation and amortization,231,240,233,In millions
-Restructuring and other non-recurring actions,49,132,38,In millions
-Equity in losses of joint ventures and alliances,8,9,35,In millions
-Changes in assets and liabilities:,,,,In millions
-Receivables,202,54,(200),In millions
-Proceeds (repayments) from sale of receivables,(164),219,-,In millions
-Inventories,67,9,(60),In millions
-Accounts payable and accrued expenses,(170),(241),162,In millions
-Deferred income taxes,2,2,(31),In millions
-Other,21,(44),(30),In millions
-Net cash provided by operating activities,144,388,307,In millions
-Cash flows provided by (used in) from investing activities,,,,In millions
-"Property, plant and equipment:",,,,In millions
-Additions,(206),(228),(215),In millions
-Disposals,20,11,22,In millions
-Proceeds from sale-leasebacks,143,-,-,In millions
-Investments in and advances to joint ventures and alliances,(46),(53),(36),In millions
-Acquisitions and dispositions of business activities,1,(42),57,In millions
-Other,2,-,6,In millions
-Net cash used in investing activities,(86),(312),(166),In millions
-Net cash provided by operating and investing activities,58,76,141,In millions
-Cash flows provided by (used in) financing activities,,,,In millions
-Proceeds from borrowings,-,1,28,In millions
-Payments on borrowings,(9),(65),(90),In millions
-Net (payments) borrowings under short-term credit agreements,(248),49,49,In millions
-Repurchases of common stock,-,(16),(34),In millions
-Dividend payments on common stock,(50),(50),(47),In millions
-Proceeds from issue of preferred securities of subsidiary trust,291,-,-,In millions
-Other,(11),(5),(11),In millions
-Net cash used in financing activities,(27),(86),(105),In millions
-Effect of exchange rate changes on cash and cash equivalents,(1),(2),-,In millions
-Net change in cash and cash equivalents,30,(12),36,In millions
-Cash and cash equivalents at beginning of year,62,74,38,In millions
-Cash and cash equivalents at end of year,"$   92 
-====","$   62 
-====","$   74 
-====",In millions
-Cash payments during the year for:,,,,In millions
-Interest,$   80,$   88,$   82,In millions
-Income taxes,20,73,56,In millions
+Title,June 30 2002,June 30 2001,June 30 2000,Value
+Net earnings,322,323,394,In millions
+Adjustments to reconcile net earnings to net cash provided by operations:,,,,In millions
+Depreciation and amortization,190,225,201,In millions
+Deferred income taxes,(27),(41),(16),In millions
+"Merger, restructuring and asset impairment",215,59,7,In millions
+Other,(2),19,11,In millions
+Cash effects of changes in (excluding effects of businesses sold or acquired):,,,,In millions
+"Receivables, net",3,123,(10),In millions
+Inventories,3,90,(50),In millions
+Other current assets,(3),8,(3),In millions
+Accounts payable and accrued liabilities,104,(78),144,In millions
+Income taxes payable,71,19,3,In millions
+Net cash provided by operations,876,747,681,In millions
+Investing Activities:,,,,In millions
+Capital expenditures,(177),(192),(158),In millions
+"Businesses acquired, net of cash acquired",--,(126),(120),In millions
+Proceeds from sale of businesses,60,--,--,In millions
+Other,8,(18),18,In millions
+Net cash used for investing,(109),(336),(260),In millions
+Financing Activities:,,,,In millions
+"Notes and loans payable, net",206,(651),34,In millions
+Collection of prepaid forward contract,--,150,--,In millions
+Long-term debt borrowings,3,310,5,In millions
+Long-term debt repayments,(212),(19),(117),In millions
+Cash dividends,(196),(199),(189),In millions
+Treasury stock purchased and related premiums,(412),(10),(135),In millions
+Settlement of share repurchase contracts,(257),--,76,In millions
+Issuance of common stock for employee stock plans,35,12,27,In millions
+Net cash used for financing,(833),(407),(299),In millions
+Effect of exchange rate changes on cash and cash equivalents,(8),(7),--,In millions
+Cash and cash equivalents:,,,,In millions
+Beginning of year,251,254,132,In millions
+End of year,177,251,254,In millions
+Supplemental Cash Flow Information:,,,,In millions
+Cash paid for:,,,,In millions
+"Interest, net of amounts capitalized",47,83,92,In millions
+"Income taxes, net of refunds",119,156,166,In millions
+Non-cash transactions:,,,,In millions
+Share repurchase and other obligations,--,--,55,In millions
+"Acquisitions, net of cash acquired",--,126,120,In millions

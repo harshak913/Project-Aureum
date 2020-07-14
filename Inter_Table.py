@@ -24,7 +24,7 @@ filing_summary = "https://www.sec.gov/Archives/edgar/data/1638290/00015583701600
 
 
 #Database Connection
-psycopg2.connect(host="ec2-34-233-226-84.compute-1.amazonaws.com", dbname="d77knu57t1q9j9", user="jsnmfiqtcggjyu", password="368e05099543272efb167e9fa3173338be43c1e787666ed2478f51ef050707b9")
+connection = psycopg2.connect(host="ec2-34-233-226-84.compute-1.amazonaws.com", dbname="d77knu57t1q9j9", user="jsnmfiqtcggjyu", password="368e05099543272efb167e9fa3173338be43c1e787666ed2478f51ef050707b9")
 connection.autocommit = True
 cursor = connection.cursor()
 

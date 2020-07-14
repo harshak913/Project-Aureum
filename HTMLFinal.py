@@ -524,5 +524,5 @@ def HTMLParse(html_text_filing, strip_htm):
             statement = item['statement']
             statement_insert = item['insert']"""
 
-HTMLParse("https://www.sec.gov/Archives/edgar/data/26172/000002617202000002/0000026172-02-000002.txt", "form10k")
+HTMLParse("https://www.sec.gov/Archives/edgar/data/21076/000002107602000019/0000021076-02-000019.txt", "form10k")
 # UPDATE parse_tables method so that it removes '$' and '=' from the CSV output (edit row_list before writerow)
