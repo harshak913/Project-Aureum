@@ -81,7 +81,6 @@ for year in years:
                     index_report_period_url = "https://www.sec.gov/Archives" + index_split[4] + '/' + index_split_accession + '/' + index_split_modify[-1].strip('.txt') + '-index.htm'
                     index_split[4] = index_split[4] + '/' + index_split_accession + '/' + index_split_modify[-1]
                     index_split[4] = "https://www.sec.gov/Archives" + index_split[4]
-                    print(index_report_period_url)
 
                     # Create the dictionary
                     filing_dict = dict(zip(headers, index_split))

@@ -8,4 +8,3 @@ cursor = conn.cursor()
 
 cursor.execute("SELECT file_name FROM database.scrape WHERE accession_number='0000021076-02-000019'")
 text_filing = cursor.fetchone()[0]
-print(text_filing)

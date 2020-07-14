@@ -7,4 +7,4 @@ conn = psycopg2.connect(host="ec2-34-233-226-84.compute-1.amazonaws.com", dbname
 conn.autocommit = True
 cursor = conn.cursor()
 
-cursor.execute("UPDATE database.scrape SET inter_or_htm='%s' WHERE filing_type='10-K';"%('HTM'))
+cursor.execute("DELETE FROM database.scrape WHERE year=2016;")
