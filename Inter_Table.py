@@ -31,11 +31,11 @@ cursor = connection.cursor()
 
 def interParse(filing_index, accession_number, filing_type):
     #once you get filing index url, get the xml_url and xml file name
-    '''
     response = requests.get(filing_index)
     soup = BeautifulSoup(response.content, 'lxml')
     report_period = soup.find('div', text='Period of Report')
     report_period = report_period.find_next_sibling('div').text
+    '''
     data_files = soup.find('table', attrs={'summary':'Data Files'})
     if data_files.find('td', text='EX-101.INS') is not None:
         file_type = data_files.find('td', text='EX-101.INS')
