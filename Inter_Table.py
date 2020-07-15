@@ -81,15 +81,19 @@ def interParse(filing_index, accession_number, filing_type):
     with open(xml_filepath, "w") as f:
         f.write(pretty)
     '''
+
+    financialStatementsFound = False
     #CHECK THE INTERACTIVE PAGE AND GET THE NUMBER LINKS FOR NOTES AND FINANCIAL STATEMENTS
     html = open("%s.htm"%latter).read()
     soup = BeautifulSoup(html, features="lxml")
     JS_Portion = soup.find("script", attrs={"type" : 'text/javascript' ,"language" : 'javascript'}).text
     for element in soup.find_all('a'):
-        if str(element.text).strip() == 'Financial Statements' and element.find_next_sibling('ul') is not None:
-            relevant = element.find_next_sibling('ul')
-            dicts = []
-            children = relevant.findChildren('a')
+        if financialStatementsFound != True:
+            if str(element.text).strip() == 'Financial Statements' and element.find_next_sibling('ul') is not None:
+                relevant = element.find_next_sibling('ul')
+                dicts = []
+                children = relevant.findChildren('a')
+                financialStatementsFound = True
         '''
         if str(element.text).strip() == 'Notes to Financial Statements' and element.find_next_sibling('ul') is not None:
             john = element.find_next_sibling('ul')
@@ -454,8 +458,11 @@ def interParse(filing_index, accession_number, filing_type):
             statement_insert = 'non_statement'
 
         sql_statement = """INSERT INTO database.%s (accession_number, member, header, eng_name, acc_name, value, unit, year, statement, report_period, filing_type, months_ended) VALUES('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');"""%(statement_insert, accession_number, member, header, eng_name, acc_name, value, unit, year, statement, report_period, filing_type, months_ended)
-        print(sql_statement)
-        cursor.execute(sql_statement)
+        try:
+            print(sql_statement)
+            cursor.execute(sql_statement)
+        except:
+            pass
 #print('PROGRAM IS FINISHED')
 
 #print(all_dict)
