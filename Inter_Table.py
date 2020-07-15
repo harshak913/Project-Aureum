@@ -81,16 +81,12 @@ def interParse(filing_index, accession_number, filing_type):
     with open(xml_filepath, "w") as f:
         f.write(pretty)
     '''
-    financialStatementsFound = False
     #CHECK THE INTERACTIVE PAGE AND GET THE NUMBER LINKS FOR NOTES AND FINANCIAL STATEMENTS
     html = open("%s.htm"%latter).read()
     soup = BeautifulSoup(html, features="lxml")
     JS_Portion = soup.find("script", attrs={"type" : 'text/javascript' ,"language" : 'javascript'}).text
     for element in soup.find_all('a'):
         if str(element.text).strip() == 'Financial Statements' and element.find_next_sibling('ul') is not None:
-            if financialStatementsFound == True:
-                break
-            financialStatementsFound = True
             relevant = element.find_next_sibling('ul')
             dicts = []
             children = relevant.findChildren('a')
