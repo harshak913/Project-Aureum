@@ -427,19 +427,19 @@ def interParse(filing_index, accession_number, filing_type):
 
     for item in all_dict:
         #get the variables for inserting from the item dict
-        member = str(item.get('member')).replace("'", '')
-        header = str(item.get('header')).replace("'", '')
-        acc_name = str(item.get('acc_name'))
-        value = str(item.get('value')).replace('$', '')
+        member = str(item.get('member')).replace("'", '').strip()
+        header = str(item.get('header')).replace("'", '').strip()
+        acc_name = str(item.get('acc_name')).strip()
+        value = str(item.get('value')).replace('$', '').strip()
         try:
             year = datetime.strptime(str(item.get('date')), '%b. %d, %Y')
             year = year.strftime('%Y-%m-%d')
         except:
             continue
-        eng_name = str(item.get('eng_name')).replace("'", '')
-        statement = str(item.get('statement')).replace("'", '')
-        months_ended = str(item.get('months_ended')).replace("'", '')
-        unit = str(item.get('unit')).replace("'", '')
+        eng_name = str(item.get('eng_name')).replace("'", '').strip()
+        statement = str(item.get('statement')).replace("'", '').strip()
+        months_ended = str(item.get('months_ended')).replace("'", '').strip()
+        unit = str(item.get('unit')).replace("'", '').strip()
 
 #.replace("'", '')
         #run the code for unit and context first
@@ -459,7 +459,7 @@ def interParse(filing_index, accession_number, filing_type):
         else:
             statement_insert = 'non_statement'
 
-        sql_statement = """INSERT INTO database.%s (accession_number, member, header, eng_name, acc_name, value, unit, year, statement, report_period, filing_type, months_ended) VALUES('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');"""%(statement_insert, accession_number, member, header, eng_name, acc_name, value, unit, year, statement, report_period, filing_type, months_ended)
+        sql_statement = "INSERT INTO database.%s (accession_number, member, header, eng_name, acc_name, value, unit, year, statement, report_period, filing_type, months_ended) VALUES('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');"%(statement_insert, accession_number, member, header, eng_name, acc_name, value, unit, year, statement, report_period, filing_type, months_ended)
         try:
             print(sql_statement)
             cursor.execute(sql_statement)
