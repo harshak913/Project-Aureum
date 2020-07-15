@@ -94,6 +94,8 @@ def interParse(filing_index, accession_number, filing_type):
                 dicts = []
                 children = relevant.findChildren('a')
                 financialStatementsFound = True
+        else:
+            break
         '''
         if str(element.text).strip() == 'Notes to Financial Statements' and element.find_next_sibling('ul') is not None:
             john = element.find_next_sibling('ul')
