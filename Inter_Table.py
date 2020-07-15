@@ -464,7 +464,7 @@ def interParse(filing_index, accession_number, filing_type):
             print(sql_statement)
             cursor.execute(sql_statement)
         except:
-            pass
+            continue
 #print('PROGRAM IS FINISHED')
 
 #print(all_dict)
