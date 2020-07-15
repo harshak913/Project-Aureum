@@ -160,34 +160,54 @@ def get_fixed_tag_text(tag_name):
 def find_value(in_thousands_lower, in_millions_lower, in_thousands_upper, in_millions_upper, final_list):
     value_list = []
     for item in final_list:
-        if 'thousands' in ' '.join(item.get_text().strip().lower().split()):
-            value_list.append('In thousands')
+        if 'millions' in ' '.join(item.get_text().strip().lower().split()):
+            if 'share amount' in ' '.join(item.get_text().strip().lower().split()):
+                value_list.append('In millions, except per share amounts')
+            else:
+                value_list.append('In millions')
     if len(value_list) != 0:
         return value_list
-    elif 'millions' in ' '.join(item.get_text().strip().lower().split()):
-            value_list.append('In millions')
+    
+    for item in final_list:
+        if 'thousands' in ' '.join(item.get_text().strip().lower().split()):
+            if 'share amount' in ' '.join(item.get_text().strip().lower().split()):
+                value_list.append('In thousands, expect per share amounts')
+            else:
+                value_list.append('In thousands')
     if len(value_list) != 0:
         return value_list
 
     for thousands in in_thousands_lower:
         for item in final_list:
             if thousands.find_next('table') == item:
-                value_list.append('In thousands')
+                if 'share amount' in ' '.join(item.get_text().strip().lower().split()):
+                    value_list.append('In thousands, except per share amounts')
+                else:
+                    value_list.append('In thousands')
 
     for millions in in_millions_lower:
         for item in final_list:
             if millions.find_next('table') == item:
-                value_list.append('In millions')
+                if 'share amount' in ' '.join(item.get_text().strip().lower().split()):
+                    value_list.append('In millions, except per share amounts')
+                else:
+                    value_list.append('In millions')
 
     for thousands in in_thousands_upper:
         for item in final_list:
             if thousands.find_next('table') == item:
-                value_list.append('In thousands')
+                if 'share amount' in ' '.join(item.get_text().strip().lower().split()):
+                    value_list.append('In thousands, except per share amounts')
+                else:
+                    value_list.append('In thousands')
 
     for millions in in_millions_upper:
         for item in final_list:
             if millions.find_next('table') == item:
-                value_list.append('In millions')
+                if 'share amount' in ' '.join(item.get_text().strip().lower().split()):
+                    value_list.append('In millions, except per share amounts')
+                else:
+                    value_list.append('In millions')
     return value_list
 
 def restore_windows_1252_characters(restore_string):
@@ -525,4 +545,5 @@ def HTMLParse(html_text_filing, strip_htm):
             statement_insert = item['insert']"""
 
 HTMLParse("https://www.sec.gov/Archives/edgar/data/21076/000002107602000019/0000021076-02-000019.txt", "form10k")
-# UPDATE parse_tables method so that it removes '$' and '=' from the CSV output (edit row_list before writerow)
+# UPDATE HTMLParse so it strips unnecessary characters and fixes value (ex. if 'thousands' is in the row name, then make the unit for JUST that row 'in thousands')
+# Fix comma issues in dates
