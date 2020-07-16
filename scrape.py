@@ -94,6 +94,7 @@ for year in years:
                     accession_number = text_filing.split('/')[-1].strip('.txt') #Extract accession number (after last '/') & remove '.txt'
                     accession_exist = cursor.execute("SELECT * FROM database.scrape WHERE accession_number = '%s'"%(accession_number))
                     if len(cursor.fetchall()) > 0:
+                        print(f"Already inserted -- Link: {filing_dict["filename"]}, Date: {filing_dict["datefiled"]}")
                         continue
                     url_list = text_filing.split('/')
                     url_xml = ''
