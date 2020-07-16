@@ -35,6 +35,7 @@ def interParse(filing_index, accession_number, filing_type):
     soup = BeautifulSoup(response.content, 'lxml')
     report_period = soup.find('div', text='Period of Report')
     report_period = report_period.find_next_sibling('div').text
+    print('GOT THE FILING REPORT PERIOD')
     '''
     data_files = soup.find('table', attrs={'summary':'Data Files'})
     if data_files.find('td', text='EX-101.INS') is not None:
@@ -59,6 +60,8 @@ def interParse(filing_index, accession_number, filing_type):
     cik = int(result.index('data'))+1
     cik = str(result[cik]) #CIK IS THE CIK NUMBER
 
+    print('WRITING THE INTERACTIVE PAGE')
+
     #get interactive page link and save it as a file
     latter = [i for i in result if '-index.htm' in i]
     latter = str(''.join(latter))
@@ -81,7 +84,7 @@ def interParse(filing_index, accession_number, filing_type):
     with open(xml_filepath, "w") as f:
         f.write(pretty)
     '''
-
+    print('GETTING THE FINANCIAL STATEMENTS LINK')
     financialStatementsFound = False
     #CHECK THE INTERACTIVE PAGE AND GET THE NUMBER LINKS FOR NOTES AND FINANCIAL STATEMENTS
     html = open("%s.htm"%latter).read()
@@ -105,6 +108,7 @@ def interParse(filing_index, accession_number, filing_type):
         '''
         #https://www.sec.gov/cgi-bin/viewer?action=view&cik=49826&accession_number=0000049826-16-000151&xbrl_type=v#
 
+    print('GETTING THE NAME AND NUMBER FOR THE FINANCIAL REPORTS')
     #GET THE NAME AND NUMBER FOR THE FINANCIAL REPORTS
     for child in children:
         numbers = {}
@@ -133,6 +137,7 @@ def interParse(filing_index, accession_number, filing_type):
         if 'reports[' and '] = "/Archives/edgar/data/' in line:
             reports.append(line.strip())
 
+    print('matching correct report number with the correct dict')
     #match correct report number with the correct dict
     for report in reports:
         comp = report.split('] = "/Archives/edgar/data/', 1)[0]
@@ -181,10 +186,12 @@ def interParse(filing_index, accession_number, filing_type):
     '''
 
     #TIME TO PARSE THE ACTUAL FINANCIAL STATEMENTS
+    print('TIME TO PARSE THE ACTUAL FINANCIAL STATEMENTS')
     for item in dicts:
         if 'htm' in item['link']:
             #CREATE THE DOCUMENT AND BEAUTIFULSOUP PARSE IT
             doc_name = str(item.get('name'))
+            print('NOW PARSING '+doc_name)
             filename = "/Users/octavian/Desktop/HTM/%s.htm"%(doc_name)
             os.makedirs(os.path.dirname(filename), exist_ok=True)
             report_access = 'https://www.sec.gov%s'%str(item.get('link'))
@@ -323,11 +330,12 @@ def interParse(filing_index, accession_number, filing_type):
 
         elif 'xml' in item['link']:
             doc_name = str(item.get('name'))
+            print('NOW PARSING '+doc_name)
             filename = "/Users/octavian/Desktop/HTM/%s.xml"%(doc_name)
             os.makedirs(os.path.dirname(filename), exist_ok=True)
             report_access = 'https://www.sec.gov%s'%str(item.get('link'))
-            page = urllib.request.urlopen(report_access).read()
-            soup = BeautifulSoup(page, features="lxml")
+            page = requests.get(report_access)
+            soup = BeautifulSoup(page.content, features="lxml")
             pretty = soup.prettify()
             with open(filename, "w") as f:
                 f.write(pretty)
