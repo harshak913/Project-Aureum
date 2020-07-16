@@ -188,8 +188,8 @@ def interParse(filing_index, accession_number, filing_type):
             filename = "/Users/octavian/Desktop/HTM/%s.htm"%(doc_name)
             os.makedirs(os.path.dirname(filename), exist_ok=True)
             report_access = 'https://www.sec.gov%s'%str(item.get('link'))
-            page = urllib.request.urlopen(report_access).read()
-            soup = BeautifulSoup(page, features="lxml")
+            page = requests.get(report_access)
+            soup = BeautifulSoup(page.content, features="lxml")
             pretty = soup.prettify()
             with open(filename, "w") as f:
                 f.write(pretty)
