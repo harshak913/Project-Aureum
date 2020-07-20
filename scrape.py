@@ -50,11 +50,15 @@ for year in years:
                 cursor.execute("SELECT status FROM database.master_idx WHERE master_file='%s'"%(file['name']))
                 status = cursor.fetchone()
                 if status == 'COMPLETED':
+                    print(f"Completed parsing of {file['name']}")
                     continue
                 else:
                     if len(cursor.fetchall()) == 0:
-                        cursor.execute("INSERT INTO database.master_idx (master_file, status) VALUES ('%s', '%s')"%(file['name'], 'PENDING'))
+                        sql_statement = "INSERT INTO database.master_idx (master_file, status) VALUES ('%s', '%s')"%(file['name'], 'PENDING')
+                        cursor.execute(sql_statement)
+                        print(sql_statement)
                     elif status == 'ERROR' or status == 'PENDING':
+                        print(f"Parsing {file['name']} now")
                         pass
                     # Request that new content, this will NOT be a JSON STRUCTURE
                     fileContent = requests.get(fileURL).content
