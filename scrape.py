@@ -55,12 +55,12 @@ for year in years:
                     sql_statement = "INSERT INTO database.master_idx (master_file, status) VALUES ('%s', '%s')"%(file['name'], 'PENDING')
                     cursor.execute(sql_statement)
                     print(sql_statement)
-                else:
-                    if status[0] == 'COMPLETED':
-                        print(f"Completed parsing of {file['name']}")
-                        continue
-                    elif status[0] == 'ERROR' or status[0] == 'PENDING':
-                        print(f"Parsing {file['name']} now")
+                    print(f"Parsing {file['name']} now")
+                elif status[0] == 'COMPLETED':
+                    print(f"Completed parsing of {file['name']}")
+                    continue
+                elif status[0] == 'ERROR' or status[0] == 'PENDING':
+                    print(f"Parsing {file['name']} now")
                     
                 # Request that new content, this will NOT be a JSON STRUCTURE
                 fileContent = requests.get(fileURL).content
@@ -85,7 +85,7 @@ for year in years:
                     index_split = index.strip().split('|')
                     if index_split[2] != '10-K' and index_split[2] != '10-Q':
                         continue
-                    ciks = cursor.execute('''SELECT * FROM database.company WHERE cik=%s'''%(int(index_split[0])))
+                    cursor.execute('''SELECT * FROM database.company WHERE cik=%s'''%(int(index_split[0])))
                     if len(cursor.fetchall()) < 1:
                         continue
 
@@ -148,3 +148,4 @@ for year in years:
                 sql_statement = "UPDATE database.master_idx SET status='COMPLETED' WHERE master_file='%s'"%(file['name'])
                 cursor.execute(sql_statement)
                 print(sql_statement)
+                print(f"Completed parsing of {file['name']}")
