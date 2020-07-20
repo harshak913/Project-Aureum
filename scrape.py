@@ -61,7 +61,7 @@ for year in years:
                         continue
                     elif status[0] == 'ERROR' or status[0] == 'PENDING':
                         print(f"Parsing {file['name']} now")
-                        pass
+                    
                 # Request that new content, this will NOT be a JSON STRUCTURE
                 fileContent = requests.get(fileURL).content
 
