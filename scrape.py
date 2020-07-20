@@ -118,5 +118,13 @@ for year in years:
                             sql_statement = "INSERT INTO database.scrape (cik_id, filing_type, year, file_name, accession_number, inter_or_htm) VALUES(%s, '%s', %s, '%s', '%s', '%s');"%(int(filing_dict["cik"]), filing_dict["formtype"], filing_dict["datefiled"][0:4], filing_dict["filename"], accession_number, 'Inter')
                             cursor.execute(sql_statement)
                             print(sql_statement)
-                            interParse(index_report_period_url, accession_number, index_split[2])
-                    cursor.execute("UPDATE database.master_idx SET status='%s' WHERE master_file='%s'"%('COMPLETED', file['name']))
+                            try:
+                                interParse(index_report_period_url, accession_number, index_split[2])
+                            except:
+                                cursor.execute("UPDATE database.master_idx SET status='ERROR' WHERE master_file='%s'"%(file['name']))
+                                cursor.execute("DELETE FROM database.balance WHERE accession_number='%s'"%(accession_number))
+                                cursor.execute("DELETE FROM database.income WHERE accession_number='%s'"%(accession_number))
+                                cursor.execute("DELETE FROM database.cash_flow WHERE accession_number='%s'"%(accession_number))
+                                cursor.execute("DELETE FROM database.non_statement WHERE accession_number='%s'"%(accession_number))
+                                cursor.execute("DELETE FROM database.scrape WHERE accession_number='%s' AND year=%s"%(accession_number, year))
+                    cursor.execute("UPDATE database.master_idx SET status='COMPLETED' WHERE master_file='%s'"%(file['name']))
