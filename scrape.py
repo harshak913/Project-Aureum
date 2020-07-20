@@ -25,7 +25,7 @@ def makeURL(baseURL, add):
 years = list(range(2016, 2017))
 
 #total count to keep track of how many files we've gone through
-total_count+=1
+total_count = 0
 
 for year in years:
 
