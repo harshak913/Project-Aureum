@@ -51,14 +51,14 @@ for year in years:
                 status = cursor.fetchone()
                 cursor.execute("SELECT * FROM database.master_idx WHERE master_file='%s'"%(file['name']))
                 idx_list = cursor.fetchall()
-                if status[0] == 'COMPLETED':
-                    print(f"Completed parsing of {file['name']}")
-                    continue
+                if len(idx_list) == 0:
+                    sql_statement = "INSERT INTO database.master_idx (master_file, status) VALUES ('%s', '%s')"%(file['name'], 'PENDING')
+                    cursor.execute(sql_statement)
+                    print(sql_statement)
                 else:
-                    if len(idx_list) == 0:
-                        sql_statement = "INSERT INTO database.master_idx (master_file, status) VALUES ('%s', '%s')"%(file['name'], 'PENDING')
-                        cursor.execute(sql_statement)
-                        print(sql_statement)
+                    if status[0] == 'COMPLETED':
+                        print(f"Completed parsing of {file['name']}")
+                        continue
                     elif status[0] == 'ERROR' or status[0] == 'PENDING':
                         print(f"Parsing {file['name']} now")
                         pass
@@ -145,4 +145,6 @@ for year in years:
                                 cursor.execute("DELETE FROM database.cash_flow WHERE accession_number='%s'"%(accession_number))
                                 cursor.execute("DELETE FROM database.non_statement WHERE accession_number='%s'"%(accession_number))
                                 cursor.execute("DELETE FROM database.scrape WHERE accession_number='%s' AND year=%s"%(accession_number, year))
-                    cursor.execute("UPDATE database.master_idx SET status='COMPLETED' WHERE master_file='%s'"%(file['name']))
+                    sql_statement = "UPDATE database.master_idx SET status='COMPLETED' WHERE master_file='%s'"%(file['name'])
+                    cursor.execute(sql_statement)
+                    print(sql_statement)
