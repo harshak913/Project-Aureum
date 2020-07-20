@@ -54,7 +54,7 @@ for year in years:
                 else:
                     if len(cursor.fetchall()) == 0:
                         cursor.execute("INSERT INTO database.master_idx (master_file, status) VALUES ('%s', '%s')"%(file['name'], 'PENDING'))
-                    elif status == 'ERROR':
+                    elif status == 'ERROR' or status == 'PENDING':
                         pass
                     # Request that new content, this will NOT be a JSON STRUCTURE
                     fileContent = requests.get(fileURL).content
