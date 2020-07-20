@@ -24,6 +24,9 @@ def makeURL(baseURL, add):
 #run for just 2016 (2016,2017)
 years = list(range(2016, 2017))
 
+#total count to keep track of how many files we've gone through
+total_count+=1
+
 for year in years:
 
     # Define base URL to access daily filings
