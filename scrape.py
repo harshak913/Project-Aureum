@@ -23,7 +23,7 @@ def makeURL(baseURL, add):
     return url
 #run for just 2016 (2016,2017)
 years = list(range(2016, 2017))
-total_count = 0
+#total_count = 0
 for year in years:
 
     # Define base URL to access daily filings
@@ -94,9 +94,9 @@ for year in years:
                     accession_number = text_filing.split('/')[-1].strip('.txt') #Extract accession number (after last '/') & remove '.txt'
                     accession_exist = cursor.execute("SELECT * FROM database.scrape WHERE accession_number = '%s'"%(accession_number))
                     if len(cursor.fetchall()) > 0:
-                        total_count+=1
-                        print(f'Already inserted -- Link: {filing_dict["filename"]}, Date: {filing_dict["datefiled"]}')
-                        print('Total Count: ' +str(total_count))
+                        #total_count+=1
+                        #print(f'Already inserted -- Link: {filing_dict["filename"]}, Date: {filing_dict["datefiled"]}')
+                        #print('Total Count: ' +str(total_count))
                         continue
                     url_list = text_filing.split('/')
                     url_xml = ''
@@ -107,13 +107,13 @@ for year in years:
                     if 'NoSuchKey' in tree[0].text and index_split[2] == '10-K':
                         sql_statement = "INSERT INTO database.scrape (cik_id, filing_type, year, file_name, accession_number, inter_or_htm) VALUES(%s, '%s', %s, '%s', '%s', '%s');"%(int(filing_dict["cik"]), filing_dict["formtype"], filing_dict["datefiled"][0:4], filing_dict["filename"], accession_number, 'HTM')
                         cursor.execute(sql_statement)
-                        total_count+=1
-                        print(sql_statement)
-                        print('Total Count: ' +str(total_count))
+                        #total_count+=1
+                        #print(sql_statement)
+                        #print('Total Count: ' +str(total_count))
                     elif 'NoSuchKey' not in tree[0].text and (index_split[2] == '10-K' or index_split[2] == '10-Q'):
                         sql_statement = "INSERT INTO database.scrape (cik_id, filing_type, year, file_name, accession_number, inter_or_htm) VALUES(%s, '%s', %s, '%s', '%s', '%s');"%(int(filing_dict["cik"]), filing_dict["formtype"], filing_dict["datefiled"][0:4], filing_dict["filename"], accession_number, 'Inter')
                         cursor.execute(sql_statement)
-                        total_count+=1
-                        print(sql_statement)
-                        print('Total Count: ' +str(total_count))
+                        #total_count+=1
+                        #print(sql_statement)
+                        #print('Total Count: ' +str(total_count))
                         interParse(index_report_period_url, accession_number, index_split[2])
