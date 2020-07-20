@@ -90,35 +90,40 @@ for year in years:
                         index_split[4] = index_split[4] + '/' + index_split_accession + '/' + index_split_modify[-1]
                         index_split[4] = "https://www.sec.gov/Archives" + index_split[4]
 
-                        # Create the dictionary
+                        # Create a list of dictionaries with the file header as keys and each row as values
                         filing_dict = dict(zip(headers, index_split))
                         text_filing = filing_dict['filename']
                         response = requests.get(text_filing)
                         soup = BeautifulSoup(response.content, 'lxml')
-                        if len(soup.find_all('filename')) == 0:
+
+                        if len(soup.find_all('filename')) == 0: # Skip if the filename tag is not in the text filing summary
                             continue
-                        if '.htm' not in soup.find_all("filename")[0].get_text():
+                        if '.htm' not in soup.find_all("filename")[0].get_text(): # Skip if .htm not in filename (meaning it's a .txt file)
                             continue
-                        accession_number = text_filing.split('/')[-1].strip('.txt') #Extract accession number (after last '/') & remove '.txt'
+                        accession_number = text_filing.split('/')[-1].strip('.txt') # Extract accession number (after last '/') & remove '.txt'
                         accession_exist = cursor.execute("SELECT * FROM database.scrape WHERE accession_number = '%s'"%(accession_number))
-                        if len(cursor.fetchall()) > 0:
+
+                        if len(cursor.fetchall()) > 0: # Skip if filing with that accession number is already inserted
                             print(f'Already inserted -- Link: {filing_dict["filename"]}, Date: {filing_dict["datefiled"]}')
                             continue
+
                         url_list = text_filing.split('/')
                         url_xml = ''
                         for part in url_list[:-1]:
                             url_xml = url_xml + '' + part + '/'
-                        url_xml = url_xml + 'FilingSummary.xml'
+                        url_xml = url_xml + 'FilingSummary.xml' # Get Filing Summary XML tree
+
                         tree = ET.fromstring(requests.get(url_xml).text)
-                        if 'NoSuchKey' in tree[0].text and index_split[2] == '10-K':
+                        if 'NoSuchKey' in tree[0].text and index_split[2] == '10-K': # Insert HTM ONLY IF it's a 10-K and has NoSuchKey in the first child node of the root
                             sql_statement = "INSERT INTO database.scrape (cik_id, filing_type, year, file_name, accession_number, inter_or_htm) VALUES(%s, '%s', %s, '%s', '%s', '%s');"%(int(filing_dict["cik"]), filing_dict["formtype"], filing_dict["datefiled"][0:4], filing_dict["filename"], accession_number, 'HTM')
                             cursor.execute(sql_statement)
                             print(sql_statement)
-                        elif 'NoSuchKey' not in tree[0].text and (index_split[2] == '10-K' or index_split[2] == '10-Q'):
+                        elif 'NoSuchKey' not in tree[0].text and (index_split[2] == '10-K' or index_split[2] == '10-Q'): # Insert Interactive Data ONLY IF it's a 10-K OR 10-Q and DOES NOT have NoSuchKey (it actually has a valid XML tree structure)
                             sql_statement = "INSERT INTO database.scrape (cik_id, filing_type, year, file_name, accession_number, inter_or_htm) VALUES(%s, '%s', %s, '%s', '%s', '%s');"%(int(filing_dict["cik"]), filing_dict["formtype"], filing_dict["datefiled"][0:4], filing_dict["filename"], accession_number, 'Inter')
                             cursor.execute(sql_statement)
                             print(sql_statement)
-                            try:
+
+                            try: # Try to run interParse; any error thrown will result in an ERROR status code for the current master IDX file & any deletions from the scrape, balance, income, cash flow, and non statement tables to prevent errors when parsing again
                                 interParse(index_report_period_url, accession_number, index_split[2])
                             except:
                                 cursor.execute("UPDATE database.master_idx SET status='ERROR' WHERE master_file='%s'"%(file['name']))
