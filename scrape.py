@@ -49,11 +49,13 @@ for year in years:
             if 'master' in fileURL:
                 cursor.execute("SELECT status FROM database.master_idx WHERE master_file='%s'"%(file['name']))
                 status = cursor.fetchone()
+                cursor.execute("SELECT * FROM database.master_idx WHERE master_file='%s'"%(file['name']))
+                idx_list = cursor.fetchall()
                 if status == 'COMPLETED':
                     print(f"Completed parsing of {file['name']}")
                     continue
                 else:
-                    if len(cursor.fetchall()) == 0:
+                    if len(idx_list) == 0:
                         sql_statement = "INSERT INTO database.master_idx (master_file, status) VALUES ('%s', '%s')"%(file['name'], 'PENDING')
                         cursor.execute(sql_statement)
                         print(sql_statement)
