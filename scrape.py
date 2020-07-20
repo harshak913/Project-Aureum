@@ -146,5 +146,5 @@ for year in years:
                             cursor.execute("DELETE FROM database.non_statement WHERE accession_number='%s'"%(accession_number))
                             cursor.execute("DELETE FROM database.scrape WHERE accession_number='%s' AND year=%s"%(accession_number, year))
                 sql_statement = "UPDATE database.master_idx SET status='COMPLETED' WHERE master_file='%s'"%(file['name'])
-                    cursor.execute(sql_statement)
-                    print(sql_statement)
+                cursor.execute(sql_statement)
+                print(sql_statement)
