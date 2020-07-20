@@ -51,7 +51,7 @@ for year in years:
                 status = cursor.fetchone()
                 cursor.execute("SELECT * FROM database.master_idx WHERE master_file='%s'"%(file['name']))
                 idx_list = cursor.fetchall()
-                if status == 'COMPLETED':
+                if status[0] == 'COMPLETED':
                     print(f"Completed parsing of {file['name']}")
                     continue
                 else:

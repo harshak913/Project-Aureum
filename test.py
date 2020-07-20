@@ -7,4 +7,5 @@ connection = psycopg2.connect(host="ec2-34-197-188-147.compute-1.amazonaws.com",
 connection.autocommit = True
 cursor = connection.cursor()
 
-cursor.execute("DELETE FROM database.scrape WHERE year=2016;")
+cursor.execute("SELECT status FROM database.master_idx WHERE master_file='%s'"%('master.20160104.idx'))
+print(cursor.fetchone())
