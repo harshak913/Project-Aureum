@@ -59,7 +59,7 @@ for year in years:
                         sql_statement = "INSERT INTO database.master_idx (master_file, status) VALUES ('%s', '%s')"%(file['name'], 'PENDING')
                         cursor.execute(sql_statement)
                         print(sql_statement)
-                    elif status == 'ERROR' or status == 'PENDING':
+                    elif status[0] == 'ERROR' or status[0] == 'PENDING':
                         print(f"Parsing {file['name']} now")
                         pass
                     # Request that new content, this will NOT be a JSON STRUCTURE
