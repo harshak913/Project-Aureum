@@ -11,8 +11,7 @@ from bs4 import BeautifulSoup
 
 #Pull tables after td, h1, div, or p tags that contain certain title variations of financial statements
 def pull_tables(td_tags, h1_tags, div_tags, p_tags, variations_list, table_filename, content_variations):
-    title_tag = ''
-    sheet = ''
+    title_tag, sheet = '', ''
     table_list = []
 
     #Get text from lists containing tags of title variations
@@ -340,20 +339,12 @@ def HTMLParse(html_text_filing, strip_htm):
     response = requests.get(html_text_filing)
     parser = BeautifulSoup(response.content, 'lxml')
 
-    td_tags = parser.select('td')
-    h1_tags = parser.select('h1')
-    div_tags = parser.select('div')
-    p_tags = parser.select('p')
+    td_tags, h1_tags, div_tags, p_tags = parser.select('td'), parser.select('h1'), parser.select('div'), parser.select('p')
 
-    in_thousands_lower = parser.find_all(text=re.compile('thousands'))
-    in_thousands_upper = parser.find_all(text=re.compile('Thousands'))
-    in_millions_lower = parser.find_all(text=re.compile('millions'))
-    in_millions_upper = parser.find_all(text=re.compile('Millions'))
+    in_thousands_lower, in_thousands_upper, in_millions_lower, in_millions_upper = parser.find_all(text=re.compile('thousands')), parser.find_all(text=re.compile('Thousands')), parser.find_all(text=re.compile('millions')), parser.find_all(text=re.compile('Millions'))
 
     #Create balance sheet, income statement, and cash flows files
-    balance_sheet_file = '%s-balance_sheet.csv' % (strip_htm)
-    income_statement_file = '%s-income_statement.csv' % (strip_htm)
-    cash_flows_file = '%s-cash_flows.csv' % (strip_htm)
+    balance_sheet_file, income_statement_file, cash_flows_file = '%s-balance_sheet.csv' % (strip_htm), '%s-income_statement.csv' % (strip_htm), '%s-cash_flows.csv' % (strip_htm)
 
     balance_sheet_list = pull_tables(td_tags, h1_tags, div_tags, p_tags, balance_sheet_variations, balance_sheet_file, balance_sheet_content_variations)
     balance_sheet_file_list = check_variations(balance_sheet_list, balance_sheet_file, balance_sheet_content_variations)
@@ -374,12 +365,10 @@ def HTMLParse(html_text_filing, strip_htm):
         if not('PAGE' in uniString.upper()) and not(uniString.isdigit() == True) and not(uniString.strip() == ''):
             complete_table_list.append(complete_temp_table_list[t])
 
-    final_balance_list = []
-    final_income_list = []
-    final_cash_flows_list = []
+    final_balance_list, final_income_list, final_cash_flows_list = ([] for i in range(3))
 
-    balance_complete_index = 0
-    found_balance = False
+    balance_complete_index = cash_flows_index = 0
+    found_balance, next_is_income = False, False
     for m in range(len(complete_table_list)-1):
         for n in range(len(balance_sheet_file_list)):
             if complete_table_list[m] == balance_sheet_file_list[n]: #If table matches one of the balance sheet tables
@@ -398,8 +387,6 @@ def HTMLParse(html_text_filing, strip_htm):
             break
 
     complete_index = balance_complete_index
-    cash_flows_index = 0
-    next_is_income = False
     while complete_index < len(complete_table_list)-1:
         previous_table = complete_table_list[complete_index-1] #Grab previous table
         next_table = complete_table_list[complete_index+1] #Grab next table

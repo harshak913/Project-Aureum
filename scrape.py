@@ -1,4 +1,3 @@
-from os import access
 import requests
 import urllib
 import datetime
@@ -148,4 +147,4 @@ for year in years:
                 sql_statement = "UPDATE database.master_idx SET status='COMPLETED' WHERE master_file='%s'"%(file['name'])
                 cursor.execute(sql_statement)
                 print(sql_statement)
-                print(f"Completed parsing of {file['name']}")
+                print(f"Completed parsing of {file['name']}")              
