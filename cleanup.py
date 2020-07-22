@@ -21,4 +21,3 @@ for year in years:
         cursor.execute("SELECT * FROM database.scrape WHERE cik_id=%s AND year=%s;"%(cik[0], year))
         results = cursor.fetchall() # Sequence of tuples inside a list for each CIK (each tuple is info from scrape table for a filing)
         num10K = num10Q = 0
-        
