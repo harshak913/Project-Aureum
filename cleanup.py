@@ -52,9 +52,9 @@ for year in years:
                     tenKLink = tenKName.find_next('td').find_next('a')['href']
                     accession_number = tenKLink.split('/')[6].strip('-index.htm')
                     indexLink = "https://www.sec.gov" + tenKLink
+                    response = requests.get(indexLink)
+                    soup = BeautifulSoup(response.content, 'lxml')
                     if str(year+1) in tenKName.find_next('td').find_next('td').find_next('td').get_text():
-                        response = requests.get(indexLink)
-                        soup = BeautifulSoup(response.content, 'lxml')
                         report_period = soup.find('div', text='Period of Report').find_next_sibling('div').text
                         if str(year) in report_period:
                             num10KFound = 1
@@ -64,7 +64,10 @@ for year in years:
                             continue
                     elif str(year) in tenKName.find_next('td').find_next('td').find_next('td').get_text():
                         num10KFound = 1
-                        print(indexLink) # Replace with interParse surrounded by try-except
+                        report_period = soup.find('div', text='Period of Report').find_next_sibling('div').text
+                        if str(year) in report_period:
+                            num10KFound = 1
+                            print(indexLink) # Replace with interParse surrounded by try-except
         """ if num10Q < 3:
             search_page = "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=%s&type=%s&dateb=%s&owner=exclude&count=40&search_text="%(cik[0], "10-Q", dateb)
             print(search_page)
