@@ -9,3 +9,4 @@ while complete == False:
         item.interParse
     for item in unfinished:
         if sta
+        
