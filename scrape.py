@@ -20,6 +20,25 @@ def makeURL(baseURL, add):
     for i in add:
         url = '{}/{}'.format(url, i)
     return url
+
+def delete_from_tables(accession_number):
+    cursor.execute("DELETE FROM database.balance WHERE accession_number='%s'"%(accession_number))
+    cursor.execute("DELETE FROM database.income WHERE accession_number='%s'"%(accession_number))
+    cursor.execute("DELETE FROM database.cash_flow WHERE accession_number='%s'"%(accession_number))
+    cursor.execute("DELETE FROM database.non_statement WHERE accession_number='%s'"%(accession_number))
+
+def check_if_incomplete(accession_number):
+    cursor.execute("SELECT * FROM database.balance WHERE accession_number='%s';"%(accession_number))
+    balance_entry = cursor.fetchall()
+
+    cursor.execute("SELECT * FROM database.income WHERE accession_number='%s';"%(accession_number))
+    income_entry = cursor.fetchall()
+
+    cursor.execute("SELECT * FROM database.cash_flow WHERE accession_number='%s';"%(accession_number))
+    cash_flow_entry = cursor.fetchall()
+
+    return (len(balance_entry) == 0 or len(income_entry) == 0 or len(cash_flow_entry) == 0)
+
 #run for just 2016 (2016,2017)
 years = list(range(2016, 2017))
 
@@ -141,27 +160,41 @@ for year in years:
 
                         try: # Try to run interParse; any error thrown will result in an ERROR status code for the current master IDX file & any deletions from the scrape, balance, income, cash flow, and non statement tables to prevent errors when parsing again
                             interParse(index_url, accession_number, index_split[2])
-                            cursor.execute("SELECT * FROM database.balance WHERE accession_number='%s';"%(accession_number))
-                            balance_entry = cursor.fetchall()
 
-                            cursor.execute("SELECT * FROM database.income WHERE accession_number='%s';"%(accession_number))
-                            income_entry = cursor.fetchall()
-
-                            cursor.execute("SELECT * FROM database.cash_flow WHERE accession_number='%s';"%(accession_number))
-                            cash_flow_entry = cursor.fetchall()
-
-                            if len(balance_entry) == 0 or len(income_entry) == 0 or len(cash_flow_entry) == 0:
+                            if check_if_incomplete(accession_number):
                                 cursor.execute("UPDATE database.scrape SET status='INCOMPLETE' WHERE accession_number='%s';"%(accession_number))
                             else:
                                 cursor.execute("UPDATE database.scrape SET status='COMPLETED' WHERE accession_number='%s';"%(accession_number))
                         except:
                             cursor.execute("UPDATE database.master_idx SET status='ERROR' WHERE master_file='%s'"%(file['name']))
-                            cursor.execute("DELETE FROM database.balance WHERE accession_number='%s'"%(accession_number))
-                            cursor.execute("DELETE FROM database.income WHERE accession_number='%s'"%(accession_number))
-                            cursor.execute("DELETE FROM database.cash_flow WHERE accession_number='%s'"%(accession_number))
-                            cursor.execute("DELETE FROM database.non_statement WHERE accession_number='%s'"%(accession_number))
+                            delete_from_tables(accession_number)
                             cursor.execute("DELETE FROM database.scrape WHERE accession_number='%s' AND year=%s"%(accession_number, year))
+                
                 sql_statement = "UPDATE database.master_idx SET status='COMPLETED' WHERE master_file='%s'"%(file['name'])
                 cursor.execute(sql_statement)
                 print(sql_statement)
-                print(f"Completed parsing of {file['name']}")              
+                print(f"Completed parsing of {file['name']}")
+    
+    complete = False
+    while complete == False:
+        cursor.execute("SELECT * FROM database.scrape WHERE status='INCOMPLETE' AND year=%s;"%(year))
+        unfinished_list = cursor.fetchall()
+
+        if len(unfinished_list) == 0:
+            complete = True
+            break
+
+        for unfinished in unfinished_list:
+            accession_number = unfinished[4]
+            filing_type = unfinished[1]
+            index_url = unfinished[3].strip('.txt') + '-index.htm'
+            
+            try:
+                interParse(index_url, accession_number, filing_type)
+                if check_if_incomplete(accession_number):
+                    delete_from_tables(accession_number)
+                    continue
+                else:
+                    cursor.execute("UPDATE database.scrape SET status='COMPLETED' WHERE accession_number='%s';"%(accession_number))
+            except:
+                delete_from_tables(accession_number)
