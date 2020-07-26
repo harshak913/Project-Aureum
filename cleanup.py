@@ -12,12 +12,30 @@ connection = psycopg2.connect(host="ec2-34-197-188-147.compute-1.amazonaws.com",
 connection.autocommit = True
 cursor = connection.cursor()
 
-cursor.execute("SELECT cik FROM database.company;")
+cursor.execute("SELECT accession_number FROM database.scrape WHERE year=2016;")
+accessions = cursor.fetchall()
+
+for accession in accessions:
+    cursor.execute("SELECT * FROM database.balance WHERE accession_number='%s';"%(accession[0]))
+    balance_entry = cursor.fetchall()
+
+    cursor.execute("SELECT * FROM database.income WHERE accession_number='%s';"%(accession[0]))
+    income_entry = cursor.fetchall()
+
+    cursor.execute("SELECT * FROM database.cash_flow WHERE accession_number='%s';"%(accession[0]))
+    cash_flow_entry = cursor.fetchall()
+
+    if len(balance_entry) == 0 or len(income_entry) == 0 or len(cash_flow_entry) == 0:
+        cursor.execute("UPDATE database.scrape SET status='INCOMPLETE' WHERE accession_number='%s';"%(accession[0]))
+    else:
+        cursor.execute("UPDATE database.scrape SET status='COMPLETED' WHERE accession_number='%s';"%(accession[0]))
+
+""" cursor.execute("SELECT cik FROM database.company;")
 ciks = cursor.fetchall()
 
 years = list(range(2016, 2017))
 
-""" cursor.execute("SELECT * FROM database.scrape WHERE year=2016;")
+cursor.execute("SELECT * FROM database.scrape WHERE year=2016;")
 results = cursor.fetchall()
 for result in results:
     file_name = result[3]
@@ -29,7 +47,7 @@ for result in results:
     if report_period is None:
         continue
     report_period_year = report_period.find_next_sibling('div').text[0:4]
-    cursor.execute("UPDATE database.scrape SET year=%s WHERE accession_number='%s';"%(report_period_year, accession_number)) """
+    cursor.execute("UPDATE database.scrape SET year=%s WHERE accession_number='%s';"%(report_period_year, accession_number))
 
 for year in years:
     for cik in ciks:
@@ -68,7 +86,7 @@ for year in years:
                         if str(year) in report_period:
                             num10KFound = 1
                             print(indexLink) # Replace with interParse surrounded by try-except
-        """ if num10Q < 3:
+        if num10Q < 3:
             search_page = "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=%s&type=%s&dateb=%s&owner=exclude&count=40&search_text="%(cik[0], "10-Q", dateb)
             print(search_page)
             response = requests.get(search_page)
@@ -84,4 +102,3 @@ for year in years:
                     elif len(cursor.fetchone()) > 0:
                         tenQName = tenQName.find_next('tr').find_next('td', text="10-Q")
                         continue """
-

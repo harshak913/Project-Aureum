@@ -94,7 +94,7 @@ for year in years:
                     index_split_accession = ''.join(index_split_modify[3].strip('.txt').split('-'))
                     for x in index_split_modify[:-1]:
                         index_split[4] = index_split[4] + '/' + x
-                    index_report_period_url = "https://www.sec.gov/Archives" + index_split[4] + '/' + index_split_accession + '/' + index_split_modify[-1].strip('.txt') + '-index.htm'
+                    index_url = "https://www.sec.gov/Archives" + index_split[4] + '/' + index_split_accession + '/' + index_split_modify[-1].strip('.txt') + '-index.htm'
                     index_split[4] = index_split[4] + '/' + index_split_accession + '/' + index_split_modify[-1]
                     index_split[4] = "https://www.sec.gov/Archives" + index_split[4]
 
@@ -121,22 +121,39 @@ for year in years:
                         url_xml = url_xml + '' + part + '/'
                     url_xml = url_xml + 'FilingSummary.xml' # Get Filing Summary XML tree
 
+                    find_year = BeautifulSoup(requests.get(index_url).content, 'lxml')
+                    report_period = find_year.find('div', text='Period of Report')
+                    actual_year = filing_dict["datefiled"][0:4] if report_period is None else report_period.find_next_sibling('div').text[0:4]
+
                     tree = ET.fromstring(requests.get(url_xml).text)
                     if 'NoSuchKey' in tree[0].text and index_split[2] == '10-K': # Insert HTM ONLY IF it's a 10-K and has NoSuchKey in the first child node of the root
-                        sql_statement = "INSERT INTO database.scrape (cik_id, filing_type, year, file_name, accession_number, inter_or_htm) VALUES(%s, '%s', %s, '%s', '%s', '%s');"%(int(filing_dict["cik"]), filing_dict["formtype"], filing_dict["datefiled"][0:4], filing_dict["filename"], accession_number, 'HTM')
+                        sql_statement = "INSERT INTO database.scrape (cik_id, filing_type, year, file_name, accession_number, inter_or_htm, status) VALUES(%s, '%s', %s, '%s', '%s', '%s', '%s');"%(int(filing_dict["cik"]), filing_dict["formtype"], actual_year, filing_dict["filename"], accession_number, 'HTM', 'PENDING')
                         cursor.execute(sql_statement)
                         total_count+=1
                         print(sql_statement)
                         print('Total Count: ' +str(total_count))
                     elif 'NoSuchKey' not in tree[0].text and (index_split[2] == '10-K' or index_split[2] == '10-Q'): # Insert Interactive Data ONLY IF it's a 10-K OR 10-Q and DOES NOT have NoSuchKey (it actually has a valid XML tree structure)
-                        sql_statement = "INSERT INTO database.scrape (cik_id, filing_type, year, file_name, accession_number, inter_or_htm) VALUES(%s, '%s', %s, '%s', '%s', '%s');"%(int(filing_dict["cik"]), filing_dict["formtype"], filing_dict["datefiled"][0:4], filing_dict["filename"], accession_number, 'Inter')
+                        sql_statement = "INSERT INTO database.scrape (cik_id, filing_type, year, file_name, accession_number, inter_or_htm, status) VALUES(%s, '%s', %s, '%s', '%s', '%s', '%s');"%(int(filing_dict["cik"]), filing_dict["formtype"], actual_year, filing_dict["filename"], accession_number, 'Inter', 'PENDING')
                         cursor.execute(sql_statement)
                         total_count+=1
                         print(sql_statement)
                         print('Total Count: ' +str(total_count))
 
                         try: # Try to run interParse; any error thrown will result in an ERROR status code for the current master IDX file & any deletions from the scrape, balance, income, cash flow, and non statement tables to prevent errors when parsing again
-                            interParse(index_report_period_url, accession_number, index_split[2])
+                            interParse(index_url, accession_number, index_split[2])
+                            cursor.execute("SELECT * FROM database.balance WHERE accession_number='%s';"%(accession_number))
+                            balance_entry = cursor.fetchall()
+
+                            cursor.execute("SELECT * FROM database.income WHERE accession_number='%s';"%(accession_number))
+                            income_entry = cursor.fetchall()
+
+                            cursor.execute("SELECT * FROM database.cash_flow WHERE accession_number='%s';"%(accession_number))
+                            cash_flow_entry = cursor.fetchall()
+
+                            if len(balance_entry) == 0 or len(income_entry) == 0 or len(cash_flow_entry) == 0:
+                                cursor.execute("UPDATE database.scrape SET status='INCOMPLETE' WHERE accession_number='%s';"%(accession_number))
+                            else:
+                                cursor.execute("UPDATE database.scrape SET status='COMPLETED' WHERE accession_number='%s';"%(accession_number))
                         except:
                             cursor.execute("UPDATE database.master_idx SET status='ERROR' WHERE master_file='%s'"%(file['name']))
                             cursor.execute("DELETE FROM database.balance WHERE accession_number='%s'"%(accession_number))
