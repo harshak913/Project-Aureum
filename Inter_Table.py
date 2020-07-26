@@ -443,18 +443,18 @@ def interParse(filing_index, accession_number, filing_type):
             if 'Sept' in year:
                 year_list = year.split(' ')
                 year = year_list[0][0:3] + '. ' + year_list[1] + ' ' + year_list[2]
-            year = datetime.strptime(str(year), '%b. %d, %Y')
+            year = datetime.strptime(str(item.get('date')), '%b. %d, %Y')
             year = year.strftime('%Y-%m-%d')
         except ValueError:
             try:
-                year = datetime.strptime(str(year), '%b %d, %Y')
+                year = datetime.strptime(str(item.get('date')), '%b %d, %Y')
                 year = year.strftime('%Y-%m-%d')
             except ValueError:
                 try:
-                    year = datetime.strptime(str(year), '%B. %d, %Y')
+                    year = datetime.strptime(str(item.get('date')), '%B. %d, %Y')
                     year = year.strftime('%Y-%m-%d')
                 except:
-                    year = datetime.strptime(str(year), '%B %d, %Y')
+                    year = datetime.strptime(str(item.get('date')), '%B %d, %Y')
                     year = year.strftime('%Y-%m-%d')
         except:
             continue
