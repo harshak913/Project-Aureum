@@ -5,7 +5,9 @@ while complete == False:
     for item in years:
         if item['status'] == 'pending':
             unfinished.append(item)
-    for item in unfinished:
-        item.interParse
-    for item in unfinished:
-        if sta
+    if not unfinished:
+        for item in unfinished:
+            item.interParse
+            #after parsing see if these things are completed if not then keep as pending, if it did complete parse change status to complete
+    else:
+        break
