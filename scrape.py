@@ -185,16 +185,20 @@ for year in years:
             break
 
         for unfinished in unfinished_list:
+            print(unfinished)
             accession_number = unfinished[4]
             filing_type = unfinished[1]
             index_url = unfinished[3].strip('.txt') + '-index.htm'
-            
+
             try:
                 interParse(index_url, accession_number, filing_type)
                 if check_if_incomplete(accession_number):
+                    print(f"Did not parse this completely, URL:{index_url}")
                     delete_from_tables(accession_number)
                     continue
                 else:
+                    print(f"Parsed successfully & updated status to COMPLETED, URL: {index_url}")
                     cursor.execute("UPDATE database.scrape SET status='COMPLETED' WHERE accession_number='%s';"%(accession_number))
             except:
+                print(f"Something went wrong, URL: {index_url}")
                 delete_from_tables(accession_number)
