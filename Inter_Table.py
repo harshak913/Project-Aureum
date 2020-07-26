@@ -440,7 +440,7 @@ def interParse(filing_index, accession_number, filing_type):
         acc_name = str(item.get('acc_name')).strip()
         value = str(item.get('value')).replace('$', '').strip()
         try:
-            if 'Sept' in year:
+            if 'Sept' in item.get('date'):
                 year_list = year.split(' ')
                 year = year_list[0][0:3] + '. ' + year_list[1] + ' ' + year_list[2]
             year = datetime.strptime(str(item.get('date')), '%b. %d, %Y')
