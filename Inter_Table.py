@@ -435,6 +435,24 @@ def interParse(filing_index, accession_number, filing_type):
     non_signs = ['PARENTHETICAL', 'COMPREHENSIVE','SUPPLEMENTARY', 'EQUITY']
 
 
+    income_found = False
+    cash_found = False
+    balance_found = False
+
+    for item in all_dict:
+        statement = str(item.get('statement')).replace("'", '').strip()
+        if not any(x in statement.upper() for x in non_signs):
+            if any(x in statement.upper() for x in cash_flows_variations) and cash_found == False:
+                true_cash = statement
+                cash_found = True
+            elif any(x in statement.upper() for x in income_statement_variations) and income_found == False:
+                true_income = statement
+                income_found = True
+            elif any(x in statement.upper() for x in balance_sheet_variations) and balance_found == False:
+                true_balance = statement
+                balance_found = True
+
+
     for item in all_dict:
         #get the variables for inserting from the item dict
         member = str(item.get('member')).replace("'", '').strip()
@@ -469,13 +487,13 @@ def interParse(filing_index, accession_number, filing_type):
 #.replace("'", '')
         #run the code for unit and context first
         if not any(x in statement.upper() for x in non_signs):
-            if any(x in statement.upper() for x in cash_flows_variations):
+            if any(x in statement.upper() for x in cash_flows_variations) and statement == true_cash:
                 print('CASH FLOW')
                 statement_insert = 'cash_flow'
-            elif any(x in statement.upper() for x in income_statement_variations):
+            elif any(x in statement.upper() for x in income_statement_variations) and statement == true_income:
                 print('INCOME STATEMENT')
                 statement_insert = 'income'
-            elif any(x in statement.upper() for x in balance_sheet_variations):
+            elif any(x in statement.upper() for x in balance_sheet_variations) and statement == true_balance:
                 print('BALANCE SHEET')
                 statement_insert = 'balance'
             else:
