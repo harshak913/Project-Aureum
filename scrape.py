@@ -197,8 +197,8 @@ for year in years:
                     delete_from_tables(accession_number)
                     continue
                 else:
-                    print(f"Parsed successfully & updated status to COMPLETED, URL: {index_url}")
                     cursor.execute("UPDATE database.scrape SET status='COMPLETED' WHERE accession_number='%s';"%(accession_number))
+                    print(f"Parsed successfully & updated status to COMPLETED, URL: {index_url}")
             except:
                 print(f"Something went wrong, URL: {index_url}")
                 delete_from_tables(accession_number)

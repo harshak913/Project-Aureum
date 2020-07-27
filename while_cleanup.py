@@ -25,8 +25,10 @@ def check_if_incomplete(accession_number):
 
     cursor.execute("SELECT * FROM database.cash_flow WHERE accession_number='%s';"%(accession_number))
     cash_flow_entry = cursor.fetchall()
-
-    return (len(balance_entry) == 0 or len(income_entry) == 0 or len(cash_flow_entry) == 0)
+    if len(balance_entry) == 0 or len(income_entry) == 0 or len(cash_flow_entry) == 0:
+        return True
+    else:
+        return False
 
 years = list(range(2016, 2017))
 
