@@ -475,8 +475,11 @@ def interParse(filing_index, accession_number, filing_type):
                     year = datetime.strptime(str(year), '%B. %d, %Y')
                     year = year.strftime('%Y-%m-%d')
                 except:
-                    year = datetime.strptime(str(year), '%B %d, %Y')
-                    year = year.strftime('%Y-%m-%d')
+                    try:
+                        year = datetime.strptime(str(year), '%B %d, %Y')
+                        year = year.strftime('%Y-%m-%d')
+                    except:
+                        continue
         except:
             continue
         eng_name = str(item.get('eng_name')).replace("'", '').strip()
