@@ -192,8 +192,8 @@ def interParse(filing_index, accession_number, filing_type):
             #CREATE THE DOCUMENT AND BEAUTIFULSOUP PARSE IT
             doc_name = str(item.get('name'))
             print('NOW PARSING '+doc_name)
-            #filename = "/Users/octavian/Desktop/HTM/%s.htm"%(doc_name)
-            filename = "/Users/Harsh/OneDrive - The University of Texas at Dallas/Documents/Project A/HTM/%s.htm"%(doc_name)
+            filename = "/Users/octavian/Desktop/HTM/%s.htm"%(doc_name)
+            #filename = "/Users/Harsh/OneDrive - The University of Texas at Dallas/Documents/Project A/HTM/%s.htm"%(doc_name)
             os.makedirs(os.path.dirname(filename), exist_ok=True)
             report_access = 'https://www.sec.gov%s'%str(item.get('link'))
             page = requests.get(report_access)
@@ -332,8 +332,8 @@ def interParse(filing_index, accession_number, filing_type):
         elif 'xml' in item['link']:
             doc_name = str(item.get('name'))
             print('NOW PARSING '+doc_name)
-            #filename = "/Users/octavian/Desktop/HTM/%s.xml"%(doc_name)
-            filename = "/Users/Harsh/OneDrive - The University of Texas at Dallas/Documents/Project A/HTM/%s.xml"%(doc_name)
+            filename = "/Users/octavian/Desktop/HTM/%s.xml"%(doc_name)
+            #filename = "/Users/Harsh/OneDrive - The University of Texas at Dallas/Documents/Project A/HTM/%s.xml"%(doc_name)
             os.makedirs(os.path.dirname(filename), exist_ok=True)
             report_access = 'https://www.sec.gov%s'%str(item.get('link'))
             page = requests.get(report_access)
@@ -426,13 +426,13 @@ def interParse(filing_index, accession_number, filing_type):
 
 
     #store data in POSTGRESQL
-    balance_sheet_variations = ['NET ASSET', 'FINANCIAL POSITION', 'BALANCE SHEET']
+    balance_sheet_variations = ['NET ASSET', 'POSITION', 'BALANCE SHEET', 'CONDITION']
 
-    income_statement_variations = ['EARNING', 'OPERATION', 'INCOME']
+    income_statement_variations = ['EARNING', 'OPERATION', 'INCOME', 'LOSS']
 
     cash_flows_variations = ['CASH FLOW']
 
-    non_signs = ['PARENTHETICAL', 'COMPREHENSIVE','SUPPLEMENTARY', 'EQUITY']
+    non_signs = ['PARENTHETICAL', 'SUPPLEMENTARY', 'EQUITY']
 
 
     income_found = False
