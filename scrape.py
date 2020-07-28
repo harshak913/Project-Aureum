@@ -169,7 +169,7 @@ for year in years:
                         except:
                             cursor.execute("UPDATE database.master_idx SET status='ERROR' WHERE master_file='%s'"%(master_file_name))
                             delete_from_tables(accession_number)
-                            cursor.execute("DELETE FROM database.scrape WHERE accession_number='%s' AND year=%s"%(accession_number, year))
+                            cursor.execute("UPDATE database.scrape SET status='INCOMPLETE' WHERE accession_number='%s'"%(accession_number))
                 
                 sql_statement = "UPDATE database.master_idx SET status='COMPLETED' WHERE master_file='%s'"%(master_file_name)
                 cursor.execute(sql_statement)
