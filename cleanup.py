@@ -12,38 +12,6 @@ connection = psycopg2.connect(host="ec2-34-197-188-147.compute-1.amazonaws.com",
 connection.autocommit = True
 cursor = connection.cursor()
 
-""" cursor.execute("SELECT accession_number FROM database.scrape WHERE year=2016;")
-accessions = cursor.fetchall()
-
-for accession in accessions:
-    cursor.execute("SELECT * FROM database.balance WHERE accession_number='%s';"%(accession[0]))
-    balance_entry = cursor.fetchall()
-
-    cursor.execute("SELECT * FROM database.income WHERE accession_number='%s';"%(accession[0]))
-    income_entry = cursor.fetchall()
-
-    cursor.execute("SELECT * FROM database.cash_flow WHERE accession_number='%s';"%(accession[0]))
-    cash_flow_entry = cursor.fetchall()
-
-    if len(balance_entry) == 0 or len(income_entry) == 0 or len(cash_flow_entry) == 0:
-        cursor.execute("UPDATE database.scrape SET status='INCOMPLETE' WHERE accession_number='%s';"%(accession[0]))
-    else:
-        cursor.execute("UPDATE database.scrape SET status='COMPLETED' WHERE accession_number='%s';"%(accession[0])) """
-
-""" cursor.execute("SELECT * FROM database.scrape WHERE year=2016;")
-results = cursor.fetchall()
-for result in results:
-    file_name = result[3]
-    index_page = file_name.strip('.txt') + "-index.htm"
-    accession_number = index_page.split('/')[8].strip('-index.htm')
-    response = requests.get(index_page)
-    soup = BeautifulSoup(response.content, 'lxml')
-    report_period = soup.find('div', text='Period of Report')
-    if report_period is None:
-        continue
-    report_period_year = report_period.find_next_sibling('div').text[0:4]
-    cursor.execute("UPDATE database.scrape SET year=%s WHERE accession_number='%s';"%(report_period_year, accession_number)) """
-
 # Select all company CIKs
 cursor.execute("SELECT cik FROM database.company;")
 ciks = cursor.fetchall()
