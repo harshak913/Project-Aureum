@@ -61,24 +61,25 @@ for year in years:
         QuarterJSONContent = requests.get(quarterURL).json()
 
         for file in QuarterJSONContent['directory']['item']:
-            fileURL = makeURL(baseURL, [year, item['name'], file['name']])
+            master_file_name = file['name'].strip('.gz') if '.gz' in file['name'] else file['name']
+            fileURL = makeURL(baseURL, [year, item['name'], master_file_name])
 
             # Grab the Master IDX file URL
             if 'master' in fileURL:
-                cursor.execute("SELECT status FROM database.master_idx WHERE master_file='%s'"%(file['name']))
+                cursor.execute("SELECT status FROM database.master_idx WHERE master_file='%s'"%(master_file_name))
                 status = cursor.fetchone()
-                cursor.execute("SELECT * FROM database.master_idx WHERE master_file='%s'"%(file['name']))
+                cursor.execute("SELECT * FROM database.master_idx WHERE master_file='%s'"%(master_file_name))
                 idx_list = cursor.fetchall()
                 if len(idx_list) == 0:
-                    sql_statement = "INSERT INTO database.master_idx (master_file, status) VALUES ('%s', '%s')"%(file['name'], 'PENDING')
+                    sql_statement = "INSERT INTO database.master_idx (master_file, status) VALUES ('%s', '%s')"%(master_file_name, 'PENDING')
                     cursor.execute(sql_statement)
                     print(sql_statement)
-                    print(f"Parsing {file['name']} now")
+                    print(f"Parsing {master_file_name} now")
                 elif status[0] == 'COMPLETED':
-                    print(f"Completed parsing of {file['name']}")
+                    print(f"Completed parsing of {master_file_name}")
                     continue
                 elif status[0] == 'ERROR' or status[0] == 'PENDING':
-                    print(f"Parsing {file['name']} now")
+                    print(f"Parsing {master_file_name} now")
                     
                 # Request that new content, this will NOT be a JSON STRUCTURE
                 fileContent = requests.get(fileURL).content
@@ -166,14 +167,14 @@ for year in years:
                             else:
                                 cursor.execute("UPDATE database.scrape SET status='COMPLETED' WHERE accession_number='%s';"%(accession_number))
                         except:
-                            cursor.execute("UPDATE database.master_idx SET status='ERROR' WHERE master_file='%s'"%(file['name']))
+                            cursor.execute("UPDATE database.master_idx SET status='ERROR' WHERE master_file='%s'"%(master_file_name))
                             delete_from_tables(accession_number)
                             cursor.execute("DELETE FROM database.scrape WHERE accession_number='%s' AND year=%s"%(accession_number, year))
                 
-                sql_statement = "UPDATE database.master_idx SET status='COMPLETED' WHERE master_file='%s'"%(file['name'])
+                sql_statement = "UPDATE database.master_idx SET status='COMPLETED' WHERE master_file='%s'"%(master_file_name)
                 cursor.execute(sql_statement)
                 print(sql_statement)
-                print(f"Completed parsing of {file['name']}")
+                print(f"Completed parsing of {master_file_name}")
     
     complete = False
     while complete == False:

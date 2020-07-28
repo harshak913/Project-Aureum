@@ -160,7 +160,7 @@ def find_value(in_thousands_lower, in_millions_lower, in_thousands_upper, in_mil
     value_list = []
     for item in final_list:
         if 'millions' in ' '.join(item.get_text().strip().lower().split()):
-            if 'share amount' in ' '.join(item.get_text().strip().lower().split()):
+            if 'share amount' in ' '.join(item.get_text().strip().lower().split()) or 'share data' in ' '.join(item.get_text().strip().lower().split()):
                 value_list.append('In millions, except per share amounts')
             else:
                 value_list.append('In millions')
@@ -169,7 +169,7 @@ def find_value(in_thousands_lower, in_millions_lower, in_thousands_upper, in_mil
     
     for item in final_list:
         if 'thousands' in ' '.join(item.get_text().strip().lower().split()):
-            if 'share amount' in ' '.join(item.get_text().strip().lower().split()):
+            if 'share amount' in ' '.join(item.get_text().strip().lower().split()) or 'share data' in ' '.join(item.get_text().strip().lower().split()):
                 value_list.append('In thousands, expect per share amounts')
             else:
                 value_list.append('In thousands')
@@ -179,7 +179,7 @@ def find_value(in_thousands_lower, in_millions_lower, in_thousands_upper, in_mil
     for thousands in in_thousands_lower:
         for item in final_list:
             if thousands.find_next('table') == item:
-                if 'share amount' in ' '.join(item.get_text().strip().lower().split()):
+                if 'share amount' in ' '.join(item.get_text().strip().lower().split()) or 'share data' in ' '.join(item.get_text().strip().lower().split()):
                     value_list.append('In thousands, except per share amounts')
                 else:
                     value_list.append('In thousands')
@@ -187,7 +187,7 @@ def find_value(in_thousands_lower, in_millions_lower, in_thousands_upper, in_mil
     for millions in in_millions_lower:
         for item in final_list:
             if millions.find_next('table') == item:
-                if 'share amount' in ' '.join(item.get_text().strip().lower().split()):
+                if 'share amount' in ' '.join(item.get_text().strip().lower().split()) or 'share data' in ' '.join(item.get_text().strip().lower().split()):
                     value_list.append('In millions, except per share amounts')
                 else:
                     value_list.append('In millions')
@@ -195,7 +195,7 @@ def find_value(in_thousands_lower, in_millions_lower, in_thousands_upper, in_mil
     for thousands in in_thousands_upper:
         for item in final_list:
             if thousands.find_next('table') == item:
-                if 'share amount' in ' '.join(item.get_text().strip().lower().split()):
+                if 'share amount' in ' '.join(item.get_text().strip().lower().split()) or 'share data' in ' '.join(item.get_text().strip().lower().split()):
                     value_list.append('In thousands, except per share amounts')
                 else:
                     value_list.append('In thousands')
@@ -203,7 +203,7 @@ def find_value(in_thousands_lower, in_millions_lower, in_thousands_upper, in_mil
     for millions in in_millions_upper:
         for item in final_list:
             if millions.find_next('table') == item:
-                if 'share amount' in ' '.join(item.get_text().strip().lower().split()):
+                if 'share amount' in ' '.join(item.get_text().strip().lower().split()) or 'share data' in ' '.join(item.get_text().strip().lower().split()):
                     value_list.append('In millions, except per share amounts')
                 else:
                     value_list.append('In millions')
@@ -531,6 +531,6 @@ def HTMLParse(html_text_filing, strip_htm):
             statement = item['statement']
             statement_insert = item['insert']"""
 
-HTMLParse("https://www.sec.gov/Archives/edgar/data/21076/000002107602000019/0000021076-02-000019.txt", "form10k")
+HTMLParse("https://www.sec.gov/Archives/edgar/data/72903/000095013702001868/0000950137-02-001868.txt", "form10k")
 # UPDATE HTMLParse so it strips unnecessary characters and fixes value (ex. if 'thousands' is in the row name, then make the unit for JUST that row 'in thousands')
 # Fix comma issues in dates
