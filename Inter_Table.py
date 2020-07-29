@@ -188,6 +188,7 @@ def interParse(filing_index, accession_number, filing_type):
     #TIME TO PARSE THE ACTUAL FINANCIAL STATEMENTS
     print('TIME TO PARSE THE ACTUAL FINANCIAL STATEMENTS')
     for item in dicts:
+        #HTM PARSE SECTION HERE
         if 'htm' in item['link']:
             #CREATE THE DOCUMENT AND BEAUTIFULSOUP PARSE IT
             doc_name = str(item.get('name'))
@@ -245,10 +246,11 @@ def interParse(filing_index, accession_number, filing_type):
                     months_ended.append(months)
             for one in ones:
                 l = one.text.strip()
-                if re.match(r'.*([1-3][0-9]{3})', l) is not None:
+                match = re.match(r'.*([1-3][0-9]{3})', l)
+                if match is not None:
                     date = {}
                     date['id'] = id
-                    date['date'] = l.upper().split('USD', 1)[0].strip()
+                    date['date'] = match.group(0)
                     for item in months_ended:
                         if item.get('start_span') is not None:
                             start_span = int(item.get('start_span'))
@@ -328,7 +330,7 @@ def interParse(filing_index, accession_number, filing_type):
                                         id+=1
             os.remove(filename)
 
-
+        #XML PARSE SECTION HERE
         elif 'xml' in item['link']:
             doc_name = str(item.get('name'))
             print('NOW PARSING '+doc_name+ ' (A XML DOC)')
@@ -360,8 +362,9 @@ def interParse(filing_index, accession_number, filing_type):
                 labels = element.find_all('label')
                 for label in labels:
                     l = label.get('label')
-                    if re.match(r'.*([1-3][0-9]{3})', l) is not None:
-                        dates['date'] = l.upper().split('USD', 1)[0].strip()
+                    match = re.match(r'.*([1-3][0-9]{3})', l)
+                    if match is not None:
+                        dates['date'] = match.group(0)
                     if re.search('months ended', l, re.IGNORECASE) is not None:
                         dates['months_ended'] = l.strip()
                 dates['id'] = element.find('id').text.strip()
