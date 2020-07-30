@@ -30,7 +30,7 @@ def check_if_incomplete(accession_number):
     else:
         return False
 
-years = list(range(2016, 2017))
+years = list(range(2011, 2012))
 
 for year in years:
     complete = False
@@ -47,7 +47,7 @@ for year in years:
             accession_number = unfinished[4]
             filing_type = unfinished[1]
             index_url = unfinished[3].strip('.txt') + '-index.htm'
-            
+
             try:
                 interParse(index_url, accession_number, filing_type)
                 if check_if_incomplete(accession_number):

@@ -40,7 +40,7 @@ def check_if_incomplete(accession_number):
     return (len(balance_entry) == 0 or len(income_entry) == 0 or len(cash_flow_entry) == 0)
 
 #run for just 2016 (2016,2017)
-years = list(range(2011, 2012))
+years = list(range(2016, 2017))
 
 #total count to keep track of how many files we've gone through
 total_count = 0
@@ -80,7 +80,7 @@ for year in years:
                     continue
                 elif status[0] == 'ERROR' or status[0] == 'PENDING':
                     print(f"Parsing {master_file_name} now")
-                    
+
                 # Request that new content, this will NOT be a JSON STRUCTURE
                 fileContent = requests.get(fileURL).content
 
@@ -171,7 +171,7 @@ for year in years:
                             cursor.execute("UPDATE database.master_idx SET status='ERROR' WHERE master_file='%s'"%(master_file_name))
                             delete_from_tables(accession_number)
                             cursor.execute("UPDATE database.scrape SET status='INCOMPLETE' WHERE accession_number='%s'"%(accession_number))
-                
+
                 sql_statement = "UPDATE database.master_idx SET status='COMPLETED' WHERE master_file='%s'"%(master_file_name)
                 cursor.execute(sql_statement)
                 print(sql_statement)
