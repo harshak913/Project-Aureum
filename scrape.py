@@ -164,6 +164,7 @@ for year in years:
 
                             if check_if_incomplete(accession_number):
                                 cursor.execute("UPDATE database.scrape SET status='INCOMPLETE' WHERE accession_number='%s';"%(accession_number))
+                                delete_from_tables(accession_number)
                             else:
                                 cursor.execute("UPDATE database.scrape SET status='COMPLETED' WHERE accession_number='%s';"%(accession_number))
                         except:
@@ -175,31 +176,3 @@ for year in years:
                 cursor.execute(sql_statement)
                 print(sql_statement)
                 print(f"Completed parsing of {master_file_name}")
-    
-    complete = False
-    while complete == False:
-        cursor.execute("SELECT * FROM database.scrape WHERE status='INCOMPLETE' AND year=%s;"%(year))
-        unfinished_list = cursor.fetchall()
-
-        if len(unfinished_list) == 0:
-            complete = True
-            break
-
-        for unfinished in unfinished_list:
-            print(unfinished)
-            accession_number = unfinished[4]
-            filing_type = unfinished[1]
-            index_url = unfinished[3].strip('.txt') + '-index.htm'
-
-            try:
-                interParse(index_url, accession_number, filing_type)
-                if check_if_incomplete(accession_number):
-                    print(f"Did not parse this completely, URL:{index_url}")
-                    delete_from_tables(accession_number)
-                    continue
-                else:
-                    cursor.execute("UPDATE database.scrape SET status='COMPLETED' WHERE accession_number='%s';"%(accession_number))
-                    print(f"Parsed successfully & updated status to COMPLETED, URL: {index_url}")
-            except:
-                print(f"Something went wrong, URL: {index_url}")
-                delete_from_tables(accession_number)
