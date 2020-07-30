@@ -30,7 +30,7 @@ def check_if_incomplete(accession_number):
     else:
         return False
 
-years = list(range(2011, 2012))
+years = list(range(2015, 2016))
 
 for year in years:
     complete = False
