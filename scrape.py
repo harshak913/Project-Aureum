@@ -8,6 +8,7 @@ import xml.etree.ElementTree as ET
 from Inter_Table import interParse
 import unidecode
 import unicodedata
+import re
 
 
 connection = psycopg2.connect(host="ec2-34-197-188-147.compute-1.amazonaws.com", dbname="d7p3fuehaleleo", user="snbetggfklcniv", password="7798f45239eda70f8278ce3c05dc632ad57b97957b601681a3c516f37153403a")
@@ -103,7 +104,7 @@ for year in years:
                     byteData = f.readlines()
 
                 os.remove('master_file_text.txt')
-                headers = unidecode.unidecode(restore_windows_1252_characters(unicodedata.normalize('NFKD', byteData[5])))
+                headers = unidecode.unidecode(restore_windows_1252_characters(unicodedata.normalize('NFKD', byteData[5].decode('utf-8'))))
                 headers = headers.strip().split('|')
                 headers = [header.lower().replace(' ','') for header in headers]
                 fileData = byteData[7:]
@@ -112,7 +113,7 @@ for year in years:
                 for index in fileData:
 
                     # Clean it up.
-                    index = unidecode.unidecode(restore_windows_1252_characters(unicodedata.normalize('NFKD', index)))
+                    index = unidecode.unidecode(restore_windows_1252_characters(unicodedata.normalize('NFKD', index.decode('utf-8'))))
                     index_split = index.strip().split('|')
                     if index_split[2] != '10-K' and index_split[2] != '10-Q':
                         continue
