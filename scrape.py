@@ -113,7 +113,10 @@ for year in years:
                 for index in fileData:
 
                     # Clean it up.
-                    index = unidecode.unidecode(restore_windows_1252_characters(unicodedata.normalize('NFKD', index.decode('utf-8'))))
+                    try:
+                        index = unidecode.unidecode(restore_windows_1252_characters(unicodedata.normalize('NFKD', index.decode('utf-8'))))
+                    except UnicodeDecodeError:
+                        continue
                     index_split = index.strip().split('|')
                     if index_split[2] != '10-K' and index_split[2] != '10-Q':
                         continue
