@@ -99,7 +99,7 @@ for year in years:
                     f.write(fileContent)
 
                 # We now have a byte stream of data
-                with open('master_file_text.txt','r') as f:
+                with open('master_file_text.txt','rb') as f:
                     byteData = f.readlines()
 
                 os.remove('master_file_text.txt')
