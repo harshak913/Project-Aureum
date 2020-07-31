@@ -6,6 +6,8 @@ from bs4 import BeautifulSoup
 import psycopg2
 import xml.etree.ElementTree as ET
 from Inter_Table import interParse
+import unidecode
+import unicodedata
 
 
 connection = psycopg2.connect(host="ec2-34-197-188-147.compute-1.amazonaws.com", dbname="d7p3fuehaleleo", user="snbetggfklcniv", password="7798f45239eda70f8278ce3c05dc632ad57b97957b601681a3c516f37153403a")
@@ -21,6 +23,14 @@ def makeURL(baseURL, add):
         url = '{}/{}'.format(url, i)
     return url
 
+def restore_windows_1252_characters(restore_string):
+    def to_windows_1252(match):
+        try:
+            return bytes([ord(match.group(0))]).decode('cp1252')
+        except UnicodeDecodeError:
+            # No character at the corresponding code point: remove it.
+            return ''
+    return re.sub(r'[\u0080-\u0099]', to_windows_1252, restore_string)
 
 def delete_from_tables(accession_number):
     cursor.execute("DELETE FROM database.balance WHERE accession_number='%s'"%(accession_number))
@@ -102,6 +112,7 @@ for year in years:
                 for index in fileData:
 
                     # Clean it up.
+                    index = unidecode.unidecode(restore_windows_1252_characters(unicodedata.normalize('NFKD', index)))
                     index_split = index.strip().split('|')
                     if index_split[2] != '10-K' and index_split[2] != '10-Q':
                         continue
