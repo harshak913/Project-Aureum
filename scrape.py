@@ -103,8 +103,8 @@ for year in years:
                     byteData = f.readlines()
 
                 os.remove('master_file_text.txt')
-
-                headers = byteData[5].strip().split('|')
+                headers = unidecode.unidecode(restore_windows_1252_characters(unicodedata.normalize('NFKD', byteData[5])))
+                headers = headers.strip().split('|')
                 headers = [header.lower().replace(' ','') for header in headers]
                 fileData = byteData[7:]
 
