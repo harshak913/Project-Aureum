@@ -103,15 +103,24 @@ for year in years:
                     decompressedFile = gzip.GzipFile(fileobj=compressedFile)
                     with open(master_file_name, 'wb') as f:
                         f.write(decompressedFile.read())
+
+                    with open(master_file_name, 'r') as f:
+                        with open('master_file_text.txt', 'w') as w:
+                            w.write(f.read())
+                    
+                    os.remove(master_file_name)
+
+                    with open('master_file_text.txt', 'r') as f:
+                        byteData = f.readlines()
                 else:
                     fileContent = requests.get(fileURL).content
                 
-                with open('master_file_text.txt', 'wb') as f:
-                    f.write(fileContent)
+                    with open('master_file_text.txt', 'wb') as f:
+                        f.write(fileContent)
 
-                # We now have a byte stream of data
-                with open('master_file_text.txt','rb') as f:
-                    byteData = f.readlines()
+                    # We now have a byte stream of data
+                    with open('master_file_text.txt','rb') as f:
+                        byteData = f.readlines()
 
                 os.remove('master_file_text.txt')
                 headers = unidecode.unidecode(restore_windows_1252_characters(unicodedata.normalize('NFKD', byteData[5].decode('utf-8'))))
