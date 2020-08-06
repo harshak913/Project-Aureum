@@ -38,10 +38,10 @@ with open(outfile, 'wb') as f:
     #f.write(decompressedFile.read())
     f.write(decompressedFile.read())
 
-with open(outfile, 'r') as f:
-    with open('master_file_text.txt', 'w') as w:
+with open(outfile, 'rb') as f:
+    with open('master_file_text.txt', 'wb') as w:
         w.write(f.read())
 
-with open('master_file_text.txt', 'r') as f:
+with open('master_file_text.txt', 'rb') as f:
     byteData = f.readlines()
 print(byteData)

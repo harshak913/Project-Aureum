@@ -104,13 +104,13 @@ for year in years:
                     with open(master_file_name, 'wb') as f:
                         f.write(decompressedFile.read())
 
-                    with open(master_file_name, 'r') as f:
-                        with open('master_file_text.txt', 'w') as w:
+                    with open(master_file_name, 'rb') as f:
+                        with open('master_file_text.txt', 'wb') as w:
                             w.write(f.read())
                     
                     os.remove(master_file_name)
 
-                    with open('master_file_text.txt', 'r') as f:
+                    with open('master_file_text.txt', 'rb') as f:
                         byteData = f.readlines()
                 else:
                     fileContent = requests.get(fileURL).content
