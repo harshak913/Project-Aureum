@@ -443,94 +443,94 @@ def HTMLParse(html_text_filing, strip_htm):
         print("No cash flows statements found")
 
 
-    """     insert_list = []
-        insert_list.append(balance_sheet_file)
-        insert_list.append(income_statement_file)
-        insert_list.append(cash_flows_file)
+    """ insert_list = []
+    insert_list.append(balance_sheet_file)
+    insert_list.append(income_statement_file)
+    insert_list.append(cash_flows_file)
 
-        all_dict = []
-        for item in insert_list:
-            if 'balance' in item:
-                statement_insert = 'balance'
-                statement = 'Balance Sheet'
-            elif 'income' in item:
-                statement_insert = 'income'
-                statement = 'Income Statement'
-            elif 'cash' in item:
-                statement_insert = 'cash_flow'
-                statement = 'Cash Flow Statement'
+    all_dict = []
+    for item in insert_list:
+        if 'balance' in item:
+            statement_insert = 'balance'
+            statement = 'Balance Sheet'
+        elif 'income' in item:
+            statement_insert = 'income'
+            statement = 'Income Statement'
+        elif 'cash' in item:
+            statement_insert = 'cash_flow'
+            statement = 'Cash Flow Statement'
 
-            csvfile = open(item, 'r')
-            reader = csv.DictReader(csvfile)
-            rows = list(reader)
-            keys = list(reader.fieldnames)
-            for key in keys:
-                if key == 'Title':
-                    keys.remove(key)
-                if key == 'Value':
-                    keys.remove(key)
+        csvfile = open(item, 'r')
+        reader = csv.DictReader(csvfile)
+        rows = list(reader)
+        keys = list(reader.fieldnames)
+        for key in keys:
+            if key == 'Title':
+                keys.remove(key)
+            if key == 'Value':
+                keys.remove(key)
 
-            member = ''
-            header = ''
-            for row in rows:
-                if row['Title'] != 'Title' and row['Value'] != 'Value':
-                    i = 0
+        member = ''
+        header = ''
+        for row in rows:
+            if row['Title'] != 'Title' and row['Value'] != 'Value':
+                i = 0
+                for key in keys:
+                    if row[key]:
+                        i+=1
+                if i == 0:
+                    next = rows[rows.index(row)+1]
                     for key in keys:
-                        if row[key]:
+                        if next[key]:
                             i+=1
                     if i == 0:
-                        next = rows[rows.index(row)+1]
-                        for key in keys:
-                            if next[key]:
-                                i+=1
-                        if i == 0:
-                            member = row['Title']
-                        else:
-                            header = row['Title']
+                        member = row['Title']
                     else:
-                        for key in keys:
-                            dict = {}
-                            dict['member'] = member
-                            dict['header'] = header
-                            dict['eng_name'] = row['Title']
-                            dict['value'] = row[key]
-                            dict['year'] = key
-                            if str(row['Value']).strip() == '':
-                                dict['unit'] = 'As Displayed'
-                            else:
-                                dict['unit'] = row['Value']
-                            dict['statement'] = statement
-                            dict['insert'] = statement_insert
-                            all_dict.append(dict)
+                        header = row['Title']
+                else:
+                    for key in keys:
+                        dict = {}
+                        dict['member'] = member
+                        dict['header'] = header
+                        dict['eng_name'] = row['Title']
+                        dict['value'] = row[key]
+                        dict['year'] = key
+                        if str(row['Value']).strip() == '':
+                            dict['unit'] = 'As Displayed'
+                        else:
+                            dict['unit'] = row['Value']
+                        dict['statement'] = statement
+                        dict['insert'] = statement_insert
+                        all_dict.append(dict)
 
 
-        seen = set()
-        new_l = []
-        for d in all_dict:
-            t = tuple(d.items())
-            if t not in seen:
-                seen.add(t)
-                new_l.append(d)
+    seen = set()
+    new_l = []
+    for d in all_dict:
+        t = tuple(d.items())
+        if t not in seen:
+            seen.add(t)
+            new_l.append(d)
 
-        for item in new_l:
-            connection = mariadb.connect(host="localhost",user="root",passwd="DB^oo^ec@^h@ckth!$0913",database="database",autocommit=True)
-            cursor = connection.cursor()
-            member = item['member']
-            header = item['header']
-            eng_name = item['eng_name']
-            value = item['value']
-            if ',' not in item['year']:
-                year = '1-1-'+item['year']
-                year = parse(year)
-                year = year.date()
-            else:
-                year = item['year']
-                year = parse(year)
-                year = year.date()
-            unit = item['unit']
-            statement = item['statement']
-            statement_insert = item['insert']"""
+    for item in new_l:
+        connection = mariadb.connect(host="localhost",user="root",passwd="DB^oo^ec@^h@ckth!$0913",database="database",autocommit=True)
+        cursor = connection.cursor()
+        member = item['member']
+        header = item['header']
+        eng_name = item['eng_name']
+        value = item['value']
+        if ',' not in item['year']:
+            year = '1-1-'+item['year']
+            year = parse(year)
+            year = year.date()
+        else:
+            year = item['year']
+            year = parse(year)
+            year = year.date()
+        unit = item['unit']
+        statement = item['statement']
+        statement_insert = item['insert'] """
 
-HTMLParse("https://www.sec.gov/Archives/edgar/data/72903/000095013702001868/0000950137-02-001868.txt", "form10k")
+HTMLParse("https://www.sec.gov/Archives/edgar/data/858877/000089161802004345/0000891618-02-004345.txt", "form10k")
 # UPDATE HTMLParse so it strips unnecessary characters and fixes value (ex. if 'thousands' is in the row name, then make the unit for JUST that row 'in thousands')
 # Fix comma issues in dates
