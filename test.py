@@ -28,7 +28,7 @@ for result in results:
     else:
         cursor.execute("UPDATE database.scrape SET year=%s WHERE accession_number='%s';"%(report_period_year, accession_number)) """
 
-baseURL = r"https://www.sec.gov/Archives/edgar/daily-index/2014/QTR2/master.20140401.idx.gz"
+baseURL = r"https://www.sec.gov/Archives/edgar/daily-index/2014/QTR3/master.20140401.idx.gz"
 response = urllib.request.urlopen(baseURL)
 compressedFile = BytesIO(response.read())
 decompressedFile = gzip.GzipFile(fileobj=compressedFile)
@@ -37,3 +37,11 @@ outfile = baseURL[57:-3]
 with open(outfile, 'wb') as f:
     #f.write(decompressedFile.read())
     f.write(decompressedFile.read())
+
+with open(outfile, 'rb') as f:
+    with open('master_file_text.txt', 'wb') as w:
+        w.write(f.readlines())
+
+with open('master_file_text.txt', 'rb') as f:
+    byteData = f.readlines()
+print(byteData)

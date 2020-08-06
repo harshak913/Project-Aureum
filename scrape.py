@@ -3,6 +3,8 @@ import urllib
 import datetime
 import os
 import gzip
+import urllib
+from io import BytesIO
 from bs4 import BeautifulSoup
 import psycopg2
 import xml.etree.ElementTree as ET
@@ -75,7 +77,7 @@ for year in years:
 
         for file in QuarterJSONContent['directory']['item']:
             master_file_name = file['name'].strip('.gz') if '.gz' in file['name'] else file['name']
-            fileURL = makeURL(baseURL, [year, item['name'], master_file_name])
+            fileURL = makeURL(baseURL, [year, item['name'], file['name']])
 
             # Grab the Master IDX file URL
             if 'master' in fileURL:
@@ -95,8 +97,15 @@ for year in years:
                     print(f"Parsing {master_file_name} now")
 
                 # Request that new content, this will NOT be a JSON STRUCTURE
-                fileContent = requests.get(fileURL).content
-
+                if '.gz' in fileURL:
+                    fileContent = urllib.request.urlopen(fileURL)
+                    compressedFile = BytesIO(fileContent.read())
+                    decompressedFile = gzip.GzipFile(fileobj=compressedFile)
+                    with open(master_file_name, 'wb') as f:
+                        f.write(decompressedFile.read())
+                else:
+                    fileContent = requests.get(fileURL).content
+                
                 with open('master_file_text.txt', 'wb') as f:
                     f.write(fileContent)
 
