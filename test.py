@@ -32,6 +32,6 @@ baseURL = r"https://www.sec.gov/Archives/edgar/daily-index/2014/QTR2/master.2014
 response = urllib.request.urlopen(baseURL)
 compressedFile = BytesIO(response.read())
 decompressedFile = gzip.GzipFile(fileobj=compressedFile)
-outfile = baseURL[57:-6]
-with gzip.open("outfile.%s"%("txt"), 'w') as f:
+outfile = baseURL[57:-3]
+with gzip.open(outfile, 'w') as f:
     f.write(decompressedFile.read())
