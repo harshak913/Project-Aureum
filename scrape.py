@@ -74,7 +74,7 @@ for year in years:
         QuarterJSONContent = requests.get(quarterURL).json()
 
         for file in QuarterJSONContent['directory']['item']:
-            master_file_name = file['name']
+            master_file_name = file['name'].strip('.gz') if '.gz' in file['name'] else file['name']
             fileURL = makeURL(baseURL, [year, item['name'], master_file_name])
 
             # Grab the Master IDX file URL
