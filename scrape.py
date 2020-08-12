@@ -55,7 +55,7 @@ def check_if_incomplete(accession_number):
     return (len(balance_entry) == 0 or len(income_entry) == 0 or len(cash_flow_entry) == 0)
 
 #run for just 2016 (2016,2017)
-years = list(range(2012, 2013))
+years = list(range(2014, 2015))
 
 #total count to keep track of how many files we've gone through
 total_count = 0
@@ -107,14 +107,14 @@ for year in years:
                     with open(master_file_name, 'rb') as f:
                         with open('master_file_text.txt', 'wb') as w:
                             w.write(f.read())
-                    
+
                     os.remove(master_file_name)
 
                     with open('master_file_text.txt', 'rb') as f:
                         byteData = f.readlines()
                 else:
                     fileContent = requests.get(fileURL).content
-                
+
                     with open('master_file_text.txt', 'wb') as f:
                         f.write(fileContent)
 
