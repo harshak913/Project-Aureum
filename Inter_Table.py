@@ -7,21 +7,6 @@ import requests
 import psycopg2
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
-#begin code
-#input the txt filing
-#filing_summary = "https://www.sec.gov/Archives/edgar/data/65172/000155837018002967/0001558370-18-002967.txt"
-#filing_summary = "https://www.sec.gov/Archives/edgar/data/1067983/000119312510043450/0001193125-10-043450.txt"
-#filing_summary = "https://www.sec.gov/Archives/edgar/data/27093/000117152016001006/0001171520-16-001006.txt"
-#filing_summary = "https://www.sec.gov/Archives/edgar/data/1638290/000155837016008267/0001558370-16-008267.txt"
-#filing_summary = "https://www.sec.gov/Archives/edgar/data/32689/000104746912001313/0001047469-12-001313.txt"
-#filing_summary = "https://www.sec.gov/Archives/edgar/data/789019/000119312510090116/0001193125-10-090116.txt"
-
-#filing_summary = "https://www.sec.gov/Archives/edgar/data/1067983/000115752310002982/0001157523-10-002982.txt" #Q1
-#filing_summary = "https://www.sec.gov/Archives/edgar/data/1067983/000115752310004882/0001157523-10-004882.txt" #Q2
-#filing_summary = "https://www.sec.gov/Archives/edgar/data/1067983/000115752310006675/0001157523-10-006675.txt" #Q3
-
-#filing_summary = "https://www.sec.gov/Archives/edgar/data/1067983/000095012319009995/0000950123-19-009995.txt" #Q3
-
 
 #Database Connection
 connection = psycopg2.connect(host="ec2-34-197-188-147.compute-1.amazonaws.com", dbname="d7p3fuehaleleo", user="snbetggfklcniv", password="7798f45239eda70f8278ce3c05dc632ad57b97957b601681a3c516f37153403a")
@@ -36,23 +21,7 @@ def interParse(filing_index, accession_number, filing_type):
     report_period = soup.find('div', text='Period of Report')
     report_period = report_period.find_next_sibling('div').text
     print('GOT THE FILING REPORT PERIOD')
-    '''
-    data_files = soup.find('table', attrs={'summary':'Data Files'})
-    if data_files.find('td', text='EX-101.INS') is not None:
-        file_type = data_files.find('td', text='EX-101.INS')
-    elif data_files.find('td', text='XML') is not None:
-        file_type = data_files.find('td', text='XML')
-    if '.xml' in file_type.find_previous('td').text:
-        xml = file_type.find_previous('td').text
-    else:
-        xml = file_type.find_next('td').text
-    xml_url = ''
-    for i in range(len(url_list)-1):
-        xml_url = xml_url + '' + url_list[i] + '/'
-    xml_url = xml_url + '' + xml
-
-    ticker = xml.split('-')[0]
-    '''
+ 
     #index portion
     index = filing_index
     result = index.split('/')
@@ -73,17 +42,6 @@ def interParse(filing_index, accession_number, filing_type):
     with open("%s.htm"%latter, "w") as file:
         file.write(pretty)
 
-    '''
-    #now download the xml page and save it for reading, and save the file path for later
-    xml_filepath = "/Users/octavian/Desktop/XML/%s/%s"%(latter,xml)
-    xml_filepath = str(xml_filepath)
-    os.makedirs(os.path.dirname(xml_filepath), exist_ok=True)
-    page = urllib.request.urlopen(xml_url).read()
-    soup = BeautifulSoup(page, features="lxml")
-    pretty = soup.prettify()
-    with open(xml_filepath, "w") as f:
-        f.write(pretty)
-    '''
     print('GETTING THE FINANCIAL STATEMENTS LINK')
     financialStatementsFound = False
     #CHECK THE INTERACTIVE PAGE AND GET THE NUMBER LINKS FOR NOTES AND FINANCIAL STATEMENTS
@@ -119,18 +77,6 @@ def interParse(filing_index, accession_number, filing_type):
         numbers['name'] = str(child.text).strip()
         dicts.append(numbers)
 
-    '''
-    #GET THE NAME AND NUMBER FOR THE NOTES TO FINANCIAL REPORTS
-    for mark in marks:
-        numbers = {}
-        number = str(mark['href'])
-        number = number.replace('javascript:loadReport(', '')
-        number = number.replace(');', '')
-        numbers['number'] = str(number)
-        numbers['name'] = str(mark.text).strip()
-        dict_2.append(numbers)
-    '''
-
     reports = []
     #ASSEMBLE THE LIST OF ALL THE POSSIBLE LINKS TO THE ARCHIVE
     for line in JS_Portion.split('\n'):
@@ -147,12 +93,6 @@ def interParse(filing_index, accession_number, filing_type):
             if item["number"] == comp:
                 link = report.split('= "', 1)[1]
                 item['link'] = link.replace('";', '')
-        '''
-        for item in dict_2:
-            if item["number"] == comp:
-                link = report.split('= "', 1)[1]
-                item['link'] = link.replace('";', '')
-        '''
 
     all_dict = []
 

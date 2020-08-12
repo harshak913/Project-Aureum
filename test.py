@@ -1,47 +1,69 @@
-import xml.etree.ElementTree as ET
 import requests
-import gzip
-import urllib
-from io import BytesIO
-from datetime import datetime
 from bs4 import BeautifulSoup
 import psycopg2
+import os
+from HTMLFinal import HTMLParse
 
 connection = psycopg2.connect(host="ec2-34-197-188-147.compute-1.amazonaws.com", dbname="d7p3fuehaleleo", user="snbetggfklcniv", password="7798f45239eda70f8278ce3c05dc632ad57b97957b601681a3c516f37153403a")
 connection.autocommit = True
 cursor = connection.cursor()
 
-""" cursor.execute("SELECT * FROM database.scrape WHERE year=2002;")
+def delete_from_tables(accession_number):
+    cursor.execute("DELETE FROM database.balance WHERE accession_number='%s'"%(accession_number))
+    cursor.execute("DELETE FROM database.income WHERE accession_number='%s'"%(accession_number))
+    cursor.execute("DELETE FROM database.cash_flow WHERE accession_number='%s'"%(accession_number))
+    cursor.execute("DELETE FROM database.non_statement WHERE accession_number='%s'"%(accession_number))
+
+def check_if_incomplete(accession_number):
+    cursor.execute("SELECT * FROM database.balance WHERE accession_number='%s';"%(accession_number))
+    balance_entry = cursor.fetchall()
+
+    cursor.execute("SELECT * FROM database.income WHERE accession_number='%s';"%(accession_number))
+    income_entry = cursor.fetchall()
+
+    cursor.execute("SELECT * FROM database.cash_flow WHERE accession_number='%s';"%(accession_number))
+    cash_flow_entry = cursor.fetchall()
+
+    return (len(balance_entry) == 0 or len(income_entry) == 0 or len(cash_flow_entry) == 0)
+
+cursor.execute("SELECT * FROM database.scrape WHERE year=2002;")
 results = cursor.fetchall()
 for result in results:
-    file_name = result[3]
-    index_page = file_name.strip('.txt') + "-index.htm"
-    accession_number = index_page.split('/')[8].strip('-index.htm')
+    print(result)
+    index_page = result[3].strip('.txt') + "-index.htm"
+    accession_number = result[4]
     response = requests.get(index_page)
     soup = BeautifulSoup(response.content, 'lxml')
-    report_period = soup.find('div', text='Period of Report')
-    if report_period is None:
-        continue
-    report_period_year = report_period.find_next_sibling('div').text[0:4]
-    if '2001' in report_period_year:
-        cursor.execute("DELETE FROM database.scrape WHERE accession_number='%s';"%(accession_number))
-    else:
-        cursor.execute("UPDATE database.scrape SET year=%s WHERE accession_number='%s';"%(report_period_year, accession_number)) """
+    period_of_report = soup.find('div', text='Period of Report').find_next_sibling('div').text
 
-baseURL = r"https://www.sec.gov/Archives/edgar/daily-index/2014/QTR2/master.20140401.idx.gz"
-response = urllib.request.urlopen(baseURL)
-compressedFile = BytesIO(response.read())
-decompressedFile = gzip.GzipFile(fileobj=compressedFile)
-#print("decompressedFile is:", decompressedFile)
-outfile = baseURL[57:-3]
-with open(outfile, 'wb') as f:
-    #f.write(decompressedFile.read())
-    f.write(decompressedFile.read())
+    try:
+        print(f"PARSING {result[3]} NOW")
+        HTMLParse(result[3], '10k', accession_number, result[1], period_of_report)
 
-with open(outfile, 'rb') as f:
-    with open('master_file_text.txt', 'wb') as w:
-        w.write(f.read())
+        if check_if_incomplete(accession_number):
+            sql_statement = "UPDATE database.scrape SET status='INCOMPLETE' WHERE accession_number='%s';"%(accession_number)
+            cursor.execute(sql_statement)
+            print(sql_statement)
+            delete_from_tables(accession_number)
+        else:
+            sql_statement = "UPDATE database.scrape SET status='COMPLETED' WHERE accession_number='%s';"%(accession_number)
+            cursor.execute(sql_statement)
+            print(sql_statement)
+    except:
+        if os.path.exists('10k-balance_sheet.csv'):
+            os.remove('10k-balance_sheet.csv')
+        if os.path.exists('10k-income_statement.csv'):
+            os.remove('10k-income_statement.csv')
+        if os.path.exists('10k-cash_flows.csv'):
+            os.remove('10k-cash_flows.csv')
+        delete_from_tables(accession_number)
+        sql_statement = "UPDATE database.scrape SET status='INCOMPLETE' WHERE accession_number='%s'"%(accession_number)
+        cursor.execute(sql_statement)
+        print(sql_statement)
 
-with open('master_file_text.txt', 'rb') as f:
-    byteData = f.readlines()
-print(byteData)
+""" cursor.execute("SELECT * FROM database.scrape WHERE year=2002 AND status='INCOMPLETE';")
+results = cursor.fetchall()
+for result in results:
+    accession_number = result[4]
+    delete_from_tables(accession_number)
+    cursor.execute("UPDATE database.scrape SET status='PENDING' WHERE accession_number='%s'"%(accession_number)) """

@@ -5,9 +5,15 @@ import datetime
 from dateutil.parser import parse
 import unicodedata
 import unidecode
-import mysql.connector as mariadb
+import psycopg2
+import os
 from calendar import month_name
 from bs4 import BeautifulSoup
+from dateutil.relativedelta import relativedelta
+
+connection = psycopg2.connect(host="ec2-34-197-188-147.compute-1.amazonaws.com", dbname="d7p3fuehaleleo", user="snbetggfklcniv", password="7798f45239eda70f8278ce3c05dc632ad57b97957b601681a3c516f37153403a")
+connection.autocommit = True
+cursor = connection.cursor()
 
 #Pull tables after td, h1, div, or p tags that contain certain title variations of financial statements
 def pull_tables(td_tags, h1_tags, div_tags, p_tags, variations_list, table_filename, content_variations):
@@ -219,7 +225,7 @@ def restore_windows_1252_characters(restore_string):
     return re.sub(r'[\u0080-\u0099]', to_windows_1252, restore_string)
 
 #Parses HTML tables and puts them in a CSV format
-def parse_tables(in_thousands_lower, in_millions_lower, in_thousands_upper, in_millions_upper, final_list, table_filename):
+def parse_tables(in_thousands_lower, in_millions_lower, in_thousands_upper, in_millions_upper, final_list, table_filename, period_of_report):
     value_list = find_value(in_thousands_lower, in_millions_lower, in_thousands_upper, in_millions_upper, final_list)
     years = list(range(2000, datetime.datetime.today().year+1))
     year_pattern = ''
@@ -239,8 +245,14 @@ def parse_tables(in_thousands_lower, in_millions_lower, in_thousands_upper, in_m
     for table in final_list:
         table_count += 1
         for tr in table.find_all('tr'):
-            if tr.get_text().strip() != '' and 'in millions' not in tr.get_text().strip().lower():
-                if re.search(month_pattern, tr.get_text().strip(), re.IGNORECASE) is not None or re.search(year_pattern, tr.get_text().strip(), re.IGNORECASE) is not None or re.search(month_abbrev, tr.get_text().strip(), re.IGNORECASE) is not None:
+            if tr.get_text().strip() != '':
+                if (re.search(month_pattern, tr.get_text().strip(), re.IGNORECASE) is not None or re.search(year_pattern, tr.get_text().strip(), re.IGNORECASE) is not None or re.search(month_abbrev, tr.get_text().strip(), re.IGNORECASE) is not None) and header_added == False:
+                    if len(tr.find_all('th')) != 0:
+                        for th in tr.find_all('th'):
+                            if re.search(month_pattern, th.get_text().strip(), re.IGNORECASE) is not None or re.search(month_abbrev, th.get_text().strip(), re.IGNORECASE) is not None:
+                                month_list.append(th.get_text().strip())
+                            elif th.get_text().strip().isdigit():
+                                year_list.append(th.get_text().strip())
                     for td in tr.find_all('td'):
                         if re.search(month_pattern, td.get_text().strip(), re.IGNORECASE) is not None or re.search(month_abbrev, td.get_text().strip(), re.IGNORECASE) is not None:
                             month_list.append(td.get_text().strip())
@@ -253,7 +265,8 @@ def parse_tables(in_thousands_lower, in_millions_lower, in_thousands_upper, in_m
                             header_list.append('Title')
                             if len(year_list) == 0:
                                 for item in month_list:
-                                    header_list.append(item)
+                                    date = datetime.datetime.strptime(period_of_report[0:4] + '-' + item + '-' + period_of_report[8:], '%Y-%B-%d').strftime('%Y-%m-%d') if re.search(year_pattern, item, re.IGNORECASE) is None else item
+                                    header_list.append(date)
                             elif len(month_list) == len(year_list):
                                 for item in range(len(month_list)):
                                     header_list.append(month_list[item] + ' ' + year_list[item])
@@ -262,7 +275,7 @@ def parse_tables(in_thousands_lower, in_millions_lower, in_thousands_upper, in_m
                                     header_list.append(month_list[0] + ' ' + item)
                             elif len(month_list) == 0:
                                 for item in year_list:
-                                    header_list.append(item)
+                                    header_list.append(item + '' + period_of_report[4:])
                             header_added = True
                             header_list.append('Value')
                             for row in range(len(header_list)-1):
@@ -270,7 +283,8 @@ def parse_tables(in_thousands_lower, in_millions_lower, in_thousands_upper, in_m
                                     cell_list = header_list[row].split()
                                     for cell in range(len(cell_list)):
                                         if re.search(month_pattern, cell_list[cell], re.IGNORECASE) is not None:
-                                            header_list[row] = cell_list[cell] + ' ' + cell_list[cell+1] + ' ' + cell_list[cell+2]
+                                            header_list[row] = cell_list[cell] + ' '
+                                            header_list[row] = (header_list[row] + '' + cell_list[cell+1] + ', ' + cell_list[cell+2]) if ',' not in cell_list[cell+1] else (header_list[row] + '' + cell_list[cell+1] + ' ' + cell_list[cell+2])
                                             break
                             writer.writerow(header_list)
                             month_list.clear()
@@ -279,6 +293,7 @@ def parse_tables(in_thousands_lower, in_millions_lower, in_thousands_upper, in_m
                             td_table = tr.find_all('td')
                             for td in range(len(td_table)):
                                 td_text = unidecode.unidecode(restore_windows_1252_characters(unicodedata.normalize('NFKD', td_table[td].get_text().strip())))
+                                td_text = td_text.replace("'", '')
                                 if td_text == '$' or td_text == ')' or td_text == '':
                                     continue
                                 elif '(' in td_text:
@@ -315,13 +330,15 @@ def parse_tables(in_thousands_lower, in_millions_lower, in_thousands_upper, in_m
                                 row_list[0] = row_list[0] + ' ' + text
                             writer.writerow(row_list)
                             row_list.clear()
+        header_list.clear()
+        header_added = False
 
 balance_sheet_variations = ['Statement of Net Assets', 'Statements of Net Assets', 'Statement of Financial Position', 'Statements of Financial Position', 'Balance Sheet'] #Balance sheet title variations
 balance_sheet_content_variations = ['Current assets', 'Current liabilities', 'Total liabilities', 'Total assets', 'Stockholders\' equity', 'Shareholders\' equity',
                                     'Stockholders\' investment', 'Shareholders\' investment', 'Total investment', 'Total equity', 'Shareholder/stockholders\' equity', 'Accounts payable', 'Accounts receivable',
                                     'Liabilities and Stockholders\' Equity'] #Balance sheet row name variations
 
-income_statement_variations = ['Statement of Earnings', 'Statements of Earnings', 'Statement of Operations', 'Statements of Operations', 'Statement of Income', 'Statements of Income', 'Income Statement'] #Income statement title variations
+income_statement_variations = ['Statement of Earnings', 'Statements of Earnings', 'Statement of Operations', 'Statements of Operations', 'Results of Operations', 'Statement of Income', 'Statements of Income', 'Income Statement'] #Income statement title variations
 income_statement_content_variations = {}
 income_statement_content_variations['Revenue'] = ['Sales, net', 'Earning', 'Net sale', 'Revenue', 'Net income', 'Net loss']
 income_statement_content_variations['Costs/Expenses'] = ['Cost & expenses', 'Cost and expenses', 'Costs & expenses', 'Costs and expenses', 'Cost of product', 'Cost of good', 'Cost of sale', 'Cost of revenue']
@@ -331,7 +348,7 @@ income_statement_content_variations['Misc'] = ['Interest expense', 'Administrati
 cash_flows_variations = ['Statement of Cash Flows', 'Statements of Cash Flows', 'Cash Flows Statement'] #Cash flows title variations
 cash_flows_content_variations = ['Cash and cash equivalents', 'Cash & cash equivalents', 'Cash and cash', 'Cash & cash', 'Cash & equivalents', 'Cash'] #Cash flows row name variations
 
-def HTMLParse(html_text_filing, strip_htm):
+def HTMLParse(html_text_filing, strip_htm, accession_number, filing_type, period_of_report):
     #html_text_filing = r"https://www.sec.gov/Archives/edgar/data/59558/000136231009002975/0001362310-09-002975.txt"
     #html_text_filing = r"https://www.sec.gov/Archives/edgar/data/46080/000004608002000011/0000046080-02-000011.txt"
     #html_text_filing = r"https://www.sec.gov/Archives/edgar/data/1067983/000095013408003848/0000950134-08-003848.txt"
@@ -427,110 +444,108 @@ def HTMLParse(html_text_filing, strip_htm):
             break
 
     #Write final balance sheet, income statement, and cash flows tables to files
-    if len(final_balance_list) != 0:
-        parse_tables(in_thousands_lower, in_millions_lower, in_thousands_upper, in_millions_upper, final_balance_list, balance_sheet_file)
-    else:
-        print("No balance sheets found")
-    
-    if len(final_income_list) != 0:
-        parse_tables(in_thousands_lower, in_millions_lower, in_thousands_upper, in_millions_upper, final_income_list, income_statement_file)
-    else:
-        print("No income statements found")
-    
-    if len(final_cash_flows_list) != 0:
-        parse_tables(in_thousands_lower, in_millions_lower, in_thousands_upper, in_millions_upper, final_cash_flows_list, cash_flows_file)
-    else:
-        print("No cash flows statements found")
+    if len(final_balance_list) != 0 and len(final_income_list) != 0 and len(final_cash_flows_list) != 0:
+        parse_tables(in_thousands_lower, in_millions_lower, in_thousands_upper, in_millions_upper, final_balance_list, balance_sheet_file, period_of_report)
+        parse_tables(in_thousands_lower, in_millions_lower, in_thousands_upper, in_millions_upper, final_income_list, income_statement_file, period_of_report)
+        parse_tables(in_thousands_lower, in_millions_lower, in_thousands_upper, in_millions_upper, final_cash_flows_list, cash_flows_file, period_of_report)
 
+        insert_list = []
+        insert_list.append(balance_sheet_file)
+        insert_list.append(income_statement_file)
+        insert_list.append(cash_flows_file)
 
-    """ insert_list = []
-    insert_list.append(balance_sheet_file)
-    insert_list.append(income_statement_file)
-    insert_list.append(cash_flows_file)
+        all_dict = []
+        for item in insert_list:
+            if 'balance' in item:
+                statement_insert = 'balance'
+                statement = 'Balance Sheet'
+            elif 'income' in item:
+                statement_insert = 'income'
+                statement = 'Income Statement'
+            elif 'cash' in item:
+                statement_insert = 'cash_flow'
+                statement = 'Cash Flow Statement'
 
-    all_dict = []
-    for item in insert_list:
-        if 'balance' in item:
-            statement_insert = 'balance'
-            statement = 'Balance Sheet'
-        elif 'income' in item:
-            statement_insert = 'income'
-            statement = 'Income Statement'
-        elif 'cash' in item:
-            statement_insert = 'cash_flow'
-            statement = 'Cash Flow Statement'
+            csvfile = open(item, 'r')
+            reader = csv.DictReader(csvfile)
+            rows = list(reader)
+            keys = list(reader.fieldnames)
+            for key in keys:
+                if key == 'Title':
+                    keys.remove(key)
+                if key == 'Value':
+                    keys.remove(key)
 
-        csvfile = open(item, 'r')
-        reader = csv.DictReader(csvfile)
-        rows = list(reader)
-        keys = list(reader.fieldnames)
-        for key in keys:
-            if key == 'Title':
-                keys.remove(key)
-            if key == 'Value':
-                keys.remove(key)
-
-        member = ''
-        header = ''
-        for row in rows:
-            if row['Title'] != 'Title' and row['Value'] != 'Value':
-                i = 0
-                for key in keys:
-                    if row[key]:
-                        i+=1
-                if i == 0:
-                    next = rows[rows.index(row)+1]
+            member = ''
+            header = ''
+            for row in rows:
+                if row['Title'] != 'Title' and row['Value'] != 'Value':
+                    i = 0
                     for key in keys:
-                        if next[key]:
+                        if row[key]:
                             i+=1
                     if i == 0:
-                        member = row['Title']
-                    else:
-                        header = row['Title']
-                else:
-                    for key in keys:
-                        dict = {}
-                        dict['member'] = member
-                        dict['header'] = header
-                        dict['eng_name'] = row['Title']
-                        dict['value'] = row[key]
-                        dict['year'] = key
-                        if str(row['Value']).strip() == '':
-                            dict['unit'] = 'As Displayed'
+                        next = rows[rows.index(row)+1]
+                        for key in keys:
+                            if next[key]:
+                                i+=1
+                        if i == 0:
+                            member = row['Title']
                         else:
-                            dict['unit'] = row['Value']
-                        dict['statement'] = statement
-                        dict['insert'] = statement_insert
-                        all_dict.append(dict)
+                            header = row['Title']
+                    else:
+                        for key in keys:
+                            dict = {}
+                            dict['member'] = member
+                            dict['header'] = header
+                            dict['eng_name'] = row['Title']
+                            dict['value'] = row[key]
+                            dict['year'] = key
+                            if str(row['Value']).strip() == '':
+                                dict['unit'] = 'As Displayed'
+                            else:
+                                dict['unit'] = row['Value']
+                            dict['statement'] = statement
+                            dict['insert'] = statement_insert
+                            all_dict.append(dict)
+            csvfile.close()
 
+        seen = set()
+        new_l = []
+        for d in all_dict:
+            t = tuple(d.items())
+            if t not in seen:
+                seen.add(t)
+                new_l.append(d)
 
-    seen = set()
-    new_l = []
-    for d in all_dict:
-        t = tuple(d.items())
-        if t not in seen:
-            seen.add(t)
-            new_l.append(d)
+        for item in new_l:
+            member = item['member']
+            header = item['header']
+            eng_name = item['eng_name']
+            value = item['value']
+            if ',' not in item['year']:
+                year = '1-1-'+item['year']
+                year = parse(year)
+                year = year.date()
+            else:
+                year = item['year']
+                year = parse(year)
+                year = year.date()
+            unit = item['unit']
+            statement = item['statement']
+            statement_insert = item['insert']
+            sql_statement = "INSERT INTO database.%s (accession_number, member, header, eng_name, acc_name, value, unit, year, statement, report_period, filing_type, months_ended) VALUES('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');"%(statement_insert, accession_number, member, header, eng_name, '', value, unit, year, statement, period_of_report, filing_type, '')
+            cursor.execute(sql_statement)
+            print(sql_statement)
+        
+        try:
+            os.remove(balance_sheet_file)
+            os.remove(income_statement_file)
+            os.remove(cash_flows_file)
+            print("SUCCESSFULLY REMOVED FILES\n")
+        except OSError as e:
+            print(f"FAILED TO REMOVE FILES: {e}\n")
+    else:
+        print(f"No balance sheets found.\nNo income statements found.\nNo cash flows statements found.\nAccession number: {accession_number}")
 
-    for item in new_l:
-        connection = mariadb.connect(host="localhost",user="root",passwd="DB^oo^ec@^h@ckth!$0913",database="database",autocommit=True)
-        cursor = connection.cursor()
-        member = item['member']
-        header = item['header']
-        eng_name = item['eng_name']
-        value = item['value']
-        if ',' not in item['year']:
-            year = '1-1-'+item['year']
-            year = parse(year)
-            year = year.date()
-        else:
-            year = item['year']
-            year = parse(year)
-            year = year.date()
-        unit = item['unit']
-        statement = item['statement']
-        statement_insert = item['insert'] """
-
-HTMLParse("https://www.sec.gov/Archives/edgar/data/858877/000089161802004345/0000891618-02-004345.txt", "form10k")
-# UPDATE HTMLParse so it strips unnecessary characters and fixes value (ex. if 'thousands' is in the row name, then make the unit for JUST that row 'in thousands')
-# Fix comma issues in dates
+# HTMLParse('https://www.sec.gov/Archives/edgar/data/12659/000095013402008804/0000950134-02-008804.txt', "10k", "'0000950134-02-008804'", "10-K", "2002-04-30")

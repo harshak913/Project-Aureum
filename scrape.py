@@ -179,6 +179,7 @@ for year in years:
                     find_year = BeautifulSoup(requests.get(index_url).content, 'lxml')
                     report_period = find_year.find('div', text='Period of Report')
                     actual_year = filing_dict["datefiled"][0:4] if report_period is None else report_period.find_next_sibling('div').text[0:4]
+                    period_of_report = report_period.find_next_sibling('div').text
 
                     tree = ET.fromstring(requests.get(url_xml).text)
                     if 'NoSuchKey' in tree[0].text and index_split[2] == '10-K': # Insert HTM ONLY IF it's a 10-K and has NoSuchKey in the first child node of the root
