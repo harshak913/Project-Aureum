@@ -1,4 +1,4 @@
-addedaimport re
+import re
 import csv
 import requests
 import datetime
@@ -9,7 +9,6 @@ import psycopg2
 import os
 from calendar import month_name
 from bs4 import BeautifulSoup
-from dateutil.relativedelta import relativedelta
 
 connection = psycopg2.connect(host="ec2-34-197-188-147.compute-1.amazonaws.com", dbname="d7p3fuehaleleo", user="snbetggfklcniv", password="7798f45239eda70f8278ce3c05dc632ad57b97957b601681a3c516f37153403a")
 connection.autocommit = True
@@ -418,7 +417,7 @@ def HTMLParse(html_text_filing, strip_htm, accession_number, filing_type, period
                 next_is_income = True #Set next income flag to True because if income is next, then balance sheet CANNOT be next
                 complete_index += 1
                 break
-dded        if next_is_income != True: #Only executes if the next table is not an income statement (ONLY in cases where balance sheet might be split into 2 tables)
+        if next_is_income != True: #Only executes if the next table is not an income statement (ONLY in cases where balance sheet might be split into 2 tables)
             for q in balance_sheet_file_list:
                 if next_table == q:
                     final_balance_list.append(q)

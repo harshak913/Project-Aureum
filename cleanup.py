@@ -1,12 +1,8 @@
 import requests
-import urllib
-import datetime
-import os
 import re
 from bs4 import BeautifulSoup
 import psycopg2
 import xml.etree.ElementTree as ET
-from Inter_Table import interParse
 
 connection = psycopg2.connect(host="ec2-34-197-188-147.compute-1.amazonaws.com", dbname="d7p3fuehaleleo", user="snbetggfklcniv", password="7798f45239eda70f8278ce3c05dc632ad57b97957b601681a3c516f37153403a")
 connection.autocommit = True
