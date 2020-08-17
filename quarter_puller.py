@@ -104,5 +104,5 @@ for item in dicts:
         for element in soup.find('table').find_all('tr'):
             if element.find('td') is not None and element.find('td').text.strip() == 'Document Fiscal Period Focus':
                 quarter = element.find('td').find_next_sibling('td').text.strip()
-            #if element.find('td').text.strip() == 'Document Fiscal Period Focus':
-            #    print(element)
+
+#use the quarter variable to insert into the scrape table as which quarter
