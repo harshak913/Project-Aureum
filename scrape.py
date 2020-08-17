@@ -1,6 +1,5 @@
 import requests
 import urllib
-import datetime
 import os
 import gzip
 import urllib

@@ -9,7 +9,6 @@ import psycopg2
 import os
 from calendar import month_name
 from bs4 import BeautifulSoup
-from dateutil.relativedelta import relativedelta
 
 connection = psycopg2.connect(host="ec2-34-197-188-147.compute-1.amazonaws.com", dbname="d7p3fuehaleleo", user="snbetggfklcniv", password="7798f45239eda70f8278ce3c05dc632ad57b97957b601681a3c516f37153403a")
 connection.autocommit = True
@@ -418,7 +417,7 @@ def HTMLParse(html_text_filing, strip_htm, accession_number, filing_type, period
                 next_is_income = True #Set next income flag to True because if income is next, then balance sheet CANNOT be next
                 complete_index += 1
                 break
-        if next_is_income != True: #Only executes is the next table is not an income statement (ONLY in cases where balance sheet might be split into 2 tables)
+        if next_is_income != True: #Only executes if the next table is not an income statement (ONLY in cases where balance sheet might be split into 2 tables)
             for q in balance_sheet_file_list:
                 if next_table == q:
                     final_balance_list.append(q)
@@ -479,20 +478,24 @@ def HTMLParse(html_text_filing, strip_htm, accession_number, filing_type, period
             member = ''
             header = ''
             for row in rows:
+                print(row['Title'])
                 if row['Title'] != 'Title' and row['Value'] != 'Value':
                     i = 0
                     for key in keys:
                         if row[key]:
                             i+=1
                     if i == 0:
-                        next = rows[rows.index(row)+1]
-                        for key in keys:
-                            if next[key]:
-                                i+=1
-                        if i == 0:
-                            member = row['Title']
-                        else:
-                            header = row['Title']
+                        try:
+                            next = rows[rows.index(row)+1]
+                            for key in keys:
+                                if next[key]:
+                                    i+=1
+                            if i == 0:
+                                member = row['Title']
+                            else:
+                                header = row['Title']
+                        except:
+                            pass
                     else:
                         for key in keys:
                             dict = {}
@@ -535,7 +538,7 @@ def HTMLParse(html_text_filing, strip_htm, accession_number, filing_type, period
             statement = item['statement']
             statement_insert = item['insert']
             sql_statement = "INSERT INTO database.%s (accession_number, member, header, eng_name, acc_name, value, unit, year, statement, report_period, filing_type, months_ended) VALUES('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');"%(statement_insert, accession_number, member, header, eng_name, '', value, unit, year, statement, period_of_report, filing_type, '')
-            cursor.execute(sql_statement)
+            """ cursor.execute(sql_statement) """
             print(sql_statement)
         
         try:
@@ -548,4 +551,4 @@ def HTMLParse(html_text_filing, strip_htm, accession_number, filing_type, period
     else:
         print(f"No balance sheets found.\nNo income statements found.\nNo cash flows statements found.\nAccession number: {accession_number}")
 
-# HTMLParse('https://www.sec.gov/Archives/edgar/data/12659/000095013402008804/0000950134-02-008804.txt', "10k", "'0000950134-02-008804'", "10-K", "2002-04-30")
+HTMLParse('https://www.sec.gov/Archives/edgar/data/946581/000112528202003845/0001125282-02-003845.txt', "10k", "0001125282-02-003845", "10-K", "2002-10-31")

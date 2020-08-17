@@ -1,4 +1,3 @@
-import re
 import requests
 from edgar import Edgar
 from bs4 import BeautifulSoup

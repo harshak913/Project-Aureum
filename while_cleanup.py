@@ -1,8 +1,3 @@
-import requests
-import urllib
-import datetime
-import os
-from bs4 import BeautifulSoup
 import psycopg2
 from Inter_Table import interParse
 
