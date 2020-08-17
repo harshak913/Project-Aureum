@@ -15,22 +15,21 @@ connection.autocommit = True
 cursor = connection.cursor()
 
 #Pull tables after td, h1, div, or p tags that contain certain title variations of financial statements
-def pull_tables(td_tags, h1_tags, div_tags, p_tags, variations_list, table_filename, content_variations):
+def pull_tables(table_tags, h1_tags, div_tags, p_tags, variations_list):
     title_tag, sheet = '', ''
     table_list = []
 
     #Get text from lists containing tags of title variations
-    td_text = get_text_lists(td_tags)
     h1_text = get_text_lists(h1_tags)
     div_text = get_text_lists(div_tags)
     p_text = get_text_lists(p_tags)
+    table_text = get_text_lists(table_tags)
 
     #Check each tag list to find match between variation and text & append that tag to a list
-    for a in range(len(td_text)-1):
+    for a in range(len(table_text)-1):
         for b in variations_list:
-            if b.upper() in td_text[a].upper():
-                title_tag = td_tags[a]
-                sheet = title_tag.find_previous('table')
+            if b.upper() in table_text[a].upper():
+                sheet = table_tags[a]
                 table_list.append(sheet)
 
     for c in range(len(h1_text)-1):
@@ -355,20 +354,20 @@ def HTMLParse(html_text_filing, strip_htm, accession_number, filing_type, period
     response = requests.get(html_text_filing)
     parser = BeautifulSoup(response.content, 'lxml')
 
-    td_tags, h1_tags, div_tags, p_tags = parser.select('td'), parser.select('h1'), parser.select('div'), parser.select('p')
+    table_tags, h1_tags, div_tags, p_tags =  parser.select('table'), parser.select('h1'), parser.select('div'), parser.select('p')
 
     in_thousands_lower, in_thousands_upper, in_millions_lower, in_millions_upper = parser.find_all(text=re.compile('thousands')), parser.find_all(text=re.compile('Thousands')), parser.find_all(text=re.compile('millions')), parser.find_all(text=re.compile('Millions'))
 
     #Create balance sheet, income statement, and cash flows files
     balance_sheet_file, income_statement_file, cash_flows_file = '%s-balance_sheet.csv' % (strip_htm), '%s-income_statement.csv' % (strip_htm), '%s-cash_flows.csv' % (strip_htm)
 
-    balance_sheet_list = pull_tables(td_tags, h1_tags, div_tags, p_tags, balance_sheet_variations, balance_sheet_file, balance_sheet_content_variations)
+    balance_sheet_list = pull_tables(table_tags, h1_tags, div_tags, p_tags, balance_sheet_variations)
     balance_sheet_file_list = check_variations(balance_sheet_list, balance_sheet_file, balance_sheet_content_variations)
 
-    income_statement_list = pull_tables(td_tags, h1_tags, div_tags, p_tags, income_statement_variations, income_statement_file, income_statement_content_variations)
+    income_statement_list = pull_tables(table_tags, h1_tags, div_tags, p_tags, income_statement_variations)
     income_statement_file_list = check_variations(income_statement_list, income_statement_file, income_statement_content_variations)
 
-    cash_flows_list = pull_tables(td_tags, h1_tags, div_tags, p_tags, cash_flows_variations, cash_flows_file, cash_flows_content_variations)
+    cash_flows_list = pull_tables(table_tags, h1_tags, div_tags, p_tags, cash_flows_variations)
     cash_flows_file_list = check_variations(cash_flows_list, cash_flows_file, cash_flows_content_variations)
 
     # Narrow down to only the appropriate tables
@@ -408,10 +407,14 @@ def HTMLParse(html_text_filing, strip_htm, accession_number, filing_type, period
         next_table = complete_table_list[complete_index+1] #Grab next table
         for p in income_statement_file_list:
             if previous_table == p: #If previous table is income, add it to final income list and delete from original list
+                if is_income(complete_table_list[complete_index-2], income_statement_content_variations):
+                    final_income_list.append(complete_table_list[complete_index-2])
                 final_income_list.append(p)
                 income_statement_file_list.remove(p)
                 break
             elif next_table == p: #If next table is income, add it to final income list and delete from original list
+                if is_income(complete_table_list[complete_index+2], income_statement_content_variations):
+                    final_income_list.append(complete_table_list[complete_index+2])
                 final_income_list.append(p)
                 income_statement_file_list.remove(p)
                 next_is_income = True #Set next income flag to True because if income is next, then balance sheet CANNOT be next
@@ -478,7 +481,6 @@ def HTMLParse(html_text_filing, strip_htm, accession_number, filing_type, period
             member = ''
             header = ''
             for row in rows:
-                print(row['Title'])
                 if row['Title'] != 'Title' and row['Value'] != 'Value':
                     i = 0
                     for key in keys:
@@ -551,4 +553,4 @@ def HTMLParse(html_text_filing, strip_htm, accession_number, filing_type, period
     else:
         print(f"No balance sheets found.\nNo income statements found.\nNo cash flows statements found.\nAccession number: {accession_number}")
 
-HTMLParse('https://www.sec.gov/Archives/edgar/data/946581/000112528202003845/0001125282-02-003845.txt', "10k", "0001125282-02-003845", "10-K", "2002-10-31")
+HTMLParse('https://www.sec.gov/Archives/edgar/data/104169/000010416902000004/0000104169-02-000004.txt', "10k", "0000104169-02-000004", "10-K", "2002-01-31")
