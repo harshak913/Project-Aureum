@@ -1,7 +1,14 @@
 {
     "folders": [
         {
+<<<<<<< HEAD
             "path": "."
+=======
+            "path": "aureum"
+        },
+        {
+            "path": "unchained"
+>>>>>>> django-fett
         }
     ]
 }
