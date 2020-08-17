@@ -103,6 +103,6 @@ for item in dicts:
         soup = BeautifulSoup(htm , features="lxml")
         for element in soup.find('table').find_all('tr'):
             if element.find('td') is not None and element.find('td').text.strip() == 'Document Fiscal Period Focus':
-                print(element.find('td').find_next_sibling('td').text.strip())
+                quarter = element.find('td').find_next_sibling('td').text.strip()
             #if element.find('td').text.strip() == 'Document Fiscal Period Focus':
             #    print(element)
