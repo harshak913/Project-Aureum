@@ -21,7 +21,7 @@ def interParse(filing_index, accession_number, filing_type):
     report_period = soup.find('div', text='Period of Report')
     report_period = report_period.find_next_sibling('div').text
     print('GOT THE FILING REPORT PERIOD')
- 
+
     #index portion
     index = filing_index
     result = index.split('/')
@@ -215,7 +215,7 @@ def interParse(filing_index, accession_number, filing_type):
                         #CHECK THAT THE ROW IS IN FACT A LINE ITEM OR AT LEAST A HEADER
                         if element.find('td') is not None and element.find('td').text.strip() != '':
                             #CHECK IF THIS ITEM HAS A US-GAAP TAG TO MATCH IT
-                            if element.find('a') is not None:
+                            if element.find('a') is not None and element.find('a').get('onclick') is not None:
                                 acc_name = element.find('a').get('onclick').replace("top.Show.showAR( this, 'defref_", '')
                                 acc_name = acc_name.split("', window );", 1)[0]
                                 acc_name = acc_name.split("_", 1)[1]
