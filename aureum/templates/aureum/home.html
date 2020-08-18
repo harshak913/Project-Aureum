@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href='{% static "css/autocomplete.css" %}'>
+  <script>
+    var companies = {{ Companies|safe }};
+  </script>
+  <link rel="stylesheet" href='{% static "css/news.css" %}'>
+</head>
+<body>
+<!--Make sure the form has the autocomplete function switched off:-->
+<form autocomplete="off" action="/information">
+  <div class="autocomplete" style="width:300px;">
+    <input id="myInput" type="text" name="myCountry" placeholder="Enter Company Name or Ticker">
+  </div>
+  <input type="submit">
+</form>
+<p></p>
+<h3>Latest Articles from CNBC, FOX Business and CNN Business</h3>
+<div style = 'text-align: center;'>
+  {% for Article in Articles %}
+  <a class="button" href={{ Article.link }} target="_blank">{{ Article.title }}</a>
+  {% endfor %}
+</div>
+
+<script type="text/javascript" src='{% static "js/autocomplete.js" %}'></script>
+</body>
+</html>

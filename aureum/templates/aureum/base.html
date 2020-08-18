@@ -1,0 +1,57 @@
+{% extends 'aureum/index.html' %}
+
+{% block content %}
+    <h3>{{ Statement }} Information</h3>
+    <form id='year-submit' method="GET">
+      {% csrf_token %}
+      <input type="text" class="sliderValue" name = "yearOne" id="year1" data-index="0" value= {{ Curr_Min }}>
+      <input type="text" class="sliderValue" name = "yearTwo" id='year2' data-index="1" value= {{ Curr_Max }}>
+      <button id='petite'>Submit</button>
+      <p></p>
+      <div id="slider" style="width: 80%;"></div>
+    </form>
+    <p></p>
+    <table>
+    {% regroup Datas by year.year as Dates %}
+      <tr>
+        <td>
+        </td>
+      {% for Date in Dates %}
+        <td>
+        {{ Date.grouper }}
+        </td>
+      {% endfor %}
+      </tr>
+      {% regroup Datas|dictsort:"member" by member as Members %}
+        {% for Member in Members %}
+        <tr>
+          <td>
+            <b>
+            {{ Member.grouper }}
+            </b>
+          </td>
+        </tr>
+          {% regroup Member.list|dictsort:"header" by header as Headers%}
+          {% for Header in Headers %}
+          <tr>
+            <td>
+            {{ Header.grouper }}
+            </td>
+          </tr>
+            {% regroup Header.list|dictsort:"eng_name" by eng_name as Names %}
+            {% for Name in Names %}
+            <tr>
+              <td>
+              {{ Name.grouper }}
+              </td>
+              {% for item in Name.list %}
+              <td>
+                {{ item.value }}
+              </td>
+              {% endfor %}
+            </tr>
+            {% endfor %}
+          {% endfor %}
+        {% endfor %}
+    </table>
+{% endblock %}
