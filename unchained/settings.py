@@ -1,6 +1,7 @@
 import os
 import pymysql
 import dj_database_url
+import dotenv
 import django_heroku
 
 pymysql.version_info = (1, 3, 13, "final", 0)
@@ -9,6 +10,9 @@ pymysql.install_as_MySQLdb()
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+dotenv_file = os.path.join(BASE_DIR, ".env")
+if os.path.isfile(dotenv_file):
+    dotenv.load_dotenv(dotenv_file)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -37,6 +41,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -122,13 +127,15 @@ USE_TZ = True
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
     #'/var/www/static/',
 ]
 
-#django_heroku.settings(locals())
-#DATABASES = {'default': dj_database_url.config('postgres://jsnmfiqtcggjyu:368e05099543272efb167e9fa3173338be43c1e787666ed2478f51ef050707b9@ec2-34-233-226-84.compute-1.amazonaws.com:5432/d77knu57t1q9j9')}
+django_heroku.settings(locals())
+DATABASES = {'default': dj_database_url.config('postgres://jsnmfiqtcggjyu:368e05099543272efb167e9fa3173338be43c1e787666ed2478f51ef050707b9@ec2-34-233-226-84.compute-1.amazonaws.com:5432/d77knu57t1q9j9')}
 '''
 DATABASES = {
     'default': {
@@ -141,3 +148,8 @@ DATABASES = {
     }
 }
 '''
+DATABASES = {}
+DATABASES['default'] = dj_database_url.config(conn_max_age=600)
+
+options = DATABASES['default'].get('OPTIONS', {})
+options.pop('sslmode', None)
