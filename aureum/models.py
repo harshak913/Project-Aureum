@@ -9,7 +9,7 @@ from django.db import models
 
 
 class Balance(models.Model):
-    accession_number = models.CharField(max_length=500)
+    accession_number = models.ForeignKey('Scrape', on_delete=models.CASCADE, db_column='accession_number', related_name='accession_balance')
     member = models.CharField(max_length=500, blank=True, null=True)
     header = models.CharField(max_length=500, blank=True, null=True)
     eng_name = models.CharField(max_length=5000, blank=True, null=True)
@@ -28,7 +28,7 @@ class Balance(models.Model):
 
 
 class CashFlow(models.Model):
-    accession_number = models.CharField(max_length=500)
+    accession_number = models.ForeignKey('Scrape', on_delete=models.CASCADE, db_column='accession_number', related_name='accession_cash')
     member = models.CharField(max_length=500, blank=True, null=True)
     header = models.CharField(max_length=500, blank=True, null=True)
     eng_name = models.CharField(max_length=5000, blank=True, null=True)
@@ -58,7 +58,7 @@ class Company(models.Model):
 
 
 class Income(models.Model):
-    accession_number = models.CharField(max_length=500)
+    accession_number = models.ForeignKey('Scrape', on_delete=models.CASCADE, db_column='accession_number', related_name='accession_income')
     member = models.CharField(max_length=500, blank=True, null=True)
     header = models.CharField(max_length=500, blank=True, null=True)
     eng_name = models.CharField(max_length=5000, blank=True, null=True)
@@ -86,7 +86,7 @@ class MasterIdx(models.Model):
 
 
 class NonStatement(models.Model):
-    accession_number = models.CharField(max_length=500)
+    accession_number = models.ForeignKey('Scrape', on_delete=models.CASCADE, db_column='accession_number', related_name='accession_non')
     member = models.CharField(max_length=500, blank=True, null=True)
     header = models.CharField(max_length=500, blank=True, null=True)
     eng_name = models.CharField(max_length=5000, blank=True, null=True)
@@ -105,7 +105,7 @@ class NonStatement(models.Model):
 
 
 class Scrape(models.Model):
-    cik_id = models.IntegerField()
+    cik = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='cik_id')
     filing_type = models.CharField(max_length=45, blank=True, null=True)
     year = models.IntegerField(blank=True, null=True)
     file_name = models.CharField(max_length=445, blank=True, null=True)
