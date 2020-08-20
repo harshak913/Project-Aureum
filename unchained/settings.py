@@ -1,18 +1,12 @@
 import os
-import pymysql
 import dj_database_url
 import dotenv
+import environ
 import django_heroku
-
-pymysql.version_info = (1, 3, 13, "final", 0)
-pymysql.install_as_MySQLdb()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-dotenv_file = os.path.join(BASE_DIR, ".env")
-if os.path.isfile(dotenv_file):
-    dotenv.load_dotenv(dotenv_file)
+#environ.Env.read_env(env_file=os.path.join(BASE_DIR, '.env'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -41,7 +35,6 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -77,16 +70,6 @@ WSGI_APPLICATION = 'unchained.wsgi.application'
 #DATABASES = {'default': dj_database_url.config(default='postgres://jsnmfiqtcggjyu:368e05099543272efb167e9fa3173338be43c1e787666ed2478f51ef050707b9@ec2-34-233-226-84.compute-1.amazonaws.com:5432/d77knu57t1q9j9')}
 #DATABASES['default'] = dj_database_url.config(default='postgres://jsnmfiqtcggjyu:368e05099543272efb167e9fa3173338be43c1e787666ed2478f51ef050707b9@ec2-34-233-226-84.compute-1.amazonaws.com:5432/d77knu57t1q9j9')
 #DATABASES = {'default': dj_database_url.config(default='postgres://user:pass@localhost/dbname')}
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'Database',
-        'USER': 'root',
-        'PASSWORD': 'plano5628',
-        'HOST': 'localhost',
-        'PORT': '3306',
-    }
-}
 
 
 # Password validation
@@ -134,22 +117,22 @@ STATICFILES_DIRS = [
     #'/var/www/static/',
 ]
 
-django_heroku.settings(locals())
-DATABASES = {'default': dj_database_url.config('postgres://jsnmfiqtcggjyu:368e05099543272efb167e9fa3173338be43c1e787666ed2478f51ef050707b9@ec2-34-233-226-84.compute-1.amazonaws.com:5432/d77knu57t1q9j9')}
-'''
+#django_heroku.settings(locals())
+#DATABASES = {'default': dj_database_url.config('postgres://jsnmfiqtcggjyu:368e05099543272efb167e9fa3173338be43c1e787666ed2478f51ef050707b9@ec2-34-233-226-84.compute-1.amazonaws.com:5432/d77knu57t1q9j9')}
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'Database',
-        'USER': 'root',
-        'PASSWORD': 'plano5628',
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'd7p3fuehaleleo',
+        'USER': 'snbetggfklcniv',
+        'PASSWORD': '7798f45239eda70f8278ce3c05dc632ad57b97957b601681a3c516f37153403a',
+        'HOST': 'ec2-34-197-188-147.compute-1.amazonaws.com',
+        'PORT': '5432'
     }
 }
-'''
-DATABASES = {}
-DATABASES['default'] = dj_database_url.config(conn_max_age=600)
+
+""" DATABASES = {}
+DATABASES['default'] = dj_database_url.config(conn_max_age=600) """
 
 options = DATABASES['default'].get('OPTIONS', {})
 options.pop('sslmode', None)
