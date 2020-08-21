@@ -11,11 +11,11 @@
 </head>
 <body>
 <!--Make sure the form has the autocomplete function switched off:-->
-<form id='company-submit' autocomplete="off" action="/information">
+<form id='company-submit' autocomplete="off" action="/information" onsubmit="return mySubmitFunction(event)">
   <div class="autocomplete" style="width:300px;">
     <input id="myInput" type="text" name="myCountry" placeholder="Enter SPY Company Name or Ticker">
   </div>
-  <button id='sub'>
+  <input type='submit'>
 </form>
 <p></p>
 <h3>Latest Articles from CNBC, FOX Business and CNN Business</h3>

@@ -101,13 +101,13 @@ var countries = companies;
 /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
 autocomplete(document.getElementById("myInput"), countries);
 
-( "#sub" ).click(function( event ) {
-   var company = document.getElementById("myInput").value;
-   if (countries.includes(company)){
-     ("#company-submit").submit();
-    }
-   else{
-     alert('Company or Ticker Not Valid');
-     event.preventDefault();
-    }
-  });
+function mySubmitFunction(e)
+{
+  var company = document.getElementById("myInput").value;
+  var company_exist = countries.includes(company);
+  if (countries.includes(company) === false){
+    alert('Company Name or Ticker Not Valid');
+    e.preventDefault();
+    return false;
+  }
+}
