@@ -129,6 +129,10 @@ def home(request):
 
 def information(request):
     myCountry = request.GET.get('myCountry')
+    for item in new_list:
+        if item['ticker'] == myCountry or item['name'] == myCountry:
+            myCountry = item['name']
+    #if the form request is not None, set the session to the current entered one
     if request.GET.get('myCountry') is not None:
         request.session['myCountry'] = myCountry
     else:
