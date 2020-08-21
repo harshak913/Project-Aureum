@@ -249,7 +249,7 @@ def parse_tables(in_thousands_lower, in_millions_lower, in_thousands_upper, in_m
                         for th in tr.find_all('th'):
                             if re.search(month_pattern, th.get_text().strip(), re.IGNORECASE) is not None or re.search(month_abbrev, th.get_text().strip(), re.IGNORECASE) is not None:
                                 month_list.append(th.get_text().strip())
-                            elif th.get_text().strip().isdigit():
+                            elif th.get_text().strip('*').isdigit():
                                 year_list.append(th.get_text().strip())
                     for td in tr.find_all('td'):
                         if re.search(month_pattern, td.get_text().strip(), re.IGNORECASE) is not None or re.search(month_abbrev, td.get_text().strip(), re.IGNORECASE) is not None:
@@ -377,7 +377,7 @@ def HTMLParse(html_text_filing, strip_htm, accession_number, filing_type, period
     complete_table_list = []
     for t in range(len(complete_temp_table_list)):
         uniString = complete_temp_table_list[t].get_text()
-        if not('PAGE' in uniString.upper()) and not(uniString.isdigit() == True) and not(uniString.strip() == ''):
+        if not('PAGE' in uniString.upper()) and not(uniString.isdigit() == True) and not(uniString.strip() == '') and not('as adjusted' in uniString.strip().lower()):
             complete_table_list.append(complete_temp_table_list[t])
 
     final_balance_list, final_income_list, final_cash_flows_list = ([] for i in range(3))
@@ -451,7 +451,7 @@ def HTMLParse(html_text_filing, strip_htm, accession_number, filing_type, period
         parse_tables(in_thousands_lower, in_millions_lower, in_thousands_upper, in_millions_upper, final_income_list, income_statement_file, period_of_report)
         parse_tables(in_thousands_lower, in_millions_lower, in_thousands_upper, in_millions_upper, final_cash_flows_list, cash_flows_file, period_of_report)
 
-        insert_list = []
+        """ insert_list = []
         insert_list.append(balance_sheet_file)
         insert_list.append(income_statement_file)
         insert_list.append(cash_flows_file)
@@ -540,7 +540,7 @@ def HTMLParse(html_text_filing, strip_htm, accession_number, filing_type, period
             statement = item['statement']
             statement_insert = item['insert']
             sql_statement = "INSERT INTO %s (accession_number, member, header, eng_name, acc_name, value, unit, year, statement, report_period, filing_type, months_ended) VALUES('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');"%(statement_insert, accession_number, member, header, eng_name, '', value, unit, year, statement, period_of_report, filing_type, '')
-            cursor.execute(sql_statement)
+            #cursor.execute(sql_statement)
             print(sql_statement)
         
         try:
@@ -549,8 +549,8 @@ def HTMLParse(html_text_filing, strip_htm, accession_number, filing_type, period
             os.remove(cash_flows_file)
             print("SUCCESSFULLY REMOVED FILES\n")
         except OSError as e:
-            print(f"FAILED TO REMOVE FILES: {e}\n")
+            print(f"FAILED TO REMOVE FILES: {e}\n") """
     else:
         print(f"No balance sheets found.\nNo income statements found.\nNo cash flows statements found.\nAccession number: {accession_number}")
 
-#HTMLParse('https://www.sec.gov/Archives/edgar/data/104169/000010416902000004/0000104169-02-000004.txt', "10k", "0000104169-02-000004", "10-K", "2002-01-31")
+HTMLParse('https://www.sec.gov/Archives/edgar/data/804328/000093639202001489/0000936392-02-001489.txt', "10k", "0000936392-02-001489", "10-K", "2002-09-29")
