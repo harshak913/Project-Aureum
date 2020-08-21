@@ -129,10 +129,11 @@ def home(request):
 
 def information(request):
     myCountry = request.GET.get('myCountry')
+    #if they enter a ticker make sure a name is displayed
     for item in new_list:
         if item['ticker'] == myCountry or item['name'] == myCountry:
             myCountry = item['name']
-    #if the form request is not None, set the session to the current entered one
+    #We've already set mycountry as get. so if get is submitted we dont have to worry about it. just makesure the session is set to the mycountry
     if request.GET.get('myCountry') is not None:
         request.session['myCountry'] = myCountry
     else:
