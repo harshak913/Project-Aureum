@@ -95,8 +95,19 @@ function autocomplete(inp, arr) {
   });
 }
 
-/*An array containing all the country names in the world:*/
+/*An array containing all the companies:*/
 var countries = companies;
 
 /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
 autocomplete(document.getElementById("myInput"), countries);
+
+( "#sub" ).click(function( event ) {
+   var company = document.getElementById("myInput").value;
+   if (countries.includes(company)){
+     ("#company-submit").submit();
+    }
+   else{
+     alert('Company or Ticker Not Valid');
+     event.preventDefault();
+    }
+  });

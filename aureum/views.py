@@ -116,7 +116,7 @@ list = []
 for item in new_list:
     list.append(item['name'])
     list.append(item['ticker'])
-print(list)
+
 
 companies = json.dumps(list)
 
