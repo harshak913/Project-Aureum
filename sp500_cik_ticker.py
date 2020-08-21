@@ -57,8 +57,8 @@ with open("C:/Users/Harsh/OneDrive - The University of Texas at Dallas/Documents
                     else:
                         name = name + ' ' + updated_name_list[index]
             name = name.replace("'", "''")
-            sql_statement = "INSERT INTO database.company(cik, ticker, name, classification) VALUES(%s, '%s', '%s', '%s');"%(cik, ticker, name.upper(), sic)
-            rows = cursor.execute('''SELECT * FROM database.company WHERE cik=%s;'''%(cik))
+            sql_statement = "INSERT INTO company(cik, ticker, name, classification) VALUES(%s, '%s', '%s', '%s');"%(cik, ticker, name.upper(), sic)
+            rows = cursor.execute('''SELECT * FROM company WHERE cik=%s;'''%(cik))
             if len(cursor.fetchall()) < 1:
                 cursor.execute(sql_statement)
         except ValueError:
