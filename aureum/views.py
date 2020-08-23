@@ -55,9 +55,19 @@ print(Balances)
 '''
 
 def year_cleanup(data_set, all_years):
+
     the_datas = []
+    '''
     for item in data_set:
         the_datas.append(item)
+    '''
+
+    for item in data_set:
+        if item['member'] == '':
+            head = item.get('header')
+            item['header'] = head.upper()
+            the_datas.append(item)
+
 
     marks = []
     johns = []
@@ -136,7 +146,14 @@ def year_cleanup(data_set, all_years):
             if item == term:
                 duplic_year.remove(item)
 
-    the_datas = duplic_year
+    #the_datas = duplic_year
+
+
+    the_datas = []
+    for item in duplic_year:
+        if item['member'] == '':
+            the_datas.append(item)
+
 
     the_datas = sorted(the_datas, key=lambda k: k['year__year'])
 

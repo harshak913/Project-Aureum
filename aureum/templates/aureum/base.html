@@ -35,7 +35,9 @@
           {% for Header in Headers %}
           <tr>
             <td>
+              <b>
             {{ Header.grouper }}
+              </b>
             </td>
           </tr>
             {% regroup Header.list|dictsort:"eng_name" by eng_name as Names %}
