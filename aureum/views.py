@@ -1,8 +1,9 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.db.models import Prefetch
-from .models import Balance, CashFlow, Income, NonStatement, Company
+from .models import Balance, CashFlow, Income, NonStatement, Company, Scrape
 from .forms import MyForm
+import itertools
 from operator import itemgetter
 from itertools import groupby
 import datetime
@@ -12,52 +13,136 @@ from bs4 import BeautifulSoup
 import re
 # Create your views here.
 # Link to actual SEC site https://www.sec.gov/cgi-bin/viewer?action=view&cik=1067983&accession_number=0001193125-10-043450&xbrl_type=v#
-"""
-statement_list = ['CashFlow','Income','Balance']
-for item in statement_list:
-    if item == 'Balance':
-        bal_years =  Balance.objects.values('year').distinct().order_by('year')
-        bal_years = list(bal_years)
-        bal_key = itemgetter('year')
-        bal_iter = groupby(sorted(bal_years, key=bal_key), key=bal_key)
-        bal_dates = []
-        for year, bal_years in bal_iter:
-            bal_dates.append(year)
-        bal_years = []
-        for date in bal_dates:
-            bal_years.append(date.year)
-        bal_min = min(bal_years)
-        bal_max = max(bal_years)
-
-    elif item == 'Income':
-        inc_years =  Income.objects.values('year').distinct().order_by('year')
-        inc_years = list(inc_years)
-        inc_key = itemgetter('year')
-        inc_iter = groupby(sorted(inc_years, key=inc_key), key=inc_key)
-        inc_dates = []
-        for year, inc_years in inc_iter:
-            inc_dates.append(year)
-        inc_years = []
-        for date in inc_dates:
-            inc_years.append(date.year)
-        inc_min = min(inc_years)
-        inc_max = max(inc_years)
-
-    elif item == 'CashFlow':
-        cash_years =  CashFlow.objects.values('year').distinct().order_by('year')
-        cash_years = list(cash_years)
-        cash_key = itemgetter('year')
-        cash_iter = groupby(sorted(cash_years, key=cash_key), key=cash_key)
-        cash_dates = []
-        for year, cash_years in cash_iter:
-            cash_dates.append(year)
-        cash_years = []
-        for date in cash_dates:
-            cash_years.append(date.year)
-        cash_min = min(cash_years)
-        cash_max = max(cash_years)
-"""
 #NEWS ARTICLE CATCHING
+#def year_cleanup(data_set, all_years):
+#    bal_key = itemgetter('member')
+#    bal_iter = groupby(sorted(theBalance, key=bal_key), key=bal_key)
+'''
+Balances = Balance.objects.values('member', 'header', 'acc_name', 'eng_name','value', 'unit', 'year__year').filter(accession_number__in=['0001393612-12-000008', '0001193125-11-014919', '0001393612-16-000059', '0001393612-13-000004', '0001393612-14-000012', '0001393612-15-000007', '0001393612-17-000012', '0001393612-18-000012', '0001393612-19-000011']).distinct()
+#print(Balances)
+Balances = list(Balances)
+
+marks = list(Balances)
+johns = list(Balances)
+insert = []
+
+bal_years =  Balance.objects.values('year__year').filter(accession_number__in=['0001393612-12-000008', '0001193125-11-014919', '0001393612-16-000059', '0001393612-13-000004', '0001393612-14-000012', '0001393612-15-000007', '0001393612-17-000012', '0001393612-18-000012', '0001393612-19-000011']).distinct().order_by('year')
+dates = []
+for item in bal_years:
+    dates.append(item['year__year'])
+
+
+k = itemgetter('member','header','eng_name')
+i = groupby(sorted(johns, key=k), key=k)
+for key, marks in i:
+    indiv_dates = list(dates)
+    template = {}
+    for mark in marks:
+        if itemgetter('year__year')(mark) in indiv_dates:
+            indiv_dates.remove(itemgetter('year__year')(mark))
+            template = dict(mark)
+    if indiv_dates:
+        for item in indiv_dates:
+            template['year__year'] = item
+            template['value'] = ''
+            Balances.append(template)
+Balances = list(sorted(Balances, key=itemgetter('year__year')))
+
+for Balance in Balances:
+    Balance['value'] = Balance.get('value').strip('\n').split(' ',1)[0]
+
+print(Balances)
+'''
+
+def year_cleanup(data_set, all_years):
+    the_datas = []
+    for item in data_set:
+        the_datas.append(item)
+
+    marks = []
+    johns = []
+    for item in data_set:
+        marks.append(item)
+        johns.append(item)
+    insert = []
+
+    dates = []
+    for item in all_years:
+        dates.append(item)
+
+    k = itemgetter('member','header','eng_name')
+    i = groupby(sorted(johns, key=k), key=k)
+    for key, marks in i:
+        #print(key)
+        indiv_dates = []
+        for date in dates:
+            indiv_dates.append(date)
+        template = {}
+        for mark in marks:
+            #print(itemgetter('year__year')(mark))
+            if itemgetter('year__year')(mark) in indiv_dates:
+                indiv_dates.remove(itemgetter('year__year')(mark))
+                template = dict(mark)
+
+        #print(template)
+        #print(indiv_dates)
+        empty = []
+        if indiv_dates:
+            for item in indiv_dates:
+                smith = dict(template)
+                smith['year__year'] = item
+                smith['value'] = ''
+                the_datas.append(smith)
+    for item in the_datas:
+        item['value'] = item.get('value').strip('\n').split(' ',1)[0]
+
+    duplic_year = []
+    for item in the_datas:
+        duplic_year.append(item)
+
+    k = itemgetter('member','header','eng_name', 'year__year')
+    i = groupby(sorted(duplic_year, key=k), key=k)
+    terminate = []
+    for key, marks in i:
+        test_len = 0
+        report_years = []
+        new_marks = []
+        for mark in marks:
+            print(mark)
+            report_years.append(itemgetter('report_period__year')(mark))
+            test_len+=1
+            new_marks.append(mark)
+
+        #print(new_marks)
+        if test_len > 1:
+            print(report_years)
+            latest_report = max(report_years)
+            print('LATEST REPORT YEAR: '+str(latest_report))
+            not_term = {}
+            for item in new_marks:
+                if item.get('report_period__year') == latest_report:
+                    not_term = dict(mark)
+                    break
+            print('NOT TERMINATE')
+            print(not_term)
+            print('NOT TERMINATE')
+            for item in new_marks:
+                if item != not_term:
+                    terminate.append(item)
+            #print(terminate)
+    for item in terminate:
+        term = item
+        for item in duplic_year:
+            if item == term:
+                duplic_year.remove(item)
+
+    the_datas = duplic_year
+
+    the_datas = sorted(the_datas, key=lambda k: k['year__year'])
+
+    return the_datas
+
+
 
 urls = ['https://www.cnbc.com/finance/','https://www.cnn.com/business/investing','https://www.foxbusiness.com/markets']
 articles = []
@@ -116,9 +201,10 @@ list = []
 for item in new_list:
     list.append(item['name'])
     list.append(item['ticker'])
-
-
 companies = json.dumps(list)
+
+#print('ZOO WEE MAMA')
+#print(CashFlow.objects.values('year__year').filter(accession_number__in=['0001393612-12-000008', '0001193125-11-014919', '0001393612-16-000059', '0001393612-13-000004', '0001393612-14-000012', '0001393612-15-000007', '0001393612-17-000012', '0001393612-18-000012', '0001393612-19-000011']).distinct())
 
 def home(request):
     context = {
@@ -129,7 +215,7 @@ def home(request):
 
 def information(request):
     myCountry = request.GET.get('myCountry')
-    #if they enter a ticker make sure a name is displayed
+    #if they enter a ticker make sure a name is displayed rather than the ticker
     for item in new_list:
         if item['ticker'] == myCountry or item['name'] == myCountry:
             myCountry = item['name']
@@ -138,22 +224,44 @@ def information(request):
         request.session['myCountry'] = myCountry
     else:
         myCountry = request.session['myCountry']
+    companyInfo = Company.objects.values('name', 'ticker', 'classification', 'cik').filter(name=myCountry)
+    #NOW GET THE CIK AND PREPARE TO FILTER DOWN THE ACCESSION NUMBER
     context = {
         'Company': myCountry,
-        'Companies': companies
+        'Companies': companies,
+        'Informations': companyInfo
     }
     return render(request, 'aureum/information.html', context)
 
 def balance(request):
     myCountry = request.GET.get('myCountry')
+    year1 = request.GET.get('yearOne')
+    year2 = request.GET.get('yearTwo')
     if request.GET.get('myCountry') is not None:
         request.session['myCountry'] = myCountry
     else:
         myCountry = request.session['myCountry']
-    year1 = request.GET.get('yearOne')
-    year2 = request.GET.get('yearTwo')
+    #GET THE CIK AND CORESSPONDING ACCESSION NUMBERS
+    ciks = Company.objects.values('cik').filter(name=myCountry)
+    for item in ciks:
+        cik = item['cik']
+    accessions = Scrape.objects.values('accession_number').filter(cik=cik, filing_type='10-K')
+    access = []
+    for accession in accessions:
+        access.append(accession['accession_number'])
+    #Get Max and Min Year
+    bal_years =  Balance.objects.values('year__year').filter(accession_number__in=access).distinct().order_by('year')
+    new_bal_year = []
+    for item in bal_years:
+        new_bal_year.append(item['year__year'])
+    bal_min = min(new_bal_year)
+    bal_max = max(new_bal_year)
+    #filter the BALANCE SHEET BASED ON ACCESSION NUMBERS NOW and FILL IN THE BLANKS
+    theBalance = Balance.objects.values('member', 'header', 'acc_name', 'eng_name','value', 'unit', 'year__year', 'report_period__year').distinct().filter(accession_number__in=access).order_by('year')
+    finBalance = year_cleanup(theBalance, new_bal_year)
+    #SEE IF THERE IS YEAR REQUEST
     context = {
-        'Datas': Balance.objects.values('member', 'header', 'acc_name', 'eng_name','value', 'unit', 'year').distinct().order_by('year'),
+        'Datas': finBalance,
         'Max': bal_max,
         'Min': bal_min,
         'Curr_Max': bal_max,
@@ -166,14 +274,32 @@ def balance(request):
 
 def income(request):
     myCountry = request.GET.get('myCountry')
+    year1 = request.GET.get('yearOne')
+    year2 = request.GET.get('yearTwo')
     if request.GET.get('myCountry') is not None:
         request.session['myCountry'] = myCountry
     else:
         myCountry = request.session['myCountry']
-    year1 = request.GET.get('yearOne')
-    year2 = request.GET.get('yearTwo')
+    #GET THE CIK AND CORESSPONDING ACCESSION NUMBERS
+    ciks = Company.objects.values('cik').filter(name=myCountry)
+    for item in ciks:
+        cik = item['cik']
+    accessions = Scrape.objects.values('accession_number').filter(cik=cik, filing_type='10-K')
+    access = []
+    for accession in accessions:
+        access.append(accession['accession_number'])
+    #Get Max and Min Year
+    inc_years =  Income.objects.values('year__year').filter(accession_number__in=access).distinct().order_by('year')
+    new_inc_year = []
+    for item in inc_years:
+        new_inc_year.append(item['year__year'])
+    inc_min = min(new_inc_year)
+    inc_max = max(new_inc_year)
+    #filter the BALANCE SHEET BASED ON ACCESSION NUMBERS NOW and FILL IN THE BLANKS
+    theIncome = Income.objects.values('member', 'header', 'acc_name', 'eng_name','value', 'unit', 'year__year', 'report_period__year').distinct().filter(accession_number__in=access).order_by('year')
+    finIncome = year_cleanup(theIncome, new_inc_year)
     context = {
-        'Datas': Income.objects.values('member', 'header', 'acc_name', 'eng_name','value', 'unit', 'year').distinct().order_by('year'),
+        'Datas': finIncome,
         'Max': inc_max,
         'Min': inc_min,
         'Curr_Max': inc_max,
@@ -188,32 +314,60 @@ def income(request):
 
 def cash(request):
     myCountry = request.GET.get('myCountry')
+    year1 = request.GET.get('yearOne')
+    year2 = request.GET.get('yearTwo')
     if request.GET.get('myCountry') is not None:
         request.session['myCountry'] = myCountry
     else:
         myCountry = request.session['myCountry']
-    year1 = request.GET.get('yearOne')
-    year2 = request.GET.get('yearTwo')
+    #GET THE CIK AND CORESSPONDING ACCESSION NUMBERS
+    ciks = Company.objects.values('cik').filter(name=myCountry)
+    for item in ciks:
+        cik = item['cik']
+    accessions = Scrape.objects.values('accession_number').filter(cik=cik, filing_type='10-K')
+    access = []
+    for accession in accessions:
+        access.append(accession['accession_number'])
+    #Get Max and Min Year
     if year1 is not None:
-        context = {
-            'Datas': CashFlow.objects.values('member', 'header', 'acc_name', 'eng_name','value', 'unit', 'year').distinct().order_by('year').filter(year__year__range=(year1, year2)),
-            'Max': cash_max,
-            'Min': cash_min,
-            'Curr_Min': year1,
-            'Curr_Max': year2,
-            'Company': myCountry,
-            'Companies': companies,
-            'Statement': 'Cash Flow'
-            }
+        cash_years =  CashFlow.objects.values('year__year').filter(accession_number__in=access, year__year__range=(year1, year2)).distinct().order_by('year')
+        new_cash_year = []
+        for item in cash_years:
+            new_cash_year.append(item['year__year'])
+        cash_min = min(new_cash_year)
+        cash_max = max(new_cash_year)
     else:
-        context = {
-            'Datas': CashFlow.objects.values('member', 'header', 'acc_name', 'eng_name','value', 'unit', 'year').distinct().order_by('year'),
-            'Max': cash_max,
-            'Min': cash_min,
-            'Curr_Min': cash_min,
-            'Curr_Max': cash_max,
-            'Company': myCountry,
-            'Companies': companies,
-            'Statement': 'Cash Flow'
-            }
+        cash_years =  CashFlow.objects.values('year__year').filter(accession_number__in=access).distinct().order_by('year')
+        new_cash_year = []
+        for item in cash_years:
+            new_cash_year.append(item['year__year'])
+        cash_min = min(new_cash_year)
+        cash_max = max(new_cash_year)
+    #filter the BALANCE SHEET BASED ON ACCESSION NUMBERS NOW and FILL IN THE BLANKS
+    if year1 is not None:
+        theCash = CashFlow.objects.values('member', 'header', 'acc_name', 'eng_name','value', 'unit', 'year__year', 'report_period__year').distinct().filter(accession_number__in=access, year__year__range=(year1, year2)).order_by('year')
+        curr_cash_min = year1
+        curr_cash_max = year2
+    else:
+        theCash = CashFlow.objects.values('member', 'header', 'acc_name', 'eng_name','value', 'unit', 'year__year', 'report_period__year').distinct().filter(accession_number__in=access).order_by('year')
+        curr_cash_min = cash_min
+        curr_cash_max = cash_max
+    finCash = year_cleanup(theCash, new_cash_year)
+    #RESET THE MIN MAX
+    cash_years =  CashFlow.objects.values('year__year').filter(accession_number__in=access).distinct().order_by('year')
+    new_cash_year = []
+    for item in cash_years:
+        new_cash_year.append(item['year__year'])
+    cash_min = min(new_cash_year)
+    cash_max = max(new_cash_year)
+    context = {
+        'Datas': finCash,
+        'Max': cash_max,
+        'Min': cash_min,
+        'Curr_Min': curr_cash_min,
+        'Curr_Max': curr_cash_max,
+        'Company': myCountry,
+        'Companies': companies,
+        'Statement': 'Cash Flow'
+        }
     return render(request, 'aureum/base.html', context)

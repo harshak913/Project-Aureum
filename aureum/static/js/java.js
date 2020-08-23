@@ -21,8 +21,8 @@ $( function() {
      var year1 = document.getElementById("year1").value;
      var year2 = document.getElementById("year2").value;
      var error_count = 0
-     if (!(year1 >= '2003' && year1 <= max_year)){error_count+=1}
-     if (!(year2 >= '2003' && year2 <= max_year)){error_count+=1}
+     if (!(year1 >= min_year && year1 <= max_year)){error_count+=1}
+     if (!(year2 >= min_year && year2 <= max_year)){error_count+=1}
      if (error_count != 0){
        alert('Year(s) Entered Not Valid. Please Reenter Valid Numbers');
        event.preventDefault();

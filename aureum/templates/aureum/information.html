@@ -2,7 +2,10 @@
 
 {% block content %}
 <h3>Company Information</h3>
-  <p>
-    Augustus was a Roman statesman and military leader who became the first emperor of the Roman Empire, reigning from 27 BC until his death in AD 14. His status as the founder of the Roman Principate has consolidated an enduring legacy as one of the most effective and controversial leaders in human history.
-  </p>
+{% for Information in Informations %}
+  <p>Company Name: {{ Information.name }}</p>
+  <p>Company Ticker: {{ Information.ticker }}</p>
+  <p>Company Classification: {{ Information.classification }}</p>
+  <p>CIK: {{ Information.cik }}</p>
+{% endfor %}
 {% endblock %}

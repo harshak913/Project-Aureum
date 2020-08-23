@@ -12,7 +12,7 @@
     </form>
     <p></p>
     <table>
-    {% regroup Datas by year.year as Dates %}
+    {% regroup Datas|dictsort:"year__year" by year__year as Dates %}
       <tr>
         <td>
         </td>
