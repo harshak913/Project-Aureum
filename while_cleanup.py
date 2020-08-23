@@ -6,19 +6,19 @@ connection.autocommit = True
 cursor = connection.cursor()
 
 def delete_from_tables(accession_number):
-    cursor.execute("DELETE FROM database.balance WHERE accession_number='%s'"%(accession_number))
-    cursor.execute("DELETE FROM database.income WHERE accession_number='%s'"%(accession_number))
-    cursor.execute("DELETE FROM database.cash_flow WHERE accession_number='%s'"%(accession_number))
-    cursor.execute("DELETE FROM database.non_statement WHERE accession_number='%s'"%(accession_number))
+    cursor.execute("DELETE FROM balance WHERE accession_number='%s'"%(accession_number))
+    cursor.execute("DELETE FROM income WHERE accession_number='%s'"%(accession_number))
+    cursor.execute("DELETE FROM cash_flow WHERE accession_number='%s'"%(accession_number))
+    cursor.execute("DELETE FROM non_statement WHERE accession_number='%s'"%(accession_number))
 
 def check_if_incomplete(accession_number):
-    cursor.execute("SELECT * FROM database.balance WHERE accession_number='%s';"%(accession_number))
+    cursor.execute("SELECT * FROM balance WHERE accession_number='%s';"%(accession_number))
     balance_entry = cursor.fetchall()
 
-    cursor.execute("SELECT * FROM database.income WHERE accession_number='%s';"%(accession_number))
+    cursor.execute("SELECT * FROM income WHERE accession_number='%s';"%(accession_number))
     income_entry = cursor.fetchall()
 
-    cursor.execute("SELECT * FROM database.cash_flow WHERE accession_number='%s';"%(accession_number))
+    cursor.execute("SELECT * FROM cash_flow WHERE accession_number='%s';"%(accession_number))
     cash_flow_entry = cursor.fetchall()
     if len(balance_entry) == 0 or len(income_entry) == 0 or len(cash_flow_entry) == 0:
         return True
@@ -30,7 +30,7 @@ years = list(range(2018, 2019))
 for year in years:
     complete = False
     while complete == False:
-        cursor.execute("SELECT * FROM database.scrape WHERE status='INCOMPLETE' AND year=%s;"%(year))
+        cursor.execute("SELECT * FROM scrape WHERE status='INCOMPLETE' AND year=%s;"%(year))
         unfinished_list = cursor.fetchall()
 
         if len(unfinished_list) == 0:
@@ -50,7 +50,7 @@ for year in years:
                     delete_from_tables(accession_number)
                     continue
                 else:
-                    cursor.execute("UPDATE database.scrape SET status='COMPLETED' WHERE accession_number='%s';"%(accession_number))
+                    cursor.execute("UPDATE scrape SET status='COMPLETED' WHERE accession_number='%s';"%(accession_number))
                     print(f"Parsed successfully & updated status to COMPLETED, URL: {index_url}")
             except:
                 print(f"Something went wrong, URL: {index_url}")

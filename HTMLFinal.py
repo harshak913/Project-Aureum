@@ -23,14 +23,14 @@ def pull_tables(table_tags, h1_tags, div_tags, p_tags, variations_list):
     h1_text = get_text_lists(h1_tags)
     div_text = get_text_lists(div_tags)
     p_text = get_text_lists(p_tags)
-    table_text = get_text_lists(table_tags)
+    #table_text = get_text_lists(table_tags)
 
     #Check each tag list to find match between variation and text & append that tag to a list
-    for a in range(len(table_text)-1):
+    """ for a in range(len(table_text)-1):
         for b in variations_list:
             if b.upper() in table_text[a].upper():
                 sheet = table_tags[a]
-                table_list.append(sheet)
+                table_list.append(sheet) """
 
     for c in range(len(h1_text)-1):
         for d in variations_list:
@@ -539,8 +539,8 @@ def HTMLParse(html_text_filing, strip_htm, accession_number, filing_type, period
             unit = item['unit']
             statement = item['statement']
             statement_insert = item['insert']
-            sql_statement = "INSERT INTO database.%s (accession_number, member, header, eng_name, acc_name, value, unit, year, statement, report_period, filing_type, months_ended) VALUES('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');"%(statement_insert, accession_number, member, header, eng_name, '', value, unit, year, statement, period_of_report, filing_type, '')
-            """ cursor.execute(sql_statement) """
+            sql_statement = "INSERT INTO %s (accession_number, member, header, eng_name, acc_name, value, unit, year, statement, report_period, filing_type, months_ended) VALUES('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');"%(statement_insert, accession_number, member, header, eng_name, '', value, unit, year, statement, period_of_report, filing_type, '')
+            cursor.execute(sql_statement)
             print(sql_statement)
         
         try:
@@ -553,4 +553,4 @@ def HTMLParse(html_text_filing, strip_htm, accession_number, filing_type, period
     else:
         print(f"No balance sheets found.\nNo income statements found.\nNo cash flows statements found.\nAccession number: {accession_number}")
 
-HTMLParse('https://www.sec.gov/Archives/edgar/data/104169/000010416902000004/0000104169-02-000004.txt', "10k", "0000104169-02-000004", "10-K", "2002-01-31")
+#HTMLParse('https://www.sec.gov/Archives/edgar/data/104169/000010416902000004/0000104169-02-000004.txt', "10k", "0000104169-02-000004", "10-K", "2002-01-31")

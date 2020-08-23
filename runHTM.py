@@ -4,5 +4,5 @@ conn = psycopg2.connect(host="ec2-34-233-226-84.compute-1.amazonaws.com", dbname
 conn.autocommit = True
 cursor = conn.cursor()
 
-cursor.execute("SELECT file_name FROM database.scrape WHERE accession_number='0000021076-02-000019'")
+cursor.execute("SELECT file_name FROM scrape WHERE accession_number='0000021076-02-000019'")
 text_filing = cursor.fetchone()[0]
