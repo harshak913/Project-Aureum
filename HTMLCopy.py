@@ -341,14 +341,14 @@ balance_sheet_content_variations = ['Current assets', 'Current liabilities', 'To
                                     'Stockholders\' investment', 'Shareholders\' investment', 'Total investment', 'Total equity', 'Shareholder/stockholders\' equity', 'Accounts payable', 'Accounts receivable',
                                     'Liabilities and Stockholders\' Equity'] #Balance sheet row name variations
 
-income_statement_variations = ['Statement of Earnings', 'Statements of Earnings', 'Statement of Operations', 'Statements of Operations', 'Results of Operations', 'Statement of Income', 'Statements of Income', 'Statement of Consolidated Income', 'Statements of Consolidated Income', 'Income Statement',] #Income statement title variations
+income_statement_variations = ['Statement of Earnings', 'Statements of Earnings', 'Statement of Operations', 'Statements of Operations', 'Results of Operations', 'Statement of Income', 'Statements of Income', 'Income Statement'] #Income statement title variations
 income_statement_content_variations = {}
 income_statement_content_variations['Revenue'] = ['Sales, net', 'Earning', 'Net sale', 'Revenue', 'Net income', 'Net loss']
 income_statement_content_variations['Costs/Expenses'] = ['Cost & expenses', 'Cost and expenses', 'Costs & expenses', 'Costs and expenses', 'Cost of product', 'Cost of good', 'Cost of sale', 'Cost of revenue']
 income_statement_content_variations['Operating Profit/Expenses'] = ['Total operating', 'Operating cost', 'Operating profit', 'Operating income', 'Gross profit', 'Total expense', 'Operating expense']
 income_statement_content_variations['Misc'] = ['Interest expense', 'Administrative', 'Income tax expense', 'Operating income', 'Gross margin', 'Gross profit', 'Research and development', 'Research & development', 'Basic', 'Diluted'] #Income statement row name variations
 
-cash_flows_variations = ['Statement of Cash Flows', 'Statements of Cash Flows', 'Statement of Consolidated Cash Flows', 'Statements of Consolidated Cash Flows', 'Cash Flows Statement'] #Cash flows title variations
+cash_flows_variations = ['Statement of Cash Flows', 'Statements of Cash Flows', 'Cash Flows Statement'] #Cash flows title variations
 cash_flows_content_variations = ['Cash and cash equivalents', 'Cash & cash equivalents', 'Cash and cash', 'Cash & cash', 'Cash & equivalents', 'Cash'] #Cash flows row name variations
 
 def HTMLParse(html_text_filing, strip_htm, accession_number, filing_type, period_of_report):
@@ -545,7 +545,7 @@ def HTMLParse(html_text_filing, strip_htm, accession_number, filing_type, period
             statement = item['statement']
             statement_insert = item['insert']
             sql_statement = "INSERT INTO %s (accession_number, member, header, eng_name, acc_name, value, unit, year, statement, report_period, filing_type, months_ended) VALUES('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');"%(statement_insert, accession_number, member, header, eng_name, '', value, unit, year, statement, period_of_report, filing_type, '')
-            cursor.execute(sql_statement)
+            #cursor.execute(sql_statement)
             print(sql_statement)
         
         try:
@@ -558,4 +558,4 @@ def HTMLParse(html_text_filing, strip_htm, accession_number, filing_type, period
     else:
         print(f"No balance sheets found.\nNo income statements found.\nNo cash flows statements found.\nAccession number: {accession_number}")
 
-#HTMLParse('https://www.sec.gov/Archives/edgar/data/723125/000091205702038669/0000912057-02-038669.txt', "10k", "0000912057-02-038669", "10-K", "2002-08-29")
+HTMLParse('https://www.sec.gov/Archives/edgar/data/866787/000095014402010940/0000950144-02-010940.txt', "10k", "0000950144-02-010940", "10-K", "2002-08-31")
