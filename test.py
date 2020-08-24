@@ -26,7 +26,7 @@ def check_if_incomplete(accession_number):
 
     return (len(balance_entry) == 0 or len(income_entry) == 0 or len(cash_flow_entry) == 0)
 
-cursor.execute("SELECT * FROM scrape WHERE year=2002 AND status='INCOMPLETE';")
+cursor.execute("SELECT * FROM scrape WHERE year=2010 AND inter_or_htm='HTM';")
 results = cursor.fetchall()
 for result in results:
     print(result)
@@ -61,7 +61,7 @@ for result in results:
         cursor.execute(sql_statement)
         print(sql_statement)
 
-""" cursor.execute("SELECT * FROM scrape WHERE year=2002 AND status='COMPLETED';")
+""" cursor.execute("SELECT * FROM scrape WHERE year=2002 AND status='INCOMPLETE';")
 results = cursor.fetchall()
 for result in results:
     accession_number = result[4]
