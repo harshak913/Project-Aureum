@@ -35,7 +35,9 @@ for tenQ in tenQs:
             the_quarter = 'Q3'
         elif six_mark != 0:
             the_quarter = 'Q2'
-    
+        else:
+            the_quarter = 'Q1'
+
 '''
 #filing_index = 'https://www.sec.gov/Archives/edgar/data/899689/000089968915000031/0000899689-15-000031-index.htm'
 filing_index = 'https://www.sec.gov/Archives/edgar/data/1067983/000119312510043450/0001193125-10-043450-index.htm'
