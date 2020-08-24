@@ -1,4 +1,5 @@
 import re
+from test import accession_number
 import urllib.request
 from bs4 import BeautifulSoup, NavigableString
 import os
@@ -14,24 +15,26 @@ connection.autocommit = True
 cursor = connection.cursor()
 
 cursor.execute("SELECT * FROM scrape WHERE filing_type='10-Q';")
+tenQs = cursor.fetchall()
 
-cursor.execute("SELECT quarter FROM scrape WHERE filing_type='10-Q';")
+for tenQ in tenQs:
+    if tenQ[7] is None:
+        accession_number = tenQ[4]
+        cursor.execute("SELECT months_ended FROM cash_flow WHERE accession_number='%s';"%(accession_number))
+        quarters = cursor.fetchall()
+        the_quarter = ''
+        nine_mark = 0
+        six_mark = 0
+        for quarter in quarters:
+            if '9' in quarter:
+                nine_mark+=1
+            elif '6' in quarter:
+                six_mark+=1
 
-cursor.execute("SELECT months_ended FROM cash_flow WHERE accession_number=(SELECT accession_number WHERE filing_type='10-Q');")
-
-the_quarter = ''
-nine_mark = 0
-six_mark = 0
-for quarter in quarters:
-    if '9' in quarter:
-        nine_mark+=1
-    elif '6' quarter:
-        six_mark+=1
-
-if nine_mark != 0:
-    the_quarter = 'Q3'
-elif six_mark != 0:
-    the_quarter = 'Q2'
+        if nine_mark != 0:
+            the_quarter = 'Q3'
+        elif six_mark != 0:
+            the_quarter = 'Q2'
     
 '''
 #filing_index = 'https://www.sec.gov/Archives/edgar/data/899689/000089968915000031/0000899689-15-000031-index.htm'
