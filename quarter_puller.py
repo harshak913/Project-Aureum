@@ -18,7 +18,9 @@ cursor.execute("SELECT * FROM scrape WHERE filing_type='10-Q';")
 tenQs = cursor.fetchall()
 
 for tenQ in tenQs:
+    print(f"Now checking: {tenQ[3]}")
     if tenQ[7] is None:
+        print("Quarter value is NULL, so checking cash flow table now")
         accession_number = tenQ[4]
         cursor.execute("SELECT months_ended FROM cash_flow WHERE accession_number='%s';"%(accession_number))
         quarters = cursor.fetchall()
@@ -38,6 +40,7 @@ for tenQ in tenQs:
         else:
             the_quarter = 'Q1'
         cursor.execute("UPDATE scrape SET quarter='%s' WHERE accession_number='%s';"%(the_quarter, accession_number))
+        print(f"Updating quarter to {the_quarter}\n")
 
 '''
 #filing_index = 'https://www.sec.gov/Archives/edgar/data/899689/000089968915000031/0000899689-15-000031-index.htm'
