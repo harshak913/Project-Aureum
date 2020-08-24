@@ -26,9 +26,9 @@ for tenQ in tenQs:
         nine_mark = 0
         six_mark = 0
         for quarter in quarters:
-            if '9' in quarter:
+            if '9' in quarter[0]:
                 nine_mark+=1
-            elif '6' in quarter:
+            elif '6' in quarter[0]:
                 six_mark+=1
 
         if nine_mark != 0:
@@ -37,6 +37,7 @@ for tenQ in tenQs:
             the_quarter = 'Q2'
         else:
             the_quarter = 'Q1'
+        cursor.execute("UPDATE scrape SET quarter='%s' WHERE accession_number='%s';"%(the_quarter, accession_number))
 
 '''
 #filing_index = 'https://www.sec.gov/Archives/edgar/data/899689/000089968915000031/0000899689-15-000031-index.htm'
