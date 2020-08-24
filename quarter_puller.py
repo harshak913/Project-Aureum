@@ -13,7 +13,29 @@ connection = psycopg2.connect(host="ec2-34-197-188-147.compute-1.amazonaws.com",
 connection.autocommit = True
 cursor = connection.cursor()
 
-filing_index = 'https://www.sec.gov/Archives/edgar/data/899689/000089968915000031/0000899689-15-000031-index.htm'
+cursor.execute("SELECT * FROM scrape WHERE filing_type='10-Q';")
+
+cursor.execute("SELECT quarter FROM scrape WHERE filing_type='10-Q';")
+
+cursor.execute("SELECT months_ended FROM cash_flow WHERE accession_number=(SELECT accession_number WHERE filing_type='10-Q');")
+
+the_quarter = ''
+nine_mark = 0
+six_mark = 0
+for quarter in quarters:
+    if '9' in quarter:
+        nine_mark+=1
+    elif '6' quarter:
+        six_mark+=1
+
+if nine_mark != 0:
+    the_quarter = 'Q3'
+elif six_mark != 0:
+    the_quarter = 'Q2'
+    
+'''
+#filing_index = 'https://www.sec.gov/Archives/edgar/data/899689/000089968915000031/0000899689-15-000031-index.htm'
+filing_index = 'https://www.sec.gov/Archives/edgar/data/1067983/000119312510043450/0001193125-10-043450-index.htm'
 
 response = requests.get(filing_index)
 soup = BeautifulSoup(response.content, 'lxml')
@@ -86,11 +108,13 @@ for report in reports:
             link = report.split('= "', 1)[1]
             item['link'] = link.replace('";', '')
 
+os.remove("%s.htm"%latter)
+
 for item in dicts:
     if 'htm' in item['link']:
         doc_name = str(item.get('name'))
         print('NOW PARSING '+doc_name+ ' (A HTM DOC)')
-        filename = "/Users/octavian/Desktop/HTM/%s.htm"%(doc_name)
+        filename = "/Users/octavian/Desktop/%s.htm"%(doc_name)
         #filename = "/Users/Harsh/OneDrive - The University of Texas at Dallas/Documents/Project A/HTM/%s.htm"%(doc_name)
         os.makedirs(os.path.dirname(filename), exist_ok=True)
         report_access = 'https://www.sec.gov%s'%str(item.get('link'))
@@ -104,5 +128,9 @@ for item in dicts:
         for element in soup.find('table').find_all('tr'):
             if element.find('td') is not None and element.find('td').text.strip() == 'Document Fiscal Period Focus':
                 quarter = element.find('td').find_next_sibling('td').text.strip()
-
+        print(quarter)
+        os.remove(filename)
+    else:
+        print('ACCESSING DATABASE AND CHECKING IF 3, 6 OR 9 MONTHS ENDED ARE IN CASH FLOW')
+'''
 #use the quarter variable to insert into the scrape table as which quarter
