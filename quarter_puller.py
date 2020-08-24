@@ -1,13 +1,4 @@
-import re
-from test import accession_number
-import urllib.request
-from bs4 import BeautifulSoup, NavigableString
-import os
-import xml.etree.ElementTree as ET
-import requests
 import psycopg2
-from datetime import datetime
-from dateutil.relativedelta import relativedelta
 
 #Database Connection
 connection = psycopg2.connect(host="ec2-34-197-188-147.compute-1.amazonaws.com", dbname="d7p3fuehaleleo", user="snbetggfklcniv", password="7798f45239eda70f8278ce3c05dc632ad57b97957b601681a3c516f37153403a")
