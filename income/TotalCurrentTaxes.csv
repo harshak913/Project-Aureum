@@ -1,0 +1,8 @@
+standard,gaap_tag,statement
+Total Current Taxes,CurrentIncomeTaxExpenseBenefit,income
+Total Current Taxes,IncomeTaxExpenseBenefit,income
+Total Current Taxes,OperatingIncomeTaxExpenseBenefit,income
+Total Current Taxes,NonoperatingIncomeTaxExpenseBenefit,income
+Total Current Taxes,IncomeTaxExpenseBenefitExcludingTaxfromEquityMethodInvestments,income
+Total Current Taxes,IncomeTaxExpenseBenefitContinuingOperations,income
+Total Current Taxes,DiscontinuedOperationTaxEffectOfDiscontinuedOperation,income

@@ -1,0 +1,21 @@
+standard,gaap_tag,statement
+Raw Materials Inventory,InventoryWorkInProcessAndRawMaterialsNetOfReserves,balance
+Raw Materials Inventory,InventoryRawMaterialsNetOfReserves,balance
+Raw Materials Inventory,InventoryRawMaterials,balance
+Raw Materials Inventory,InventoryWorkInProcessAndRawMaterials,balance
+Raw Materials Inventory,InventoryRawMaterialsAndSupplies,balance
+Raw Materials Inventory,InventoryRawMaterialsAndSuppliesNetOfReserves,balance
+Raw Materials Inventory,InventoryLIFOReserve,balance
+Raw Materials Inventory,InventoryRawMaterialsPlantMaterialNetofReserves,balance
+Raw Materials Inventory,InventoryLeafTobacco,balance
+Raw Materials Inventory,OtherInventoryRawMaterialsNetofReserves,balance
+Raw Materials Inventory,OtherInventory,balance
+Raw Materials Inventory,OtherInventoryNetOfReserves,balance
+Raw Materials Inventory,Fuel,balance
+Raw Materials Inventory,EnergyRelatedInventory,balance
+Raw Materials Inventory,MaterialsSuppliesAndOther,balance
+Raw Materials Inventory,InventoryNet,balance
+Raw Materials Inventory,OtherInventorySupplies,balance
+Raw Materials Inventory,InventoryPartsAndComponentsNetOfReserves,balance
+Raw Materials Inventory,MaterialsAndSupplies,balance
+Raw Materials Inventory,MaterialsAndSuppliesBs,balance

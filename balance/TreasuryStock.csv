@@ -1,0 +1,8 @@
+standard,gaap_tag,statement
+Treasury Stock,TreasuryStockValue,balance
+Treasury Stock,TreasuryStockCommonValue,balance
+Treasury Stock,StockholdersEquity,balance
+Treasury Stock,StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest,balance
+Treasury Stock,StockholdersEquityPercent,balance
+Treasury Stock,RepurchasedPreferredStock,balance
+Treasury Stock,StockRepurchasedDuringPeriodValue,balance

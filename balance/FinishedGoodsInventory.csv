@@ -1,0 +1,17 @@
+standard,gaap_tag,statement
+Finished Goods Inventory,InventoryFinishedGoodsNetOfReserves,balance
+Finished Goods Inventory,InventoryFinishedGoods,balance
+Finished Goods Inventory,InventoryWorkInProcessNetOfReserves,balance
+Finished Goods Inventory,InventoryNet,balance
+Finished Goods Inventory,InventoryGross,balance
+Finished Goods Inventory,Inventories,balance
+Finished Goods Inventory,InventoryNet1,balance
+Finished Goods Inventory,Inventory,balance
+Finished Goods Inventory,InventoryNetOfAllowancesCustomerAdvancesAndProgressBillings,balance
+Finished Goods Inventory,PublicUtilitiesInventory,balance
+Finished Goods Inventory,InventoryFinishedGoodsAndWorkInProcess,balance
+Finished Goods Inventory,InventoryFinishedGoodsAndWorkInProcessNetOfReserves,balance
+Finished Goods Inventory,RetailRelatedInventoryMerchandise,balance
+Finished Goods Inventory,AirlineRelatedInventories,balance
+Finished Goods Inventory,AirlineRelatedInventory,balance
+Finished Goods Inventory,AirlineRelatedInventoryNet,balance

@@ -1,0 +1,7 @@
+standard,gaap_tag,statement
+Land,Land,balance
+Land,PropertyPlantAndEquipmentGross,balance
+Land,LandAndLandImprovements,balance
+Land,LandAndLandImprovementsGross,balance
+Land,BuildingsAndImprovementsGross,balance
+Land,LandImprovements,balance

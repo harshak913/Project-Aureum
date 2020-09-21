@@ -1,0 +1,621 @@
+accounting,standard,statement
+us-gaap:NetIncomeLoss,Net Income,CS
+us-gaap:DepreciationDepletionAndAmortization,Depreciation & Amort.,CS
+us-gaap:DepreciationAmortizationAndAccretionNet,Depreciation & Amort.,CS
+us-gaap:DepreciationAndAmortization,Depreciation & Amort.,CS
+us-gaap:ShareBasedCompensation,Stock-Based Compensation,CS
+us-gaap:ShareBasedCompensation,Stock-Based Compensation,CS
+us-gaap:IncreaseDecreaseInAccountsReceivable,Change in Acc. Receivable,CS
+us-gaap:IncreaseDecreaseInAccountsReceivable,Change in Acc. Receivable,CS
+us-gaap:IncreaseDecreaseInInventories,Change In Inventories,CS
+us-gaap:IncreaseDecreaseInAccountsPayable,Change in Acc. Payable,CS
+us-gaap:IncreaseDecreaseInAccountsPayable,Change in Acc. Payable,CS
+us-gaap:IncreaseDecreaseInDeferredRevenue,Change in Unearned Rev.,CS
+us-gaap:IncreaseDecreaseInDeferredRevenue,Change in Unearned Rev.,CS
+us-gaap:NetCashProvidedByUsedInOperatingActivities,Cash from Ops.,CS
+us-gaap:NetCashProvidedByUsedInOperatingActivities,Cash from Ops.,CS
+us-gaap:PaymentsToAcquireProductiveAssets,Capital Expenditure,CS
+us-gaap:PaymentsToAcquireAvailableForSaleSecuritiesDebt,Purchase of Marketable Equity Securities,CS
+us-gaap:ProceedsFromSaleOfAvailableForSaleSecuritiesDebt,Sale of Marketable Equity Securities,CS
+us-gaap:PaymentsToAcquireBusinessesNetOfCashAcquired,Cash Acquisitions,CS
+,,
+us-gaap:PaymentsForProceedsFromOtherInvestingActivities,Other Investing Activities,CS
+us-gaap:NetCashProvidedByUsedInInvestingActivities,Cash from Investing,CS
+us-gaap:ProceedsFromRepaymentsOfCommercialPaper,Short Term Debt Issued,CS
+us-gaap:ProceedsFromIssuanceOfLongTermDebt,Long-Term Debt Issued,CS
+us-gaap:ProceedsFromRepaymentsOfCommercialPaper,Short Term Debt Repaid,CS
+us-gaap:RepaymentsOfLongTermDebt,Long-Term Debt Repaid,CS
+us-gaap:PaymentsForRepurchaseOfCommonStock,Repurchase of Common Stock,CS
+us-gaap:ProceedsFromIssuanceOfCommonStock,Issuance of Common Stock,CS
+us-gaap:PaymentsOfDividends,Common Dividends Paid,CS
+us-gaap:ProceedsFromPaymentsForOtherFinancingActivities,Other Financing Activities,CS
+us-gaap:NetCashProvidedByUsedInFinancingActivities,Cash from Financing,CS
+us-gaap:CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalentsPeriodIncreaseDecreaseIncludingExchangeRateEffect,Net Change in Cash,CS
+us-gaap:InterestPaidNet,Cash Interest Paid,CS
+us-gaap:IncomeTaxesPaidNet,Cash Taxes Paid,CS
+us-gaap:CashAndCashEquivalentsAtCarryingValue,Cash And Equivalents,BS
+us-gaap:CashAndCashEquivalentsAtCarryingValue,Cash And Equivalents,BS
+us-gaap:CashAndCashEquivalentsAtCarryingValue,Cash And Equivalents,BS
+us-gaap:MarketableSecuritiesCurrent,Short Term Investments,BS
+us-gaap:AvailableForSaleSecuritiesDebtSecuritiesCurrent,Short Term Investments,BS
+us-gaap:AvailableForSaleSecuritiesCurrent,Short Term Investments,BS
+us-gaap:AccountsReceivableNetCurrent,Accounts Receivable,BS
+us-gaap:NontradeReceivablesCurrent,Other Receivables,BS
+us-gaap:NontradeReceivablesCurrent,Other Receivables,BS
+us-gaap:InventoryNet,Inventory,BS
+us-gaap:RestrictedCashAndCashEquivalentsAtCarryingValue,Restricted Cash,BS
+us-gaap:OtherAssetsCurrent,Other Current Assets,BS
+us-gaap:AssetsCurrent,Total Current Assets,BS
+us-gaap:PropertyPlantAndEquipmentGross,"Gross Property, Plant & Equipment",BS
+aapl:PropertyPlantAndEquipmentAndCapitalizedSoftwareGross,"Gross Property, Plant & Equipment",BS
+us-gaap:AccumulatedDepreciationDepletionAndAmortizationPropertyPlantAndEquipment,Accumulated Depreciation,BS
+us-gaap:PropertyPlantAndEquipmentNet,"Net Property, Plant & Equipment",BS
+aapl:PropertyPlantAndEquipmentAndCapitalizedSoftwareNet,"Net Property, Plant & Equipment",BS
+us-gaap:MarketableSecuritiesNoncurrent,Long-term Investments,BS
+us-gaap:OtherAssetsNoncurrent,Other Long-Term Assets,BS
+us-gaap:Assets,Total Assets,BS
+us-gaap:AccountsPayableCurrent,Accounts Payable,BS
+us-gaap:CommercialPaper,Short-term Borrowings,BS
+us-gaap:LongTermDebtCurrent,Curr. Port. of LT Debt,BS
+,,
+us-gaap:OtherLiabilitiesCurrent,Other Current Liabilities,BS
+us-gaap:LiabilitiesCurrent,Total Current Liabilities,BS
+us-gaap:LongTermDebtNoncurrent,Long-Term Debt,BS
+us-gaap:DeferredRevenueNoncurrent,"Unearned Revenue, Non-Current",BS
+us-gaap:DeferredTaxLiabilitiesNoncurrent,"Def. Tax Liability, Non-Curr.",BS
+us-gaap:OtherLiabilitiesNoncurrent,Other Non-Current Liabilities,BS
+us-gaap:Liabilities,Total Liabilities,BS
+us-gaap:CommonStocksIncludingAdditionalPaidInCapital,Common Stock,BS
+us-gaap:RetainedEarningsAccumulatedDeficit,Retained Earnings,BS
+us-gaap:AccumulatedOtherComprehensiveIncomeLossNetOfTax,Comprehensive Inc. and Other,BS
+us-gaap:StockholdersEquity,Total Common Equity,BS
+,,
+,,
+,,
+us-gaap:CashAndCashEquivalentsAtCarryingValue,Cash And Equivalents,BS
+us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax,Revenue,IS
+us-gaap:CostOfGoodsAndServicesSold,Cost Of Goods Sold,IS
+us-gaap:SellingGeneralAndAdministrativeExpense,Selling General & Admin Exp.,IS
+us-gaap:ResearchAndDevelopmentExpense,R & D Exp.,IS
+us-gaap:OperatingIncomeLoss,Operating Income,IS
+us-gaap:InterestExpense,Interest Expense,IS
+us-gaap:InvestmentIncomeInterestAndDividend,Interest and Invest. Income,IS
+,,
+us-gaap:NonoperatingIncomeExpense,Other Non-Operating Inc. (Exp.),IS
+,,
+us-gaap:IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest,EBT Incl. Unusual Items,IS
+us-gaap:IncomeTaxExpenseBenefit,Income Tax Expense,IS
+us-gaap:NetIncomeLoss,Earnings from Cont. Ops.,IS
+us-gaap:NetIncomeLoss,Net Income to Company,IS
+us-gaap:NetIncomeLoss,Net Income,IS
+us-gaap:EarningsPerShareBasic,Basic EPS,IS
+us-gaap:WeightedAverageNumberOfSharesOutstandingBasic,Weighted Avg. Basic Shares Out.,IS
+us-gaap:EarningsPerShareDiluted,Diluted EPS,IS
+us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding,Weighted Avg. Diluted Shares Out.,IS
+us-gaap:CommonStockDividendsPerShareDeclared,Dividends per Share,IS
+us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax,As Reported Total Revenue*,IS
+,,
+us-gaap:CurrentFederalTaxExpenseBenefit,Current Federal Taxes,IS
+us-gaap:CurrentStateAndLocalTaxExpenseBenefit,Current State & Local Taxes,IS
+us-gaap:CurrentForeignTaxExpenseBenefit,Current Foreign Taxes,IS
+us-gaap:DeferredStateAndLocalIncomeTaxExpenseBenefit,Deferred State & Local Taxes,IS
+us-gaap:DeferredFederalIncomeTaxExpenseBenefit,Deferred Federal Taxes,IS
+,,
+us-gaap:DeferredForeignIncomeTaxExpenseBenefit,Deferred Foreign Taxes,IS
+us-gaap:InterestCostsIncurred,Interest on Long Term Debt,IS
+us-gaap:SellingGeneralAndAdministrativeExpense,Selling and Marketing Exp.,IS
+us-gaap:ResearchAndDevelopmentExpense,R&D Exp.,IS
+us-gaap:OperatingLeasesRentExpenseNet,Net Rental Exp.,IS
+us-gaap:ShareBasedCompensation,"Stock-Based Comp., Unallocated",IS
+us-gaap:ShareBasedCompensation,"Stock-Based Comp., Total",IS
+,,
+us-gaap:ProfitLoss,Net Income,CS
+us-gaap:ProfitLoss,Net Income,CS
+us-gaap:ProfitLoss,Net Income,CS
+us-gaap:DepreciationDepletionAndAmortization,Depreciation & Amort.,CS
+us-gaap:AmortizationOfIntangibleAssets,Amort. of Goodwill and Intangibles,CS
+us-gaap:OtherOperatingActivitiesCashFlowStatement,Other Operating Activities,CS
+us-gaap:IncreaseDecreaseInAccountsReceivable,Change in Acc. Receivable,CS
+us-gaap:IncreaseDecreaseInInventories,Change In Inventories,CS
+us-gaap:IncreaseDecreaseInAccountsPayable,Change in Acc. Payable,CS
+us-gaap:IncreaseDecreaseInAccruedIncomeTaxesPayable,Change in Inc. Taxes,CS
+us-gaap:IncreaseDecreaseInOtherOperatingCapitalNet,Change in Other Net Operating Assets,CS
+us-gaap:NetCashProvidedByUsedInOperatingActivitiesContinuingOperations,Cash from Ops.,CS
+us-gaap:PaymentsToAcquireBusinessesNetOfCashAcquired,Cash Acquisitions,CS
+us-gaap:PaymentsToAcquireBusinessesNetOfCashAcquired,Cash Acquisitions,CS
+us-gaap:NetCashProvidedByUsedInInvestingActivitiesContinuingOperations,Cash from Investing,CS
+us-gaap:ProceedsFromRepaymentsOfShortTermDebtMaturingInThreeMonthsOrLess,Short Term Debt Issued,CS
+us-gaap:ProceedsFromDebtMaturingInMoreThanThreeMonths,Long-Term Debt Issued,CS
+,,
+us-gaap:ProceedsFromRepaymentsOfShortTermDebtMaturingInThreeMonthsOrLess,Short Term Debt Repaid,CS
+us-gaap:RepaymentsOfDebtMaturingInMoreThanThreeMonths,Long-Term Debt Repaid,CS
+us-gaap:PaymentsForRepurchaseOfCommonStock,Repurchase of Common Stock,CS
+us-gaap:DividendsCommonStockCash,Common Dividends Paid,CS
+us-gaap:NetCashProvidedByUsedInFinancingActivitiesContinuingOperations,Cash from Financing,CS
+us-gaap:EffectOfExchangeRateOnCashAndCashEquivalents,Foreign Exchange Rate Adj.,CS
+us-gaap:InterestPaidNet,Cash Interest Paid,CS
+us-gaap:IncomeTaxesPaidNet,Cash Taxes Paid,CS
+us-gaap:CashAndCashEquivalentsAtCarryingValue,Cash And Equivalents,BS
+us-gaap:MarketableSecuritiesCurrent,Short Term Investments,BS
+us-gaap:TradingSecurities,Trading Asset Securities,BS
+us-gaap:AccountsNotesAndLoansReceivableNetCurrent,Accounts Receivable,BS
+us-gaap:AllowanceForDoubtfulAccountsReceivableCurrent,Accounts Receivable,BS
+us-gaap:InventoryNet,Inventory,BS
+us-gaap:DeferredTaxAssetsLiabilitiesNetCurrent,"Deferred Tax Assets, Curr.",BS
+us-gaap:RestrictedCashAndInvestmentsCurrent,Restricted Cash,BS
+us-gaap:OtherAssetsCurrent,Other Current Assets,BS
+us-gaap:AssetsCurrent,Total Current Assets,BS
+us-gaap:AccumulatedDepreciationDepletionAndAmortizationPropertyPlantAndEquipment,Accumulated Depreciation,BS
+us-gaap:EquityMethodInvestments,Long-term Investments,BS
+us-gaap:DeferredIncomeTaxAssetsNet,"Deferred Tax Assets, LT",BS
+us-gaap:OtherAssetsNoncurrent,Other Long-Term Assets,BS
+us-gaap:Assets,Total Assets,BS
+us-gaap:AccountsPayableCurrent,Accounts Payable,BS
+us-gaap:DeferredRevenueCurrent,"Unearned Revenue, Current",BS
+us-gaap:LiabilitiesCurrent,Total Current Liabilities,BS
+us-gaap:LongTermDebtAndCapitalLeaseObligations,Long-Term Debt,BS
+us-gaap:DeferredRevenueNoncurrent,"Unearned Revenue, Non-Current",BS
+us-gaap:OtherLiabilitiesNoncurrent,Other Non-Current Liabilities,BS
+us-gaap:Liabilities,Total Liabilities,BS
+us-gaap:CommonStockValue,Common Stock,BS
+us-gaap:AdditionalPaidInCapital,Additional Paid In Capital,BS
+us-gaap:RetainedEarningsAccumulatedDeficit,Retained Earnings,BS
+us-gaap:AccumulatedOtherComprehensiveIncomeLossNetOfTax,Comprehensive Inc. and Other,BS
+us-gaap:StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest,Total Equity,BS
+us-gaap:LiabilitiesAndStockholdersEquity,Total Liabilities And Equity,BS
+dei:EntityCommonStockSharesOutstanding,Total Shares Out.,BS
+us-gaap:InventoryWorkInProcessAndRawMaterialsNetOfReserves,Raw Materials Inventory,BS
+us-gaap:InventoryFinishedGoodsNetOfReserves,Finished Goods Inventory,BS
+us-gaap:PropertyPlantAndEquipmentGross,"Gross Property, Plant & Equipment",BS
+,,
+,,
+us-gaap:AllowanceForDoubtfulAccountsReceivableCurrent,Accum. Allowance for Doubtful Accts,BS
+us-gaap:RevenueFromContractWithCustomerIncludingAssessedTax,Revenue,IS
+us-gaap:Revenues,Total Revenue,IS
+us-gaap:CostOfGoodsAndServicesSold,Cost Of Goods Sold,IS
+us-gaap:CostsAndExpenses,Cost Of Goods Sold,IS
+us-gaap:SellingGeneralAndAdministrativeExpense,Selling General & Admin Exp.,IS
+us-gaap:ResearchAndDevelopmentExpense,R & D Exp.,IS
+us-gaap:DepreciationDepletionAndAmortization,Depreciation & Amort.,IS
+us-gaap:OperatingIncomeLoss,Operating Income,IS
+us-gaap:InterestExpense,Interest Expense,IS
+us-gaap:NonoperatingIncomeExpense,Interest and Invest. Income,IS
+us-gaap:RestructuringCharges,Restructuring Charges,IS
+us-gaap:IncomeTaxExpenseBenefit,Income Tax Expense,IS
+us-gaap:IncomeLossFromContinuingOperations,Earnings from Cont. Ops.,IS
+us-gaap:IncomeLossFromDiscontinuedOperationsNetOfTax,Earnings of Discontinued Ops.,IS
+us-gaap:NetIncomeLossAttributableToNoncontrollingInterest,Minority Int. in Earnings,IS
+us-gaap:ProfitLoss,Net Income,IS
+us-gaap:PreferredStockDividendsAndOtherAdjustments,Pref. Dividends and Other Adj.,IS
+us-gaap:NetIncomeLossAvailableToCommonStockholdersBasic,NI to Common Incl Extra Items,IS
+us-gaap:EarningsPerShareBasic,Basic EPS,IS
+us-gaap:IncomeLossFromContinuingOperationsPerBasicShare,Basic EPS Excl. Extra Items,IS
+us-gaap:WeightedAverageNumberOfSharesOutstandingBasic,Weighted Avg. Basic Shares Out.,IS
+us-gaap:EarningsPerShareDiluted,Diluted EPS,IS
+us-gaap:IncomeLossFromContinuingOperationsPerDilutedShare,Diluted EPS Excl. Extra Items,IS
+us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding,Weighted Avg. Diluted Shares Out.,IS
+us-gaap:CommonStockDividendsPerShareDeclared,Dividends per Share,IS
+us-gaap:Revenues,As Reported Total Revenue*,IS
+us-gaap:CurrentStateAndLocalTaxExpenseBenefit,Current State & Local Taxes,IS
+us-gaap:CurrentFederalTaxExpenseBenefit,Current Federal Taxes,IS
+us-gaap:CurrentForeignTaxExpenseBenefit,Current Foreign Taxes,IS
+us-gaap:CurrentIncomeTaxExpenseBenefit,Total Current Taxes,IS
+us-gaap:DeferredStateAndLocalIncomeTaxExpenseBenefit,Deferred State & Local Taxes,IS
+us-gaap:DeferredFederalIncomeTaxExpenseBenefit,Deferred Federal Taxes,IS
+us-gaap:DeferredForeignIncomeTaxExpenseBenefit,Deferred Foreign Taxes,IS
+us-gaap:DeferredIncomeTaxExpenseBenefit,Total Deferred Taxes,IS
+us-gaap:AdvertisingExpense,Advertising Exp.,IS
+us-gaap:MarketingAndAdvertisingExpense,Selling and Marketing Exp.,IS
+us-gaap:SellingGeneralAndAdministrativeExpense,Selling and Marketing Exp.,IS
+us-gaap:ResearchAndDevelopmentExpense,R&D Exp.,IS
+us-gaap:OperatingLeasesRentExpenseNet,Net Rental Exp.,IS
+us-gaap:AdjustmentsToAdditionalPaidInCapitalSharebasedCompensationRequisiteServicePeriodRecognitionValue,"Stock-Based Comp., Total",IS
+,,
+us-gaap:NetIncomeLoss,Net Income,CS
+us-gaap:NetIncomeLoss,Net Income,CS
+msft:DepreciationAmortizationAndOther,Depreciation & Amort.,CS
+msft:DepreciationAmortizationAndOtherNoncashItems,Depreciation & Amort.,CS
+us-gaap:ShareBasedCompensation,Stock-Based Compensation,CS
+us-gaap:AllocatedShareBasedCompensationExpense,Stock-Based Compensation,CS
+us-gaap:IncreaseDecreaseInAccountsReceivable,Change in Acc. Receivable,CS
+us-gaap:IncreaseDecreaseInInventories,Change In Inventories,CS
+us-gaap:IncreaseDecreaseInAccountsPayable,Change in Acc. Payable,CS
+us-gaap:IncreaseDecreaseInContractWithCustomerLiability,Change in Unearned Rev.,CS
+us-gaap:NetCashProvidedByUsedInOperatingActivities,Cash from Ops.,CS
+us-gaap:NetCashProvidedByUsedInOperatingActivitiesContinuingOperations,Cash from Ops.,CS
+us-gaap:ProceedsFromRepaymentsOfShortTermDebtMaturingInThreeMonthsOrLess,Short Term Debt Issued,CS
+us-gaap:ProceedsFromDebtMaturingInMoreThanThreeMonths,Long Term Debt Issued,CS
+us-gaap:RepaymentsOfDebtMaturingInMoreThanThreeMonths,Long-Term Debt Repaid,CS
+msft:RepaymentsOfShortTermAndLongTermBorrowings,Short & Long-Term Debt Repaid,CS
+us-gaap:PaymentsForRepurchaseOfCommonStock,Repurchase of Common Stock,CS
+us-gaap:StockIssuedDuringPeriodValueNewIssues,Issuance of Common Stock,CS
+us-gaap:StockIssuedDuringPeriodValueNewIssues,Issuance of Common Stock,CS
+us-gaap:PaymentsOfDividendsCommonStock,Common Dividends Paid,CS
+us-gaap:ProceedsFromPaymentsForOtherFinancingActivities,Other Financing Activities,CS
+us-gaap:NetCashProvidedByUsedInFinancingActivities,Cash from Financing,CS
+us-gaap:EffectOfExchangeRateOnCashAndCashEquivalents,Foreign Exchange Rate Adj.,CS
+us-gaap:CashAndCashEquivalentsPeriodIncreaseDecrease,Net Change in Cash,CS
+us-gaap:IncomeTaxesPaidNet,Cash Taxes Paid,CS
+us-gaap:CashAndCashEquivalentsAtCarryingValue,Cash And Equivalents,BS
+us-gaap:AvailableForSaleSecuritiesCurrent,Short Term Investments,BS
+us-gaap:CashCashEquivalentsAndShortTermInvestments,Total Cash & ST Investments,BS
+us-gaap:CashCashEquivalentsAndShortTermInvestments,Total Cash & ST Investments,BS
+us-gaap:AccountsReceivableNetCurrent,Accounts Receivable,BS
+us-gaap:InventoryNet,Inventory,BS
+us-gaap:OtherAssetsCurrent,Other Current Assets,BS
+us-gaap:AssetsCurrent,Total Current Assets,BS
+us-gaap:AccumulatedDepreciationDepletionAndAmortizationPropertyPlantAndEquipment,Accumulated Depreciation,BS
+us-gaap:PropertyPlantAndEquipmentNet,"Net Property, Plant & Equipment",BS
+us-gaap:LongTermInvestments,Long-term Investments,BS
+us-gaap:Goodwill,Goodwill,BS
+us-gaap:FiniteLivedIntangibleAssetsNet,Other Intangibles,BS
+us-gaap:OtherAssetsNoncurrent,Other Long-Term Assets,BS
+us-gaap:Assets,Total Assets,BS
+us-gaap:AccountsPayableCurrent,Accounts Payable,BS
+us-gaap:ShortTermBorrowings,Short-term Borrowings,BS
+us-gaap:LongTermDebtCurrent,Curr. Port. of LT Debt,BS
+us-gaap:AccruedIncomeTaxesCurrent,Curr. Income Taxes Payable,BS
+us-gaap:ContractWithCustomerLiabilityCurrent,"Unearned Revenue, Current",BS
+us-gaap:DeferredRevenueCurrent,"Unearned Revenue, Current",BS
+us-gaap:OtherLiabilitiesCurrent,Other Current Liabilities,BS
+us-gaap:LiabilitiesCurrent,Total Current Liabilities,BS
+us-gaap:LongTermDebtNoncurrent,Long-Term Debt,BS
+us-gaap:ContractWithCustomerLiabilityNoncurrent,"Unearned Revenue, Non-Current",BS
+us-gaap:DeferredRevenueNoncurrent,"Unearned Revenue, Non-Current",BS
+us-gaap:DeferredTaxLiabilitiesNoncurrent,"Def. Tax Liability, Non-Curr.",BS
+us-gaap:OtherLiabilitiesNoncurrent,Other Non-Current Liabilities,BS
+us-gaap:Liabilities,Total Liabilities,BS
+us-gaap:CommonStocksIncludingAdditionalPaidInCapital,Common Stock,BS
+us-gaap:CommonStockIncludingAdditionalPaidInCapital,Common Stock,BS
+us-gaap:RetainedEarningsAccumulatedDeficit,Retained Earnings,BS
+us-gaap:AccumulatedOtherComprehensiveIncomeLossNetOfTax,Comprehensive Inc. and Other,BS
+us-gaap:StockholdersEquity,Total Common Equity,BS
+us-gaap:LiabilitiesAndStockholdersEquity,Total Liabilities And Equity,BS
+us-gaap:InventoryRawMaterialsNetOfReserves,Raw Materials Inventory,BS
+us-gaap:InventoryRawMaterials,Raw Materials Inventory,BS
+us-gaap:InventoryWorkInProcessNetOfReserves,Work in Progress Inventory,BS
+us-gaap:InventoryWorkInProcess,Work in Progress Inventory,BS
+us-gaap:InventoryFinishedGoodsNetOfReserves,Finished Goods Inventory,BS
+us-gaap:InventoryFinishedGoods,Finished Goods Inventory,BS
+us-gaap:Land,Land,BS
+us-gaap:BuildingsAndImprovementsGross,Buildings,BS
+us-gaap:AllowanceForDoubtfulAccountsReceivableCurrent,Accum. Allowance for Doubtful Accts,BS
+us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax,Revenue,IS
+us-gaap:SalesRevenueNet,Revenue,IS
+us-gaap:Revenues,Revenue,IS
+us-gaap:CostOfGoodsAndServicesSold,Cost Of Goods Sold,IS
+us-gaap:CostOfRevenue,Cost Of Goods Sold,IS
+us-gaap:GrossProfit,Gross Profit,IS
+us-gaap:SellingAndMarketingExpense,Selling General & Admin Exp. ,IS
+us-gaap:GeneralAndAdministrativeExpense,Selling General & Admin Exp. ,IS
+us-gaap:ResearchAndDevelopmentExpense,R & D Exp.,IS
+msft:DepreciationAmortizationAndOther,Depreciation & Amort.,IS
+us-gaap:OperatingIncomeLoss,Operating Income,IS
+us-gaap:InterestExpense,Interest Expense,IS
+us-gaap:InvestmentIncomeNet,Interest and Invest. Income,IS
+us-gaap:IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments,EBT Incl. Unusual Items,IS
+us-gaap:IncomeTaxExpenseBenefit,Income Tax Expense,IS
+us-gaap:NetIncomeLoss,Earnings from Cont. Ops.,IS
+us-gaap:EarningsPerShareBasic,Basic EPS,IS
+us-gaap:WeightedAverageNumberOfSharesOutstandingBasic,Weighted Avg. Basic Shares Out.,IS
+us-gaap:EarningsPerShareDiluted,Diluted EPS,IS
+us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding,Weighted Avg. Diluted Shares Out.,IS
+us-gaap:WeightedAverageNumberOfSharesOutstandingBasic,Weighted Avg. Basic Shares Out.,IS
+us-gaap:CommonStockDividendsPerShareDeclared,Dividends per Share,IS
+us-gaap:PaymentsOfDividendsCommonStock,Common Dividends Paid,IS
+us-gaap:CurrentForeignTaxExpenseBenefit,Current Foreign Taxes,IS
+us-gaap:CurrentIncomeTaxExpenseBenefit,Income Tax Expense,IS
+us-gaap:DeferredForeignIncomeTaxExpenseBenefit,Deferred Foreign Taxes,IS
+us-gaap:DeferredIncomeTaxExpenseBenefit,Total Deferred Taxes,IS
+us-gaap:FinanceLeaseInterestExpense,Interest on Long Term Debt,IS
+us-gaap:OperatingLeaseCost,Net Rental Exp.,IS
+us-gaap:ShareBasedCompensation,"Stock-Based Comp., Unallocated",IS
+,,
+us-gaap:Revenues,Revenue,IS
+us-gaap:Revenues,Total Revenue,IS
+us-gaap:CostOfGoodsSold,Cost Of Goods Sold,IS
+us-gaap:CostOfRevenue,Cost Of Goods Sold,IS
+us-gaap:GrossProfit,Gross Profit,IS
+us-gaap:GeneralAndAdministrativeExpense,Selling General & Admin Exp.,IS
+us-gaap:ResearchAndDevelopmentExpense,R & D Exp.,IS
+us-gaap:OperatingIncomeLoss,Operating Income,IS
+us-gaap:InterestAndDebtExpense,Interest Expense,IS
+ba:IncomeLossfromInvestments,Interest and Invest. Income,IS
+us-gaap:IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest,EBT Incl. Unusual Items,IS
+us-gaap:IncomeTaxExpenseBenefit,Income Tax Expense,IS
+us-gaap:NetIncomeLoss,Earnings from Cont. Ops.,IS
+us-gaap:NetIncomeLoss,Net Income to Company,IS
+us-gaap:NetIncomeLoss,Net Income,IS
+us-gaap:EarningsPerShareBasic,Basic EPS,IS
+us-gaap:WeightedAverageNumberOfShareOutstandingBasicAndDiluted,Weighted Avg. Basic Shares Out.,IS
+us-gaap:EarningsPerShareDiluted,Diluted EPS,IS
+ba:DilutedWeightedAverageSharesOutstanding,Weighted Avg. Diluted Shares Out.,IS
+us-gaap:CommonStockDividendsPerShareDeclared,Dividends per Share,IS
+us-gaap:Revenues,As Reported Total Revenue,IS
+us-gaap:CurrentStateAndLocalTaxExpenseBenefit,Current State & Local Taxes,IS
+us-gaap:CurrentFederalTaxExpenseBenefit,Current Federal Taxes,
+us-gaap:CurrentForeignTaxExpenseBenefit,Current Foreign Taxes,IS
+us-gaap:CurrentIncomeTaxExpenseBenefit,Total Current Taxes,IS
+us-gaap:DeferredStateAndLocalIncomeTaxExpenseBenefit,Deferred State & Local Taxes,IS
+us-gaap:DeferredFederalIncomeTaxExpenseBenefit,Deferred Federal Taxes,IS
+us-gaap:DeferredForeignIncomeTaxExpenseBenefit,Deferred Foreign Taxes,IS
+us-gaap:DeferredIncomeTaxExpenseBenefit,Total Deferred Taxes,IS
+us-gaap:InterestCostsCapitalized,Interest Capitalized,IS
+us-gaap:GeneralAndAdministrativeExpense,Selling General & Admin Exp. ,IS
+us-gaap:ResearchAndDevelopmentExpense,R&D Exp.,IS
+us-gaap:LeaseAndRentalExpense,Net Rental Exp.,IS
+us-gaap:AllocatedShareBasedCompensationExpense,"Stock-Based Comp., Unallocated",IS
+us-gaap:CashAndCashEquivalentsAtCarryingValue,Cash And Equivalents,BS
+us-gaap:ShortTermInvestments,Short Term Investments,BS
+us-gaap:AccountsReceivableNetCurrent,Accounts Receivable,BS
+us-gaap:UnbilledContractsReceivable,Accounts Receivable,BS
+us-gaap:UnbilledContractsReceivable,Accounts Receivable,BS
+us-gaap:InventoryNetOfAllowancesCustomerAdvancesAndProgressBillings,Inventory,BS
+us-gaap:OtherAssetsCurrent,Other Current Assets,BS
+us-gaap:AssetsCurrent,Total Current Assets,BS
+us-gaap:PropertyPlantAndEquipmentGross,"Gross Property, Plant & Equipment",BS
+us-gaap:AccumulatedDepreciationDepletionAndAmortizationPropertyPlantAndEquipment,Accumulated Depreciation,BS
+us-gaap:PropertyPlantAndEquipmentNet,"Net Property, Plant & Equipment",BS
+us-gaap:LongTermInvestments,Long-term Investments,BS
+us-gaap:Goodwill,Goodwill,BS
+us-gaap:IntangibleAssetsNetExcludingGoodwill,Other Intangibles,BS
+us-gaap:DeferredTaxAssetsNetNoncurrent,"Deferred Tax Assets, LT",BS
+us-gaap:OtherAssetsNoncurrent,Other Long-Term Assets,BS
+us-gaap:Assets,Total Assets,BS
+us-gaap:AccountsPayableCurrent,Accounts Payable,BS
+us-gaap:DebtCurrent,Curr. Port. of LT Debt,BS
+us-gaap:TaxesPayableCurrentAndNoncurrent,Curr. Income Taxes Payable,BS
+us-gaap:ContractWithCustomerLiabilityCurrent,"Unearned Revenue, Current",BS
+us-gaap:LiabilitiesCurrent,Total Current Liabilities,BS
+us-gaap:LongTermDebtAndCapitalLeaseObligations,Long-Term Debt,BS
+us-gaap:DeferredTaxLiabilitiesNoncurrent,"Def. Tax Liability, Non-Curr.",BS
+us-gaap:OtherLiabilitiesNoncurrent,Other Non-Current Liabilities,BS
+us-gaap:CommonStockValue,Common Stock,BS
+us-gaap:AdditionalPaidInCapital,Additional Paid In Capital,BS
+us-gaap:RetainedEarningsAccumulatedDeficit,Retained Earnings,BS
+us-gaap:TreasuryStockValue,Treasury Stock,BS
+us-gaap:AccumulatedOtherComprehensiveIncomeLossNetOfTax,Comprehensive Inc. and Other,BS
+us-gaap:StockholdersEquity,Total Common Equity,BS
+us-gaap:StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest,Total Equity,BS
+us-gaap:LiabilitiesAndStockholdersEquity,Total Liabilities And Equity,BS
+us-gaap:InventoryForLongTermContractsOrPrograms,Work in Progress Inventory,BS
+us-gaap:Land,Land,BS
+us-gaap:BuildingsAndImprovementsGross,Buildings,BS
+us-gaap:MachineryAndEquipmentGross,Machinery,BS
+us-gaap:AllowanceForDoubtfulAccountsReceivableCurrent,Accum. Allowance for Doubtful Accts,BS
+us-gaap:NetIncomeLoss,Net Income,CS
+us-gaap:Depreciation,Depreciation & Amort.,CS
+us-gaap:AmortizationOfIntangibleAssets,Amort. of Goodwill and Intangibles,CS
+us-gaap:DepreciationDepletionAndAmortization,"Depreciation & Amort., Total",CS
+us-gaap:ShareBasedCompensation,Stock-Based Compensation,CS
+us-gaap:OtherNoncashIncomeExpense,Other Operating Activities,CS
+us-gaap:IncreaseDecreaseInAccountsReceivable,Change in Acc. Receivable,CS
+us-gaap:IncreaseDecreaseInAccountsReceivable,Change in Acc. Receivable,CS
+us-gaap:IncreaseDecreaseInInventories,Change In Inventories,CS
+us-gaap:IncreaseDecreaseInAccountsPayable,Change in Acc. Payable,CS
+us-gaap:IncreaseDecreaseInDeferredRevenueAndCustomerAdvancesAndDeposits,Change in Unearned Rev.,CS
+us-gaap:NetCashProvidedByUsedInOperatingActivities,Cash from Ops.,CS
+us-gaap:PaymentsToAcquirePropertyPlantAndEquipment,Capital Expenditure,CS
+us-gaap:PaymentsToAcquireBusinessesNetOfCashAcquired,Cash Acquisitions,CS
+us-gaap:PaymentsToAcquireInvestments,Purchase of Marketable Equity Securities,CS
+us-gaap:ProceedsFromSaleMaturityAndCollectionsOfInvestments,Sale of Marketable Equity Securities,CS
+us-gaap:ProceedsFromDivestitureOfBusinesses,Divestitures,CS
+us-gaap:PaymentsForProceedsFromOtherInvestingActivities,Other Investing Activities,CS
+us-gaap:NetCashProvidedByUsedInInvestingActivities,Cash from Investing,CS
+us-gaap:ProceedsFromIssuanceOfDebt,Long-Term Debt Issued,CS
+us-gaap:RepaymentsOfDebt,Long-Term Debt Repaid,CS
+us-gaap:PaymentsForRepurchaseOfCommonStock,Repurchase of Common Stock,CS
+us-gaap:ProceedsFromStockOptionsExercised,Issuance of Common Stock,CS
+us-gaap:PaymentsOfDividendsCommonStock,Common Dividends Paid,CS
+us-gaap:ProceedsFromPaymentsForOtherFinancingActivities,Other Financing Activities,CS
+us-gaap:NetCashProvidedByUsedInFinancingActivities,Cash from Financing,CS
+us-gaap:EffectOfExchangeRateOnCashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents,Foreign Exchange Rate Adj.,CS
+us-gaap:CashAndCashEquivalentsPeriodIncreaseDecrease,Net Change in Cash,CS
+us-gaap:InterestPaid,Cash Interest Paid,CS
+us-gaap:IncomeTaxesPaidNet,Cash Taxes Paid,CS
+,,
+us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax,Revenue,IS
+us-gaap:SalesRevenueGoodsNet,Revenue,IS
+,,
+us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax,Total Revenue,IS
+us-gaap:CostOfGoodsAndServicesSold,Cost Of Goods Sold,IS
+us-gaap:SellingGeneralAndAdministrativeExpense,Selling General & Admin Exp.,IS
+us-gaap:SellingGeneralAndAdministrativeExpense,Selling General & Admin Exp.,IS
+us-gaap:SellingGeneralAndAdministrativeExpense,Selling General & Admin Exp.,IS
+us-gaap:ResearchAndDevelopmentExpenseExcludingAcquiredInProcessCost,R & D Exp.,IS
+us-gaap:InvestmentIncomeInterestAndDividend,Interest and Invest. Income,IS
+us-gaap:OtherNonoperatingIncomeExpense,Other Non-Operating Inc. (Exp.),IS
+us-gaap:ResearchAndDevelopmentInProcess,R & D Exp.,IS
+us-gaap:RestructuringCharges,Restructuring Charges,IS
+us-gaap:ImpairmentOfIntangibleAssetsExcludingGoodwill,Asset Writedown,IS
+us-gaap:IncomeTaxExpenseBenefit,Income Tax Expense,IS
+us-gaap:IncomeLossFromContinuingOperations,Earnings from Cont. Ops.,IS
+us-gaap:IncomeLossFromDiscontinuedOperationsNetOfTaxAttributableToReportingEntity,Earnings of Discontinued Ops.,IS
+us-gaap:NetIncomeLoss,Net Income to Company,IS
+us-gaap:ProfitLoss,Net Income to Company,IS
+us-gaap:NetIncomeLoss,Net Income,IS
+us-gaap:EarningsPerShareBasic,Basic EPS,IS
+us-gaap:IncomeLossFromContinuingOperationsPerBasicShare,Basic EPS Excl. Extra Items,IS
+us-gaap:WeightedAverageNumberOfSharesOutstandingBasic,Weighted Avg. Basic Shares Out.,IS
+us-gaap:EarningsPerShareDiluted,Diluted EPS,IS
+us-gaap:IncomeLossFromContinuingOperationsPerDilutedShare,Diluted EPS Excl. Extra Items,IS
+us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding,Weighted Avg. Diluted Shares Out.,IS
+us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding,Weighted Avg. Diluted Shares Out.,IS
+us-gaap:CurrentFederalTaxExpenseBenefit,Current Federal Taxes,IS
+us-gaap:CurrentStateAndLocalTaxExpenseBenefit,Current State & Local Taxes,IS
+us-gaap:CurrentIncomeTaxExpenseBenefit,Total Current Taxes,IS
+us-gaap:DeferredStateAndLocalIncomeTaxExpenseBenefit,Deferred State & Local Taxes,IS
+us-gaap:DeferredFederalIncomeTaxExpenseBenefit,Deferred Federal Taxes,IS
+us-gaap:DeferredIncomeTaxExpenseBenefit,Total Deferred Taxes,IS
+us-gaap:InterestExpense,Interest on Long Term Debt,IS
+us-gaap:AdvertisingExpense,Advertising Exp.,IS
+us-gaap:OperatingLeasesRentExpenseNet,Net Rental Exp.,IS
+us-gaap:AllocatedShareBasedCompensationExpense,"Stock-Based Comp., Total",IS
+us-gaap:CashAndCashEquivalentsAtCarryingValue,Cash And Equivalents,BS
+us-gaap:AvailableForSaleSecuritiesDebtSecuritiesCurrent,Short Term Investments,BS
+us-gaap:AccountsReceivableNetCurrent,Accounts Receivable,BS
+us-gaap:NotesAndLoansReceivableGrossCurrent,Notes Receivable,BS
+us-gaap:InventoryNet,Inventory,BS
+us-gaap:DeferredIncomeTaxAssetsNet,"Deferred Tax Assets, Curr.",BS
+us-gaap:PrepaidExpenseAndOtherAssetsCurrent,Other Current Assets,BS
+us-gaap:AssetsCurrent,Total Current Assets,BS
+us-gaap:PropertyPlantAndEquipmentGross,"Gross Property, Plant & Equipment",BS
+us-gaap:AccumulatedDepreciationDepletionAndAmortizationPropertyPlantAndEquipment,Accumulated Depreciation,BS
+us-gaap:PropertyPlantAndEquipmentNet,"Net Property, Plant & Equipment",BS
+us-gaap:Goodwill,Goodwill,BS
+us-gaap:FiniteLivedIntangibleAssetsNet,Other Intangibles,BS
+us-gaap:DeferredIncomeTaxAssetsNet,"Deferred Tax Assets, LT",BS
+us-gaap:OtherAssetsNoncurrent,Other Long-Term Assets,BS
+us-gaap:Assets,Total Assets,BS
+us-gaap:AccountsPayableCurrent,Accounts Payable,BS
+us-gaap:AccruedLiabilitiesCurrent,Accrued Exp.,BS
+us-gaap:LongTermDebtCurrent,Curr. Port. of LT Debt,BS
+us-gaap:DeferredRevenueCurrent,"Unearned Revenue, Current",BS
+us-gaap:LiabilitiesCurrent,Total Current Liabilities,BS
+us-gaap:LongTermDebt,Long-Term Debt,BS
+us-gaap:DisposalGroupIncludingDiscontinuedOperationDeferredRevenueNoncurrent,"Unearned Revenue, Non-Current",BS
+us-gaap:DeferredTaxLiabilitiesNoncurrent,"Def. Tax Liability, Non-Curr.",BS
+us-gaap:OtherLiabilitiesNoncurrent,Other Non-Current Liabilities,BS
+us-gaap:Liabilities,Total Liabilities,BS
+us-gaap:CommonStockValue,Common Stock,BS
+us-gaap:AdditionalPaidInCapitalCommonStock,Additional Paid In Capital,BS
+us-gaap:RetainedEarningsAccumulatedDeficit,Retained Earnings,BS
+us-gaap:AccumulatedOtherComprehensiveIncomeLossNetOfTax,Comprehensive Inc. and Other,BS
+us-gaap:StockholdersEquity,Total Common Equity,BS
+us-gaap:StockholdersEquity,Total Equity,BS
+us-gaap:LiabilitiesAndStockholdersEquity,Total Liabilities And Equity,BS
+us-gaap:InventoryRawMaterialsNetOfReserves,Raw Materials Inventory,BS
+us-gaap:InventoryWorkInProcessNetOfReserves,Work in Progress Inventory,BS
+s-gaap:InventoryFinishedGoodsNetOfReserves,Finished Goods Inventory,BS
+us-gaap:PropertyPlantAndEquipmentGross,"Gross Property, Plant & Equipment",BS
+,,
+,,
+,,
+us-gaap:ValuationAllowancesAndReservesBalance,Accum. Allowance for Doubtful Accts,BS
+us-gaap:NetIncomeLoss,Net Income,CS
+us-gaap:DepreciationDepletionAndAmortization,Depreciation & Amort.,CS
+us-gaap:Depreciation,Depreciation & Amort.,CS
+us-gaap:ShareBasedCompensation,Stock-Based Compensation,CS
+us-gaap:IncreaseDecreaseInAccountsReceivable,Change in Acc. Receivable,CS
+us-gaap:IncreaseDecreaseInInventories,Change In Inventories,CS
+us-gaap:IncreaseDecreaseInAccountsPayableAndAccruedLiabilities,Change in Acc. Payable,CS
+us-gaap:IncreaseDecreaseInDeferredRevenue,Change in Unearned Rev.,CS
+us-gaap:IncreaseDecreaseInContractWithCustomerLiability,Change in Unearned Rev.,CS
+us-gaap:NetCashProvidedByUsedInOperatingActivities,Cash from Ops.,CS
+us-gaap:PaymentsToAcquirePropertyPlantAndEquipment,Capital Expenditure,CS
+us-gaap:PaymentsToAcquireBusinessesNetOfCashAcquired,Cash Acquisitions,CS
+us-gaap:ProceedsFromIssuanceOfLongTermDebt,Long Term Debt Issued,CS
+us-gaap:RepaymentsOfLongTermDebt,Long-Term Debt Repaid,CS
+us-gaap:PaymentsForRepurchaseOfCommonStock,Repurchase of Common Stock,CS
+us-gaap:ProceedsFromStockOptionsExercised,Issuance of Common Stock,CS
+us-gaap:ProceedsFromIssuanceOfSharesUnderIncentiveAndShareBasedCompensationPlansIncludingStockOptions,Issuance of Common Stock,CS
+us-gaap:NetCashProvidedByUsedInFinancingActivities,Cash from Financing,CS
+us-gaap:CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalentsPeriodIncreaseDecreaseIncludingExchangeRateEffect,Net Change in Cash,CS
+us-gaap:CashAndCashEquivalentsPeriodIncreaseDecrease,Net Change in Cash,CS
+us-gaap:IncomeTaxesPaid,Cash Taxes Paid,CS
+us-gaap:InterestPaidNet,Cash Interest Paid,CS
+us-gaap:InterestPaid,Cash Interest Paid,CS
+,,
+us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax,Revenue,IS
+us-gaap:SalesRevenueGoodsNet,Revenue,IS
+,,
+us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax,Total Revenue,IS
+us-gaap:CostOfGoodsAndServicesSold,Cost Of Goods Sold,IS
+us-gaap:SellingGeneralAndAdministrativeExpense,Selling General & Admin Exp.,IS
+us-gaap:SellingGeneralAndAdministrativeExpense,Selling General & Admin Exp.,IS
+us-gaap:SellingGeneralAndAdministrativeExpense,Selling General & Admin Exp.,IS
+us-gaap:ResearchAndDevelopmentExpenseExcludingAcquiredInProcessCost,R & D Exp.,IS
+us-gaap:InvestmentIncomeInterestAndDividend,Interest and Invest. Income,IS
+us-gaap:OtherNonoperatingIncomeExpense,Other Non-Operating Inc. (Exp.),IS
+us-gaap:ResearchAndDevelopmentInProcess,R & D Exp.,IS
+us-gaap:RestructuringCharges,Restructuring Charges,IS
+us-gaap:ImpairmentOfIntangibleAssetsExcludingGoodwill,Asset Writedown,IS
+us-gaap:IncomeTaxExpenseBenefit,Income Tax Expense,IS
+us-gaap:IncomeLossFromContinuingOperations,Earnings from Cont. Ops.,IS
+us-gaap:IncomeLossFromDiscontinuedOperationsNetOfTaxAttributableToReportingEntity,Earnings of Discontinued Ops.,IS
+us-gaap:NetIncomeLoss,Net Income to Company,IS
+us-gaap:ProfitLoss,Net Income to Company,IS
+us-gaap:NetIncomeLoss,Net Income,IS
+us-gaap:EarningsPerShareBasic,Basic EPS,IS
+us-gaap:IncomeLossFromContinuingOperationsPerBasicShare,Basic EPS Excl. Extra Items,IS
+us-gaap:WeightedAverageNumberOfSharesOutstandingBasic,Weighted Avg. Basic Shares Out.,IS
+us-gaap:EarningsPerShareDiluted,Diluted EPS,IS
+us-gaap:IncomeLossFromContinuingOperationsPerDilutedShare,Diluted EPS Excl. Extra Items,IS
+us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding,Weighted Avg. Diluted Shares Out.,IS
+us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding,Weighted Avg. Diluted Shares Out.,IS
+,,
+us-gaap:CurrentFederalTaxExpenseBenefit,Current Federal Taxes,IS
+us-gaap:CurrentStateAndLocalTaxExpenseBenefit,Current State & Local Taxes,IS
+us-gaap:CurrentIncomeTaxExpenseBenefit,Total Current Taxes,IS
+us-gaap:DeferredStateAndLocalIncomeTaxExpenseBenefit,Deferred State & Local Taxes,IS
+us-gaap:DeferredFederalIncomeTaxExpenseBenefit,Deferred Federal Taxes,IS
+,,
+us-gaap:DeferredIncomeTaxExpenseBenefit,Total Deferred Taxes,IS
+us-gaap:InterestExpense,Interest on Long Term Debt,IS
+us-gaap:AdvertisingExpense,Advertising Exp.,IS
+us-gaap:OperatingLeasesRentExpenseNet,Net Rental Exp.,IS
+us-gaap:AllocatedShareBasedCompensationExpense,"Stock-Based Comp., Total",IS
+us-gaap:CashAndCashEquivalentsAtCarryingValue,Cash And Equivalents,BS
+us-gaap:AvailableForSaleSecuritiesDebtSecuritiesCurrent,Short Term Investments,BS
+us-gaap:AccountsReceivableNetCurrent,Accounts Receivable,BS
+us-gaap:NotesAndLoansReceivableGrossCurrent,Notes Receivable,BS
+us-gaap:InventoryNet,Inventory,BS
+us-gaap:DeferredIncomeTaxAssetsNet,"Deferred Tax Assets, Curr.",BS
+us-gaap:PrepaidExpenseAndOtherAssetsCurrent,Other Current Assets,BS
+us-gaap:AssetsCurrent,Total Current Assets,BS
+us-gaap:PropertyPlantAndEquipmentGross,"Gross Property, Plant & Equipment",BS
+us-gaap:AccumulatedDepreciationDepletionAndAmortizationPropertyPlantAndEquipment,Accumulated Depreciation,BS
+us-gaap:PropertyPlantAndEquipmentNet,"Net Property, Plant & Equipment",BS
+us-gaap:Goodwill,Goodwill,BS
+us-gaap:FiniteLivedIntangibleAssetsNet,Other Intangibles,BS
+us-gaap:DeferredIncomeTaxAssetsNet,"Deferred Tax Assets, LT",BS
+us-gaap:OtherAssetsNoncurrent,Other Long-Term Assets,BS
+us-gaap:Assets,Total Assets,BS
+us-gaap:AccountsPayableCurrent,Accounts Payable,BS
+us-gaap:AccruedLiabilitiesCurrent,Accrued Exp.,BS
+us-gaap:LongTermDebtCurrent,Curr. Port. of LT Debt,BS
+us-gaap:DeferredRevenueCurrent,"Unearned Revenue, Current",BS
+us-gaap:LiabilitiesCurrent,Total Current Liabilities,BS
+us-gaap:LongTermDebt,Long-Term Debt,BS
+us-gaap:DisposalGroupIncludingDiscontinuedOperationDeferredRevenueNoncurrent,"Unearned Revenue, Non-Current",BS
+us-gaap:DeferredTaxLiabilitiesNoncurrent,"Def. Tax Liability, Non-Curr.",BS
+us-gaap:OtherLiabilitiesNoncurrent,Other Non-Current Liabilities,BS
+us-gaap:Liabilities,Total Liabilities,BS
+us-gaap:CommonStockValue,Common Stock,BS
+us-gaap:AdditionalPaidInCapitalCommonStock,Additional Paid In Capital,BS
+us-gaap:RetainedEarningsAccumulatedDeficit,Retained Earnings,BS
+us-gaap:AccumulatedOtherComprehensiveIncomeLossNetOfTax,Comprehensive Inc. and Other,BS
+us-gaap:StockholdersEquity,Total Common Equity,BS
+us-gaap:StockholdersEquity,Total Equity,BS
+us-gaap:LiabilitiesAndStockholdersEquity,Total Liabilities And Equity,BS
+us-gaap:InventoryRawMaterialsNetOfReserves,Raw Materials Inventory,BS
+us-gaap:InventoryWorkInProcessNetOfReserves,Work in Progress Inventory,BS
+s-gaap:InventoryFinishedGoodsNetOfReserves,Finished Goods Inventory,BS
+us-gaap:PropertyPlantAndEquipmentGross,"Gross Property, Plant & Equipment",BS
+,,
+,,
+,,
+,,
+us-gaap:NetIncomeLoss,Net Income,CS
+us-gaap:DepreciationDepletionAndAmortization,Depreciation & Amort.,CS
+us-gaap:Depreciation,Depreciation & Amort.,CS
+us-gaap:ShareBasedCompensation,Stock-Based Compensation,CS
+us-gaap:IncreaseDecreaseInAccountsReceivable,Change in Acc. Receivable,CS
+us-gaap:IncreaseDecreaseInInventories,Change In Inventories,CS
+,,
+us-gaap:IncreaseDecreaseInDeferredRevenue,Change in Unearned Rev.,CS
+us-gaap:IncreaseDecreaseInContractWithCustomerLiability,Change in Unearned Rev.,CS
+us-gaap:NetCashProvidedByUsedInOperatingActivities,Cash from Ops.,CS
+us-gaap:PaymentsToAcquirePropertyPlantAndEquipment,Capital Expenditure,CS
+us-gaap:PaymentsToAcquireBusinessesNetOfCashAcquired,Cash Acquisitions,CS
+us-gaap:ProceedsFromIssuanceOfLongTermDebt,Long Term Debt Issued,CS
+us-gaap:RepaymentsOfLongTermDebt,Long-Term Debt Repaid,CS
+us-gaap:PaymentsForRepurchaseOfCommonStock,Repurchase of Common Stock,CS
+us-gaap:ProceedsFromStockOptionsExercised,Issuance of Common Stock,CS
+us-gaap:ProceedsFromIssuanceOfSharesUnderIncentiveAndShareBasedCompensationPlansIncludingStockOptions,Issuance of Common Stock,CS
+us-gaap:NetCashProvidedByUsedInFinancingActivities,Cash from Financing,CS
+us-gaap:CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalentsPeriodIncreaseDecreaseIncludingExchangeRateEffect,Net Change in Cash,CS
+us-gaap:CashAndCashEquivalentsPeriodIncreaseDecrease,Net Change in Cash,CS
+us-gaap:IncomeTaxesPaid,Cash Taxes Paid,CS
+us-gaap:InterestPaidNet,Cash Interest Paid,CS
+us-gaap:InterestPaid,Cash Interest Paid,CS

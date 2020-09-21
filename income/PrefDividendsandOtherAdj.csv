@@ -1,0 +1,19 @@
+standard,gaap_tag,statement
+Pref. Dividends and Other Adj.,PreferredStockDividendsAndOtherAdjustments,income
+Pref. Dividends and Other Adj.,PreferredStockDividendsIncomeStatementImpact,income
+Pref. Dividends and Other Adj.,DividendsPreferredStock,income
+Pref. Dividends and Other Adj.,PreferredStockDividends,income
+Pref. Dividends and Other Adj.,PreferredStockDividendsOfSubsidiaries,income
+Pref. Dividends and Other Adj.,PreferredStockDividendsAndOther,income
+Pref. Dividends and Other Adj.,DividendsPreferredStockCash,income
+Pref. Dividends and Other Adj.,PreferredStockDiscountAccretionAndRedemptionsEps,income
+Pref. Dividends and Other Adj.,PreferredStockDiscountAccretionAndRedemptions,income
+Pref. Dividends and Other Adj.,OtherPreferredStockDividendsAndAdjustments,income
+Pref. Dividends and Other Adj.,PreferredDividendsPaidbySubsidiaries,income
+Pref. Dividends and Other Adj.,PreferredStockDividendsIS,income
+Pref. Dividends and Other Adj.,DividendsPreferredStockStock,income
+Pref. Dividends and Other Adj.,DividendsPreferredStockTotal,income
+Pref. Dividends and Other Adj.,PreferredStockDividendsAndAccretionOfDiscount,income
+Pref. Dividends and Other Adj.,UndistributedEarningsLossAllocatedToParticipatingSecuritiesBasic,income
+Pref. Dividends and Other Adj.,UndistributedEarningsAllocatedToParticipatingSecurities,income
+Pref. Dividends and Other Adj.,RedeemablePreferredStockDividends,income

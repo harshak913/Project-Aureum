@@ -1,0 +1,231 @@
+standard,statement
+Cash And Equivalents,BS
+Restricted Cash,BS
+Short Term Investments,BS
+Trading Asset Securities,BS
+Total Cash & ST Investments,BS
+Total Shares Out.,BS
+Accounts Receivable,BS
+Total Receivables,BS
+Notes Receivable,BS
+,BS
+Inventory,BS
+"Deferred Tax Assets, Curr.",BS
+,BS
+Other Current Assets,BS
+Total Current Assets,BS
+,BS
+"Gross Property, Plant & Equipment",BS
+Accumulated Depreciation,BS
+"Net Property, Plant & Equipment",BS
+,BS
+Long-term Investments,BS
+Goodwill,BS
+Other Intangibles,BS
+,BS
+"Deferred Tax Assets, LT",BS
+Other Long-Term Assets,BS
+Total Assets,BS
+Land,BS
+Buildings,BS
+Machinery,BS
+,BS
+Accounts Payable,BS
+Accrued Exp.,BS
+Short-term Borrowings,BS
+Curr. Port. of LT Debt,BS
+Curr. Income Taxes Payable,BS
+Curr. Port. of Cap. Leases,BS
+"Unearned Revenue, Current",BS
+Other Current Liabilities,BS
+Total Current Liabilities,BS
+,BS
+Long-Term Debt,BS
+Capital Leases,BS
+"Unearned Revenue, Non-Current",BS
+"Def. Tax Liability, Non-Curr.",BS
+Other Non-Current Liabilities,BS
+Total Liabilities,BS
+,BS
+Common Stock,BS
+Additional Paid In Capital,BS
+Retained Earnings,BS
+Treasury Stock,BS
+Comprehensive Inc. and Other,BS
+Total Common Equity,BS
+,BS
+Total Equity,BS
+,BS
+Total Liabilities And Equity,BS
+,BS
+Debt Equivalent Oper. Leases,BS
+Inventory Method,BS
+Raw Materials Inventory,BS
+Work in Progress Inventory,BS
+Finished Goods Inventory,BS
+,BS
+,BS
+,BS
+Full Time Employees,BS
+Accum. Allowance for Doubtful Accts,BS
+,
+Revenue,IS
+,IS
+Other Revenue,IS
+Total Revenue,IS
+,IS
+Cost Of Goods Sold,IS
+Gross Profit,IS
+,IS
+,IS
+Selling General & Admin Exp.,IS
+R & D Exp.,IS
+Depreciation & Amort.,IS
+Other Operating Expense/(Income),IS
+,IS
+"Operating Exp., Total",IS
+,IS
+Operating Income,IS
+,IS
+Interest Expense,IS
+Interest and Invest. Income,IS
+Net Interest Exp.,IS
+,IS
+,IS
+Currency Exchange Gains (Loss),IS
+Other Non-Operating Inc. (Exp.),IS
+EBT Excl. Unusual Items,IS
+,IS
+,IS
+Restructuring Charges,IS
+Merger & Related Restruct. Charges,IS
+Impairment of Goodwill,IS
+Gain (Loss) On Sale Of Invest.,IS
+Asset Writedown,IS
+Other Unusual Items,IS
+EBT Incl. Unusual Items,IS
+,IS
+Income Tax Expense,IS
+Earnings from Cont. Ops.,IS
+,IS
+Earnings of Discontinued Ops.,IS
+Extraord. Item & Account. Change,IS
+Net Income to Company,IS
+,IS
+Minority Int. in Earnings,IS
+Net Income,IS
+,IS
+Pref. Dividends and Other Adj.,IS
+,IS
+NI to Common Incl Extra Items,IS
+NI to Common Excl. Extra Items,IS
+,IS
+Per Share Items,IS
+Basic EPS,IS
+Basic EPS Excl. Extra Items,IS
+Weighted Avg. Basic Shares Out.,IS
+,IS
+Diluted EPS,IS
+Diluted EPS Excl. Extra Items,IS
+Weighted Avg. Diluted Shares Out.,IS
+,IS
+Normalized Basic EPS,IS
+Normalized Diluted EPS,IS
+,IS
+Dividends per Share,IS
+Payout Ratio %,IS
+,IS
+,IS
+,IS
+,IS
+EBIT,IS
+,IS
+As Reported Total Revenue,IS
+,IS
+Current Domestic Taxes,IS
+Current Foreign Taxes,IS
+Total Current Taxes,IS
+Deferred Domestic Taxes,IS
+Deferred Foreign Taxes,IS
+Total Deferred Taxes,IS
+,IS
+Normalized Net Income,IS
+Interest Capitalized=None,IS
+Interest on Long Term Debt,IS
+Filing Date,IS
+,IS
+Supplemental Operating Expense Items,IS
+Advertising Exp.,IS
+Selling and Marketing Exp.,IS
+General and Administrative Exp.,IS
+R&D Exp.,IS
+Net Rental Exp.,IS
+,IS
+,IS
+,IS
+"Stock-Based Comp., Unallocated",IS
+"Stock-Based Comp., Total",IS
+,
+Net Income,CS
+,CS
+Depreciation & Amort.,CS
+Amort. of Goodwill and Intangibles,CS
+"Depreciation & Amort., Total",CS
+,CS
+,CS
+,CS
+,CS
+Stock-Based Compensation,CS
+Net Cash From Discontinued Ops.,CS
+Other Operating Activities,CS
+Change in Acc. Receivable,CS
+Change In Inventories,CS
+Change in Acc. Payable,CS
+Change in Unearned Rev.,CS
+Change in Other Net Operating Assets,CS
+Cash from Ops.,CS
+,CS
+,CS
+Capital Expenditure,CS
+Cash Acquisitions,CS
+Divestitures,CS
+Invest. in Marketable & Equity Securt.,CS
+Net (Inc.) Dec. in Loans Originated/Sold,CS
+Other Investing Activities,CS
+Cash from Investing,CS
+,CS
+,CS
+Short Term Debt Issued,CS
+Long-Term Debt Issued,CS
+Total Debt Issued,CS
+Short Term Debt Repaid,CS
+Long-Term Debt Repaid,CS
+Total Debt Repaid,CS
+,CS
+,CS
+Repurchase of Common Stock,CS
+Issuance of Common Stock,CS
+Common Dividends Paid,CS
+Total Dividends Paid,CS
+,CS
+Special Dividend Paid,CS
+Other Financing Activities,CS
+Cash from Financing,CS
+,CS
+Foreign Exchange Rate Adj.,CS
+Net Change in Cash,CS
+,CS
+,CS
+Cash Interest Paid,CS
+Cash Taxes Paid,CS
+Other Receivables,BS
+Interest Capitalized,BS
+Total Shares Out.,BS
+Short & Long-Term Debt Repaid,CS
+Purchase of Marketable Equity Securities,CS
+Sale of Marketable Equity Securities,CS
+,
+Current Federal Taxes,IS
+Current State & Local Taxes,IS
+Deferred State & Local Taxes,IS
+Deferred Federal Taxes,IS

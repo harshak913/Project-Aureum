@@ -1,0 +1,24 @@
+standard,gaap_tag,statement
+Selling General & Admin Exp.,SellingGeneralAndAdministrativeExpense,income
+Selling General & Admin Exp.,SellingAndMarketingExpense,income
+Selling General & Admin Exp.,GeneralAndAdministrativeExpense,income
+Selling General & Admin Exp.,SellingGeneralAndAdministrativeExpenses,income
+Selling General & Admin Exp.,OperatingExpenses,income
+Selling General & Admin Exp.,GeneralAndAdministrativeExpenseAndOtherOperatingExpenses,income
+Selling General & Admin Exp.,SellingGeneralAndAdministrativeExpensePercent,income
+Selling General & Admin Exp.,SellingGeneralAndAdministrativeExpenseOperatingExpenses,income
+Selling General & Admin Exp.,ResultsOfOperationsGeneralAndAdministrativeRelatedToOilAndGasProducingActivities,income
+Selling General & Admin Exp.,CostOfRevenue,income
+Selling General & Admin Exp.,AutomotiveSellingGeneralAndAdministrativeExpense,income
+Selling General & Admin Exp.,OtherGeneralAndAdministrativeExpense,income
+Selling General & Admin Exp.,ComprehensiveIncomeNetOfTax,income
+Selling General & Admin Exp.,WeightedAverageNumberOfDilutedSharesOutstanding,income
+Selling General & Admin Exp.,OperatingExpensesOtherThanAmortizationOfDeferredPolicyAcquisitionCosts,income
+Selling General & Admin Exp.,StockBasedCompensationSellingGeneralAndAdministrative,income
+Selling General & Admin Exp.,OtherSellingGeneralAndAdministrativeExpense,income
+Selling General & Admin Exp.,SellingGeneralandAdministrativeExpenseExcludingReceivableImpairment,income
+Selling General & Admin Exp.,MarketingExpense,income
+Selling General & Admin Exp.,SellingExpense,income
+Selling General & Admin Exp.,SellingExpenses,income
+Selling General & Admin Exp.,OtherGeneralExpense,income
+Selling General & Admin Exp.,CorporateExpenses,income

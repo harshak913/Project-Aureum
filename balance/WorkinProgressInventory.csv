@@ -1,0 +1,10 @@
+standard,gaap_tag,statement
+Work in Progress Inventory,InventoryWorkInProcessNetOfReserves,balance
+Work in Progress Inventory,InventoryWorkInProcess,balance
+Work in Progress Inventory,InventoryForLongTermContractsOrPrograms,balance
+Work in Progress Inventory,InventoryRawMaterialsAndSuppliesNetOfReserves,balance
+Work in Progress Inventory,InventoryFinishedGoodsNetOfReserves,balance
+Work in Progress Inventory,InventoryFinishedGoods,balance
+Work in Progress Inventory,InventoryNet,balance
+Work in Progress Inventory,InventoryNetOfAllowancesCustomerAdvancesAndProgressBillings,balance
+Work in Progress Inventory,InventoryAndRawMaterialsForLongTermContractsOrPrograms,balance

@@ -1,0 +1,20 @@
+standard,gaap_tag,statement
+Total Cash & ST Investments,CashCashEquivalentsAndShortTermInvestments,balance
+Total Cash & ST Investments,TotalCashAndMarketableSecurities,balance
+Total Cash & ST Investments,CashAndCashEquivalentsAtCarryingValue,balance
+Total Cash & ST Investments,CashAndCashEquivalentsNonvariableInterestEntity,balance
+Total Cash & ST Investments,CashAndCashEquivalentsAtCarryingValues,balance
+Total Cash & ST Investments,CashEquivalentsAtCarryingValue,balance
+Total Cash & ST Investments,CashAndCashEquivalentsAtCarryingValueIncludingDiscontinuedOperations,balance
+Total Cash & ST Investments,CashAndCashEquivalentsAtCarryingValueBankingFinanceAssets,balance
+Total Cash & ST Investments,CashAndCashEquivalentsAtCarryingValuePercent,balance
+Total Cash & ST Investments,Cash,balance
+Total Cash & ST Investments,CashCashEquivalentsAndFederalFundsSold,balance
+Total Cash & ST Investments,CashCashEquivalents,balance
+Total Cash & ST Investments,CashAndCashEquivalents,balance
+Total Cash & ST Investments,CashAndCashEquivalentsOfConsolidatedVariableInterestEntities,balance
+Total Cash & ST Investments,CashAndCashEquivalentsContinuingOperations,balance
+Total Cash & ST Investments,CashAndCashEquivalentsFairValueDisclosure,balance
+Total Cash & ST Investments,CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents,balance
+Total Cash & ST Investments,Cashandcashequivalentsatcarryingvalueexcludingrestrictedcash,balance
+Total Cash & ST Investments,CashCashEquivalentsAndMarketableSecurities,balance
