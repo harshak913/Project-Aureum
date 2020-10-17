@@ -1,0 +1,14 @@
+standard,gaap_tag,statement
+Cash from Financing,NetCashProvidedByUsedInFinancingActivities,cash_flow
+Cash from Financing,NetCashProvidedByUsedInFinancingActivitiesContinuingOperations,cash_flow
+Cash from Financing,CashProvidedByUsedInFinancingActivitiesDiscontinuedOperations,cash_flow
+,,
+,,
+,,
+,,
+,,
+Cash from Financing,NetCashProvidedByUsedInOperatingActivitiesContinuingOperations,cash_flow
+Cash from Financing,NetCashProvidedByUsedInContinuingOperations,cash_flow
+Cash from Financing,NetCashProvidedByUsedInInvestingActivitiesContinuingOperations,cash_flow
+Cash from Financing,NetCashProvidedByUsedInInvestingActivities,cash_flow
+Cash from Financing,CashProvidedByUsedInInvestingActivitiesDiscontinuedOperations,cash_flow

@@ -1,0 +1,102 @@
+standard,gaap_tag,statement
+Depreciation & Amort.,DepreciationDepletionAndAmortization,cash_flow
+Depreciation & Amort.,DepreciationAmortizationAndAccretionNet,cash_flow
+Depreciation & Amort.,DepreciationAndAmortization,cash_flow
+Depreciation & Amort.,DepreciationAmortizationAndOther,cash_flow
+Depreciation & Amort.,DepreciationAmortizationAndOtherNoncashItems,cash_flow
+Depreciation & Amort.,Depreciation,cash_flow
+Depreciation & Amort.,DepreciationandAmortizationExcludingFinancingCostsandDiscounts,cash_flow
+Depreciation & Amort.,DepreciationAndAmortizationCashFlowImpact,cash_flow
+Depreciation & Amort.,DepreciationandAmortizationExcludingAmortizationofFinancingCosts,cash_flow
+Depreciation & Amort.,DepreciationDepletionAndAmortizationExcludingTransformationCharges,cash_flow
+Depreciation & Amort.,DepreciationAndAmortizationIncludingDiscontinuedOperations,cash_flow
+Depreciation & Amort.,DepreciationAndAmortizationExcludingDeferredPolicyAcquisitionCostAmortizationExpense,cash_flow
+Depreciation & Amort.,DepreciationDepletionAndAmortizationIncludingDiscontinuedOperations,cash_flow
+Depreciation & Amort.,AdjustmentDepreciationAndAmortizationIncludingDiscontinuedOperations,cash_flow
+Depreciation & Amort.,UtilitiesOperatingExpenseDepreciationAndAmortization,cash_flow
+Depreciation & Amort.,MainlineAndExpressDepreciationAndAmortization,cash_flow
+Depreciation & Amort.,DepreciationAndAmortizationCashFlows,cash_flow
+Depreciation & Amort.,AdjustmentDepreciationAndAmortization,cash_flow
+Depreciation & Amort.,CashFlowDepreciationExpense,cash_flow
+Depreciation & Amort.,DepreciationAndAmortizationIncludingAmountsInDiscontinuedOperations,cash_flow
+Depreciation & Amort.,DepreciationDepletionAndAmortizationIncludingDiscontinuedOperationDepreciationandAmortization,cash_flow
+Depreciation & Amort.,DepreciationNonproduction,cash_flow
+Depreciation & Amort.,DepreciationDepletionandAmortizationIncludingDiscontinuedOperations,cash_flow
+Depreciation & Amort.,DepreciationAndAmortizationExpense,cash_flow
+Depreciation & Amort.,DepreciationDepletionAndAmortizationAssociatedWithPropertyPlantAndEquipmentAndIntangibleAssets,cash_flow
+Depreciation & Amort.,DepreciationAndAmortizationDiscontinuedOperations,cash_flow
+Depreciation & Amort.,DepreciationAndAmortizations,cash_flow
+Depreciation & Amort.,DepreciationAmortizationAndAccretionNetCashFlowImpact,cash_flow
+Depreciation & Amort.,DepreciationDepletionAndAmortizationCashFlowImpact,cash_flow
+Depreciation & Amort.,DepreciationAndAmortizationCF,cash_flow
+Depreciation & Amort.,DepreciationAndAmortizationLessAmountsCapitalized,cash_flow
+Depreciation & Amort.,DepreciationAndAmortizationCashFlow,cash_flow
+Depreciation & Amort.,DepreciationAndAmortizationIncludingAmountsReportedAsDiscontinuedOperations,cash_flow
+Depreciation & Amort.,DepreciationDepletionAndAmortizationincludingdiscontinuedoperations,cash_flow
+Depreciation & Amort.,DepreciationDecommissioningAmortizationandOther,cash_flow
+Depreciation & Amort.,DepreciationAndAmortizationExcludingFinancingCostsAndDiscounts,cash_flow
+Depreciation & Amort.,CostOfGoodsAndServicesSoldDepreciationAndAmortization,cash_flow
+Depreciation & Amort.,DepreciationDepletionandAmortizationExcludingDebtDiscountAndIssuanceCosts,cash_flow
+Depreciation & Amort.,DepreciationDepletionAndAmortizationCashFlow,cash_flow
+Depreciation & Amort.,CostOfGoodsSoldDepreciationDepletionAndAmortization,cash_flow
+Depreciation & Amort.,DepreciationDepletionAndAmortizationAsReportedInStatementOfCashFlows,cash_flow
+Depreciation & Amort.,DepletionOfOilAndGasProperties,cash_flow
+Depreciation & Amort.,DepreciationDepletionAndAmortizationIncludingDiscOps,cash_flow
+Depreciation & Amort.,DepreciationDepletionandAmortizationExcludingAmortizationofFinancingCosts,cash_flow
+Depreciation & Amort.,DepreciationandAmortizationIncludingDepreciationonOperatingLeases,cash_flow
+Depreciation & Amort.,DepreciationDepletionAndAmortizationNetOfDepreciationReportedInOilAndNaturalGasServices,cash_flow
+Depreciation & Amort.,DepreciationDepletionAmortizationAndOtherCashFlowImpact,cash_flow
+Depreciation & Amort.,DepreciationForDiscontinuedOperationsAndAmortization,cash_flow
+Depreciation & Amort.,DepreciationandAmortizationofIntangibleAssets,cash_flow
+Depreciation & Amort.,DepreciationAmortizationAndCostOfTimberHarvested,cash_flow
+Depreciation & Amort.,DepreciationAmortizationAndCostOfTimberHarvestedIncludingDiscontinuedOperations,cash_flow
+Depreciation & Amort.,DepreciationAmortizationAndCostOfTimberHarvestedIncludingContinuingandDiscontinuedOperations,cash_flow
+Depreciation & Amort.,DepreciationDepletionAndAmortizationIncludingNuclearFuel,cash_flow
+Depreciation & Amort.,CostOfServicesDepreciationAndAmortization,cash_flow
+Depreciation & Amort.,DepreciationAndAmortizationOnPropertyAndEquipment,cash_flow
+Depreciation & Amort.,DepreciationAndOtherAmortization,cash_flow
+Depreciation & Amort.,AdjustmentDepreciation,cash_flow
+Depreciation & Amort.,DepreciationCashFlows,cash_flow
+Depreciation & Amort.,DepreciationDiscontinuedOperations,cash_flow
+Depreciation & Amort.,DepreciationPremisesAndEquipment,cash_flow
+Depreciation & Amort.,DepreciationFromContinuingAndDiscontinuedOperations,cash_flow
+Depreciation & Amort.,DepreciationNotIncludingIntegrationComponent,cash_flow
+Depreciation & Amort.,DepreciationDepletionAmortizationAndOther,cash_flow
+Depreciation & Amort.,CostOfServicesDepreciation,cash_flow
+Depreciation & Amort.,DepreciationAndAmortizationOfLongLivedAssets,cash_flow
+Depreciation & Amort.,DepreciationandAmortizationofPremiseImprovements,cash_flow
+Depreciation & Amort.,DepreciationAndAmortizationOfPremisesAndEquipment,cash_flow
+Depreciation & Amort.,DepreciationAndAmortization1,cash_flow
+Depreciation & Amort.,Depreciationandamortizationofsoftware,cash_flow
+Depreciation & Amort.,DepreciationandGainLossonDispositionofPropertyPlantEquipment,cash_flow
+Depreciation & Amort.,AdjustmentForAmortization,cash_flow
+Depreciation & Amort.,AmortizationOfIntangibleAssets,cash_flow
+Depreciation & Amort.,AmortizationOfDeferredCharges,cash_flow
+Depreciation & Amort.,FiniteLivedIntangibleAssetsAmortizationExpense,cash_flow
+Depreciation & Amort.,AmortizationOfRecoverableTransitionCosts,cash_flow
+Depreciation & Amort.,AmortizationExcludingAmortizationofFinancingCosts,cash_flow
+Depreciation & Amort.,AmortizationofRegulatoryAssetLiability,cash_flow
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+Depreciation & Amort.,OtherDepreciationAndAmortization,cash_flow
+Depreciation & Amort.,CapitalExpendituresIncurredButNotYetPaid,cash_flow
+Depreciation & Amort.,PropertyPlantAndEquipmentOther,cash_flow
+Depreciation & Amort.,PaymentsForBusinessesPropertyPlantAndEquipment,cash_flow
+Depreciation & Amort.,PaymentsToAcquirePropertyPlantAndEquipment,cash_flow
+Depreciation & Amort.,ProceedsFromSaleOfRealEstateHeldforinvestment,cash_flow
+Depreciation & Amort.,CashAndCashEquivalentsOfContinuingOperationsAtCarryingValue,cash_flow
+Depreciation & Amort.,ContinuingOperations,cash_flow
+Depreciation & Amort.,DiscontinuedOperations,cash_flow
+Depreciation & Amort.,ProceedsFromSaleOfOtherRealEstate,cash_flow
+Depreciation & Amort.,ProceedsFromSaleOfRealEstateNotQualifyingForDiscontinuedOperationsReporting,cash_flow

@@ -1,0 +1,10 @@
+standard,gaap_tag,statement
+Short & Long-Term Debt Repaid,RepaymentsOfShortTermAndLongTermBorrowings,cash_flow
+Short & Long-Term Debt Repaid,RepaymentsOfDebt,cash_flow
+Short & Long-Term Debt Repaid,RepaymentsOfDebtAndCapitalLeaseObligations,cash_flow
+Short & Long-Term Debt Repaid,RepaymentsOfLongTermDebtAndCapitalSecurities,cash_flow
+Short & Long-Term Debt Repaid,RepaymentsOfLongTermDebt,cash_flow
+Short & Long-Term Debt Repaid,ProceedsFromRepaymentsOfLongTermDebtAndCapitalSecurities,cash_flow
+Short & Long-Term Debt Repaid,RepaymentsOfOtherLongTermDebt,cash_flow
+Short & Long-Term Debt Repaid,ProceedsFromRepaymentsOfDebt,cash_flow
+Short & Long-Term Debt Repaid,RepaymentsOfDebtMaturingInMoreThanThreeMonths,cash_flow

@@ -1,0 +1,33 @@
+standard,gaap_tag,statement
+Total Liabilities And Equity,LiabilitiesAndStockholdersEquity,balance
+Total Liabilities And Equity,LiabilitiesStockholdersEquityAndRedeemableInterest,balance
+Total Liabilities And Equity,LiabilitiesAndMembersEquity,balance
+Total Liabilities And Equity,LiabilitiesAndStockholdersEquityPercent,balance
+,,
+,,
+,,
+,,
+,,
+,,
+Total Liabilities And Equity,StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest,balance
+Total Liabilities And Equity,LiabilitiesAndStockholdersEquityIncludingPortionAttributableToNoncontrollingInterest,balance
+Total Liabilities And Equity,AccumulatedOtherComprehensiveIncomeLossNetOfTax,balance
+Total Liabilities And Equity,Assets,balance
+Total Liabilities And Equity,PublicUtilitiesPropertyPlantAndEquipmentPlantInService,balance
+Total Liabilities And Equity,RealEstateInvestmentPropertyAtCost,balance
+Total Liabilities And Equity,LiabilitiesCurrent,balance
+Total Liabilities And Equity,AssetsCurrent,balance
+Total Liabilities And Equity,LongTermInvestments,balance
+Total Liabilities And Equity,AssetsNoncurrent,balance
+Total Liabilities And Equity,LiabilitiesNoncurrent,balance
+Total Liabilities And Equity,InventoryNet,balance
+Total Liabilities And Equity,StockholdersEquity,balance
+Total Liabilities And Equity,PublicUtilitiesPropertyPlantAndEquipmentGross,balance
+Total Liabilities And Equity,CashCashEquivalentsAndFederalFundsSold,balance
+Total Liabilities And Equity,RealEstateInvestmentPropertyNet,balance
+Total Liabilities And Equity,PropertyPlantAndEquipmentGross,balance
+Total Liabilities And Equity,LiabilitiesAndPartnersCapital,balance
+Total Liabilities And Equity,LiabilitiesandCapital,balance
+Total Liabilities And Equity,PreferredStockSharesOutstanding,balance
+Total Liabilities And Equity,PropertyPlantAndEquipmentGrossCorporate,balance
+Total Liabilities And Equity,LoansReceivableNetOfUnearnedIncomeCorporate,balance

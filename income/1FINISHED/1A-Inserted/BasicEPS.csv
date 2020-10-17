@@ -1,0 +1,73 @@
+standard,gaap_tag,statement
+Basic EPS,EarningsPerShareBasic,income
+Basic EPS,IncomeLossFromContinuingOperationsPerBasicShare,income
+Basic EPS,IncomeLossFromDiscontinuedOperationsNetOfTaxPerBasicShare,income
+Basic EPS,NetIncomeLossAvailableToCommonStockholdersBasic,income
+Basic EPS,IncomeLossBeforeExtraordinaryItemsAndCumulativeEffectOfChangeInAccountingPrinciplePerBasicShare,income
+Basic EPS,IncomeLossFromExtraordinaryItemsNetOfTaxPerBasicShare,income
+Basic EPS,EarningsPerShareBasicAndDiluted,income
+Basic EPS,NetIncomeLossAvailableToCommonStockholdersBasicAndVestedOptionsDeemedParticipatingSecurities,income
+Basic EPS,EarningsPerShareBasicincludingPortionattributabletononcontrolinginterest,income
+Basic EPS,Basic,income
+Basic EPS,BasicInDollarsPerShare,income
+Basic EPS,BasicEarningsPerShareProForma,income
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+Basic EPS,BasicWeightedAverageNumberOfSharesOutstanding,income
+Basic EPS,WeightedAverageNumberOfSharesOutstandingBasic,income
+Basic EPS,WeightedAverageBasicSharesOutstandingProForma,income
+Basic EPS,WeightedAverageCommonUnitsOutstandingBasic,income
+Basic EPS,WeightedAverageNumberOfSharesIssuedBasic,income
+Basic EPS,SalesRevenueNet,income
+Basic EPS,CostOfGoodsAndServicesSold,income
+Basic EPS,OperatingExpenses,income
+Basic EPS,NoninterestExpense,income
+Basic EPS,Revenues,income
+Basic EPS,BenefitsLossesAndExpenses,income
+Basic EPS,CostsAndExpenses,income
+Basic EPS,NonoperatingIncomeExpense,income
+Basic EPS,InterestExpense,income
+Basic EPS,UtilityRevenue,income
+Basic EPS,OperatingIncomeLoss,income
+Basic EPS,CostOfRevenue,income
+Basic EPS,CostsAndExpensesIncludingInterest,income
+Basic EPS,IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments,income
+Basic EPS,IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest,income
+Basic EPS,IncomeTaxExpenseBenefit,income
+Basic EPS,OperatingExpensesWithWriteOffOfInProcessResearchAndDevelopment,income
+Basic EPS,RealizedInvestmentGainsLosses,income
+Basic EPS,NetIncomeLossAttributabletoParentPercent,income
+Basic EPS,ProfitLossPercent,income
+Basic EPS,ProfitLossAdjusted,income
+Basic EPS,NetIncomeLossAttributableToCommonStockholders,income
+Basic EPS,NetIncomeLossAvailableToCommonStockholdersDiluted,income
+Basic EPS,NetIncomeLossAvailableToCommonStockholders,income
+,,
+Basic EPS,IncomeLossFromDiscontinuedOperationsNetOfTaxPerDilutedShare,income
+Basic EPS,NumberOfSharesOutstandingBasic,income
+Basic EPS,EarningsPerShareDiluted,income
+Basic EPS,IncomeLossBeforeExtraordinaryItemsAndCumulativeEffectOfChangeInAccountingPrinciple,income
+Basic EPS,CommonStockDividendsPerShareCashPaid,income
+Basic EPS,NetIncomeLoss,income
+Basic EPS,ProfitLoss,income
+Basic EPS,IncomeLossFromContinuingOperationsIncludingPortionAttributableToNoncontrollingInterest,income
+Basic EPS,IncomeLossFromContinuingOperations,income
+Basic EPS,IncomeLossFromContinuingOperationsPerDilutedShare,income
+Basic EPS,NetIncomeLossRelatingToComprehensiveIncome,income
+Basic EPS,NetIncomeLossConsolidatedProfit,income
+Basic EPS,NetIncome,income
+Basic EPS,ProfitLossExcludingNoncontrollingInterestsAssociatedWithDiscontinuedOperations,income
+Basic EPS,IncomeLossIncludingPortionAttributableToNoncontrollingInterest,income
+Basic EPS,EarningsPerShareDilutedincludingportionattributabletononcontrollinginterest,income
+Basic EPS,IncomeLossBeforeGainOrLossOnSaleOfPropertiesExtraordinaryItemsAndCumulativeEffectsOfAccountingChanges,income

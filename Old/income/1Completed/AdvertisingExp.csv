@@ -1,0 +1,7 @@
+standard,gaap_tag,statement
+Advertising Exp.,AdvertisingExpense,income
+Advertising Exp.,SubscriberAcquisitionAdvertisingCost,income
+Advertising Exp.,AdvertisingRevenue,income
+,,
+,,
+Advertising Exp.,ContractRevenueCost,income

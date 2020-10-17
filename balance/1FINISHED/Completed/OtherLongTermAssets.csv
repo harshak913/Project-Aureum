@@ -1,0 +1,128 @@
+standard,gaap_tag,statement
+Other Long-Term Assets,OtherAssetsNoncurrent,balance
+Other Long-Term Assets,TotalOtherAssets,balance
+Other Long-Term Assets,AssetsNoncurrentOtherThanPropertyPlantAndEquipment,balance
+Other Long-Term Assets,OtherAssetsNoncurrentPercent,balance
+Other Long-Term Assets,OtherNonCurrentAssets,balance
+Other Long-Term Assets,OtherAssets,balance
+Other Long-Term Assets,InvestmentsAndOtherNoncurrentAssets,balance
+Other Long-Term Assets,PrepaidExpenseAndOtherAssets,balance
+Other Long-Term Assets,OtherSundryAssetsNoncurrent,balance
+Other Long-Term Assets,DeferredIncomeTaxesAndOtherAssetsNoncurrent,balance
+Other Long-Term Assets,OtherAssetsMiscellaneousNoncurrent,balance
+Other Long-Term Assets,OtherAssetsNoncurrentOther,balance
+Other Long-Term Assets,TotalOtherNoncurrentAssets,balance
+Other Long-Term Assets,NoncurrentAssetsOther,balance
+Other Long-Term Assets,DeferredChargesRegulatoryAssetsAndOtherAssetsNoncurrent,balance
+Other Long-Term Assets,OtherAsset,balance
+Other Long-Term Assets,OtherAssetsTotal,balance
+Other Long-Term Assets,OtherNoncurrentAssetsTotal,balance
+Other Long-Term Assets,OtherNoncurrentAssets,balance
+Other Long-Term Assets,IntangibleAssetsAndOtherAssetsNoncurrent,balance
+Other Long-Term Assets,DepositsAndOtherAssetsNoncurrent,balance
+Other Long-Term Assets,DeferredIncomeTaxesAndOtherNonCurrentAssets,balance
+Other Long-Term Assets,AllOtherAssets,balance
+Other Long-Term Assets,OtherAssetsNoncurrentAndDeferredIncomeTaxes,balance
+Other Long-Term Assets,AggregateOtherAssets,balance
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+Other Long-Term Assets,AssetsNoncurrent,balance
+Other Long-Term Assets,OtherAssetsCurrent,balance
+Other Long-Term Assets,Goodwill,balance
+Other Long-Term Assets,OtherAssetsBS,balance
+Other Long-Term Assets,DeferredTaxAssetsNetNoncurrent,balance
+Other Long-Term Assets,OtherAssetsFairValueDisclosure,balance
+Other Long-Term Assets,DeferredTaxAssetsAndOtherAssets,balance
+Other Long-Term Assets,Cash,balance
+Other Long-Term Assets,FiniteLivedIntangibleAssetsNet,balance
+Other Long-Term Assets,PrepaidExpenseAndOtherAssetsNoncurrent,balance
+Other Long-Term Assets,OtherAssetsNet,balance
+Other Long-Term Assets,IntangibleAndOtherAssetsNet,balance
+Other Long-Term Assets,OtherAdditionalCapital,balance
+Other Long-Term Assets,OtherReceivables,balance
+Other Long-Term Assets,OtherLiabilitiesCurrent,balance
+Other Long-Term Assets,OtherLiabilitiesNoncurrent,balance
+Other Long-Term Assets,CurrentRegulatoryAssetsOther,balance
+Other Long-Term Assets,NoncurrentRegulatoryAssetOther,balance
+Other Long-Term Assets,NoncurrentRegulatoryLiabilityOther,balance
+Other Long-Term Assets,OtherLiabilities,balance
+Other Long-Term Assets,AccountsPayableAndOtherAccruedLiabilitiesCurrent,balance
+Other Long-Term Assets,OtherSundryLiabilitiesNoncurrent,balance
+Other Long-Term Assets,OtherLongTermInvestments,balance
+Other Long-Term Assets,OtherAccruedLiabilitiesCurrent,balance
+Other Long-Term Assets,OtherDeferredCostsNet,balance
+Other Long-Term Assets,OtherInvestments,balance
+Other Long-Term Assets,NontradeReceivablesCurrent,balance
+Other Long-Term Assets,OtherLongTermInvestmentsAndMarketableSecurities,balance
+Other Long-Term Assets,OtherReceivablesGrossCurrent,balance
+Other Long-Term Assets,PrepaidExpenseAndOtherAssetsCurrent,balance
+Other Long-Term Assets,UnamortizedDebtIssuanceExpense,balance
+Other Long-Term Assets,DeferredCreditsAndOtherLiabilities,balance
+Other Long-Term Assets,AccumulatedOtherComprehensiveIncomeLossOtherNetofTax,balance
+Other Long-Term Assets,OtherShortTermBorrowings,balance
+Other Long-Term Assets,AccountsAndOtherReceivablesNetCurrent,balance
+Other Long-Term Assets,OtherReceivablesNetCurrent,balance
+Other Long-Term Assets,PropertyPlantAndEquipmentOther,balance
+Other Long-Term Assets,ShortTermBorrowings,balance
+Other Long-Term Assets,LoansAndLeasesReceivableConsumerOther,balance
+Other Long-Term Assets,AccruedLiabilitiesAndOtherLiabilitiesCurrent,balance
+Other Long-Term Assets,OtherlRegulatoryAssetsAndDeferredDebits,balance
+Other Long-Term Assets,OtherReceivable,balance
+Other Long-Term Assets,InvestmentInAffiliatesOther,balance
+Other Long-Term Assets,OtherEquity,balance
+Other Long-Term Assets,ConstructionWorkInProgressOther,balance
+Other Long-Term Assets,RegulatedEntityOtherAssetsNoncurrent,balance
+Other Long-Term Assets,CurrentRegulatoryLiabilityOther,balance
+Other Long-Term Assets,NonCurrentRegulatoryLiabilityOther,balance
+Other Long-Term Assets,OtherBorrowings,balance
+Other Long-Term Assets,OtherLongTermDebtNoncurrent,balance
+Other Long-Term Assets,IndefiniteAndFiniteLivedIntangibleAssetsExcludingGoodwill,balance
+Other Long-Term Assets,AccumulatedOtherComprehensiveIncomeLossOtherNetOfTax,balance
+Other Long-Term Assets,AccountsPayableCurrent,balance
+Other Long-Term Assets,OtherRegulatoryAssetsAndDeferredDebits,balance
+Other Long-Term Assets,OtherDeferredCreditsNoncurrent,balance
+Other Long-Term Assets,LoansAndLeasesReceivableOther,balance
+Other Long-Term Assets,OtherCurrentAssets,balance
+Other Long-Term Assets,AccountsPayableOtherCurrent,balance
+Other Long-Term Assets,AccumulatedOtherComprehensiveIncomeLossOther,balance
+Other Long-Term Assets,OtherCapital,balance
+Other Long-Term Assets,AccountsReceivableMiscellaneous,balance
+Other Long-Term Assets,DeferredChargesAndOtherAssets,balance
+Other Long-Term Assets,InvestmentsAndOtherAssets,balance
+Other Long-Term Assets,AssetsNoncurrentOtherThanNoncurrentInvestmentsAndPropertyPlantAndEquipment,balance
+Other Long-Term Assets,OtherAssetsExcludingPropertyPlantAndEquipment,balance
+Other Long-Term Assets,OtherAssetsNonCurrentIncludingGoodwillAndIntangibleAssetsNet,balance
+Other Long-Term Assets,AssetsNoncurrentExcludesPropertyPlantAndEquipmentNet,balance
+Other Long-Term Assets,AssetsNoncurrentExcludingPropertyPlantAndEquipment,balance
+Other Long-Term Assets,TotalInvestmentsAndOtherAssets,balance
+,,
+Other Long-Term Assets,PropertyPlantAndEquipmentOtherNet,balance
+Other Long-Term Assets,OtherAssetsDeferredCharges,balance
+Other Long-Term Assets,DeferredIncomeTaxesAndOtherAssets,balance
+Other Long-Term Assets,DeferredCostsAndOtherAssets,balance
+Other Long-Term Assets,DeferredChargesAndOther,balance
+Other Long-Term Assets,DeferredChargeAndOther,balance
+Other Long-Term Assets,IntangibleAssetsNetExcludingGoodwill,balance
+Other Long-Term Assets,DepositsAssetsNoncurrent,balance
+Other Long-Term Assets,DepositsAndOtherAssets,balance
+Other Long-Term Assets,IntangibleAndOtherAssets,balance
+Other Long-Term Assets,NotesAndLoansReceivableGrossNoncurrent,balance
+Other Long-Term Assets,Assets,balance

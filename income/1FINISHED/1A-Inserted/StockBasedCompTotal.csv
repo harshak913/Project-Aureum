@@ -1,0 +1,7 @@
+standard,gaap_tag,statement
+"Stock-Based Comp., Total",ShareBasedCompensation,income
+"Stock-Based Comp., Total",AdjustmentsToAdditionalPaidInCapitalSharebasedCompensationRequisiteServicePeriodRecognitionValue,income
+"Stock-Based Comp., Total",AllocatedShareBasedCompensationExpense,income
+"Stock-Based Comp., Total",StockAppreciationRightsBenefitExpense,income
+"Stock-Based Comp., Total",StockAppreciationRightsExpense,income
+"Stock-Based Comp., Total",StockAppreciationRightsIncomeExpense,income

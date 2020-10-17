@@ -1,0 +1,52 @@
+standard,gaap_tag,statement
+Amort. of Goodwill and Intangibles,AmortizationOfIntangibleAssets,cash_flow
+Amort. of Goodwill and Intangibles,AdjustmentForAmortization,cash_flow
+Amort. of Goodwill and Intangibles,AmortizationOfDeferredCharges,cash_flow
+Amort. of Goodwill and Intangibles,FiniteLivedIntangibleAssetsAmortizationExpense,cash_flow
+Amort. of Goodwill and Intangibles,AmortizationOfRecoverableTransitionCosts,cash_flow
+Amort. of Goodwill and Intangibles,AmortizationExcludingAmortizationofFinancingCosts,cash_flow
+Amort. of Goodwill and Intangibles,AmortizationofRegulatoryAssetLiability,cash_flow
+Amort. of Goodwill and Intangibles,FiniteLivedIntangibleAssetsAndProductDevelopmentCostAmortizedAmount,cash_flow
+Amort. of Goodwill and Intangibles,AmortizationofIntangibleAssetsIncludingDiscontinuedOperations,cash_flow
+Amort. of Goodwill and Intangibles,AmortizationIntangibleAssetsInCashFlowStatement,cash_flow
+Amort. of Goodwill and Intangibles,AmortizationOfIntangibleAsset,cash_flow
+Amort. of Goodwill and Intangibles,AmortizationOfIntangibleAssetsIncludingDiscontinuedOperations,cash_flow
+Amort. of Goodwill and Intangibles,FiniteLivedIntangibleAssetsAmortizedAmount,cash_flow
+Amort. of Goodwill and Intangibles,IntangibleAssetsAmortizationExpense,cash_flow
+Amort. of Goodwill and Intangibles,AmortizationofIntangibleAssetsIncludingDiscontinuedOperation,cash_flow
+Amort. of Goodwill and Intangibles,AmortizationOfIntangibleAssetsIncludingDiscontinuedOperation,cash_flow
+Amort. of Goodwill and Intangibles,AmortizationOfIntangibles,cash_flow
+Amort. of Goodwill and Intangibles,AmortizationOfIntangibleAssetsFromAcquisition,cash_flow
+Amort. of Goodwill and Intangibles,CostOfServicesAmortization,cash_flow
+Amort. of Goodwill and Intangibles,AmortizationOfAcquiredIntangibleAssets,cash_flow
+Amort. of Goodwill and Intangibles,BusinessCombinationsAmortizationOfAcquiredIntangibleAssets,cash_flow
+Amort. of Goodwill and Intangibles,PresentValueOfFutureInsuranceProfitsAmortizationExpense1,cash_flow
+Amort. of Goodwill and Intangibles,AmortizationOfDebtDiscountPremium,cash_flow
+Amort. of Goodwill and Intangibles,AmortizationOfIntangibleAndOtherAssets,cash_flow
+Amort. of Goodwill and Intangibles,AmortizationOfTrademarks,cash_flow
+Amort. of Goodwill and Intangibles,AmortizationandImpairmentofIntangibleAssets,cash_flow
+Amort. of Goodwill and Intangibles,AmortizationandImpairmentofIntangibleandOtherAssets,cash_flow
+Amort. of Goodwill and Intangibles,AmortizationAndImpairmentOfIntangibleAssets,cash_flow
+Amort. of Goodwill and Intangibles,AmortizationAndImpairmentOfIntangibleAssetsExcludingGoodwill,cash_flow
+Amort. of Goodwill and Intangibles,AmortizationOfAboveAndBelowMarketLeases,cash_flow
+Amort. of Goodwill and Intangibles,AmortizationOfAboveBelowMarketLeaseIntangibles,cash_flow
+Amort. of Goodwill and Intangibles,AmortizationOfAcquiredIntangibleAssets1,cash_flow
+Amort. of Goodwill and Intangibles,AmortizationofAcquisitionRelatedIntangibleAssets,cash_flow
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+Amort. of Goodwill and Intangibles,DepreciationAndAmortization,cash_flow
+Amort. of Goodwill and Intangibles,OtherDepreciationAndAmortization,cash_flow
+Amort. of Goodwill and Intangibles,OtherAssetAmortization,cash_flow
+Amort. of Goodwill and Intangibles,IntangibleAssets,cash_flow
+Amort. of Goodwill and Intangibles,BusinessAcquisitionPurchasePriceAllocationAmortizableIntangibleAssets,cash_flow
+Amort. of Goodwill and Intangibles,IntangibleAssetsNet,cash_flow

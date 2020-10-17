@@ -1,0 +1,21 @@
+standard,gaap_tag,statement
+Gross Profit,GrossProfit,income
+Gross Profit,GrossProfitPercent,income
+,,
+,,
+,,
+Gross Profit,Revenues,income
+Gross Profit,SalesRevenueNet,income
+Gross Profit,HealthCareOrganizationRevenue,income
+Gross Profit,NetRevenues,income
+Gross Profit,RevenueFromContractWithCustomerExcludingAssessedTax,income
+Gross Profit,RevenuesNetOfInterestExpense,income
+Gross Profit,SalesRevenueGoodsNet,income
+Gross Profit,InvestmentAdvisoryManagementAndAdministrativeFees,income
+Gross Profit,RevenuesNet,income
+Gross Profit,RevenueFromContractWithCustomerIncludingAssessedTax,income
+Gross Profit,SalesRevenueServicesNet,income
+Gross Profit,OilAndGasRevenue,income
+Gross Profit,TotalOperatingRevenue,income
+Gross Profit,RegulatedAndUnregulatedOperatingRevenue,income
+Gross Profit,RegulatedOperatingRevenue,income

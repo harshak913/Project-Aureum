@@ -1,0 +1,35 @@
+standard,gaap_tag,statement
+Total Assets,Assets,balance
+Total Assets,AssetsPercent,balance
+Total Assets,AssetsNet,balance
+,,
+,,
+Total Assets,AssetsCurrent,balance
+Total Assets,PublicUtilitiesPropertyPlantAndEquipmentPlantInService,balance
+Total Assets,RealEstateInvestmentPropertyAtCost,balance
+Total Assets,LiabilitiesCurrent,balance
+Total Assets,LongTermInvestments,balance
+Total Assets,AssetsNoncurrent,balance
+Total Assets,LiabilitiesNoncurrent,balance
+Total Assets,StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest,balance
+Total Assets,InventoryNet,balance
+Total Assets,LiabilitiesAndStockholdersEquity,balance
+Total Assets,StockholdersEquity,balance
+Total Assets,PublicUtilitiesPropertyPlantAndEquipmentGross,balance
+Total Assets,RealEstateInvestmentPropertyNet,balance
+Total Assets,CashCashEquivalentsAndFederalFundsSold,balance
+Total Assets,PropertyPlantAndEquipmentGross,balance
+Total Assets,TotalOtherAssets,balance
+Total Assets,AssetsNoncurrentOtherThanNoncurrentInvestmentsAndPropertyPlantAndEquipment,balance
+Total Assets,OtherAssets,balance
+Total Assets,OtherAssetsNoncurrent,balance
+Total Assets,DeferredChargesRegulatoryAssetsAndOtherAssetsNoncurrent,balance
+Total Assets,OtherAssetsExcludingPropertyPlantAndEquipment,balance
+Total Assets,OtherAssetsNonCurrentIncludingGoodwillAndIntangibleAssetsNet,balance
+Total Assets,AssetsNoncurrentExcludesPropertyPlantAndEquipmentNet,balance
+Total Assets,AssetsNoncurrentExcludingPropertyPlantAndEquipment,balance
+Total Assets,AssetsNoncurrentOtherThanPropertyPlantAndEquipment,balance
+Total Assets,TotalInvestmentsAndOtherAssets,balance
+Total Assets,AggregateOtherAssets,balance
+Total Assets,PrepaidExpenseAndOtherAssetsNoncurrent,balance
+Total Assets,InvestmentsAndOtherAssets,balance

@@ -1,0 +1,30 @@
+standard,gaap_tag,statement
+Total Current Liabilities,LiabilitiesCurrent,balance
+Total Current Liabilities,LiabilitiesCurrentPercent,balance
+,,
+,,
+,,
+,,
+,,
+,,
+Total Current Liabilities,AccruedIncomeTaxesCurrent,balance
+Total Current Liabilities,AccountsPayableAndAccruedLiabilitiesCurrent,balance
+Total Current Liabilities,Assets,balance
+Total Current Liabilities,PublicUtilitiesPropertyPlantAndEquipmentPlantInService,balance
+Total Current Liabilities,RealEstateInvestmentPropertyAtCost,balance
+Total Current Liabilities,AssetsCurrent,balance
+Total Current Liabilities,LongTermInvestments,balance
+Total Current Liabilities,AssetsNoncurrent,balance
+Total Current Liabilities,LiabilitiesNoncurrent,balance
+Total Current Liabilities,StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest,balance
+Total Current Liabilities,InventoryNet,balance
+Total Current Liabilities,LiabilitiesAndStockholdersEquity,balance
+Total Current Liabilities,StockholdersEquity,balance
+Total Current Liabilities,PublicUtilitiesPropertyPlantAndEquipmentGross,balance
+Total Current Liabilities,CashCashEquivalentsAndFederalFundsSold,balance
+Total Current Liabilities,RealEstateInvestmentPropertyNet,balance
+Total Current Liabilities,PropertyPlantAndEquipmentGross,balance
+Total Current Liabilities,LongTermDebtNoncurrent,balance
+Total Current Liabilities,LongTermDebtAndCapitalLeaseObligations,balance
+Total Current Liabilities,LongTermLineOfCredit,balance
+Total Current Liabilities,OtherLiabilitiesCurrent,balance

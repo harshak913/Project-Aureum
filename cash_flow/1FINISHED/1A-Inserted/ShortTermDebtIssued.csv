@@ -1,0 +1,49 @@
+standard,gaap_tag,statement
+Short Term Debt Issued,NetDecreaseIncreaseInCommercialPaper,cash_flow
+Short Term Debt Issued,ProceedsFromIssuanceOfCommercialPaper,cash_flow
+Short Term Debt Issued,ChangeInCommercialPaperNet,cash_flow
+Short Term Debt Issued,IncreaseDecreaseInCommercialPaper,cash_flow
+Short Term Debt Issued,IssuanceDecreaseInCommercialPaper,cash_flow
+Short Term Debt Issued,CommercialPaperNet,cash_flow
+Short Term Debt Issued,ProceedsFromShortTermDebt,cash_flow
+Short Term Debt Issued,NetChangeInCommercialPaper,cash_flow
+Short Term Debt Issued,NetIncreaseDecreaseInShortTermBorrowings,cash_flow
+Short Term Debt Issued,NetDecreaseIncreaseInShortTermBorrowings,cash_flow
+Short Term Debt Issued,ProceedsFromShortTermDebtMaturingInThreeMonthsOrLess,cash_flow
+Short Term Debt Issued,IncreaseDecreaseInShortTermBorrowings,cash_flow
+,,
+,,
+,,
+,,
+,,
+,,
+Short Term Debt Issued,PaymentsForProceedsFromShortTermInvestments,cash_flow
+Short Term Debt Issued,ProceedsFromRepaymentsOfShortTermDebtMaturingInMoreThanThreeMonths,cash_flow
+Short Term Debt Issued,ProceedsFromSalesIssuancesOfOtherBorrowedFunds,cash_flow
+Short Term Debt Issued,ProceedsFromOtherShortTermDebt,cash_flow
+Short Term Debt Issued,RepaymentsOfShortTermDebt,cash_flow
+Short Term Debt Issued,ProceedsFromRepaymentsOfCommercialPaper,cash_flow
+Short Term Debt Issued,ProceedsFromRepaymentsOfShortTermDebtMaturingInThreeMonthsOrLess,cash_flow
+Short Term Debt Issued,ProceedsfromDebt,cash_flow
+Short Term Debt Issued,ProceedsFromRepaymentsOfShortTermDebt,cash_flow
+Short Term Debt Issued,ProceedsFromRepaymentsOfNotesPayable,cash_flow
+Short Term Debt Issued,RepaymentsOfCommercialPaper,cash_flow
+Short Term Debt Issued,ProceedsFromRepaymentsOfOtherDebt,cash_flow
+Short Term Debt Issued,ProceedsFromRepaymentsOfLinesOfCredit,cash_flow
+Short Term Debt Issued,NetRepaymentsOfCommercialPaperAndProceedsFromIssuanceOfCommercialPaper,cash_flow
+Short Term Debt Issued,NetIncreaseDecreaseInOtherShortTermBorrowing,cash_flow
+Short Term Debt Issued,RepaymentsMaturitiesOfOtherBorrowedFunds,cash_flow
+Short Term Debt Issued,ProceedsFromIssuanceOfOtherLongTermDebt,cash_flow
+Short Term Debt Issued,RepaymentsOfOtherLongTermDebt,cash_flow
+Short Term Debt Issued,ProceedsFromPaymentsForOtherFinancingActivities,cash_flow
+Short Term Debt Issued,NetProceedsPaymentsOnCommercialPaperAndShortTermDebt,cash_flow
+Short Term Debt Issued,RepaymentsOfShortTermDebtMaturingInMoreThanThreeMonths,cash_flow
+Short Term Debt Issued,ProceedsFromIssuanceOfLongTermDebt,cash_flow
+Short Term Debt Issued,ProceedsFromNotesPayable,cash_flow
+Short Term Debt Issued,ProceedsFromBorrowings,cash_flow
+Short Term Debt Issued,ProceedsFromIssuanceOfDebt,cash_flow
+Short Term Debt Issued,ProceedsFromIssuanceOfLongTermDebtAndCapitalSecuritiesNet,cash_flow
+Short Term Debt Issued,ProceedsFromOtherDebt,cash_flow
+Short Term Debt Issued,ProceedsFromLinesOfCredit,cash_flow
+Short Term Debt Issued,ProceedsFromDebtMaturingInMoreThanThreeMonths,cash_flow
+Short Term Debt Issued,ProceedsFromIssuanceOfUnsecuredDebt,cash_flow

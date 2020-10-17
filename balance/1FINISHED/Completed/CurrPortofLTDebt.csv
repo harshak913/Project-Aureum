@@ -1,0 +1,105 @@
+standard,gaap_tag,statement
+Curr. Port. of LT Debt,LongTermDebtCurrent,balance
+Curr. Port. of LT Debt,DebtCurrent,balance
+Curr. Port. of LT Debt,LongTermDebtAndCapitalLeaseObligationsCurrent,balance
+Curr. Port. of LT Debt,LongTermDebtAndCapitalLeaseObligationsCurrentPercent,balance
+Curr. Port. of LT Debt,LongTermDebtCurrentAndNotesPayable,balance
+Curr. Port. of LT Debt,LongtermDebtandCapitalLeaseObligationsCurrentNet,balance
+Curr. Port. of LT Debt,LongTermDebtAndCapitalLeaseObligationsIncludingCurrentMaturities,balance
+Curr. Port. of LT Debt,LongTermDebtExcludingLinesOfCreditCurrent,balance
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+Curr. Port. of LT Debt,ShortTermNonBankLoansAndNotesPayable,balance
+Curr. Port. of LT Debt,ShortTermDebt,balance
+Curr. Port. of LT Debt,LongTermDebtandCapitalLeaseObligationsExcludingCurrentPortionNet,balance
+Curr. Port. of LT Debt,ShortTermBorrowingsIncludingLongTermDebtCurrent,balance
+Curr. Port. of LT Debt,FederalFundsPurchasedAndSecuritiesSoldUnderAgreementsToRepurchaseAndShortTermBorrowings,balance
+Curr. Port. of LT Debt,ShortTermBorrowingsPercent,balance
+Curr. Port. of LT Debt,FederalFundsPurchasedAndSecuritiesSoldUnderAgreementsToRepurchase,balance
+Curr. Port. of LT Debt,ShortTermBorrowingsOther,balance
+Curr. Port. of LT Debt,BankOverdrafts,balance
+Curr. Port. of LT Debt,LineOfCreditFacilityAmountOutstanding,balance
+Curr. Port. of LT Debt,NotesPayableAndCurrentMaturitiesOfLongTermDebt,balance
+Curr. Port. of LT Debt,ShortTermBorrowingsAndCurrentPortionOfLongTermDebt,balance
+Curr. Port. of LT Debt,ShortTermBorrowingsAndLongTermDebtCurrent,balance
+Curr. Port. of LT Debt,DebtAndCapitalLeaseObligations,balance
+Curr. Port. of LT Debt,NotesPayable,balance
+Curr. Port. of LT Debt,LongTermNotesPayable,balance
+Curr. Port. of LT Debt,LongTermDebtComponentsNotesPayable,balance
+Curr. Port. of LT Debt,SecuredDebt,balance
+Curr. Port. of LT Debt,ShortTermBankLoansAndCurrentMaturitiesOfLongTermDebt,balance
+Curr. Port. of LT Debt,LongTermDebt,balance
+Curr. Port. of LT Debt,DebtLongtermAndShorttermCombinedAmount,balance
+Curr. Port. of LT Debt,LongTermDebtAndCapitalLeaseObligations,balance
+Curr. Port. of LT Debt,LongTermNotesAndLoans,balance
+Curr. Port. of LT Debt,UnsecuredLongTermDebt,balance
+Curr. Port. of LT Debt,SecuredLongTermDebt,balance
+Curr. Port. of LT Debt,LongTermDebtAndFairValueHedges,balance
+Curr. Port. of LT Debt,OtherLongTermDebt,balance
+Curr. Port. of LT Debt,OtherLongTermDebtNoncurrent,balance
+Curr. Port. of LT Debt,Longtermdebtexcludingcurrentmaturitiesincludingcapitalleases,balance
+Curr. Port. of LT Debt,LongTermLoansFromBank,balance
+Curr. Port. of LT Debt,ConvertibleDebtNoncurrent,balance
+Curr. Port. of LT Debt,SeniorLongTermNotes,balance
+Curr. Port. of LT Debt,LongTermLineOfCredit,balance
+Curr. Port. of LT Debt,LongTermDebtAndCapitalLeaseObligationsNoncurrent,balance
+Curr. Port. of LT Debt,LongTermDebtFairValue,balance
+Curr. Port. of LT Debt,LongTermDebtIncludingCapitalLease,balance
+Curr. Port. of LT Debt,ShortTermDebtAndLongTermDebtCurrentMaturities,balance
+Curr. Port. of LT Debt,ShortTermBorrowingsAndCurrentMaturitiesOfLongTermDebt,balance
+Curr. Port. of LT Debt,ShortTermDebtAndCurrentPortionOfLongTermDebt,balance
+Curr. Port. of LT Debt,ShortTermDebtAndCurrentMaturitiesOfLongTermDebt,balance
+Curr. Port. of LT Debt,UnsecuredDebt,balance
+Curr. Port. of LT Debt,CommonStockValue,balance
+Curr. Port. of LT Debt,OtherLongTermDebtCurrent,balance
+Curr. Port. of LT Debt,OtherShortTermBorrowings,balance
+Curr. Port. of LT Debt,LoansPayableToBankCurrent,balance
+Curr. Port. of LT Debt,ShortTermDebtAndCapitalLeaseObligationsCurrent,balance
+Curr. Port. of LT Debt,NotesAndLoansPayableCurrent,balance
+Curr. Port. of LT Debt,AccountsPayableAndAccruedLiabilitiesCurrent,balance
+Curr. Port. of LT Debt,AccountsPayableAndAccruedLiabilitiesCurrentAndNoncurrent,balance
+Curr. Port. of LT Debt,AccountsPayableAndOtherAccruedLiabilitiesCurrent,balance
+Curr. Port. of LT Debt,OtherAccountsPayableAndAccruedLiabilities,balance
+Curr. Port. of LT Debt,AccountsPayableAndAccruedLiabilitiesExcludingIncomeTaxesPayableCurrent,balance
+Curr. Port. of LT Debt,AccountsPayableAndAccruedLiabilitiesNoncurrent,balance
+Curr. Port. of LT Debt,FiduciaryLiabilities,balance
+Curr. Port. of LT Debt,LongTermDebtNoncurrent,balance
+Curr. Port. of LT Debt,DebtCurrentExcludingLinesOfCredit,balance
+Curr. Port. of LT Debt,LongTermDebtAndCapitalLeaseObligationsMaturitiesRepaymentsOfPrincipalRemainderOfFiscalYear,balance
+Curr. Port. of LT Debt,CapitalLeaseObligationsCurrent,balance
+Curr. Port. of LT Debt,SecuredDebtCurrent,balance
+Curr. Port. of LT Debt,LongTermDebtCurrentMaturitiesExcludingLinesOfCredit,balance
+Curr. Port. of LT Debt,Longtermdebtcurrentmaturitiesincludingcapitalleases,balance
+Curr. Port. of LT Debt,UnsecuredDebtCurrent,balance
+Curr. Port. of LT Debt,ConvertibleDebtCurrent,balance
+Curr. Port. of LT Debt,AllLongTermDebtAndCapitalLeaseObligationsCurrent,balance
+Curr. Port. of LT Debt,LinesOfCreditCurrent,balance
+Curr. Port. of LT Debt,SeniorNotesCurrent,balance
+Curr. Port. of LT Debt,NotesPayableCurrent,balance
+Curr. Port. of LT Debt,ShortTermBorrowings,balance
+Curr. Port. of LT Debt,CurrentDebt,balance
+Curr. Port. of LT Debt,CommercialPaper,balance
+Curr. Port. of LT Debt,ShortTermBankLoansAndNotesPayable,balance
+Curr. Port. of LT Debt,LongTermDebtAndCapitalLeaseObligationsRepaymentsOfPrincipalInNextTwelveMonths,balance

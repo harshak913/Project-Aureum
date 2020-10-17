@@ -1,0 +1,6 @@
+standard,gaap_tag,statement
+"Stock-Based Comp., Unallocated",ShareBasedCompensation,income
+"Stock-Based Comp., Unallocated",AllocatedShareBasedCompensationExpense,income
+"Stock-Based Comp., Unallocated",StockAppreciationRightsBenefitExpense,income
+"Stock-Based Comp., Unallocated",StockAppreciationRightsIncomeExpense,income
+"Stock-Based Comp., Unallocated",StockAppreciationRightsExpense,income

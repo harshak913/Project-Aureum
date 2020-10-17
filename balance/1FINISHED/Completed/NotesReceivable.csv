@@ -1,0 +1,14 @@
+standard,gaap_tag,statement
+Notes Receivable,NotesAndLoansReceivableGrossCurrent,balance
+Notes Receivable,NotesReceivableNet,balance
+Notes Receivable,NotesAndLoansReceivableNetNoncurrent,balance
+Notes Receivable,NotesAndLoansReceivableNetCurrent,balance
+Notes Receivable,NotesAndLoansReceivableGrossNoncurrent,balance
+Notes Receivable,NotesReceivableGross,balance
+,,
+,,
+Notes Receivable,OtherReceivablesNetCurrent,balance
+Notes Receivable,OtherReceivables,balance
+Notes Receivable,AccountsAndOtherReceivablesNetCurrent,balance
+Notes Receivable,OtherReceivablesCurrent,balance
+Notes Receivable,OtherReceivablesNet,balance

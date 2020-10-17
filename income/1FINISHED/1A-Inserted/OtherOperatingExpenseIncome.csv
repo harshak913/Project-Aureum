@@ -1,0 +1,10 @@
+standard,gaap_tag,statement
+Other Operating Expense/(Income),NoninterestIncomeOtherOperatingIncome,income
+Other Operating Expense/(Income),OtherCostAndExpenseOperating,income
+Other Operating Expense/(Income),TotalOtherExpensesIncome,income
+Other Operating Expense/(Income),OtherOperatingIncomeExpenseNet,income
+Other Operating Expense/(Income),OtherOperatingIncome,income
+Other Operating Expense/(Income),NoninterestExpense,income
+Other Operating Expense/(Income),OtherCostOfOperatingRevenue,income
+Other Operating Expense/(Income),OtherHotelOperatingRevenue,income
+Other Operating Expense/(Income),OtherOperatingIncome,income

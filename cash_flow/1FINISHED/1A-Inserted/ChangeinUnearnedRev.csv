@@ -1,0 +1,64 @@
+standard,gaap_tag,statement
+Change in Unearned Rev.,IncreaseDecreaseInDeferredRevenue,cash_flow
+Change in Unearned Rev.,IncreaseDecreaseInContractWithCustomerLiability,cash_flow
+Change in Unearned Rev.,IncreaseDecreaseInDeferredRevenueAndCustomerAdvancesAndDeposits,cash_flow
+Change in Unearned Rev.,IncreaseDecreaseInDeferredRevenueIncludingPortionTakenIntoIncome,cash_flow
+Change in Unearned Rev.,IncreaseDecreaseInContractWithCustomerDeferredRevenue,cash_flow
+Change in Unearned Rev.,IncreaseDecreaseInContractWithCustomerAsset,cash_flow
+Change in Unearned Rev.,IncreaseDecreaseInCustomerLiability,cash_flow
+Change in Unearned Rev.,IncreaseDecreaseinContractwithCustomerLiabilityExcludingEffectofExchangeRate,cash_flow
+Change in Unearned Rev.,IncreaseDecreaseInDeferredIncomeOnShipmentsToDistributors,cash_flow
+Change in Unearned Rev.,AdditionsToUnearnedRevenue,cash_flow
+Change in Unearned Rev.,IncreaseDecreaseInUnearnedPremiums,cash_flow
+Change in Unearned Rev.,IncreaseDecreaseInContractWithCustomerUnearnedIncome,cash_flow
+Change in Unearned Rev.,IncreaseDecreaseInOtherDeferredIncome,cash_flow
+Change in Unearned Rev.,IncreaseDecreaseInOtherDeferredRevenue,cash_flow
+Change in Unearned Rev.,IncreaseDecreaseinContractwithCustomerLiability,cash_flow
+Change in Unearned Rev.,IncreaseDecreaseInDeferredRevenueAndRoyaltiesPayable,cash_flow
+Change in Unearned Rev.,IncreaseDecreaseInUnearnedRevenue,cash_flow
+Change in Unearned Rev.,IncreaseDecreaseInDeferredRent,cash_flow
+Change in Unearned Rev.,IncreaseDecreaseInDeferredRentReceivables,cash_flow
+Change in Unearned Rev.,IncreaseDecreaseinDeferredIncome,cash_flow
+Change in Unearned Rev.,IncreaseDecreaseInDeferredProfit,cash_flow
+Change in Unearned Rev.,IncreaseDecreaseInDeferredRevenueAndOther,cash_flow
+Change in Unearned Rev.,IncreaseDecreaseinBillingsinExcessofCostofEarningsandDeferredRevenue,cash_flow
+Change in Unearned Rev.,IncreaseDecreaseInCustomerAdvances,cash_flow
+Change in Unearned Rev.,IncreaseDecreaseInCustomerDeposits,cash_flow
+Change in Unearned Rev.,IncreaseDecreaseInContractWithCustomerLiabilityCurrent,cash_flow
+Change in Unearned Rev.,IncreaseDecreaseInCustomerAdvancesAndDeposits,cash_flow
+Change in Unearned Rev.,IncreaseDecreaseInMerchandiseAndOtherCustomerCredits,cash_flow
+Change in Unearned Rev.,IncreaseDecreaseCustomerDeposits,cash_flow
+Change in Unearned Rev.,IncreaseDecreaseInCustomerDepositsAndDeferredRevenue,cash_flow
+Change in Unearned Rev.,IncreaseInDeferredRevenueAndCustomerAdvances,cash_flow
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+Change in Unearned Rev.,PaymentsForProceedsFromCustomerFundDeposits,cash_flow
+Change in Unearned Rev.,IncreaseDecreaseInOtherDeferredLiability,cash_flow
+Change in Unearned Rev.,IncreaseDecreaseInAccruedLiabilitiesAndOtherOperatingLiabilities,cash_flow
+Change in Unearned Rev.,IncreaseDecreaseInAccruedIncomeTaxesPayable,cash_flow
+Change in Unearned Rev.,IncreaseDecreaseInAccruedLiabilities,cash_flow
+Change in Unearned Rev.,IncreaseDecreaseInAccruedExpensesAndOtherLiabilities,cash_flow
+Change in Unearned Rev.,IncreaseDecreaseInOtherAccountsPayableAndAccruedLiabilities,cash_flow
+Change in Unearned Rev.,IncreaseDecreaseInOtherOperatingLiabilities,cash_flow
+Change in Unearned Rev.,IncreaseDecreaseInAccrueExpensesAndOtherLiabilities,cash_flow
+Change in Unearned Rev.,IncreaseDecreaseInOtherOperatingAssets,cash_flow
+Change in Unearned Rev.,Increasedecreaseincontractliabilities,cash_flow
+Change in Unearned Rev.,IncreaseDecreaseInBillingInExcessOfCostOfEarnings,cash_flow
+Change in Unearned Rev.,RecognitionOfDeferredRevenue,cash_flow
+Change in Unearned Rev.,StraightLineRent,cash_flow
+Change in Unearned Rev.,DeferredRent,cash_flow
+Change in Unearned Rev.,ProceedsFromDiabetesCollaboration,cash_flow
+Change in Unearned Rev.,ContractWithCustomerLiabilityRevenueRecognized,cash_flow
+Change in Unearned Rev.,Contractliabilitiescurrent,cash_flow
+Change in Unearned Rev.,ProceedsFromDepositsFromCustomers,cash_flow
+Change in Unearned Rev.,ContractWithCustomerAssetIncreaseDecreaseForContractAcquiredInBusinessCombination,cash_flow
+Change in Unearned Rev.,AdjustmentForAmortization,cash_flow
+Change in Unearned Rev.,AmortizationofDeferredRevenueandLeaseIntangibles,cash_flow

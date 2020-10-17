@@ -1,0 +1,83 @@
+standard,gaap_tag,statement
+Long-Term Debt,LongTermDebtNoncurrent,balance
+Long-Term Debt,LongTermDebtAndCapitalLeaseObligations,balance
+Long-Term Debt,LongTermDebt,balance
+Long-Term Debt,LongTermNotesPayable,balance
+Long-Term Debt,LongTermNotesAndLoans,balance
+Long-Term Debt,UnsecuredLongTermDebt,balance
+Long-Term Debt,SecuredLongTermDebt,balance
+Long-Term Debt,LongTermDebtAndFairValueHedges,balance
+Long-Term Debt,Longtermdebtexcludingcurrentmaturitiesincludingcapitalleases,balance
+Long-Term Debt,LongTermLoansFromBank,balance
+Long-Term Debt,ConvertibleDebtNoncurrent,balance
+Long-Term Debt,SeniorLongTermNotes,balance
+Long-Term Debt,LongTermDebtCurrent,balance
+Long-Term Debt,LongTermDebtAndCapitalLeaseObligationsCurrent,balance
+Long-Term Debt,LongTermLineOfCredit,balance
+Long-Term Debt,LongTermDebtAndCapitalLeaseObligationsNoncurrent,balance
+Long-Term Debt,LongTermDebtAndCapitalLeaseObligationsIncludingCurrentMaturities,balance
+Long-Term Debt,LongTermDebtFairValue,balance
+Long-Term Debt,LongTermDebtCurrentMaturitiesExcludingLinesOfCredit,balance
+Long-Term Debt,Longtermdebtcurrentmaturitiesincludingcapitalleases,balance
+Long-Term Debt,LongTermDebtIncludingCapitalLease,balance
+Long-Term Debt,LongTermDebtAndCapitalLeaseObligationsPercent,balance
+Long-Term Debt,LongTermDebtNoncurrentExcludingDebtIssuanceCosts,balance
+Long-Term Debt,LongTermDebtIncludesRedeemablePreferredStockAtRedemptionValue,balance
+Long-Term Debt,DebtLongtermAndShorttermCombinedAmount,balance
+Long-Term Debt,LongTermDebtAndCapitalLeaseObligationsMaturitiesRepaymentsOfPrincipalRemainderOfFiscalYear,balance
+Long-Term Debt,LongTermLoansPayable,balance
+Long-Term Debt,LongTermDebtIncludingObligationsUnderCapitalLeasesAndFinancingObligations,balance
+Long-Term Debt,LongTermDebtandCapitalLeaseObligationsExcludingCurrentPortionNet,balance
+Long-Term Debt,LongTermDebtAndFinanceLeaseObligationsNoncurrent,balance
+Long-Term Debt,LongTermDebtAndFinanceLease,balance
+Long-Term Debt,Longtermdebtandshorttermborrowings,balance
+Long-Term Debt,LongTermDebtAndCapitalLeaseObligationsCurrentPercent,balance
+Long-Term Debt,AllLongTermDebtAndCapitalLeaseObligationsCurrent,balance
+Long-Term Debt,LongTermDebtComponentsNotesPayable,balance
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+Long-Term Debt,UnsecuredDebt,balance
+Long-Term Debt,DebtAndCapitalLeaseObligations,balance
+Long-Term Debt,DebtCurrent,balance
+Long-Term Debt,BorrowingsOfConsolidatedVariableInterestEntities,balance
+Long-Term Debt,DebtInstrumentFairValue,balance
+Long-Term Debt,OtherLongTermDebtCurrent,balance
+Long-Term Debt,CapitalLeaseObligationsCurrent,balance
+Long-Term Debt,SecuredDebtCurrent,balance
+Long-Term Debt,LiabilitiesCurrent,balance
+Long-Term Debt,ConvertibleLongTermNotesPayable,balance
+Long-Term Debt,CommonStockValue,balance
+Long-Term Debt,OtherShortTermBorrowings,balance
+Long-Term Debt,DebtCurrentExcludingLinesOfCredit,balance
+Long-Term Debt,SecuredDebt,balance
+Long-Term Debt,CorporateDebt,balance
+Long-Term Debt,NotesAndLoansPayable,balance
+Long-Term Debt,LineOfCredit,balance
+Long-Term Debt,NotesPayable,balance
+Long-Term Debt,ShortTermBankLoansAndNotesPayable,balance
+Long-Term Debt,ShortTermNonBankLoansAndNotesPayable,balance
+Long-Term Debt,ShortTermBankLoansAndCurrentMaturitiesOfLongTermDebt,balance
+Long-Term Debt,LinesOfCreditCurrent,balance
+Long-Term Debt,SeniorNotesCurrent,balance
+Long-Term Debt,NotesPayableCurrent,balance
+Long-Term Debt,ShortTermBorrowings,balance
+Long-Term Debt,NotesAndLoansPayableCurrent,balance
+Long-Term Debt,UnsecuredDebtCurrent,balance
+Long-Term Debt,ConvertibleDebtCurrent,balance
+Long-Term Debt,CommercialPaper,balance
+Long-Term Debt,OtherLongTermDebt,balance
+Long-Term Debt,OtherLongTermDebtNoncurrent,balance
+Long-Term Debt,LiabilitiesNoncurrent,balance
+Long-Term Debt,Liabilities,balance
+Long-Term Debt,CashAndCashEquivalentsAtCarryingValue,balance
+Long-Term Debt,CashAndEquivalentsExcludingAssetsHeldForSale,balance
+Long-Term Debt,CarryingValueOfCashAndCashEquivalents,balance
+Long-Term Debt,CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents,balance

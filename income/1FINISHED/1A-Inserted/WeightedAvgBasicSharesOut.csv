@@ -1,0 +1,35 @@
+standard,gaap_tag,statement
+Weighted Avg. Basic Shares Out.,WeightedAverageNumberOfSharesOutstandingBasic,income
+Weighted Avg. Basic Shares Out.,WeightedAverageNumberOfShareOutstandingBasicAndDiluted,income
+Weighted Avg. Basic Shares Out.,WeightedAverageBasicSharesOutstandingProForma,income
+Weighted Avg. Basic Shares Out.,WeightedAverageCommonUnitsOutstandingBasic,income
+Weighted Avg. Basic Shares Out.,BasicWeightedAverageNumberOfSharesOutstanding,income
+Weighted Avg. Basic Shares Out.,WeightedAverageNumberOfSharesIssuedBasic,income
+Weighted Avg. Basic Shares Out.,WeightedAverageNumberOfBasicSharesCommonStock,income
+Weighted Avg. Basic Shares Out.,WeightedAverageNumberBasicDilutedSharesOutstanding,income
+Weighted Avg. Basic Shares Out.,WeightedAverageNumberOfOutstandingSharesBasicAndDiluted,income
+Weighted Avg. Basic Shares Out.,WeightedAverageNumberOfSharesOutstandingBasicAndDiluted,income
+Weighted Avg. Basic Shares Out.,WeightedAverageTotalNumberOfSharesOutstandingBasicAndDiluted,income
+,,
+,,
+,,
+,,
+,,
+,,
+Weighted Avg. Basic Shares Out.,WeightedAverageNumberOfDilutedSharesOutstanding,income
+Weighted Avg. Basic Shares Out.,IncomeLossBeforeExtraordinaryItemsAndCumulativeEffectOfChangeInAccountingPrinciplePerBasicShare,income
+Weighted Avg. Basic Shares Out.,IncomeLossFromExtraordinaryItemsNetOfTaxPerBasicShare,income
+Weighted Avg. Basic Shares Out.,IncomeLossFromContinuingOperationsPerBasicShare,income
+Weighted Avg. Basic Shares Out.,NetIncomeLossAvailableToCommonStockholdersBasic,income
+Weighted Avg. Basic Shares Out.,IncomeLossFromDiscontinuedOperationsNetOfTaxPerBasicShare,income
+Weighted Avg. Basic Shares Out.,EarningsPerShareBasic,income
+Weighted Avg. Basic Shares Out.,CommonStockDividendsPerShareCashPaid,income
+Weighted Avg. Basic Shares Out.,DiscontinuedOperationIncomeLossFromDiscontinuedOperationNetOfTaxPerBasicAndDilutedShare,income
+Weighted Avg. Basic Shares Out.,Basic,income
+Weighted Avg. Basic Shares Out.,BasicInDollarsPerShare,income
+Weighted Avg. Basic Shares Out.,BasicEarningsPerShareProForma,income
+Weighted Avg. Basic Shares Out.,AverageSharesOutstandingBasicCommon,income
+Weighted Avg. Basic Shares Out.,AverageNumberOfOutstandingSharesBasicAndDiluted,income
+Weighted Avg. Basic Shares Out.,EarningsPerShareBasicAndDiluted,income
+Weighted Avg. Basic Shares Out.,EarningsPerShareDiluted,income
+Weighted Avg. Basic Shares Out.,NumberOfSharesOutstandingBasic,income

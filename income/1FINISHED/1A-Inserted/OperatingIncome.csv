@@ -1,0 +1,93 @@
+standard,gaap_tag,statement
+Operating Income,OperatingIncomeLoss,income
+Operating Income,OperatingIncomeLossIncludingEquityMethodInvestments,income
+Operating Income,SegmentReportingInformationOperatingIncomeLoss,income
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+Operating Income,OperatingExpensesIncludingDeferredAcquisitionCostsCapitalizationAndAmortization,income
+Operating Income,DirectOperatingCosts,income
+Operating Income,OperatingCostsAndExpenses,income
+Operating Income,OtherCostAndExpenseOperating,income
+Operating Income,TotalOperatingExpensesExcludingLossContingencyLossInPeriod,income
+Operating Income,OperatingExpensesOtherThanGainLossRelatedToLitigationSettlement,income
+Operating Income,OperatingExpensesCogs,income
+Operating Income,OperatingExpensesExcludingCertainOtherCharges,income
+Operating Income,OperatingExpense,income
+Operating Income,TotalExpenses,income
+Operating Income,OperatingExpensesCOGS,income
+Operating Income,IncomeLossFromContinuingOperationsBeforeIncomeTaxes,income
+Operating Income,IncomeBeforeIncomeTaxes,income
+Operating Income,IncomeLossFromContinuingOperationsBeforeIncomeTaxesDomestic,income
+Operating Income,IncomeLossBeforeIncomeTaxes,income
+Operating Income,IncomeLossBeforeIncomeTax,income
+Operating Income,IncomeLossFromContinuingOperationsAll,income
+Operating Income,IncomeLossFromContinuingOperationsBeforeIncomeTaxesAndMinorityInterest,income
+Operating Income,IncomeLossIncludingPortionAttributableToNoncontrollingInterest,income
+Operating Income,IncomeLossAttributableToParent,income
+Operating Income,IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments,income
+Operating Income,DiscontinuedOperationIncomeLossFromDiscontinuedOperationDuringPhaseOutPeriodNetOfTax,income
+Operating Income,OtherOperatingIncome,income
+Operating Income,IncomeLossFromContinuingOperationsBeforeInterestExpenseInterestIncomeIncomeTaxesExtraordinaryItemsNoncontrollingInterestsNet,income
+Operating Income,DiscontinuedOperationIncomeLossFromDiscontinuedOperationDuringPhaseOutPeriodBeforeIncomeTax,income
+Operating Income,DisposalGroupIncludingDiscontinuedOperationOperatingIncomeLoss,income
+Operating Income,IncomeLossFromContinuingOperations,income
+Operating Income,IncomeLossFromContinuingOperationsIncludingPortionAttributableToNoncontrollingInterest,income
+Operating Income,IncomeLossBeforeInterestAndTaxes,income
+Operating Income,IncomeBeforeInterestAndTaxesIncludingEquityMethodInvestments,income
+Operating Income,IncomeLossFromContinuingOperationsPerBasicShare,income
+Operating Income,IncomeLossFromContinuingOperationsPerDilutedShare,income
+Operating Income,IncomeLossFromContinuingOperationsPerBasicAndDilutedShare,income
+Operating Income,IncomeLossFromContinuingOperationsIncludingNoncontrollingInterestBeforeDiscontinuedOperations,income
+Operating Income,IncomeFromContinuingOperations,income
+Operating Income,IncomeLossBeforeDiscontinuedOperations,income
+Operating Income,NetIncomeLoss,income
+Operating Income,ProfitLoss,income
+Operating Income,SalesRevenueNet,income
+Operating Income,CostOfGoodsAndServicesSold,income
+Operating Income,OperatingExpenses,income
+Operating Income,EarningsPerShareBasic,income
+Operating Income,EarningsPerShareDiluted,income
+Operating Income,InterestExpense,income
+Operating Income,NoninterestExpense,income
+Operating Income,Revenues,income
+Operating Income,BenefitsLossesAndExpenses,income
+Operating Income,CostsAndExpenses,income
+Operating Income,NonoperatingIncomeExpense,income
+Operating Income,UtilityRevenue,income
+Operating Income,CostOfRevenue,income
+Operating Income,CostsAndExpensesIncludingInterest,income
+Operating Income,IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest,income
+Operating Income,IncomeTaxExpenseBenefit,income
+Operating Income,OperatingExpensesWithWriteOffOfInProcessResearchAndDevelopment,income
+Operating Income,RealizedInvestmentGainsLosses,income
+Operating Income,IncomeLossFromContinuingOperationsAfterIncomeTaxes,income
+Operating Income,IncomeLossFromContinuingOperation,income

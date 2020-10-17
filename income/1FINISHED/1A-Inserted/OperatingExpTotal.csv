@@ -1,0 +1,11 @@
+standard,gaap_tag,statement
+"Operating Exp., Total",OperatingExpenses,income
+"Operating Exp., Total",OperatingExpensesCogs,income
+"Operating Exp., Total",OperatingExpensesExcludingCertainOtherCharges,income
+"Operating Exp., Total",OperatingExpense,income
+"Operating Exp., Total",OperatingExpensesCOGS,income
+"Operating Exp., Total",TotalOperatingExpensesExcludingLossContingencyLossInPeriod,income
+"Operating Exp., Total",OperatingExpensesOtherThanGainLossRelatedToLitigationSettlement,income
+"Operating Exp., Total",CostsAndExpenses,income
+"Operating Exp., Total",TotalExpenses,income
+"Operating Exp., Total",OperatingExpensesWithWriteOffOfInProcessResearchAndDevelopment,income

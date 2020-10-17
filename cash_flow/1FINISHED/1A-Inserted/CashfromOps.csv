@@ -1,0 +1,25 @@
+standard,gaap_tag,statement
+Cash from Ops.,NetCashProvidedByUsedInOperatingActivities,cash_flow
+Cash from Ops.,NetCashProvidedByUsedInOperatingActivitiesContinuingOperations,cash_flow
+Cash from Ops.,CashProvidedByUsedInOperatingActivitiesDiscontinuedOperations,cash_flow
+Cash from Ops.,NetCashProvidedByUsedInContinuingOperations,cash_flow
+Cash from Ops.,CashProvidedByOperations,cash_flow
+Cash from Ops.,CashProvidedByUsedInOperatingActivitiesBeforeReconcilingAdjustments,cash_flow
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+Cash from Ops.,AdjustmentsNoncashItemsToReconcileNetIncomeLossToCashProvidedByUsedInOperatingActivities,cash_flow
+Cash from Ops.,IncreaseDecreaseInOperatingCapital,cash_flow
+Cash from Ops.,IncreaseDecreaseInOtherOperatingLiabilities,cash_flow
+Cash from Ops.,NetCashProvidedByUsedInInvestingActivities,cash_flow
+Cash from Ops.,OtherNoncashIncomeExpense,cash_flow
+Cash from Ops.,ProceedsFromCollectionOfLoansReceivable,cash_flow
+Cash from Ops.,CashProvidedByUsedInInvestingActivitiesDiscontinuedOperations,cash_flow
+Cash from Ops.,NetCashProvidedByUsedInInvestingActivitiesContinuingOperations,cash_flow
+Cash from Ops.,CashProvidedByUsedInFinancingActivitiesDiscontinuedOperations,cash_flow
+Cash from Ops.,NetCashProvidedByUsedInFinancingActivitiesContinuingOperations,cash_flow

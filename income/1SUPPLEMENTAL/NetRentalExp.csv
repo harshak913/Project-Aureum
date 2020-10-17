@@ -1,0 +1,12 @@
+standard,gaap_tag,statement
+Net Rental Exp.,OperatingLeasesRentExpenseNet,income
+Net Rental Exp.,OperatingLeaseCost,income
+Net Rental Exp.,LeaseAndRentalExpense,income
+Net Rental Exp.,OperatingLeaseExpense,income
+Net Rental Exp.,DepreciationAssetsLeasedToOthers,income
+Net Rental Exp.,OperatingLeasesIncomeStatementDepreciationExpenseOnPropertySubjectToOrHeldForLease,income
+Net Rental Exp.,DirectCostsOfLeasedAndRentedPropertyOrEquipment,income
+Net Rental Exp.,OperatingLeaseExpenseNetOfSubleaseIncome,income
+Net Rental Exp.,EquipmentandOtherRents,income
+Net Rental Exp.,EquipmentAndOtherRents,income
+Net Rental Exp.,EquipmentsAndOtherRents,income

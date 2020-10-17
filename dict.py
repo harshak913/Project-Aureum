@@ -121,7 +121,7 @@ for dict in stand_dict:
     #    print(entry[1])
 
 #print('Total Items: ' + str(total_items))
-    #os.makedirs(os.path.dirname(filename))
+    os.makedirs(os.path.dirname(filename), exist_ok=True)
     with open(filename, 'w', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(["standard", "gaap_tag", "statement"])

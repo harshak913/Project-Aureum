@@ -1,0 +1,15 @@
+standard,gaap_tag,statement
+Buildings,BuildingsAndImprovementsGross,balance
+Buildings,InvestmentBuildingAndBuildingImprovements,balance
+Buildings,BuildingsAndLeaseholdImprovements,balance
+Buildings,BuildingsAndBuildingEquipment,balance
+Buildings,BuildingsAndBuildingEquipmentGross,balance
+Buildings,LandBuildingsAndImprovementsGross,balance
+Buildings,BuildingsLandAndImprovementsGross,balance
+Buildings,LandBuildingsAndImprovements,balance
+,,
+,,
+,,
+,,
+Buildings,Land,balance
+Buildings,MachineryAndEquipmentGross,balance

@@ -1,0 +1,63 @@
+standard,gaap_tag,statement
+Other Receivables,NontradeReceivablesCurrent,balance
+Other Receivables,OtherReceivables,balance
+Other Receivables,OtherReceivable,balance
+Other Receivables,AmountsReceivableFromVendors,balance
+Other Receivables,LoansAndLeasesReceivableOther,balance
+Other Receivables,OtherReceivablesGrossCurrent,balance
+Other Receivables,AccountsAndOtherReceivablesNetCurrent,balance
+Other Receivables,OtherReceivablesNetCurrent,balance
+Other Receivables,LoansAndLeasesReceivableConsumerOther,balance
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+Other Receivables,OtherLongTermDebtNoncurrent,balance
+Other Receivables,IndefiniteAndFiniteLivedIntangibleAssetsExcludingGoodwill,balance
+Other Receivables,AccumulatedOtherComprehensiveIncomeLossOtherNetOfTax,balance
+Other Receivables,AccountsPayableCurrent,balance
+Other Receivables,OtherRegulatoryAssetsAndDeferredDebits,balance
+Other Receivables,OtherDeferredCreditsNoncurrent,balance
+Other Receivables,OtherAssetsNoncurrentOther,balance
+Other Receivables,OtherCurrentAssets,balance
+Other Receivables,AccountsPayableOtherCurrent,balance
+Other Receivables,AccumulatedOtherComprehensiveIncomeLossOther,balance
+Other Receivables,OtherCapital,balance
+Other Receivables,OtherAdditionalCapital,balance
+Other Receivables,InvestmentInAffiliatesOther,balance
+Other Receivables,ConstructionWorkInProgressOther,balance
+Other Receivables,RegulatedEntityOtherAssetsNoncurrent,balance
+Other Receivables,CurrentRegulatoryLiabilityOther,balance
+Other Receivables,NonCurrentRegulatoryLiabilityOther,balance
+Other Receivables,OtherBorrowings,balance
+Other Receivables,OtherLiabilitiesCurrent,balance
+Other Receivables,OtherAssetsCurrent,balance
+Other Receivables,OtherAssetsNoncurrent,balance
+Other Receivables,OtherLiabilitiesNoncurrent,balance
+Other Receivables,CurrentRegulatoryAssetsOther,balance
+Other Receivables,NoncurrentRegulatoryAssetOther,balance
+Other Receivables,NoncurrentRegulatoryLiabilityOther,balance
+Other Receivables,OtherSundryLiabilitiesNoncurrent,balance
+Other Receivables,OtherAssets,balance
+Other Receivables,OtherLiabilities,balance
+Other Receivables,AccountsPayableAndOtherAccruedLiabilitiesCurrent,balance
+Other Receivables,OtherLongTermInvestments,balance
+Other Receivables,OtherDeferredCostsNet,balance
+Other Receivables,OtherAccruedLiabilitiesCurrent,balance
+Other Receivables,OtherInvestments,balance
+Other Receivables,OtherLongTermInvestmentsAndMarketableSecurities,balance
+Other Receivables,PrepaidExpenseAndOtherAssetsCurrent,balance
+Other Receivables,UnamortizedDebtIssuanceExpense,balance
+Other Receivables,DeferredCreditsAndOtherLiabilities,balance
+Other Receivables,AccumulatedOtherComprehensiveIncomeLossOtherNetofTax,balance
+Other Receivables,OtherAssetsMiscellaneousNoncurrent,balance
+Other Receivables,OtherShortTermBorrowings,balance
+Other Receivables,PropertyPlantAndEquipmentOther,balance
+Other Receivables,ShortTermBorrowings,balance
+Other Receivables,AccruedLiabilitiesAndOtherLiabilitiesCurrent,balance
+Other Receivables,OtherlRegulatoryAssetsAndDeferredDebits,balance
+Other Receivables,OtherEquity,balance

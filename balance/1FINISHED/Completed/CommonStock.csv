@@ -1,0 +1,50 @@
+standard,gaap_tag,statement
+Common Stock,CommonStocksIncludingAdditionalPaidInCapital,balance
+Common Stock,CommonStockValue,balance
+Common Stock,CommonStockIncludingAdditionalPaidInCapital,balance
+Common Stock,CommonStockValueOutstanding,balance
+Common Stock,CommonStockNoParValue,balance
+Common Stock,CommonStockClassAlpha,balance
+Common Stock,CommonStockValues,balance
+Common Stock,CommonStockSharesIssued,balance
+Common Stock,CommonStockParOrStatedValuePerShare,balance
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+Common Stock,RetainedEarningsAccumulatedDeficit,balance
+Common Stock,RetainedEarningsUnappropriated,balance
+Common Stock,RetainedEarningsAccumulatedDeficitPercent,balance
+Common Stock,GeneralPartnersContributedCapital,balance
+Common Stock,NoncontrollingInterestMezzanineEquity,balance
+,,
+Common Stock,LongTermDebtNoncurrent,balance
+Common Stock,LongTermDebtAndCapitalLeaseObligations,balance
+Common Stock,LongTermDebt,balance
+Common Stock,LongTermNotesPayable,balance
+Common Stock,LongTermNotesAndLoans,balance
+Common Stock,UnsecuredLongTermDebt,balance
+Common Stock,SecuredLongTermDebt,balance
+Common Stock,LongTermDebtAndFairValueHedges,balance
+Common Stock,OtherLongTermDebt,balance
+Common Stock,OtherLongTermDebtNoncurrent,balance
+Common Stock,Longtermdebtexcludingcurrentmaturitiesincludingcapitalleases,balance
+Common Stock,LongTermLoansFromBank,balance
+Common Stock,ConvertibleDebtNoncurrent,balance
+Common Stock,SeniorLongTermNotes,balance
+Common Stock,LongTermDebtCurrent,balance
+Common Stock,LongTermDebtAndCapitalLeaseObligationsCurrent,balance
+Common Stock,LongTermLineOfCredit,balance
+Common Stock,LongTermDebtAndCapitalLeaseObligationsNoncurrent,balance
+Common Stock,LongTermDebtAndCapitalLeaseObligationsIncludingCurrentMaturities,balance
+Common Stock,LongTermDebtFairValue,balance
+Common Stock,LongTermDebtIncludingCapitalLease,balance

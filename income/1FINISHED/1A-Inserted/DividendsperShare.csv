@@ -1,0 +1,27 @@
+standard,gaap_tag,statement
+Dividends per Share,CommonStockDividendsPerShareDeclared,income
+Dividends per Share,CommonStockDividendsPerShareCashPaid,income
+Dividends per Share,DividendsPayableAmountPerShare,income
+Dividends per Share,EarningsPerShareBasicDistributed,income
+Dividends per Share,CommonStockDividendsDeclaredPerShare,income
+Dividends per Share,CommonStockDividendsPerShareDeclaredAndPaid,income
+Dividends per Share,CommonStockDividendsDeclaredandPaidperShare,income
+,,
+,,
+,,
+,,
+,,
+,,
+Dividends per Share,DividendsCommonStockCash,income
+Dividends per Share,Dividends,income
+Dividends per Share,ComprehensiveIncomeNetOfTax,income
+Dividends per Share,WeightedAverageNumberOfDilutedSharesOutstanding,income
+Dividends per Share,RevenueFromRelatedParties,income
+Dividends per Share,ComprehensiveIncomeNetOfTaxIncludingPortionAttributableToNoncontrollingInterest,income
+Dividends per Share,EffectiveIncomeTaxRateContinuingOperations,income
+Dividends per Share,CostOfGoodsAndServicesSold,income
+Dividends per Share,RetainedEarningsAccumulatedDeficit,income
+Dividends per Share,EarningsPerShareDiluted,income
+Dividends per Share,NoninterestIncome,income
+Dividends per Share,Revenues,income
+Dividends per Share,IncomeLossFromContinuingOperationsPerDilutedShare,income

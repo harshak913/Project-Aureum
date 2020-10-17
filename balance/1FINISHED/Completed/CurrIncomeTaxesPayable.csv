@@ -1,0 +1,35 @@
+standard,gaap_tag,statement
+Curr. Income Taxes Payable,TaxesPayableCurrent,balance
+Curr. Income Taxes Payable,AccruedIncomeTaxesPayable,balance
+Curr. Income Taxes Payable,IncomeTaxesPayableAndDeferredIncomeTaxes,balance
+Curr. Income Taxes Payable,IncomeTaxesPayable,balance
+Curr. Income Taxes Payable,FederalIncomeTaxesPayable,balance
+Curr. Income Taxes Payable,SalesAndExciseTaxPayableCurrent,balance
+Curr. Income Taxes Payable,TaxesPayableCurrentAndNoncurrent,balance
+Curr. Income Taxes Payable,TaxesPayableNoncurrent,balance
+,,
+,,
+Curr. Income Taxes Payable,TaxesOtherThanIncome,balance
+Curr. Income Taxes Payable,IncomeTaxReceivable,balance
+Curr. Income Taxes Payable,AccrualForTaxesOtherThanIncomeTaxesCurrent,balance
+Curr. Income Taxes Payable,AccruedIncomeTaxesCurrent,balance
+Curr. Income Taxes Payable,AccrualForTaxesOtherThanIncomeTaxesCurrentAndNoncurrent,balance
+Curr. Income Taxes Payable,AccruedIncomeTaxesNoncurrent,balance
+Curr. Income Taxes Payable,LiabilityForUncertainTaxPositionsNoncurrent,balance
+Curr. Income Taxes Payable,AccruedIncomeTaxesNoncurrentAndLiabilityForUncertainTaxPositionsNoncurrent,balance
+Curr. Income Taxes Payable,DeferredTaxLiabilitiesNoncurrent,balance
+Curr. Income Taxes Payable,DeferredIncomeTaxesAndOtherTaxLiabilitiesNoncurrent,balance
+Curr. Income Taxes Payable,AccruedIncomeTaxes,balance
+Curr. Income Taxes Payable,DeferredTaxLiabilitiesCurrent,balance
+Curr. Income Taxes Payable,DeferredTaxAssetsLiabilitiesNet,balance
+Curr. Income Taxes Payable,IncomeTaxLiabilities,balance
+Curr. Income Taxes Payable,IncomeTax,balance
+Curr. Income Taxes Payable,DeferredIncomeTaxLiabilities,balance
+Curr. Income Taxes Payable,IncomeTaxesNetAsset,balance
+Curr. Income Taxes Payable,IncomeTaxesNetLiability,balance
+Curr. Income Taxes Payable,IncomeTaxesReceivable,balance
+Curr. Income Taxes Payable,DeferredIncomeTaxLiabilitiesNet,balance
+Curr. Income Taxes Payable,LiabilitiesCurrent,balance
+Curr. Income Taxes Payable,LiabilitiesCurrentPercent,balance
+Curr. Income Taxes Payable,OtherLiabilitiesCurrent,balance
+Curr. Income Taxes Payable,AccountsPayableAndAccruedLiabilitiesCurrent,balance

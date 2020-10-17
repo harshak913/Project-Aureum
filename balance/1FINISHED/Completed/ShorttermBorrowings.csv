@@ -1,0 +1,122 @@
+standard,gaap_tag,statement
+Short-term Borrowings,CommercialPaper,balance
+Short-term Borrowings,ShortTermBorrowings,balance
+Short-term Borrowings,ShortTermBankLoansAndNotesPayable,balance
+Short-term Borrowings,ShortTermBankLoansAndCurrentMaturitiesOfLongTermDebt,balance
+Short-term Borrowings,ShortTermBorrowingsIncludingLongTermDebtCurrent,balance
+Short-term Borrowings,ShortTermBorrowingsPercent,balance
+Short-term Borrowings,FederalFundsPurchasedAndSecuritiesSoldUnderAgreementsToRepurchaseAndShortTermBorrowings,balance
+Short-term Borrowings,ShortTermBorrowingsAndCurrentPortionOfLongTermDebt,balance
+Short-term Borrowings,ShortTermBorrowingsAndLongTermDebtCurrent,balance
+Short-term Borrowings,ShortTermBorrowingsAndCurrentMaturitiesOfLongTermDebt,balance
+Short-term Borrowings,ShortTermNonBankLoansAndNotesPayable,balance
+Short-term Borrowings,ShortTermDebt,balance
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+Short-term Borrowings,DebtCurrent,balance
+Short-term Borrowings,LongTermDebtAndCapitalLeaseObligationsCurrent,balance
+Short-term Borrowings,LongTermDebtCurrent,balance
+Short-term Borrowings,LongTermDebtAndCapitalLeaseObligationsRepaymentsOfPrincipalInNextTwelveMonths,balance
+Short-term Borrowings,LongTermDebtCurrentAndNotesPayable,balance
+Short-term Borrowings,SecuredDebt,balance
+Short-term Borrowings,OtherLongTermDebtCurrent,balance
+Short-term Borrowings,LinesOfCreditCurrent,balance
+Short-term Borrowings,SeniorNotesCurrent,balance
+Short-term Borrowings,OtherShortTermBorrowings,balance
+Short-term Borrowings,ObligationUnderCommercialPaperBorrowing,balance
+Short-term Borrowings,NotesPayable,balance
+Short-term Borrowings,NotesPayableCurrent,balance
+Short-term Borrowings,DebtAndCapitalLeaseObligations,balance
+Short-term Borrowings,LongTermNotesPayable,balance
+Short-term Borrowings,LongTermDebtComponentsNotesPayable,balance
+Short-term Borrowings,LongTermDebt,balance
+Short-term Borrowings,FederalFundsPurchasedAndSecuritiesSoldUnderAgreementsToRepurchase,balance
+Short-term Borrowings,ShortTermBorrowingsOther,balance
+Short-term Borrowings,BankOverdrafts,balance
+Short-term Borrowings,LineOfCreditFacilityAmountOutstanding,balance
+Short-term Borrowings,ObligationsUnderReverseRepurchaseAgreements,balance
+Short-term Borrowings,LongTermLineOfCredit,balance
+Short-term Borrowings,LineOfCredit,balance
+Short-term Borrowings,LineOfCreditFacilityFairValueOfAmountOutstanding,balance
+Short-term Borrowings,RevolvingCreditFacilityCurrent,balance
+Short-term Borrowings,OtherAdditionalCapital,balance
+Short-term Borrowings,OtherReceivables,balance
+Short-term Borrowings,OtherLiabilitiesCurrent,balance
+Short-term Borrowings,OtherAssetsCurrent,balance
+Short-term Borrowings,OtherAssetsNoncurrent,balance
+Short-term Borrowings,OtherLiabilitiesNoncurrent,balance
+Short-term Borrowings,NoncurrentRegulatoryAssetOther,balance
+Short-term Borrowings,CurrentRegulatoryAssetsOther,balance
+Short-term Borrowings,NoncurrentRegulatoryLiabilityOther,balance
+Short-term Borrowings,OtherAssets,balance
+Short-term Borrowings,OtherSundryLiabilitiesNoncurrent,balance
+Short-term Borrowings,OtherLiabilities,balance
+Short-term Borrowings,AccountsPayableAndOtherAccruedLiabilitiesCurrent,balance
+Short-term Borrowings,OtherLongTermInvestments,balance
+Short-term Borrowings,OtherAccruedLiabilitiesCurrent,balance
+Short-term Borrowings,OtherDeferredCostsNet,balance
+Short-term Borrowings,OtherInvestments,balance
+Short-term Borrowings,NontradeReceivablesCurrent,balance
+Short-term Borrowings,OtherLongTermInvestmentsAndMarketableSecurities,balance
+Short-term Borrowings,OtherReceivablesGrossCurrent,balance
+Short-term Borrowings,PrepaidExpenseAndOtherAssetsCurrent,balance
+Short-term Borrowings,UnamortizedDebtIssuanceExpense,balance
+Short-term Borrowings,DeferredCreditsAndOtherLiabilities,balance
+Short-term Borrowings,AccumulatedOtherComprehensiveIncomeLossOtherNetofTax,balance
+Short-term Borrowings,OtherAssetsMiscellaneousNoncurrent,balance
+Short-term Borrowings,AccountsAndOtherReceivablesNetCurrent,balance
+Short-term Borrowings,OtherReceivablesNetCurrent,balance
+Short-term Borrowings,PropertyPlantAndEquipmentOther,balance
+Short-term Borrowings,LoansAndLeasesReceivableConsumerOther,balance
+Short-term Borrowings,AccruedLiabilitiesAndOtherLiabilitiesCurrent,balance
+Short-term Borrowings,OtherlRegulatoryAssetsAndDeferredDebits,balance
+Short-term Borrowings,OtherEquity,balance
+Short-term Borrowings,OtherReceivable,balance
+Short-term Borrowings,InvestmentInAffiliatesOther,balance
+Short-term Borrowings,ConstructionWorkInProgressOther,balance
+Short-term Borrowings,RegulatedEntityOtherAssetsNoncurrent,balance
+Short-term Borrowings,CurrentRegulatoryLiabilityOther,balance
+Short-term Borrowings,NonCurrentRegulatoryLiabilityOther,balance
+Short-term Borrowings,OtherBorrowings,balance
+Short-term Borrowings,OtherLongTermDebtNoncurrent,balance
+Short-term Borrowings,IndefiniteAndFiniteLivedIntangibleAssetsExcludingGoodwill,balance
+Short-term Borrowings,AccumulatedOtherComprehensiveIncomeLossOtherNetOfTax,balance
+Short-term Borrowings,AccountsPayableCurrent,balance
+Short-term Borrowings,OtherRegulatoryAssetsAndDeferredDebits,balance
+Short-term Borrowings,OtherDeferredCreditsNoncurrent,balance
+Short-term Borrowings,LoansAndLeasesReceivableOther,balance
+Short-term Borrowings,OtherAssetsNoncurrentOther,balance
+Short-term Borrowings,OtherCurrentAssets,balance
+Short-term Borrowings,AccountsPayableOtherCurrent,balance
+Short-term Borrowings,AccumulatedOtherComprehensiveIncomeLossOther,balance
+Short-term Borrowings,OtherCapital,balance
+Short-term Borrowings,LoansAndNotesPayable,balance
+Short-term Borrowings,ShortTermDebtAndLongTermDebtCurrentMaturities,balance
+Short-term Borrowings,RevolvingCreditBorrowings,balance
+Short-term Borrowings,LoansPayableCurrent,balance
+Short-term Borrowings,CapitalLeaseObligationsCurrent,balance
+Short-term Borrowings,SecuredDebtCurrent,balance
+Short-term Borrowings,LongTermDebtCurrentMaturitiesExcludingLinesOfCredit,balance
+Short-term Borrowings,Longtermdebtcurrentmaturitiesincludingcapitalleases,balance
+Short-term Borrowings,UnsecuredDebtCurrent,balance
+Short-term Borrowings,ConvertibleDebtCurrent,balance
+Short-term Borrowings,AllLongTermDebtAndCapitalLeaseObligationsCurrent,balance
+Short-term Borrowings,LongTermDebtNoncurrent,balance
+Short-term Borrowings,LoansPayable,balance
+Short-term Borrowings,LoansPayableToBank,balance
+Short-term Borrowings,LongTermLoansFromBank,balance
+Short-term Borrowings,ShortTermDebtAndCurrentPortionOfLongTermDebt,balance

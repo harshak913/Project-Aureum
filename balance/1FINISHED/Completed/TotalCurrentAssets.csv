@@ -1,0 +1,42 @@
+standard,gaap_tag,statement
+Total Current Assets,AssetsCurrent,balance
+Total Current Assets,AssetsCurrentPercent,balance
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+Total Current Assets,OtherAssetsCurrent,balance
+Total Current Assets,PrepaidExpenseAndOtherAssetsCurrent,balance
+Total Current Assets,OtherAssetsIncludingDeferredTaxAssetsPrepaidExpenseandIncomeTaxesReceivableCurrent,balance
+Total Current Assets,OtherAssetsCurrentPercent,balance
+Total Current Assets,DeferredIncomeTaxesAndOtherAssetsCurrent,balance
+Total Current Assets,AssetsHeldForSaleNotPartOfDisposalGroupCurrent,balance
+Total Current Assets,Assets,balance
+Total Current Assets,PublicUtilitiesPropertyPlantAndEquipmentPlantInService,balance
+Total Current Assets,LiabilitiesCurrent,balance
+Total Current Assets,RealEstateInvestmentPropertyAtCost,balance
+Total Current Assets,LongTermInvestments,balance
+Total Current Assets,AssetsNoncurrent,balance
+Total Current Assets,StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest,balance
+Total Current Assets,LiabilitiesNoncurrent,balance
+Total Current Assets,InventoryNet,balance
+Total Current Assets,LiabilitiesAndStockholdersEquity,balance
+Total Current Assets,StockholdersEquity,balance
+Total Current Assets,PublicUtilitiesPropertyPlantAndEquipmentGross,balance
+Total Current Assets,CashCashEquivalentsAndFederalFundsSold,balance
+Total Current Assets,RealEstateInvestmentPropertyNet,balance
+Total Current Assets,PropertyPlantAndEquipmentGross,balance
+Total Current Assets,AssetsPercent,balance
+Total Current Assets,AssetsNet,balance
+Total Current Assets,PrepaidExpenseCurrent,balance
+Total Current Assets,PrepaidExpensesAndOtherCurrentAssets,balance
+Total Current Assets,OtherPrepaidExpenseCurrent,balance
+Total Current Assets,PrepaidExpensesOtherAssets,balance
+Total Current Assets,PrepaidExpensesAndOtherAssetsCurrent,balance
+Total Current Assets,PrepaidExpensesOtherCurrentAssets,balance
+Total Current Assets,PrepaidExpenseAndOtherAssets,balance
+Total Current Assets,PrepaidExpensesandOtherCurrentsAssets,balance

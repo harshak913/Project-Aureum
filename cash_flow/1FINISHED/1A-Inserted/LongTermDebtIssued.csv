@@ -1,0 +1,83 @@
+standard,gaap_tag,statement
+Long-Term Debt Issued,ProceedsFromIssuanceOfLongTermDebt,cash_flow
+Long-Term Debt Issued,ProceedsFromIssuanceOfSeniorLongTermDebt,cash_flow
+Long-Term Debt Issued,ProceedsFromIssuanceOfLongTermDebtAndCapitalSecuritiesNet,cash_flow
+Long-Term Debt Issued,ProceedsFromRevolvingLineOfCreditAndLongTermDebt,cash_flow
+Long-Term Debt Issued,ProceedsFromNotesPayable,cash_flow
+Long-Term Debt Issued,ProceedsFromDebtNetOfIssuanceCosts,cash_flow
+Long-Term Debt Issued,ProceedsFromIssuanceOfSecuredDebt,cash_flow
+Long-Term Debt Issued,ProceedsFromConvertibleDebt,cash_flow
+Long-Term Debt Issued,ProceedsfromIssuanceofTermLoan,cash_flow
+Long-Term Debt Issued,ProceedsFromIssuanceOfSecuredDebtAndTermLoan,cash_flow
+Long-Term Debt Issued,ProceedsFromRepaymentsOfLongTermDebtAndCapitalSecurities,cash_flow
+Long-Term Debt Issued,ProceedsFromIssuanceOfLongtermDebtExcludingAssetbackedDebt,cash_flow
+Long-Term Debt Issued,IssuanceOfDebt,cash_flow
+Long-Term Debt Issued,ProceedsFromLongTermLinesOfCredit,cash_flow
+Long-Term Debt Issued,ProceedsFromIssuanceOfLongTermDebtNet,cash_flow
+Long-Term Debt Issued,ProceedsfromIssuanceofSeniorNotes,cash_flow
+Long-Term Debt Issued,ProceedsfromIssuanceofLongtermDebtNetofIssuanceCosts,cash_flow
+Long-Term Debt Issued,SupplementalLongTermDebtIssued,cash_flow
+Long-Term Debt Issued,ProceedsFromSecuredNotesPayable,cash_flow
+Long-Term Debt Issued,ProceedsFromUnsecuredNotesPayable,cash_flow
+Long-Term Debt Issued,ProceedsFromIssuanceOfLongTermDebtAndProceedsFromOrRepaymentOfAccountsReceivableSecuritizationFacilityNet,cash_flow
+Long-Term Debt Issued,ProceedsFromShortAndLongTermBorrowings,cash_flow
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+Long-Term Debt Issued,ProceedsFromIssuanceOfPreferredStockAndPreferenceStock,cash_flow
+Long-Term Debt Issued,ProceedsFromIssuanceOfCommonStock,cash_flow
+Long-Term Debt Issued,ProceedsFromIssuanceOfWarrants,cash_flow
+Long-Term Debt Issued,NetBorrowingsOnPremiumFinancingDebtFacility,cash_flow
+Long-Term Debt Issued,ProceedsFromOtherBorrowingsAndNotesAndLoansPayable,cash_flow
+Long-Term Debt Issued,ProceedsFromDebtMaturingInMoreThanThreeMonths,cash_flow
+Long-Term Debt Issued,ProceedsFromIssuanceOfUnsecuredDebt,cash_flow
+Long-Term Debt Issued,ProceedsFromIssuanceOfDebt,cash_flow
+Long-Term Debt Issued,ProceedsFromIssuanceOfPrivatePlacement,cash_flow
+Long-Term Debt Issued,ProceedsFromIssuanceOfOtherLongTermDebt,cash_flow
+Long-Term Debt Issued,RepaymentsOfLongTermDebt,cash_flow
+Long-Term Debt Issued,ProceedsFromRepaymentsOfDebt,cash_flow
+Long-Term Debt Issued,RepaymentsOfLongTermDebtAndCapitalSecurities,cash_flow
+Long-Term Debt Issued,RepaymentsOfOtherLongTermDebt,cash_flow
+Long-Term Debt Issued,NotesIssued1,cash_flow
+Long-Term Debt Issued,ConsolidationSecuritizedTrustsIncreaseDecreaseLongTermBorrowings,cash_flow
+Long-Term Debt Issued,RepaymentsOfDebt,cash_flow
+Long-Term Debt Issued,PaymentOnTermLoan,cash_flow
+Long-Term Debt Issued,ProceedsFromOtherDebt,cash_flow
+Long-Term Debt Issued,ProceedsFromLinesOfCredit,cash_flow
+Long-Term Debt Issued,ProceedsFromShortTermDebt,cash_flow
+Long-Term Debt Issued,ProceedsFromTermLoan,cash_flow
+Long-Term Debt Issued,ProceedsFromRepaymentsOfShortTermDebtMaturingInMoreThanThreeMonths,cash_flow
+Long-Term Debt Issued,ProceedsFromIssuanceOfMediumTermNotes,cash_flow
+Long-Term Debt Issued,ProceedsFromBorrowings,cash_flow
+Long-Term Debt Issued,ProceedsFromRepaymentsOfShortTermDebtMaturingInThreeMonthsOrLess,cash_flow
+Long-Term Debt Issued,ProceedsFromRepaymentsOfOtherLongTermDebt,cash_flow
+Long-Term Debt Issued,ProceedsFromRepaymentsOfNotesPayable,cash_flow
+Long-Term Debt Issued,ProceedsFromMaturitiesPrepaymentsAndCallsOfHeldToMaturitySecurities,cash_flow
+Long-Term Debt Issued,ProceedsFromUnsecuredLineOfCredit,cash_flow
+Long-Term Debt Issued,ProceedsFromIssuanceOfSubordinatedLongTermDebt,cash_flow
+Long-Term Debt Issued,ProceedsFromRepaymentsOfShortTermDebt,cash_flow
+Long-Term Debt Issued,ProceedsFromShortTermDebtMaturingInMoreThanThreeMonths,cash_flow
+Long-Term Debt Issued,ProceedsFromRepaymentsOfDebtMaturingInMoreThanThreeMonths,cash_flow
+Long-Term Debt Issued,ProceedsFromOtherShortTermDebt,cash_flow
+Long-Term Debt Issued,ProceedsFromTermAndBridgeLoans,cash_flow
+Long-Term Debt Issued,ProceedsFromBankDebt,cash_flow
+Long-Term Debt Issued,ProceedsfromIssuanceofUnsecuredDebtNetofIssuanceCost,cash_flow
+Long-Term Debt Issued,ProceedsFromIssuanceOfCommercialPaper,cash_flow
+Long-Term Debt Issued,ProceedsFromRepaymentsOfLinesOfCredit,cash_flow
+Long-Term Debt Issued,ProceedsFromIssuanceOfDebtExcludingLineOfCredit,cash_flow
+Long-Term Debt Issued,ProceedsFromIssuanceOfDebtAndCommercialPaperBorrowings,cash_flow
+Long-Term Debt Issued,ProceedsFromIssuanceOfSeniorNotesNetOfIssuanceCosts,cash_flow
+Long-Term Debt Issued,ProceedsFromRelatedPartyDebt,cash_flow
+Long-Term Debt Issued,Proceedsfrom2017TermLoansnet,cash_flow
+Long-Term Debt Issued,ProceedsFromRevolvingCreditFacility,cash_flow
+Long-Term Debt Issued,RepaymentsOfShortTermDebt,cash_flow
+Long-Term Debt Issued,RepaymentsOfDebtMaturingInMoreThanThreeMonths,cash_flow
+Long-Term Debt Issued,RepaymentsOfLinesOfCredit,cash_flow
+Long-Term Debt Issued,PaymentsToAcquireNotesReceivable,cash_flow
+Long-Term Debt Issued,PaymentsForProceedsFromMortgageDeposits,cash_flow
+Long-Term Debt Issued,ProceedsFromRepaymentsOfOtherBorrowingsAndNotesAndLoansPayable,cash_flow

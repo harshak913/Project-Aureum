@@ -1,0 +1,18 @@
+standard,gaap_tag,statement
+R&D Exp.,ResearchAndDevelopmentExpense,income
+R&D Exp.,ResearchAndDevelopmentExpenseExcludingAcquiredInProcessCost,income
+R&D Exp.,ResearchAndDevelopmentInProcess,income
+R&D Exp.,ResearchDevelopmentAndEngineeringExpenses,income
+R&D Exp.,ResearchAndDevelopmentExpenseSoftwareExcludingAcquiredInProcessCost,income
+R&D Exp.,ResearchAndDevelopmentCostsIncludingSoftwareDevelopmentCosts,income
+R&D Exp.,ResearchAndDevelopmentExpenseOperating,income
+R&D Exp.,StockBasedCompensationResearchAndDevelopmentExpense,income
+R&D Exp.,ResearchAndDevelopmentCostIncludingSoftwareDevelopmentCosts,income
+R&D Exp.,ComprehensiveIncomeNetOfTax,income
+R&D Exp.,TechnologyandDevelopmentExpense,income
+R&D Exp.,TechnologyAndDevelopmentExpense,income
+R&D Exp.,ResearchAndDevelopmentExpenses,income
+R&D Exp.,DevelopmentCostsAndExpenses,income
+R&D Exp.,ResearchAndDevelopmentAssetAcquiredOtherThanThroughBusinessCombinationWrittenOff,income
+R&D Exp.,AcquiredInProcessResearchAndDevelopment,income
+R&D Exp.,InProcessResearchAndDevelopment,income

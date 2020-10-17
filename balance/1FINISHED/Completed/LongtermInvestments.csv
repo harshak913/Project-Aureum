@@ -1,0 +1,109 @@
+standard,gaap_tag,statement
+Long-term Investments,MarketableSecuritiesNoncurrent,balance
+Long-term Investments,EquityMethodInvestments,balance
+Long-term Investments,LongTermInvestments,balance
+Long-term Investments,AvailableForSaleSecuritiesDebtSecuritiesNoncurrent,balance
+Long-term Investments,AvailableForSaleSecuritiesNoncurrent,balance
+Long-term Investments,LongTermInvestmentsAndReceivablesNet,balance
+Long-term Investments,LongTermInvestmentsFairValue,balance
+Long-term Investments,LongTermInvestmentsExcludingEquityMethodInvestments,balance
+Long-term Investments,MarketableSecuritiesNoncurrentPercent,balance
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+Long-term Investments,MarketableSecuritiesCurrent,balance
+Long-term Investments,AvailableForSaleSecuritiesCurrent,balance
+Long-term Investments,AvailableForSaleSecuritiesFairValueDisclosure,balance
+Long-term Investments,MarketableSecurities,balance
+Long-term Investments,OtherLongTermInvestments,balance
+,,
+Long-term Investments,LongTermDebtFairValue,balance
+Long-term Investments,HeldToMaturitySecuritiesNoncurrent,balance
+Long-term Investments,ShortTermInvestments,balance
+Long-term Investments,Investments,balance
+Long-term Investments,InvestmentsInAffiliatesSubsidiariesAssociatesAndJointVentures,balance
+Long-term Investments,AvailableForSaleSecuritiesDebtSecuritiesCurrent,balance
+Long-term Investments,HeldToMaturitySecuritiesCurrent,balance
+Long-term Investments,Investmentsbs,balance
+Long-term Investments,AvailableForSaleSecuritiesEquitySecuritiesAndEquityAndCostMethodInvestments,balance
+Long-term Investments,EquityInvestments,balance
+Long-term Investments,IntangibleAssetsNetExcludingGoodwill,balance
+Long-term Investments,InvestmentsExcludingTradingSecurities,balance
+Long-term Investments,OtherShortTermInvestments,balance
+Long-term Investments,EquitySecuritiesFvNiAndWithoutReadilyDeterminableFairValue,balance
+Long-term Investments,TradingSecurities,balance
+Long-term Investments,EquitySecuritiesWithoutReadilyDeterminableFairValueAmount,balance
+Long-term Investments,MarketableSecuritiesRestrictedNoncurrent,balance
+Long-term Investments,AvailableForSaleSecurities,balance
+Long-term Investments,AccumulatedOtherComprehensiveIncomeLossAvailableForSaleSecuritiesAdjustmentNetOfTax,balance
+Long-term Investments,AvailableForSaleSecuritiesAndHeldToMaturitySecurities,balance
+Long-term Investments,InvestmentSecurities,balance
+Long-term Investments,DebtandEquitySecuritiesAvailableforsale,balance
+Long-term Investments,AvailableForSaleSecuritiesDebtSecurities,balance
+Long-term Investments,HeldToMaturitySecurities,balance
+Long-term Investments,MarketableSecuritiesFixedMaturitiesCurrent,balance
+,,
+Long-term Investments,RealEstateInvestmentsUnconsolidatedRealEstateAndOtherJointVentures,balance
+Long-term Investments,InvestmentsInAffiliatesSubsidiariesAssociatesAndJointVenturesNonCurrent,balance
+Long-term Investments,EquityMethodInvestmentsNoncurrent,balance
+Long-term Investments,EquityMethodInvestmentsCurrent,balance
+Long-term Investments,AvailableForSaleSecuritiesEquitySecuritiesNoncurrent,balance
+Long-term Investments,AdvancesToAffiliate,balance
+Long-term Investments,InvestmentInAndAdvancesToUnconsolidatedJointVenturesNet,balance
+Long-term Investments,InvestmentsInAffiliatesSubsidiariesAssociatesAndJointVenturesFairValueDisclosure,balance
+Long-term Investments,InvestmentsInAndAdvancesToAffiliatesAmountOfEquity,balance
+Long-term Investments,CostMethodInvestments,balance
+Long-term Investments,InvestmentInCeng,balance
+Long-term Investments,MarketableSecuritiesEquitySecurities,balance
+Long-term Investments,AvailableForSaleSecuritiesEquitySecurities,balance
+Long-term Investments,EquitySecuritiesFvNi,balance
+Long-term Investments,EquitySecurityInvestments,balance
+Long-term Investments,FederalHomeLoanBankStockAndFederalReserveBankStock,balance
+Long-term Investments,FinancialInstrumentsOwnedOtherAtFairValue,balance
+Long-term Investments,InvestmentsAndOtherNoncurrentAssets,balance
+Long-term Investments,OtherInvestments,balance
+Long-term Investments,AvailableForSaleSecuritiesAndCostMethodInvestments,balance
+Long-term Investments,OtherInvestmentsMareketableSecurities,balance
+Long-term Investments,OtherInvestmentsAndSecuritiesAtCost,balance
+Long-term Investments,InvestmentsAndOtherAssets,balance
+Long-term Investments,PublicUtilitiesPropertyPlantAndEquipmentPlantInService,balance
+Long-term Investments,Assets,balance
+Long-term Investments,RealEstateInvestmentPropertyAtCost,balance
+Long-term Investments,AssetsCurrent,balance
+Long-term Investments,LiabilitiesCurrent,balance
+Long-term Investments,AssetsNoncurrent,balance
+Long-term Investments,LiabilitiesNoncurrent,balance
+Long-term Investments,StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest,balance
+Long-term Investments,InventoryNet,balance
+Long-term Investments,LiabilitiesAndStockholdersEquity,balance
+Long-term Investments,StockholdersEquity,balance
+Long-term Investments,PublicUtilitiesPropertyPlantAndEquipmentGross,balance
+Long-term Investments,CashCashEquivalentsAndFederalFundsSold,balance
+Long-term Investments,RealEstateInvestmentPropertyNet,balance
+Long-term Investments,PropertyPlantAndEquipmentGross,balance
