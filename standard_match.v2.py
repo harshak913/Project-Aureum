@@ -8,8 +8,8 @@ import os
 connection = psycopg2.connect(host="ec2-34-197-188-147.compute-1.amazonaws.com", dbname="d7p3fuehaleleo", user="snbetggfklcniv", password="7798f45239eda70f8278ce3c05dc632ad57b97957b601681a3c516f37153403a")
 connection.autocommit = True
 cursor = connection.cursor()
-# years completed: 2010, 2011, 2012, 2013, 2014, 2015, 2016
-scrape_query = "select * from scrape where filing_type = '10-K' and inter_or_htm = 'Inter' and year = '2017';"
+# years completed: 2010, 2011, 2012, 2013, 2014, 2015, 2016,2017,2018
+scrape_query = "select * from scrape where filing_type = '10-K' and inter_or_htm = 'Inter' and year = '2019';"
 cursor.execute(scrape_query)
 entries = cursor.fetchall()
 tables = ['balance','cash_flow','income']
@@ -51,7 +51,7 @@ for entry in entries:
                             if '[' not in eng_name:
                                 #unit conversion from thousand and as displayed to millions
                                 if unit == 'As Displayed' or unit == 'In Thousands':
-                                    #print(acc_name, unit, value)
+                                    print(acc_name, unit, value)
                                     #Check if share or not. "Per" and "Share" or "Stock". If Not Proceed
                                     if 'Per' not in acc_name:
                                         negative = 0
@@ -63,69 +63,7 @@ for entry in entries:
                                         removelist = "."
                                         #print(value)
                                         n_value = re.sub(r'[^\w'+removelist+']', '',value)
-                                        #print(n_value)
-                                        #convert to in millions through this
-                                        if unit == 'As Displayed':
-                                            n_value = float(n_value)/1000000
-                                        elif unit == 'In Thousands':
-                                            n_value = float(n_value)/1000
-                                        #if it was negative add the bracket to signfigy negative
-                                        if negative > 0:
-                                            n_value = '(' + str(n_value) + ')'
-                                        value = n_value
-                                    elif 'Per' and 'Share' not in acc_name:
-                                        negative = 0
-                                        #check if there is a negative indicator
-                                        if '(' in value:
-                                            negative+=1
-                                        if '-' in value:
-                                            negative+=1
-                                        removelist = "."
-                                        #print(value)
-                                        n_value = re.sub(r'[^\w'+removelist+']', '',value)
-                                        #print(n_value)
-                                        #convert to in millions through this
-                                        if unit == 'As Displayed':
-                                            n_value = float(n_value)/1000000
-                                        elif unit == 'In Thousands':
-                                            n_value = float(n_value)/1000
-                                        #if it was negative add the bracket to signfigy negative
-                                        if negative > 0:
-                                            n_value = '(' + str(n_value) + ')'
-                                        value = n_value
-                                    elif 'Per' and 'Stock' not in acc_name:
-                                        negative = 0
-                                        #check if there is a negative indicator
-                                        if '(' in value:
-                                            negative+=1
-                                        if '-' in value:
-                                            negative+=1
-                                        removelist = "."
-                                        #print(value)
-                                        n_value = re.sub(r'[^\w'+removelist+']', '',value)
-                                        #print(n_value)
-                                        #convert to in millions through this
-                                        if unit == 'As Displayed':
-                                            n_value = float(n_value)/1000000
-                                        elif unit == 'In Thousands':
-                                            n_value = float(n_value)/1000
-                                        #if it was negative add the bracket to signfigy negative
-                                        if negative > 0:
-                                            n_value = '(' + str(n_value) + ')'
-                                        value = n_value
-                                    #IF PER EXISTS BUT IT'S PERIOD
-                                    if ',' in str(value) and 'Per' in acc_name:
-                                        if 'Period' in acc_name:
-                                            negative = 0
-                                            print(acc_name, value)
-                                            #check if there is a negative indicator
-                                            if '(' in value:
-                                                negative+=1
-                                            if '-' in value:
-                                                negative+=1
-                                            removelist = "."
-                                            #print(value)
-                                            n_value = re.sub(r'[^\w'+removelist+']', '',value)
+                                        if n_value.replace('.','').isdigit():
                                             #print(n_value)
                                             #convert to in millions through this
                                             if unit == 'As Displayed':
@@ -136,6 +74,71 @@ for entry in entries:
                                             if negative > 0:
                                                 n_value = '(' + str(n_value) + ')'
                                             value = n_value
+                                    elif 'Per' and 'Share' not in acc_name:
+                                        negative = 0
+                                        #check if there is a negative indicator
+                                        if '(' in value:
+                                            negative+=1
+                                        if '-' in value:
+                                            negative+=1
+                                        removelist = "."
+                                        #print(value)
+                                        n_value = re.sub(r'[^\w'+removelist+']', '',value)
+                                        if n_value.replace('.','').isdigit():
+                                            #print(n_value)
+                                            #convert to in millions through this
+                                            if unit == 'As Displayed':
+                                                n_value = float(n_value)/1000000
+                                            elif unit == 'In Thousands':
+                                                n_value = float(n_value)/1000
+                                            #if it was negative add the bracket to signfigy negative
+                                            if negative > 0:
+                                                n_value = '(' + str(n_value) + ')'
+                                            value = n_value
+                                    elif 'Per' and 'Stock' not in acc_name:
+                                        negative = 0
+                                        #check if there is a negative indicator
+                                        if '(' in value:
+                                            negative+=1
+                                        if '-' in value:
+                                            negative+=1
+                                        removelist = "."
+                                        #print(value)
+                                        n_value = re.sub(r'[^\w'+removelist+']', '',value)
+                                        if n_value.replace('.','').isdigit():
+                                            #print(n_value)
+                                            #convert to in millions through this
+                                            if unit == 'As Displayed':
+                                                n_value = float(n_value)/1000000
+                                            elif unit == 'In Thousands':
+                                                n_value = float(n_value)/1000
+                                            #if it was negative add the bracket to signfigy negative
+                                            if negative > 0:
+                                                n_value = '(' + str(n_value) + ')'
+                                            value = n_value
+                                    #IF PER EXISTS BUT IT'S PERIOD
+                                    if ',' in str(value) and 'Per' in acc_name:
+                                        if 'Period' in acc_name:
+                                            negative = 0
+                                            #check if there is a negative indicator
+                                            if '(' in value:
+                                                negative+=1
+                                            if '-' in value:
+                                                negative+=1
+                                            removelist = "."
+                                            #print(value)
+                                            n_value = re.sub(r'[^\w'+removelist+']', '',value)
+                                            if n_value.replace('.','').isdigit():
+                                                #print(n_value)
+                                                #convert to in millions through this
+                                                if unit == 'As Displayed':
+                                                    n_value = float(n_value)/1000000
+                                                elif unit == 'In Thousands':
+                                                    n_value = float(n_value)/1000
+                                                #if it was negative add the bracket to signfigy negative
+                                                if negative > 0:
+                                                    n_value = '(' + str(n_value) + ')'
+                                                value = n_value
                                     dict = {}
                                     dict['member'] = member
                                     dict['header'] = header
@@ -148,8 +151,9 @@ for entry in entries:
                                     dict['statement'] = table
                                     dict['filing_type'] = filing_type
                                     dict['accession_number'] = accession_number
-                                    #print(dict)
-                                    total_dict.append(dict)
+                                    if str(dict['value']).replace('.','').isdigit():
+                                        #print(dict)
+                                        total_dict.append(dict)
                                 #if in millions do this
                                 else:
                                     removelist = "."
@@ -167,7 +171,9 @@ for entry in entries:
                                     dict['filing_type'] = filing_type
                                     dict['accession_number'] = accession_number
                                     #print(dict)
-                                    total_dict.append(dict)
+                                    if str(dict['value']).replace('.','').isdigit():
+                                        #print(dict)
+                                        total_dict.append(dict)
 
         #print(total_dict)
         #All values from this statement have been properly compiled. Time to standardize
@@ -205,7 +211,9 @@ for entry in entries:
                                 if item['standard_name'] == query['standard_name'] and item['current_year'] == query['current_year'] and item['acc_name'] != query['acc_name']:
                                     print('THERE IS ALREADY AN EXISTING ONE')
                                     #print(checks)
+                                    print('THIS IS THE CURRENT ONE')
                                     #print(query)
+                                    print('L169')
                                     #add the names together.
                                     if query['acc_name'] not in item['acc_name']:
                                         item['acc_name'] = str(item['acc_name']) +", " + str(query['acc_name'])
@@ -221,7 +229,7 @@ for entry in entries:
                                     if '-' in str(item['value']):
                                         new_val = str(item['value']).replace('-', '')
                                         item['value'] = '('+new_val+')'
-                                    #print(item)
+                                        #print(item)
                         else:
                             print('THIS DOES NOT EXIST AND WE MUST ADD IT AS THE FIRST OCCURENCE')
                             final_standard.append(query)
@@ -235,7 +243,6 @@ for entry in entries:
 
         print('NOW TALLYING FINAL BUNCH')
 
-        #get rid of duplicates
         seen = set()
         new_l = []
         for d in final_standard:
@@ -243,6 +250,7 @@ for entry in entries:
             if t not in seen:
                 seen.add(t)
                 new_l.append(d)
+
 
         j = 0
         for item in new_l:
