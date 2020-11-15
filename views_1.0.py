@@ -53,86 +53,135 @@ for Balance in Balances:
 
 print(Balances)
 '''
-#balances = StandardBalance.objects.values('header', 'standard_name', 'eng_name', 'acc_name', 'value', 'unit', 'year', 'statement', 'report_period', 'filing_type', 'accession_number').filter(accession_number__in=['0000320193-17-000070','0001628280-16-020309','0001193125-15-356351']).distinct()
-#print(Balances)
-def standardization(data_set, min_year, max_year):
-    balances = []
-    for item in data_set:
-        balances.append(item)
-    k = itemgetter('standard_name','year__year')
-    #get the one with most recent report year and year
-    final_list = []
-    i = groupby(sorted(balances, key=k), key=k)
-    for key, balances in i:
-        #print(key)
-        report_years = []
-        bal_2 = []
-        for balance in balances:
-            report_years.append(balance['report_period'])
-            bal_2.append(balance)
-        latest_report = max(report_years)
-        #got the most recent report year now put the most recent releveant stuff into there
-        done = False
-        for item in bal_2:
-            if done == False:
-                if str(item['report_period']) == str(latest_report):
-                    if int(min_year) <= item['year__year'] <= int(max_year):
-                        #print(item['report_period'], item['value'], item['accession_number'])
-                        final_list.append(item)
-                        done = True
-    return final_list
-#for item in final_list:
-#    print(item['standard_name'], item['year'], item['value'])
-    #get most recent year from filered list
-
-    #get most recent date
-
+Balances = StandardBalance.objects.values('header', 'standard_name', 'eng_name', 'acc_name', 'value', 'unit', 'year', 'statement', 'report_period', 'filing_type').filter(accession_number='0001393612-12-000008').distinct()
+Balances = list(Balances)
+for item in Balances:
+    print(item)
 #Stand_Stat = StandardIncome.objects.values().filter(accession_number = "0001193125-11-014919")
 #print(Stand_Stat)
+
+def year_singular(data_set):
+    k = itemgetter('standard_name','year')
+    i = groupby(sorted(johns, key=k), key=k)
+    for key, marks in i:
+        #print(key)
+        indiv_dates = []
+        for date in dates:
+            indiv_dates.append(date)
+        template = {}
+        for mark in marks:
+            #print(itemgetter('year__year')(mark))
+            if itemgetter('year__year')(mark) in indiv_dates:
+                indiv_dates.remove(itemgetter('year__year')(mark))
+                template = dict(mark)
+    return min(items, key=lambda x: abs(x - pivot))
 
 
 #THIS FUNCTION FILLS IN MISSING YEARS
 def year_cleanup(data_set, all_years):
-    final_set = []
-    balances = []
-    dates = []
-    #duplicate data
-    for item in data_set:
-        balances.append(item)
-        final_set.append(item)
-        print(item)
 
+    the_datas = []
+    '''
+    for item in data_set:
+        the_datas.append(item)
+    '''
+
+    for item in data_set:
+        if item['member'] == '':
+            head = item.get('header')
+            item['header'] = head.upper()
+            the_datas.append(item)
+
+
+    marks = []
+    johns = []
+    for item in data_set:
+        marks.append(item)
+        johns.append(item)
+    insert = []
+
+    dates = []
     for item in all_years:
         dates.append(item)
-    k = itemgetter('standard_name')
-    #get the one with most recent report year and year
-    i = groupby(sorted(balances, key=k), key=k)
-    for key, balances in i:
-        year_list = []
+
+    k = itemgetter('member','header','eng_name')
+    i = groupby(sorted(johns, key=k), key=k)
+    for key, marks in i:
+        #print(key)
         indiv_dates = []
-        #create new list for all dates
         for date in dates:
             indiv_dates.append(date)
         template = {}
-        #check if the years are accounted for
-        for balance in balances:
+        for mark in marks:
             #print(itemgetter('year__year')(mark))
-            if itemgetter('year__year')(balance) in indiv_dates:
-                #if year is accounted delete from indiv_dates
-                indiv_dates.remove(itemgetter('year__year')(balance))
-                template = dict(balance)
-        #if indiv_dates is not empty, there are unaccounted for years
+            if itemgetter('year__year')(mark) in indiv_dates:
+                indiv_dates.remove(itemgetter('year__year')(mark))
+                template = dict(mark)
+
+        #print(template)
+        #print(indiv_dates)
+        empty = []
         if indiv_dates:
             for item in indiv_dates:
                 smith = dict(template)
                 smith['year__year'] = item
-                smith['value'] = '-'
-                print(smith)
-                final_set.append(smith)
+                smith['value'] = ''
+                the_datas.append(smith)
+    for item in the_datas:
+        item['value'] = item.get('value').strip('\n').split(' ',1)[0]
 
-    final_set = sorted(final_set, key=lambda k: k['year__year'])
+    duplic_year = []
+    for item in the_datas:
+        duplic_year.append(item)
 
-    return final_set
+    k = itemgetter('member','header','eng_name', 'year__year')
+    i = groupby(sorted(duplic_year, key=k), key=k)
+    terminate = []
+    for key, marks in i:
+        test_len = 0
+        report_years = []
+        new_marks = []
+        for mark in marks:
+            print(mark)
+            report_years.append(itemgetter('report_period__year')(mark))
+            test_len+=1
+            new_marks.append(mark)
+
+        #print(new_marks)
+        if test_len > 1:
+            print(report_years)
+            latest_report = max(report_years)
+            print('LATEST REPORT YEAR: '+str(latest_report))
+            not_term = {}
+            for item in new_marks:
+                if item.get('report_period__year') == latest_report:
+                    not_term = dict(mark)
+                    break
+            print('NOT TERMINATE')
+            print(not_term)
+            print('NOT TERMINATE')
+            for item in new_marks:
+                if item != not_term:
+                    terminate.append(item)
+            #print(terminate)
+    for item in terminate:
+        term = item
+        for item in duplic_year:
+            if item == term:
+                duplic_year.remove(item)
+
+    #the_datas = duplic_year
+
+
+    the_datas = []
+    for item in duplic_year:
+        if item['member'] == '':
+            the_datas.append(item)
+
+
+    the_datas = sorted(the_datas, key=lambda k: k['year__year'])
+
+    return the_datas
 
 
 
@@ -242,16 +291,15 @@ def balance(request):
     for accession in accessions:
         access.append(accession['accession_number'])
     #Get Max and Min Year
-    bal_years =  StandardBalance.objects.values('year__year').filter(accession_number__in=access).distinct().order_by('year__year')
+    bal_years =  Balance.objects.values('year__year').filter(accession_number__in=access).distinct().order_by('year')
     new_bal_year = []
     for item in bal_years:
         new_bal_year.append(item['year__year'])
     bal_min = min(new_bal_year)
     bal_max = max(new_bal_year)
     #filter the BALANCE SHEET BASED ON ACCESSION NUMBERS NOW and FILL IN THE BLANKS
-    theBalance = StandardBalance.objects.values('header', 'standard_name', 'eng_name', 'acc_name', 'value', 'unit', 'year__year', 'statement', 'report_period', 'filing_type', 'accession_number').filter(accession_number__in = access).distinct()
-    finBalance = standardization(theBalance, bal_min, bal_max)
-    finBalance = year_cleanup(finBalance, new_bal_year)
+    theBalance = Balance.objects.values('member', 'header', 'acc_name', 'eng_name','value', 'unit', 'year__year', 'report_period__year').distinct().filter(accession_number__in=access).order_by('year')
+    finBalance = year_cleanup(theBalance, new_bal_year)
     #SEE IF THERE IS YEAR REQUEST
     context = {
         'Datas': finBalance,

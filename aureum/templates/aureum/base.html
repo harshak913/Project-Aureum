@@ -22,38 +22,18 @@
         </td>
       {% endfor %}
       </tr>
-      {% regroup Datas|dictsort:"member" by member as Members %}
-        {% for Member in Members %}
-        <tr>
-          <td>
-            <b>
-            {{ Member.grouper }}
-            </b>
-          </td>
-        </tr>
-          {% regroup Member.list|dictsort:"header" by header as Headers%}
-          {% for Header in Headers %}
-          <tr>
-            <td>
-              <b>
-            {{ Header.grouper }}
-              </b>
-            </td>
-          </tr>
-            {% regroup Header.list|dictsort:"eng_name" by eng_name as Names %}
-            {% for Name in Names %}
-            <tr>
-              <td>
-              {{ Name.grouper }}
-              </td>
-              {% for item in Name.list %}
-              <td>
-                {{ item.value }}
-              </td>
-              {% endfor %}
-            </tr>
-            {% endfor %}
-          {% endfor %}
+    {% regroup Datas|dictsort:"standard_name" by standard_name as Names %}
+    {% for Name in Names %}
+      <tr>
+        <td>
+        {{ Name.grouper }}
+        </td>
+        {% for item in Name.list %}
+        <td>
+          {{ item.value }}
+        </td>
         {% endfor %}
+      </tr>
+      {% endfor %}
     </table>
 {% endblock %}
