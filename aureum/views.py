@@ -242,23 +242,35 @@ def balance(request):
     for accession in accessions:
         access.append(accession['accession_number'])
     #Get Max and Min Year
-    bal_years =  StandardBalance.objects.values('year__year').filter(accession_number__in=access).distinct().order_by('year__year')
-    new_bal_year = []
-    for item in bal_years:
-        new_bal_year.append(item['year__year'])
-    bal_min = min(new_bal_year)
-    bal_max = max(new_bal_year)
+    state_years = StandardBalance.objects.values('year__year').filter(accession_number__in=access).distinct().order_by('year__year')
+    #see what the displayed curr min max is
+    new_state_year = []
+    for item in state_years:
+        new_state_year.append(item['year__year'])
+    state_min = min(new_state_year)
+    state_max = max(new_state_year)
+    if year1 is not None:
+        curr_min = year1
+        curr_max = year2
+        newest = []
+        for item in new_state_year:
+            if int(curr_min) <= int(item) <= int(curr_max):
+                newest.append(item)
+        new_state_year = newest
+    else:
+        curr_min = min(new_state_year)
+        curr_max = max(new_state_year)
     #filter the BALANCE SHEET BASED ON ACCESSION NUMBERS NOW and FILL IN THE BLANKS
-    theBalance = StandardBalance.objects.values('header', 'standard_name', 'eng_name', 'acc_name', 'value', 'unit', 'year__year', 'statement', 'report_period', 'filing_type', 'accession_number').filter(accession_number__in = access).distinct()
-    finBalance = standardization(theBalance, bal_min, bal_max)
-    finBalance = year_cleanup(finBalance, new_bal_year)
+    theStatement = StandardBalance.objects.values('header', 'standard_name', 'eng_name', 'acc_name', 'value', 'unit', 'year__year', 'statement', 'report_period', 'filing_type', 'accession_number').filter(accession_number__in = access).distinct()
+    finStatement = standardization(theStatement, curr_min, curr_max)
+    finStatement = year_cleanup(finStatement, new_state_year)
     #SEE IF THERE IS YEAR REQUEST
     context = {
-        'Datas': finBalance,
-        'Max': bal_max,
-        'Min': bal_min,
-        'Curr_Max': bal_max,
-        'Curr_Min': bal_min,
+        'Datas': finStatement,
+        'Max': state_max,
+        'Min': state_min,
+        'Curr_Max': curr_max,
+        'Curr_Min': curr_min,
         'Company': myCountry,
         'Companies': companies,
         'Statement': 'Balance Sheet'
@@ -282,21 +294,35 @@ def income(request):
     for accession in accessions:
         access.append(accession['accession_number'])
     #Get Max and Min Year
-    inc_years =  Income.objects.values('year__year').filter(accession_number__in=access).distinct().order_by('year')
-    new_inc_year = []
-    for item in inc_years:
-        new_inc_year.append(item['year__year'])
-    inc_min = min(new_inc_year)
-    inc_max = max(new_inc_year)
+    state_years = StandardIncome.objects.values('year__year').filter(accession_number__in=access).distinct().order_by('year__year')
+    #see what the displayed curr min max is
+    new_state_year = []
+    for item in state_years:
+        new_state_year.append(item['year__year'])
+    state_min = min(new_state_year)
+    state_max = max(new_state_year)
+    if year1 is not None:
+        curr_min = year1
+        curr_max = year2
+        newest = []
+        for item in new_state_year:
+            if int(curr_min) <= int(item) <= int(curr_max):
+                newest.append(item)
+        new_state_year = newest
+    else:
+        curr_min = min(new_state_year)
+        curr_max = max(new_state_year)
     #filter the BALANCE SHEET BASED ON ACCESSION NUMBERS NOW and FILL IN THE BLANKS
-    theIncome = Income.objects.values('member', 'header', 'acc_name', 'eng_name','value', 'unit', 'year__year', 'report_period__year').distinct().filter(accession_number__in=access).order_by('year')
-    finIncome = year_cleanup(theIncome, new_inc_year)
+    theStatement = StandardIncome.objects.values('header', 'standard_name', 'eng_name', 'acc_name', 'value', 'unit', 'year__year', 'statement', 'report_period', 'filing_type', 'accession_number').filter(accession_number__in = access).distinct()
+    finStatement = standardization(theStatement, curr_min, curr_max)
+    finStatement = year_cleanup(finStatement, new_state_year)
+    #SEE IF THERE IS YEAR REQUEST
     context = {
-        'Datas': finIncome,
-        'Max': inc_max,
-        'Min': inc_min,
-        'Curr_Max': inc_max,
-        'Curr_Min': inc_min,
+        'Datas': finStatement,
+        'Max': state_max,
+        'Min': state_min,
+        'Curr_Max': curr_max,
+        'Curr_Min': curr_min,
         'Company': myCountry,
         'Companies': companies,
         'Statement': 'Income Statement'
@@ -322,43 +348,35 @@ def cash(request):
     for accession in accessions:
         access.append(accession['accession_number'])
     #Get Max and Min Year
+    state_years = StandardCash.objects.values('year__year').filter(accession_number__in=access).distinct().order_by('year__year')
+    #see what the displayed curr min max is
+    new_state_year = []
+    for item in state_years:
+        new_state_year.append(item['year__year'])
+    state_min = min(new_state_year)
+    state_max = max(new_state_year)
     if year1 is not None:
-        cash_years =  CashFlow.objects.values('year__year').filter(accession_number__in=access, year__year__range=(year1, year2)).distinct().order_by('year')
-        new_cash_year = []
-        for item in cash_years:
-            new_cash_year.append(item['year__year'])
-        cash_min = min(new_cash_year)
-        cash_max = max(new_cash_year)
+        curr_min = year1
+        curr_max = year2
+        newest = []
+        for item in new_state_year:
+            if int(curr_min) <= int(item) <= int(curr_max):
+                newest.append(item)
+        new_state_year = newest
     else:
-        cash_years =  CashFlow.objects.values('year__year').filter(accession_number__in=access).distinct().order_by('year')
-        new_cash_year = []
-        for item in cash_years:
-            new_cash_year.append(item['year__year'])
-        cash_min = min(new_cash_year)
-        cash_max = max(new_cash_year)
+        curr_min = min(new_state_year)
+        curr_max = max(new_state_year)
     #filter the BALANCE SHEET BASED ON ACCESSION NUMBERS NOW and FILL IN THE BLANKS
-    if year1 is not None:
-        theCash = CashFlow.objects.values('member', 'header', 'acc_name', 'eng_name','value', 'unit', 'year__year', 'report_period__year').distinct().filter(accession_number__in=access, year__year__range=(year1, year2)).order_by('year')
-        curr_cash_min = year1
-        curr_cash_max = year2
-    else:
-        theCash = CashFlow.objects.values('member', 'header', 'acc_name', 'eng_name','value', 'unit', 'year__year', 'report_period__year').distinct().filter(accession_number__in=access).order_by('year')
-        curr_cash_min = cash_min
-        curr_cash_max = cash_max
-    finCash = year_cleanup(theCash, new_cash_year)
-    #RESET THE MIN MAX
-    cash_years =  CashFlow.objects.values('year__year').filter(accession_number__in=access).distinct().order_by('year')
-    new_cash_year = []
-    for item in cash_years:
-        new_cash_year.append(item['year__year'])
-    cash_min = min(new_cash_year)
-    cash_max = max(new_cash_year)
+    theStatement = StandardCash.objects.values('header', 'standard_name', 'eng_name', 'acc_name', 'value', 'unit', 'year__year', 'statement', 'report_period', 'filing_type', 'accession_number').filter(accession_number__in = access).distinct()
+    finStatement = standardization(theStatement, curr_min, curr_max)
+    finStatement = year_cleanup(finStatement, new_state_year)
+    #SEE IF THERE IS YEAR REQUEST
     context = {
-        'Datas': finCash,
-        'Max': cash_max,
-        'Min': cash_min,
-        'Curr_Min': curr_cash_min,
-        'Curr_Max': curr_cash_max,
+        'Datas': finStatement,
+        'Max': state_max,
+        'Min': state_min,
+        'Curr_Max': curr_max,
+        'Curr_Min': curr_min,
         'Company': myCountry,
         'Companies': companies,
         'Statement': 'Cash Flow'
