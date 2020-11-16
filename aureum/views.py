@@ -17,42 +17,6 @@ import re
 #def year_cleanup(data_set, all_years):
 #    bal_key = itemgetter('member')
 #    bal_iter = groupby(sorted(theBalance, key=bal_key), key=bal_key)
-'''
-Balances = Balance.objects.values('member', 'header', 'acc_name', 'eng_name','value', 'unit', 'year__year').filter(accession_number__in=['0001393612-12-000008', '0001193125-11-014919', '0001393612-16-000059', '0001393612-13-000004', '0001393612-14-000012', '0001393612-15-000007', '0001393612-17-000012', '0001393612-18-000012', '0001393612-19-000011']).distinct()
-#print(Balances)
-Balances = list(Balances)
-
-marks = list(Balances)
-johns = list(Balances)
-insert = []
-
-bal_years =  Balance.objects.values('year__year').filter(accession_number__in=['0001393612-12-000008', '0001193125-11-014919', '0001393612-16-000059', '0001393612-13-000004', '0001393612-14-000012', '0001393612-15-000007', '0001393612-17-000012', '0001393612-18-000012', '0001393612-19-000011']).distinct().order_by('year')
-dates = []
-for item in bal_years:
-    dates.append(item['year__year'])
-
-
-k = itemgetter('member','header','eng_name')
-i = groupby(sorted(johns, key=k), key=k)
-for key, marks in i:
-    indiv_dates = list(dates)
-    template = {}
-    for mark in marks:
-        if itemgetter('year__year')(mark) in indiv_dates:
-            indiv_dates.remove(itemgetter('year__year')(mark))
-            template = dict(mark)
-    if indiv_dates:
-        for item in indiv_dates:
-            template['year__year'] = item
-            template['value'] = ''
-            Balances.append(template)
-Balances = list(sorted(Balances, key=itemgetter('year__year')))
-
-for Balance in Balances:
-    Balance['value'] = Balance.get('value').strip('\n').split(' ',1)[0]
-
-print(Balances)
-'''
 #balances = StandardBalance.objects.values('header', 'standard_name', 'eng_name', 'acc_name', 'value', 'unit', 'year', 'statement', 'report_period', 'filing_type', 'accession_number').filter(accession_number__in=['0000320193-17-000070','0001628280-16-020309','0001193125-15-356351']).distinct()
 #print(Balances)
 def standardization(data_set, min_year, max_year):
@@ -127,6 +91,7 @@ def year_cleanup(data_set, all_years):
                 smith = dict(template)
                 smith['year__year'] = item
                 smith['value'] = '-'
+                smith['eng_name'] = 'N/A'
                 print(smith)
                 final_set.append(smith)
 

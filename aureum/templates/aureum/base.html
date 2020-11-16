@@ -11,6 +11,7 @@
       <div id="slider" style="width: 80%;"></div>
     </form>
     <p></p>
+    </div>
     <table>
     {% regroup Datas|dictsort:"year__year" by year__year as Dates %}
       <tr>
@@ -30,7 +31,9 @@
         </td>
         {% for item in Name.list %}
         <td>
-          {{ item.value }}
+          <a class="popup" onclick="myFunction()">{{ item.value }}
+            <span class="popuptext" id="myPopup">{{ item.eng_name }}</span>
+          </a>
         </td>
         {% endfor %}
       </tr>

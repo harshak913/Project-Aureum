@@ -10,6 +10,7 @@
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script type="text/javascript" src='{% static "js/java.js" %}'></script>
+    <script type="text/javascript" src='{% static "js/popup.js" %}'></script>
     <script>
       var max_year = "{{ Max }}";
       var min_year = "{{ Min }}";
@@ -20,6 +21,7 @@
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
     <link rel="stylesheet" href='{% static "css/styles.css" %}'>
     <link rel="stylesheet" href='{% static "css/autocomplete.css" %}'>
+    <link rel="stylesheet" href='{% static "css/popup.css" %}'>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
   </head>
   <body>
@@ -33,12 +35,11 @@
     <div class="tab" id='tab'>
       <button onclick="location.href='/information';">Company Information</button>
       <button onclick="location.href='/income';">Income Statement</button>
-      <button onclick="location.href='/cash';">Cash Flow Statement</button>
       <button onclick="location.href='/balance';">Balance Sheet</button>
+      <button onclick="location.href='/cash';">Cash Flow Statement</button>
     </div>
     {% block content %}
     {% endblock %}
-
     <script type="text/javascript" src='{% static "js/autocomplete.js" %}'></script>
   </body>
 </html>
