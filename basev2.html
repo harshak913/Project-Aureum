@@ -23,28 +23,20 @@
         </td>
       {% endfor %}
       </tr>
-      {% regroup Datas|dictsort:"member_position" by member_position as Members %}
-        {% for Member in Members %}
-        <tr>
-          <td>
-            <b>
-            {{ Member.list.0.member }}
-            </b>
-          </td>
-        </tr>
-          {% regroup Member.list|dictsort:"position" by position as Names %}
-          {% for Name in Names %}
-            <tr>
-              <td>
-              {{ Name.list.0.standard_name }}
-              </td>
-              {% for item in Name.list %}
-              <td>
-                {{ item.value }}
-              </td>
-              {% endfor %}
-            </tr>
-          {% endfor %}
+    {% regroup Datas|dictsort:"standard_name" by standard_name as Names %}
+    {% for Name in Names %}
+      <tr>
+        <td>
+        {{ Name.grouper }}
+        </td>
+        {% for item in Name.list %}
+        <td>
+          <a class="popup" onclick="myFunction()">{{ item.value }}
+            <span class="popuptext" id="myPopup">{{ item.eng_name }}</span>
+          </a>
+        </td>
+        {% endfor %}
+      </tr>
       {% endfor %}
     </table>
 {% endblock %}

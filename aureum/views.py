@@ -100,7 +100,6 @@ def year_cleanup(data_set, all_years):
 
     return final_set
 
-
 ASSETS = [{'member': 'ASSETS', 'position': 0, 'item': 'Cash And Equivalents'}, {'member': 'ASSETS', 'position': 1, 'item': 'Restricted Cash'}, {'member': 'ASSETS', 'position': 2, 'item': 'Short Term Investments'}, {'member': 'ASSETS', 'position': 3, 'item': 'Trading Asset Securities'}, {'member': 'ASSETS', 'position': 4, 'item': 'Total Cash & ST Investments'}, {'member': 'ASSETS', 'position': 5, 'item': 'Accounts Receivable'}, {'member': 'ASSETS', 'position': 6, 'item': 'Notes Receivable'}, {'member': 'ASSETS', 'position': 7, 'item': 'Other Receivables'}, {'member': 'ASSETS', 'position': 8, 'item': 'Total Receivables'}, {'member': 'ASSETS', 'position': 9, 'item': 'Inventory'}, {'member': 'ASSETS', 'position': 10, 'item': 'Deferred Tax Assets, Curr.'}, {'member': 'ASSETS', 'position': 11, 'item': 'Other Current Assets'}, {'member': 'ASSETS', 'position': 12, 'item': 'Total Current Assets'}, {'member': 'ASSETS', 'position': 13, 'item': 'Gross Property, Plant & Equipment'}, {'member': 'ASSETS', 'position': 14, 'item': 'Accumulated Depreciation'}, {'member': 'ASSETS', 'position': 15, 'item': 'Net Property, Plant & Equipment'}, {'member': 'ASSETS', 'position': 16, 'item': 'Long-term Investments'}, {'member': 'ASSETS', 'position': 17, 'item': 'Goodwill'}, {'member': 'ASSETS', 'position': 18, 'item': 'Other Intangibles'}, {'member': 'ASSETS', 'position': 19, 'item': 'Deferred Tax Assets, LT'}, {'member': 'ASSETS', 'position': 20, 'item': 'Other Long-Term Assets'}, {'member': 'ASSETS', 'position': 21, 'item': 'Total Assets'}]
 
 LIABILITIES = [{'member': 'LIABILITIES', 'position': 0, 'item': 'Accounts Payable'}, {'member': 'LIABILITIES', 'position': 1, 'item': 'Accrued Exp.'}, {'member': 'LIABILITIES', 'position': 2, 'item': 'Short-term Borrowings'}, {'member': 'LIABILITIES', 'position': 3, 'item': 'Curr. Port. of LT Debt'}, {'member': 'LIABILITIES', 'position': 4, 'item': 'Curr. Income Taxes Payable'}, {'member': 'LIABILITIES', 'position': 5, 'item': 'Unearned Revenue, Current'}, {'member': 'LIABILITIES', 'position': 6, 'item': 'Interest Capitalized'}, {'member': 'LIABILITIES', 'position': 7, 'item': 'Other Current Liabilities'}, {'member': 'LIABILITIES', 'position': 8, 'item': 'Total Current Liabilities'}, {'member': 'LIABILITIES', 'position': 9, 'item': 'Long-Term Debt'}, {'member': 'LIABILITIES', 'position': 10, 'item': 'Capital Leases'}, {'member': 'LIABILITIES', 'position': 11, 'item': 'Unearned Revenue, Non-Current'}, {'member': 'LIABILITIES', 'position': 12, 'item': 'Def. Tax Liability, Non-Curr.'}, {'member': 'LIABILITIES', 'position': 13, 'item': 'Other Non-Current Liabilities'}, {'member': 'LIABILITIES', 'position': 14, 'item': 'Total Liabilities'}, {'member': 'LIABILITIES', 'position': 15, 'item': 'Common Stock'}, {'member': 'LIABILITIES', 'position': 16, 'item': 'Additional Paid In Capital'}, {'member': 'LIABILITIES', 'position': 17, 'item': 'Retained Earnings'}, {'member': 'LIABILITIES', 'position': 18, 'item': 'Treasury Stock'}, {'member': 'LIABILITIES', 'position': 19, 'item': 'Comprehensive Inc. and Other'}, {'member': 'LIABILITIES', 'position': 20, 'item': 'Total Common Equity'}, {'member': 'LIABILITIES', 'position': 21, 'item': 'Total Shares Out.'}, {'member': 'LIABILITIES', 'position': 22, 'item': 'Total Equity'}, {'member': 'LIABILITIES', 'position': 23, 'item': 'Total Liabilities And Equity'}]
@@ -114,6 +113,87 @@ OPERATING_ACTIVITY = [{'member': 'OPERATING ACTIVITY', 'position': 0, 'item': 'N
 INVESTING_ACTIVIES = [{'member': 'INVESTING ACTIVIES', 'position': 0, 'item': 'Capital Expenditure'}, {'member': 'INVESTING ACTIVIES', 'position': 1, 'item': 'Cash Acquisitions'}, {'member': 'INVESTING ACTIVIES', 'position': 2, 'item': 'Divestitures'}, {'member': 'INVESTING ACTIVIES', 'position': 3, 'item': 'Purchase of Marketable Equity Securities'}, {'member': 'INVESTING ACTIVIES', 'position': 4, 'item': 'Sale of Marketable Equity Securities'}, {'member': 'INVESTING ACTIVIES', 'position': 5, 'item': 'Net (Inc.) Dec. in Loans Originated/Sold'}, {'member': 'INVESTING ACTIVIES', 'position': 6, 'item': 'Other Investing Activities'}, {'member': 'INVESTING ACTIVIES', 'position': 7, 'item': 'Cash from Investing'}]
 
 FINANCING_ACTIVITIES = [{'member': 'FINANCING ACTIVITIES', 'position': 0, 'item': 'Short Term Debt Issued'}, {'member': 'FINANCING ACTIVITIES', 'position': 1, 'item': 'Long-Term Debt Issued'}, {'member': 'FINANCING ACTIVITIES', 'position': 2, 'item': 'Total Debt Issued'}, {'member': 'FINANCING ACTIVITIES', 'position': 3, 'item': 'Short Term Debt Repaid'}, {'member': 'FINANCING ACTIVITIES', 'position': 4, 'item': 'Long-Term Debt Repaid'}, {'member': 'FINANCING ACTIVITIES', 'position': 5, 'item': 'Total Debt Repaid'}, {'member': 'FINANCING ACTIVITIES', 'position': 6, 'item': 'Repurchase of Common Stock'}, {'member': 'FINANCING ACTIVITIES', 'position': 7, 'item': 'Issuance of Common Stock'}, {'member': 'FINANCING ACTIVITIES', 'position': 8, 'item': 'Common Dividends Paid'}, {'member': 'FINANCING ACTIVITIES', 'position': 9, 'item': 'Total Dividends Paid'}, {'member': 'FINANCING ACTIVITIES', 'position': 10, 'item': 'Special Dividend Paid'}, {'member': 'FINANCING ACTIVITIES', 'position': 11, 'item': 'Other Financing Activities'}, {'member': 'FINANCING ACTIVITIES', 'position': 12, 'item': 'Cash from Financing'}, {'member': 'FINANCING ACTIVITIES', 'position': 13, 'item': 'Foreign Exchange Rate Adj.'}, {'member': 'FINANCING ACTIVITIES', 'position': 14, 'item': 'Net Change in Cash'}]
+
+
+def sorter(data_set, statement):
+    total_count1 = 0
+    total_count2 = 0
+    copy = []
+    print(statement)
+    if statement == 'balance':
+        for item in ASSETS:
+            checks = [t for t in data_set if t['standard_name'] == item['item']]
+            for check in checks:
+                check['member'] = str(item['member'])
+                check['member_position'] = 1
+                check['position'] = int(item['position'])
+                print(check)
+                copy.append(check)
+
+        for item in LIABILITIES:
+            checks = [t for t in data_set if t['standard_name'] == item['item']]
+            for check in checks:
+                check['member'] = str(item['member'])
+                check['member_position'] = 2
+                check['position'] = int(item['position'])
+                print(check)
+                copy.append(check)
+
+    elif statement == 'income':
+        for item in GENERAL:
+            checks = [t for t in data_set if t['standard_name'] == item['item']]
+            for check in checks:
+                check['member'] = str(item['member'])
+                check['member_position'] = 1
+                check['position'] = int(item['position'])
+                print(check)
+                copy.append(check)
+
+        for item in Per_Share_Items:
+            checks = [t for t in data_set if t['standard_name'] == item['item']]
+            for check in checks:
+                check['member'] = str(item['member'])
+                check['member_position'] = 2
+                check['position'] = int(item['position'])
+                print(check)
+                copy.append(check)
+
+    elif statement == 'cash_flow':
+        for item in OPERATING_ACTIVITY:
+            checks = [t for t in data_set if t['standard_name'] == item['item']]
+            for check in checks:
+                check['member'] = str(item['member'])
+                check['member_position'] = 1
+                check['position'] = int(item['position'])
+                print(check)
+                copy.append(check)
+
+        for item in INVESTING_ACTIVIES:
+            checks = [t for t in data_set if t['standard_name'] == item['item']]
+            for check in checks:
+                check['member'] = str(item['member'])
+                check['member_position'] = 2
+                check['position'] = int(item['position'])
+                print(check)
+                copy.append(check)
+
+        for item in FINANCING_ACTIVITIES:
+            checks = [t for t in data_set if t['standard_name'] == item['item']]
+            for check in checks:
+                check['member'] = str(item['member'])
+                check['member_position'] = 3
+                check['position'] = int(item['position'])
+                print(check)
+                copy.append(check)
+
+    for item in copy:
+        if '-' in str(item['value']) and str(item['value']) != '-':
+            item['value'] = '(' + str(item['value']).strip('-') + ')'
+
+    copy = sorted(copy, key=lambda k: k['year__year'])
+    return copy
+    #elif statement == 'balance':
+    #elif statement == 'income':
 
 
 urls = ['https://www.cnbc.com/finance/','https://www.cnn.com/business/investing','https://www.foxbusiness.com/markets']
@@ -244,6 +324,7 @@ def balance(request):
     theStatement = StandardBalance.objects.values('header', 'standard_name', 'eng_name', 'acc_name', 'value', 'unit', 'year__year', 'statement', 'report_period', 'filing_type', 'accession_number').filter(accession_number__in = access).distinct()
     finStatement = standardization(theStatement, curr_min, curr_max)
     finStatement = year_cleanup(finStatement, new_state_year)
+    finStatement = sorter(finStatement, 'balance')
     #SEE IF THERE IS YEAR REQUEST
     context = {
         'Datas': finStatement,
@@ -296,6 +377,7 @@ def income(request):
     theStatement = StandardIncome.objects.values('header', 'standard_name', 'eng_name', 'acc_name', 'value', 'unit', 'year__year', 'statement', 'report_period', 'filing_type', 'accession_number').filter(accession_number__in = access).distinct()
     finStatement = standardization(theStatement, curr_min, curr_max)
     finStatement = year_cleanup(finStatement, new_state_year)
+    finStatement = sorter(finStatement, 'income')
     #SEE IF THERE IS YEAR REQUEST
     context = {
         'Datas': finStatement,
@@ -350,6 +432,7 @@ def cash(request):
     theStatement = StandardCash.objects.values('header', 'standard_name', 'eng_name', 'acc_name', 'value', 'unit', 'year__year', 'statement', 'report_period', 'filing_type', 'accession_number').filter(accession_number__in = access).distinct()
     finStatement = standardization(theStatement, curr_min, curr_max)
     finStatement = year_cleanup(finStatement, new_state_year)
+    finStatement = sorter(finStatement, 'cash_flow')
     #SEE IF THERE IS YEAR REQUEST
     context = {
         'Datas': finStatement,
@@ -362,3 +445,25 @@ def cash(request):
         'Statement': 'Cash Flow'
         }
     return render(request, 'aureum/base.html', context)
+
+
+
+
+
+
+    '''
+    {% regroup Members.list|dictsort:"position" by position as Names%}
+{% for Name in Names %}
+<tr>
+<td>
+{{ Members.0.standard_name }}
+</td>
+{% for item in Name.list %}
+<td>
+{{ item.value }}
+</td>
+{% endfor %}
+</tr>
+{% endfor %}
+{% endfor %}
+'''
