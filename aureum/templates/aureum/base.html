@@ -2,6 +2,7 @@
 
 {% block content %}
     <h3>{{ Statement }} Information</h3>
+    <a>In Millions of the reported currency, except per share items.</a>
     <form id='year-submit' method="GET">
       {% csrf_token %}
       <input type="text" class="sliderValue" name = "yearOne" id="year1" data-index="0" value= {{ Curr_Min }}>
@@ -18,7 +19,7 @@
         <td>
         </td>
       {% for Date in Dates %}
-        <td>
+        <td style="text-align: center; vertical-align: middle;">
         {{ Date.grouper }}
         </td>
       {% endfor %}
@@ -39,7 +40,7 @@
               {{ Name.list.0.standard_name }}
               </td>
               {% for item in Name.list %}
-              <td>
+              <td style="text-align: center; vertical-align: middle;">
                 {{ item.value }}
               </td>
               {% endfor %}

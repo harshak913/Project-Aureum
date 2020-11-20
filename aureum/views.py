@@ -187,7 +187,12 @@ def sorter(data_set, statement):
                 copy.append(check)
 
     for item in copy:
+        if '-' not in str(item['value']):
+            value = float(item['value'])
+            item['value'] = f'{value:,}'
         if '-' in str(item['value']) and str(item['value']) != '-':
+            value = float(str(item['value']).strip())
+            item['value'] = f'{value:,}'
             item['value'] = '(' + str(item['value']).strip('-') + ')'
 
     copy = sorted(copy, key=lambda k: k['year__year'])
