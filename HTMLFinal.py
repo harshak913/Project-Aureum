@@ -318,7 +318,7 @@ def parse_tables(in_thousands_lower, in_millions_lower, in_thousands_upper, in_m
                             td_text = unidecode.unidecode(restore_windows_1252_characters(unicodedata.normalize('NFKD', td_table[td].get_text().strip())))
                             if 'millions' in td_text  or 'thousands' in td_text or 'share amount' in td_text or 'share data' in td_text:
                                 continue
-                            td_text = td_text.replace("'", '')
+                            td_text = td_text.replace("'", "''")
                             if td_text == '$' or td_text == ')' or td_text == '':
                                 continue
                             elif '(' in td_text and re.search('[a-zA-Z]', td_text) is None:

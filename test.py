@@ -2,7 +2,6 @@ import requests
 from bs4 import BeautifulSoup
 import psycopg2
 import os
-from HTMLFinal import HTMLParse
 
 connection = psycopg2.connect(host="ec2-34-197-188-147.compute-1.amazonaws.com", dbname="d7p3fuehaleleo", user="snbetggfklcniv", password="7798f45239eda70f8278ce3c05dc632ad57b97957b601681a3c516f37153403a")
 connection.autocommit = True
@@ -67,3 +66,15 @@ for result in results:
     accession_number = result[4]
     delete_from_tables(accession_number)
     cursor.execute("UPDATE scrape SET status='PENDING' WHERE accession_number='%s'"%(accession_number)) """
+
+# SIC classification name update
+""" soup = BeautifulSoup(requests.get('https://www.sec.gov/info/edgar/siccodes.htm').content, 'lxml')
+tr_list = soup.find('table', attrs={"class": "sic"}).find('tbody').find_all('tr')
+sic_dict = {}
+for tr in tr_list[1:]:
+    td_list = tr.find_all('td')
+    sic_dict[int(td_list[0].get_text())] = td_list[2].get_text()
+cursor.execute("SELECT cik, classification FROM company;")
+sic_num = cursor.fetchall()
+for tup in sic_num:
+    cursor.execute("UPDATE company SET classification_name='%s' WHERE cik=%s;"%(sic_dict[tup[1]].replace("'", "''"), tup[0])) """
