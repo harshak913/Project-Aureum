@@ -82,4 +82,5 @@ for entry in entries:
     if(bool(elems) and bool(elems.string)):
 #    print('ticker, cash_yr and type bool()is:',ticker, cash_yr, type(cash_yr),bool(cash_yr))
         description = unidecode.unidecode(restore_windows_1252_characters(unicodedata.normalize('NFKD', elems.string.decode('utf-8')))).replace("'", "''")
-        cursor.execute("UPDATE company SET description = '%s' WHERE ticker = '%s';"%(description, ticker))
+        print(description)
+        #cursor.execute("UPDATE company SET description = '%s' WHERE ticker = '%s';"%(description, ticker))
