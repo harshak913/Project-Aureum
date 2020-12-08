@@ -1,18 +1,23 @@
 import psycopg2
-import os
-import sys
-import csv
 import bs4
 import urllib3
-import pdb
+import re
 import requests # this is for price retrieving
-import datetime
-import time
-
+import unidecode
+import unicodedata
 
 
 #reload(sys)
 #sys.setdefaultencoding('utf8')
+
+def restore_windows_1252_characters(restore_string):
+    def to_windows_1252(match):
+        try:
+            return bytes([ord(match.group(0))]).decode('cp1252')
+        except UnicodeDecodeError:
+            # No character at the corresponding code point: remove it.
+            return ''
+    return re.sub(r'[\u0080-\u0099]', to_windows_1252, restore_string)
 
 key_stats_on_main =[]
 key_stats_on_stat =['Enterprise Value', 'Trailing P/E', 'Forward P/E',
@@ -61,73 +66,20 @@ entries = cursor.fetchall()
 for entry in entries:
     print(entry[1])
 
-total = 0
-complete = 0
-incomplete = 0
 #For each company in the table collect the ticker
 for entry in entries:
     ticker = entry[1]
-    total +=1
     url3 = "https://finance.yahoo.com/quote/{0}/profile?p={0}".format(ticker)
 #######This section is to get the Profile page's Description Info
     res = requests.get(url3)
 #    print('line 122 res and ticker is',ticker, res)
     soup = bs4.BeautifulSoup(res.text, 'html.parser')
-    elems = soup.find("p","Mt(15px) Lh(1.6)")
+    elems = soup.find("p", attrs = {"class":"Mt(15px) Lh(1.6)"})
 #    print(' line 124 elems is:',soup, elems)
 
 ##### elems.string is string. Sometimes Yahoo Finance's URL does not have any data.
 ##### To avoid early exit from the rest of ticker files, we add this if statement to handle the situation
     if(bool(elems) and bool(elems.string)):
 #    print('ticker, cash_yr and type bool()is:',ticker, cash_yr, type(cash_yr),bool(cash_yr))
-        Description = elems.string
-        print(ticker,'Line 132 Company Description is ', elems.string)
-        complete+=1
-    else:
-        print('line 134 ticker, elems,string is empty', ticker)
-        incomplete+=1
-        continue
-
-"""
-UPDATE company SET description = '%s' WHERE ticker = '%s';
-
-"""
-    #stock_info_arr.append(stock_info)
-
-'''
-########## WRITING OUR RESULTS INTO EXCEL
-#print('key_stats_on_main before extend is:',key_stats_on_main)
-key_stats_on_main.append('Company Description')
-#print('key_stats_on_main is: ', key_stats_on_main)
-
-#### Now add a worksheet called Summary at the beginning
-
-worksheet = workbook.add_worksheet('Summary')
-worksheet.freeze_panes(1, 1)
-
-row = 1
-col = 0
-
-for stat in key_stats_on_main:
-    print('stat to be written to Excel is', stat)
-    worksheet.write(row, col, stat)
-    row +=1
-
-row = 0
-col = 1
-for our_stock in stock_info_arr:
-    row = 0
-    for info_bit in our_stock:
-        info_bit=str(info_bit)
-        #print('line 138 info_bit to be written into Excel is:', info_bit)
-        worksheet.write(row, col, info_bit)
-        row += 1
-    col += 1
-
-workbook.close()
-
-print('Script completed')
-t2 = time.time()
-print ('Total Time taken:')
-print (t2-t1)
-'''
+        description = unidecode.unidecode(restore_windows_1252_characters(unicodedata.normalize('NFKD', elems.string.decode('utf-8')))).replace("'", "''")
+        cursor.execute("UPDATE company SET description = '%s' WHERE ticker = '%s';"%(description, ticker))
