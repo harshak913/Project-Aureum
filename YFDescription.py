@@ -81,6 +81,6 @@ for entry in entries:
 ##### To avoid early exit from the rest of ticker files, we add this if statement to handle the situation
     if(bool(elems) and bool(elems.string)):
 #    print('ticker, cash_yr and type bool()is:',ticker, cash_yr, type(cash_yr),bool(cash_yr))
-        description = unidecode.unidecode(restore_windows_1252_characters(unicodedata.normalize('NFKD', elems.get_text().decode('utf-8')))).replace("'", "''")
+        description = unidecode.unidecode(restore_windows_1252_characters(unicodedata.normalize('NFKD', str(elems.get_text()).decode('utf-8')))).replace("'", "''")
         print(description)
         #cursor.execute("UPDATE company SET description = '%s' WHERE ticker = '%s';"%(description, ticker))
