@@ -130,9 +130,9 @@ def is_income(specified_table_tag, content_variations):
 def is_cash_flows(specified_table_tag, content_variations):
     variation_count = 0
     #Check if Index to Consolidated Financial Statements is contained in table (Only appears for cash flows)
-    if 'INDEX' in get_fixed_tag_text(specified_table_tag).upper():
-        return False
-    elif ('INVESTING' in get_fixed_tag_text(specified_table_tag).upper()) or ('OPERATING' in get_fixed_tag_text(specified_table_tag).upper() or 'OPERATION' in get_fixed_tag_text(specified_table_tag).upper()) or ('FINANCING' in get_fixed_tag_text(specified_table_tag).upper()):
+    """ if 'INDEX' in get_fixed_tag_text(specified_table_tag).upper():
+        return False """
+    if ('INVESTING' in get_fixed_tag_text(specified_table_tag).upper()) or ('OPERATING' in get_fixed_tag_text(specified_table_tag).upper() or 'OPERATION' in get_fixed_tag_text(specified_table_tag).upper()) or ('FINANCING' in get_fixed_tag_text(specified_table_tag).upper()):
         variation_count += 1
     else:
         return False
@@ -254,6 +254,9 @@ def parse_tables(in_thousands_lower, in_millions_lower, in_thousands_upper, in_m
                             for th in tr.find_all('th'):
                                 if re.search(month_pattern, th.get_text().strip(), re.IGNORECASE) is not None and re.search(year_pattern, th.get_text().strip(), re.IGNORECASE) is not None:
                                     date_list = th.get_text().strip().split()
+                                    if re.search(year_pattern, date_list[1], re.IGNORECASE) is not None:
+                                        date_list.append(date_list[1].split(',')[1])
+                                        date_list[1] = date_list[1][:-4]
                                     month_list.append(date_list[0] + ' ' + date_list[1])
                                     year_list.append(date_list[2])
                                 elif re.search(month_pattern, th.get_text().strip(), re.IGNORECASE) is not None:
@@ -261,16 +264,20 @@ def parse_tables(in_thousands_lower, in_millions_lower, in_thousands_upper, in_m
                                 elif th.get_text().strip('*').strip().isdigit():
                                     year_list.append(th.get_text().strip())
                         for td in tr.find_all('td'):
-                            if 'in millions' in td.get_text().strip().lower() or 'in thousands' in td.get_text().strip().lower() or 'share amount' in td.get_text().strip().lower() or 'share data' in td.get_text().strip().lower():
+                            td_text = unidecode.unidecode(restore_windows_1252_characters(unicodedata.normalize('NFKD', td.get_text().strip())))
+                            if 'in millions' in td_text or 'in thousands' in td_text or 'share amount' in td.text or 'share data' in td.text:
                                 continue
-                            if re.search(month_pattern, td.get_text().strip(), re.IGNORECASE) is not None and re.search(year_pattern, td.get_text().strip(), re.IGNORECASE) is not None:
-                                date_list = td.get_text().strip().split()
+                            if re.search(month_pattern, td_text.strip(), re.IGNORECASE) is not None and re.search(year_pattern, td.text.strip(), re.IGNORECASE) is not None:
+                                date_list = td_text.strip().split()
+                                if re.search(year_pattern, date_list[1], re.IGNORECASE) is not None:
+                                    date_list.append(date_list[1].split(',')[1])
+                                    date_list[1] = date_list[1][:-4]
                                 month_list.append(date_list[0] + ' ' + date_list[1])
                                 year_list.append(date_list[2])
-                            if re.search(month_pattern, td.get_text().strip(), re.IGNORECASE) is not None:
-                                month_list.append(td.get_text().strip())
-                            elif td.get_text().strip('*').strip().isdigit():
-                                year_list.append(td.get_text().strip('*').strip())
+                            elif re.search(month_pattern, td_text, re.IGNORECASE) is not None:
+                                month_list.append(td_text.strip())
+                            elif td_text.strip('*').strip().isdigit():
+                                year_list.append(td_text.strip('*').strip())
                         if (len(month_list) > 0 and len(year_list) > 0) or (len(year_list) > 0 and len(month_list) == 0):
                             with open(table_filename, 'a+', newline='', encoding='utf-8') as file:
                                 writer = csv.writer(file)
@@ -293,6 +300,7 @@ def parse_tables(in_thousands_lower, in_millions_lower, in_thousands_upper, in_m
                                     header_list.append('Value')
                                     for row in range(len(header_list)-1):
                                         if row >= 1 and row < len(header_list)-1:
+                                            header_list[row] = header_list[row].replace('Ended', '') if 'Ended' in header_list[row] else header_list[row]
                                             cell_list = header_list[row].split()
                                             for cell in range(len(cell_list)):
                                                 if re.search(month_pattern, cell_list[cell], re.IGNORECASE) is not None:
@@ -307,13 +315,13 @@ def parse_tables(in_thousands_lower, in_millions_lower, in_thousands_upper, in_m
                         writer = csv.writer(file)
                         td_table = tr.find_all('td')
                         for td in range(len(td_table)):
-                            if 'in millions' in td_table[td].get_text().strip().lower() or 'in thousands' in td_table[td].get_text().strip().lower() or 'share amount' in td_table[td].get_text().strip().lower() or 'share data' in td_table[td].get_text().strip().lower():
-                                continue
                             td_text = unidecode.unidecode(restore_windows_1252_characters(unicodedata.normalize('NFKD', td_table[td].get_text().strip())))
+                            if 'millions' in td_text  or 'thousands' in td_text or 'share amount' in td_text or 'share data' in td_text:
+                                continue
                             td_text = td_text.replace("'", '')
                             if td_text == '$' or td_text == ')' or td_text == '':
                                 continue
-                            elif '(' in td_text:
+                            elif '(' in td_text and re.search('[a-zA-Z]', td_text) is None:
                                 openparen_list = td_text.split('(')
                                 if ')' in openparen_list[1]:
                                     openparen_list[1] = openparen_list[1].strip(')')
@@ -397,7 +405,7 @@ def HTMLParse(html_text_filing, strip_htm, accession_number, filing_type, period
     complete_table_list = []
     for t in range(len(complete_temp_table_list)):
         uniString = complete_temp_table_list[t].get_text()
-        if not('PAGE' in uniString.upper()) and not(uniString.isdigit() == True) and not(uniString.strip() == '') and not('as adjusted' in uniString.strip().lower()) and not ('see notes' in uniString.strip().lower()):
+        if not('PAGE' in uniString.upper()) and not(uniString.isdigit() == True) and not(uniString.strip() == '') and not('as adjusted' in uniString.strip().lower()) and not ('see note' in uniString.strip().lower()):
             complete_table_list.append(complete_temp_table_list[t])
 
     final_balance_list, final_income_list, final_cash_flows_list = ([] for i in range(3))
@@ -448,10 +456,7 @@ def HTMLParse(html_text_filing, strip_htm, accession_number, filing_type, period
                     complete_index += 1
                     break
         cash_flows_index = complete_index #Sets cash flows index to last table we traversed (income statement or balance sheet)
-        if is_cash_flows(next_table, cash_flows_content_variations) == True:
-            break
-        elif is_balance(next_table, balance_sheet_content_variations) == False and is_income(next_table, income_statement_content_variations) == False:
-            break
+        break
 
     complete_index = cash_flows_index
     while complete_index < len(complete_table_list)-1:
@@ -563,14 +568,16 @@ def HTMLParse(html_text_filing, strip_htm, accession_number, filing_type, period
             #cursor.execute(sql_statement)
             print(sql_statement)
         
-        try:
+        """ try:
             os.remove(balance_sheet_file)
             os.remove(income_statement_file)
             os.remove(cash_flows_file)
             print("SUCCESSFULLY REMOVED FILES\n")
         except OSError as e:
-            print(f"FAILED TO REMOVE FILES: {e}\n")
+            print(f"FAILED TO REMOVE FILES: {e}\n") """
     else:
         print(f"No balance sheets found.\nNo income statements found.\nNo cash flows statements found.\nAccession number: {accession_number}")
 
-HTMLParse('https://www.sec.gov/Archives/edgar/data/1130310/000113031011000006/0001130310-11-000006.txt', "10k", "0001130310-11-000006", "10-K", "2010-12-31")
+HTMLParse('https://www.sec.gov/Archives/edgar/data/29989/000089109211001226/0000891092-11-001226.txt', "10k", "0000891092-11-001226", "10-K", "2010-12-31")
+#0001262039-11-000007
+#0000950123-11-026580
