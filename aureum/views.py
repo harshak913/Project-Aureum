@@ -281,7 +281,7 @@ def information(request):
         request.session['myCountry'] = myCountry
     else:
         myCountry = request.session['myCountry']
-    companyInfo = Company.objects.values('name', 'ticker', 'classification', 'cik').filter(name=myCountry)
+    companyInfo = Company.objects.values('name', 'ticker', 'classification_name', 'cik').filter(name=myCountry)
     #NOW GET THE CIK AND PREPARE TO FILTER DOWN THE ACCESSION NUMBER
     context = {
         'Company': myCountry,

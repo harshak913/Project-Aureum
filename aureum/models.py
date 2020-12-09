@@ -117,6 +117,8 @@ class Company(models.Model):
     ticker = models.CharField(max_length=10, blank=True, null=True)
     name = models.CharField(max_length=445, blank=True, null=True)
     classification = models.IntegerField(blank=True, null=True)
+    classification_name = models.CharField(max_length=250, blank=True, null=True)
+    description = models.CharField(max_length=10000, blank=True, null=True)
 
     class Meta:
         managed = False
