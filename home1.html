@@ -19,21 +19,10 @@
 </form>
 <p></p>
 <h3>Latest Articles from CNBC, FOX Business and CNN Business</h3>
-<div class="container">
-    <div class="frontpage">
-        <div class="fp-cell fp-cell--1">
-            <div class="fp-item">{{ Articles.0.title }}</div>
-        </div>
-        <div class="fp-cell fp-cell--2">
-            <div class="fp-item">{{ Articles.1.title }}</div>
-        </div>
-        <div class="fp-cell fp-cell--3">
-            <div class="fp-item">{{ Articles.2.title }}</div>
-        </div>
-        {% for Article in Articles %}
-        <div class="fp-cell fp-cell--4"> <a class="fp-item" href={{ Article.link }} target="_blank">{{ Article.title }}</a> </div>
-        {% endfor %}
-    </div>
+<div style = 'text-align: center;'>
+  {% for Article in Articles %}
+  <a class="button" href={{ Article.link }} target="_blank">{{ Article.title }}</a>
+  {% endfor %}
 </div>
 
 <script type="text/javascript" src='{% static "js/autocomplete.js" %}'></script>
