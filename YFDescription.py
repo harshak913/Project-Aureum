@@ -82,4 +82,6 @@ for entry in entries:
     if(bool(elems) and bool(elems.string)):
 #    print('ticker, cash_yr and type bool()is:',ticker, cash_yr, type(cash_yr),bool(cash_yr))
         description = elems.get_text().replace("'", "''")
-        cursor.execute("UPDATE company SET description = '%s' WHERE ticker = '%s';"%(description, ticker))
+        sql_command = "UPDATE company SET description = '%s' WHERE ticker = '%s';"%(description, ticker)
+        cursor.execute(sql_command)
+        print(sql_command)
