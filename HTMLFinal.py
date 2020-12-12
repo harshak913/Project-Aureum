@@ -578,6 +578,6 @@ def HTMLParse(html_text_filing, strip_htm, accession_number, filing_type, period
     else:
         print(f"No balance sheets found.\nNo income statements found.\nNo cash flows statements found.\nAccession number: {accession_number}")
 
-HTMLParse('https://www.sec.gov/Archives/edgar/data/29989/000089109211001226/0000891092-11-001226.txt', "10k", "0000891092-11-001226", "10-K", "2010-12-31")
+HTMLParse('https://www.sec.gov/Archives/edgar/data/320193/000110465906084288/0001104659-06-084288.txt', "10k", "0001104659-06-084288", "10-K", "2010-12-31")
 #0001262039-11-000007
 #0000950123-11-026580
