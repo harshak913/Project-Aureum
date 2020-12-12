@@ -11,6 +11,14 @@ import json
 import urllib.request
 from bs4 import BeautifulSoup
 import re
+import requests
+
+
+URL="https://finviz.com/quote.ashx?t=%s"%('aapl')
+print(URL)
+
+
+
 # Create your views here.
 # Link to actual SEC site https://www.sec.gov/cgi-bin/viewer?action=view&cik=1067983&accession_number=0001193125-10-043450&xbrl_type=v#
 #NEWS ARTICLE CATCHING
@@ -19,6 +27,8 @@ import re
 #    bal_iter = groupby(sorted(theBalance, key=bal_key), key=bal_key)
 #balances = StandardBalance.objects.values('header', 'standard_name', 'eng_name', 'acc_name', 'value', 'unit', 'year', 'statement', 'report_period', 'filing_type', 'accession_number').filter(accession_number__in=['0000320193-17-000070','0001628280-16-020309','0001193125-15-356351']).distinct()
 #print(Balances)
+
+
 def standardization(data_set, min_year, max_year):
     balances = []
     for item in data_set:
@@ -93,7 +103,6 @@ def year_cleanup(data_set, all_years):
                 smith['year__year'] = item
                 smith['value'] = '-'
                 smith['eng_name'] = 'N/A'
-                print(smith)
                 final_set.append(smith)
 
     final_set = sorted(final_set, key=lambda k: k['year__year'])
@@ -119,7 +128,6 @@ def sorter(data_set, statement):
     total_count1 = 0
     total_count2 = 0
     copy = []
-    print(statement)
     if statement == 'balance':
         for item in ASSETS:
             checks = [t for t in data_set if t['standard_name'] == item['item']]
@@ -127,7 +135,6 @@ def sorter(data_set, statement):
                 check['member'] = str(item['member'])
                 check['member_position'] = 1
                 check['position'] = int(item['position'])
-                print(check)
                 copy.append(check)
 
         for item in LIABILITIES:
@@ -136,7 +143,6 @@ def sorter(data_set, statement):
                 check['member'] = str(item['member'])
                 check['member_position'] = 2
                 check['position'] = int(item['position'])
-                print(check)
                 copy.append(check)
 
     elif statement == 'income':
@@ -146,7 +152,6 @@ def sorter(data_set, statement):
                 check['member'] = str(item['member'])
                 check['member_position'] = 1
                 check['position'] = int(item['position'])
-                print(check)
                 copy.append(check)
 
         for item in Per_Share_Items:
@@ -155,7 +160,6 @@ def sorter(data_set, statement):
                 check['member'] = str(item['member'])
                 check['member_position'] = 2
                 check['position'] = int(item['position'])
-                print(check)
                 copy.append(check)
 
     elif statement == 'cash_flow':
@@ -165,7 +169,6 @@ def sorter(data_set, statement):
                 check['member'] = str(item['member'])
                 check['member_position'] = 1
                 check['position'] = int(item['position'])
-                print(check)
                 copy.append(check)
 
         for item in INVESTING_ACTIVIES:
@@ -174,7 +177,6 @@ def sorter(data_set, statement):
                 check['member'] = str(item['member'])
                 check['member_position'] = 2
                 check['position'] = int(item['position'])
-                print(check)
                 copy.append(check)
 
         for item in FINANCING_ACTIVITIES:
@@ -183,7 +185,6 @@ def sorter(data_set, statement):
                 check['member'] = str(item['member'])
                 check['member_position'] = 3
                 check['position'] = int(item['position'])
-                print(check)
                 copy.append(check)
 
     for item in copy:
@@ -203,13 +204,19 @@ def sorter(data_set, statement):
 
 urls = ['https://www.cnbc.com/finance/','https://www.cnn.com/business/investing','https://www.foxbusiness.com/markets']
 articles = []
+cnn = []
+cnbc = []
+fox = []
 for url in urls:
     if 'cnbc' in url:
         link_head = 'cnbc.com'
+        source = 'cnbc'
     elif 'foxbusiness'in url:
         link_head = 'foxbusiness.com'
+        source = 'fox'
     elif 'cnn'in url:
         link_head = 'cnn.com'
+        source = 'cnn'
     page = urllib.request.urlopen(url)
     soup = BeautifulSoup(page, features="lxml")
     i = 0
@@ -229,7 +236,14 @@ for url in urls:
                     art_dict['link'] = 'https://www.'+full_link
                 else:
                     art_dict['link'] = full_link
+                art_dict['source'] = source
                 articles.append(art_dict)
+                if source == 'cnn':
+                    cnn.append(art_dict)
+                elif source == 'fox':
+                    fox.append(art_dict)
+                elif source == 'cnbc':
+                    cnbc.append(art_dict)
                 i+=1
 
             else:
@@ -248,7 +262,14 @@ for url in urls:
                     art_dict['link'] = 'https://www.'+full_link
                 else:
                     art_dict['link'] = full_link
+                art_dict['source'] = source
                 articles.append(art_dict)
+                if source == 'cnn':
+                    cnn.append(art_dict)
+                elif source == 'fox':
+                    fox.append(art_dict)
+                elif source == 'cnbc':
+                    cnbc.append(art_dict)
                 i+=1
             else:
                 break
@@ -266,7 +287,10 @@ companies = json.dumps(list)
 def home(request):
     context = {
         'Companies': companies,
-        'Articles': articles
+        'Articles': articles,
+        'Fox': fox,
+        'Cnn': cnn,
+        'Cnbc': cnbc,
     }
     return render(request, 'aureum/home.html', context)
 
@@ -281,7 +305,7 @@ def information(request):
         request.session['myCountry'] = myCountry
     else:
         myCountry = request.session['myCountry']
-    companyInfo = Company.objects.values('name', 'ticker', 'classification_name', 'cik').filter(name=myCountry)
+    companyInfo = Company.objects.values('name', 'ticker', 'classification_name', 'cik', 'description').filter(name=myCountry)
     #NOW GET THE CIK AND PREPARE TO FILTER DOWN THE ACCESSION NUMBER
     context = {
         'Company': myCountry,

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href='{% static "css/autocomplete.css" %}'>
+  <script>
+    var companies = {{ Companies|safe }};
+  </script>
+  <link rel="stylesheet" href='{% static "css/news.css" %}'>
+</head>
+<body>
+<!--Make sure the form has the autocomplete function switched off:-->
+<form id='company-submit' autocomplete="off" action="/information" onsubmit="return mySubmitFunction(event)">
+  <div class="autocomplete" style="width:300px;">
+    <input id="myInput" type="text" name="myCountry" placeholder="Enter SPY Company Name or Ticker">
+  </div>
+  <input type='submit'>
+</form>
+<p></p>
+<h3>Latest Articles from CNBC, FOX Business and CNN Business</h3>
+<div class="container">
+    <div class="frontpage">
+        <div class="fp-cell fp-cell--1">
+            <div class="fp-item">{{ Articles.0.title }}</div>
+        </div>
+        <div class="fp-cell fp-cell--2">
+            <div class="fp-item">{{ Articles.1.title }}</div>
+        </div>
+        <div class="fp-cell fp-cell--3">
+            <div class="fp-item">{{ Articles.2.title }}</div>
+        </div>
+        {% for Article in Articles %}
+        <div class="fp-cell fp-cell--4"> <a class="fp-item" href={{ Article.link }} target="_blank">{{ Article.title }}</a> </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script type="text/javascript" src='{% static "js/autocomplete.js" %}'></script>
+</body>
+</html>

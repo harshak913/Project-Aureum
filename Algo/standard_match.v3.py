@@ -7,7 +7,6 @@ import os
 from itertools import groupby
 from operator import itemgetter
 
-
 connection = psycopg2.connect(host="ec2-34-197-188-147.compute-1.amazonaws.com", dbname="d7p3fuehaleleo", user="snbetggfklcniv", password="7798f45239eda70f8278ce3c05dc632ad57b97957b601681a3c516f37153403a")
 connection.autocommit = True
 cursor = connection.cursor()
@@ -136,7 +135,7 @@ for entry in entries:
         cursor.execute(scrape_query_2)
         johns = cursor.fetchall()
         final_standard = []
-        avoids = ['Net Income', 'Operating Income', 'Total Revenue', 'Net Change in Cash', 'Gross Profit', 'Total Equity', 'Total Liabilities And Equity', 'Total Current Assets']
+        avoids = ['Net Income', 'Operating Income', 'Total Revenue', 'Net Change in Cash', 'Gross Profit', 'Total Equity', 'Total Liabilities And Equity', 'Total Current Assets', 'Revenue']
         for john in johns:
             standard_name = john[0]
             acc_name = john[1]
