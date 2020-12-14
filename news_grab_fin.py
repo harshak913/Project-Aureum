@@ -49,6 +49,7 @@ for new in news:
         #print(title, href)
 '''
 #CONGLOMERATE
+all_art = []
 urls = ['https://www.bloomberg.com/markets','https://www.wsj.com/news/business','https://www.cnbc.com']
 for url in urls:
     if 'bloomberg' in url:
@@ -56,11 +57,11 @@ for url in urls:
         page = urlopen(req).read()
         soup = BeautifulSoup(page, features="lxml")
         news = soup.find_all("a", {"class": "story-package-module__story__headline-link"})
-        i = 0
         for new in news:
-            i+=1
+            dict = {}
             link = 'https://www.bloomberg.com' + str(new['href'])
             title = str(new.text).strip()
+
             print(title, link)
 
     else:
@@ -76,6 +77,7 @@ for url in urls:
         for new in news:
             links = new.findChildren('a')
             for link in links:
+                dict = {}
                 href = link['href']
                 title = link.text
                 print(title, href)
