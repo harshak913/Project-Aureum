@@ -1,4 +1,5 @@
 import requests
+#from HTMLFinal import HTMLParse
 from bs4 import BeautifulSoup
 import psycopg2
 import os
@@ -25,6 +26,7 @@ def check_if_incomplete(accession_number):
 
     return (len(balance_entry) == 0 or len(income_entry) == 0 or len(cash_flow_entry) == 0)
 
+# Run scrape for HTML insertion
 cursor.execute("SELECT * FROM scrape WHERE year=2010 AND inter_or_htm='HTM' AND status='PENDING';")
 results = cursor.fetchall()
 for result in results:
@@ -60,12 +62,14 @@ for result in results:
         cursor.execute(sql_statement)
         print(sql_statement)
 
-""" cursor.execute("SELECT * FROM scrape WHERE year=2010 AND inter_or_htm='HTM' AND status='PENDING';")
+# Delete table rows
+""" cursor.execute("SELECT * FROM scrape WHERE year=2009;")
 results = cursor.fetchall()
 for result in results:
     accession_number = result[4]
     delete_from_tables(accession_number)
-    cursor.execute("UPDATE scrape SET status='PENDING' WHERE accession_number='%s'"%(accession_number)) """
+    cursor.execute("DELETE FROM scrape WHERE accession_number='%s'"%(accession_number))
+    print("DELETE FROM scrape WHERE accession_number='%s'"%(accession_number)) """
 
 # SIC classification name update
 """ soup = BeautifulSoup(requests.get('https://www.sec.gov/info/edgar/siccodes.htm').content, 'lxml')
@@ -78,3 +82,21 @@ cursor.execute("SELECT cik, classification FROM company;")
 sic_num = cursor.fetchall()
 for tup in sic_num:
     cursor.execute("UPDATE company SET classification_name='%s' WHERE cik=%s;"%(sic_dict[tup[1]].replace("'", "''"), tup[0])) """
+
+# Prettify HTML files
+""" prettified = BeautifulSoup(requests.get('https://www.sec.gov/Archives/edgar/data/1051470/000144530511000263/0001445305-11-000263.txt').content, 'lxml').prettify()
+with open("testHTML.htm", "w", encoding='utf-8') as file:
+    file.write(prettified) """
+
+#Fix scrape table status error
+""" cursor.execute("SELECT accession_number FROM scrape WHERE inter_or_htm='HTM';")
+htm_accessions = cursor.fetchall()
+for accession in htm_accessions:
+    if not check_if_incomplete(accession[0]):
+        cursor.execute("UPDATE scrape SET status='COMPLETED' WHERE accession_number='%s';"%(accession[0])) """
+
+#Check if all COMPLETED HTMs are actually completed
+""" cursor.execute("SELECT accession_number FROM scrape WHERE year=2010 AND inter_or_htm='HTM';")
+for tup in cursor.fetchall():
+    if check_if_incomplete(tup[0]):
+        print(tup[0]) """

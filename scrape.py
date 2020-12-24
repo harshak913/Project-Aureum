@@ -36,10 +36,10 @@ def restore_windows_1252_characters(restore_string):
     return re.sub(r'[\u0080-\u0099]', to_windows_1252, restore_string)
 
 def delete_from_tables(accession_number):
-    cursor.execute("DELETE FROM balance WHERE accession_number='%s'"%(accession_number))
-    cursor.execute("DELETE FROM income WHERE accession_number='%s'"%(accession_number))
-    cursor.execute("DELETE FROM cash_flow WHERE accession_number='%s'"%(accession_number))
-    cursor.execute("DELETE FROM non_statement WHERE accession_number='%s'"%(accession_number))
+    cursor.execute("DELETE FROM balance WHERE accession_number='%s';"%(accession_number))
+    cursor.execute("DELETE FROM income WHERE accession_number='%s';"%(accession_number))
+    cursor.execute("DELETE FROM cash_flow WHERE accession_number='%s';"%(accession_number))
+    cursor.execute("DELETE FROM non_statement WHERE accession_number='%s';"%(accession_number))
 
 def check_if_incomplete(accession_number):
     cursor.execute("SELECT * FROM balance WHERE accession_number='%s';"%(accession_number))
@@ -53,8 +53,8 @@ def check_if_incomplete(accession_number):
 
     return (len(balance_entry) == 0 or len(income_entry) == 0 or len(cash_flow_entry) == 0)
 
-#run for just 2016 (2016,2017)
-years = list(range(2019, 2020))
+#run for just 2010
+years = list(range(2010, 2011))
 
 #total count to keep track of how many files we've gone through
 total_count = 0
@@ -80,12 +80,12 @@ for year in years:
 
             # Grab the Master IDX file URL
             if 'master' in fileURL:
-                cursor.execute("SELECT status FROM master_idx WHERE master_file='%s'"%(master_file_name))
+                cursor.execute("SELECT status FROM master_idx WHERE master_file='%s';"%(master_file_name))
                 status = cursor.fetchone()
-                cursor.execute("SELECT * FROM master_idx WHERE master_file='%s'"%(master_file_name))
+                cursor.execute("SELECT * FROM master_idx WHERE master_file='%s';"%(master_file_name))
                 idx_list = cursor.fetchall()
                 if len(idx_list) == 0:
-                    sql_statement = "INSERT INTO master_idx (master_file, status) VALUES ('%s', '%s')"%(master_file_name, 'PENDING')
+                    sql_statement = "INSERT INTO master_idx (master_file, status) VALUES ('%s', '%s');"%(master_file_name, 'PENDING')
                     cursor.execute(sql_statement)
                     print(sql_statement)
                     print(f"Parsing {master_file_name} now")
@@ -138,7 +138,7 @@ for year in years:
                     index_split = index.strip().split('|')
                     if index_split[2] != '10-K' and index_split[2] != '10-Q':
                         continue
-                    cursor.execute('''SELECT * FROM company WHERE cik=%s'''%(int(index_split[0])))
+                    cursor.execute("SELECT * FROM company WHERE cik=%s;"%(int(index_split[0])))
                     if len(cursor.fetchall()) < 1:
                         continue
 
@@ -163,7 +163,7 @@ for year in years:
                     if '.htm' not in soup.find_all("filename")[0].get_text(): # Skip if .htm not in filename (meaning it's a .txt file)
                         continue
                     accession_number = text_filing.split('/')[-1].strip('.txt') # Extract accession number (after last '/') & remove '.txt'
-                    accession_exist = cursor.execute("SELECT * FROM scrape WHERE accession_number = '%s'"%(accession_number))
+                    accession_exist = cursor.execute("SELECT * FROM scrape WHERE accession_number = '%s';"%(accession_number))
 
                     if len(cursor.fetchall()) > 0: # Skip if filing with that accession number is already inserted
                         print(f'Already inserted -- Link: {filing_dict["filename"]}, Date: {filing_dict["datefiled"]}')
@@ -194,7 +194,7 @@ for year in years:
                         print(sql_statement)
                         print('Total Count: ' +str(total_count))
 
-                        try: # Try to run interParse; any error thrown will result in an ERROR status code for the current master IDX file & any deletions from the scrape, balance, income, cash flow, and non statement tables to prevent errors when parsing again
+                        """ try: # Try to run interParse; any error thrown will result in an ERROR status code for the current master IDX file & any deletions from the scrape, balance, income, cash flow, and non statement tables to prevent errors when parsing again
                             interParse(index_url, accession_number, index_split[2])
 
                             if check_if_incomplete(accession_number):
@@ -205,7 +205,7 @@ for year in years:
                         except:
                             cursor.execute("UPDATE master_idx SET status='ERROR' WHERE master_file='%s'"%(master_file_name))
                             delete_from_tables(accession_number)
-                            cursor.execute("UPDATE scrape SET status='INCOMPLETE' WHERE accession_number='%s'"%(accession_number))
+                            cursor.execute("UPDATE scrape SET status='INCOMPLETE' WHERE accession_number='%s'"%(accession_number)) """
 
                 sql_statement = "UPDATE master_idx SET status='COMPLETED' WHERE master_file='%s'"%(master_file_name)
                 cursor.execute(sql_statement)
