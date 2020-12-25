@@ -12,12 +12,7 @@ import urllib.request
 from bs4 import BeautifulSoup
 import re
 import requests
-
-
-URL="https://finviz.com/quote.ashx?t=%s"%('aapl')
-print(URL)
-
-
+from urllib.request import Request, urlopen
 
 # Create your views here.
 # Link to actual SEC site https://www.sec.gov/cgi-bin/viewer?action=view&cik=1067983&accession_number=0001193125-10-043450&xbrl_type=v#
@@ -27,6 +22,7 @@ print(URL)
 #    bal_iter = groupby(sorted(theBalance, key=bal_key), key=bal_key)
 #balances = StandardBalance.objects.values('header', 'standard_name', 'eng_name', 'acc_name', 'value', 'unit', 'year', 'statement', 'report_period', 'filing_type', 'accession_number').filter(accession_number__in=['0000320193-17-000070','0001628280-16-020309','0001193125-15-356351']).distinct()
 #print(Balances)
+
 
 
 def standardization(data_set, min_year, max_year):
@@ -90,16 +86,16 @@ def year_cleanup(data_set, all_years):
             indiv_dates.append(date)
         template = {}
         #check if the years are accounted for
-        for balance in balances:
+        for item in balances:
             #print(itemgetter('year__year')(mark))
-            if itemgetter('year__year')(balance) in indiv_dates:
+            if itemgetter('year__year')(item) in indiv_dates:
                 #if year is accounted delete from indiv_dates
-                indiv_dates.remove(itemgetter('year__year')(balance))
-                template = dict(balance)
+                indiv_dates.remove(itemgetter('year__year')(item))
+                template = item.copy()
         #if indiv_dates is not empty, there are unaccounted for years
         if indiv_dates:
             for item in indiv_dates:
-                smith = dict(template)
+                smith = template.copy()
                 smith['year__year'] = item
                 smith['value'] = '-'
                 smith['eng_name'] = 'N/A'
@@ -201,6 +197,455 @@ def sorter(data_set, statement):
     #elif statement == 'balance':
     #elif statement == 'income':
 
+def company_news(ticker):
+    URL="https://finviz.com/quote.ashx?t=%s"%(ticker)
+    print(URL)
+
+    req = Request(URL, headers={'User-Agent': 'Mozilla/5.0'})
+    page = urlopen(req).read()
+    #page = urllib.request.urlopen(URL).read()
+    soup = BeautifulSoup(page, features="lxml")
+    #print(soup.prettify())
+    news = soup.find_all("div", {"class": "news-link-container"})
+    all_news = []
+    for new in news:
+        single = {}
+        titles = new.findChildren("div", {"class": "news-link-left"})
+        for title in titles:
+            links = title.findChildren('a')
+            for link in links:
+                single['single'] = link['href']
+            single['title'] = title.text
+        sources = new.findChildren("div", {"class": "news-link-right"})
+        for source in sources:
+            single['source'] = source.text
+        all_news.append(single)
+    print(all_news)
+    return all_news
+
+#UPDATED NEWS SOURCING
+articles = []
+urls = ['https://www.bloomberg.com/markets','https://www.wsj.com/news/business','https://www.cnbc.com']
+for url in urls:
+    if 'bloomberg' in url:
+        req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+        page = urlopen(req).read()
+        soup = BeautifulSoup(page, features="lxml")
+        news = soup.find_all("a", {"class": "story-package-module__story__headline-link"})
+        for new in news:
+            dict = {}
+            dict['source'] = 'bloom'
+            dict['link'] = 'https://www.bloomberg.com' + str(new['href'])
+            dict['title'] = str(new.text).strip()
+            articles.append(dict)
+
+    else:
+        req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+        page = urlopen(req).read()
+        soup = BeautifulSoup(page, features="lxml")
+
+        if 'cnbc' in url:
+            news = soup.find_all('div', {"class": 'RiverHeadline-headline RiverHeadline-hasThumbnail'})
+        elif 'wsj' in url:
+            news = soup.find_all("h3", {"class": 'WSJTheme--headline--unZqjb45 reset WSJTheme--heading-5--1oh0iDBS typography--serif--1CqEfjrc'})
+
+        for new in news:
+            links = new.findChildren('a')
+            for link in links:
+                dict = {}
+                if 'cnbc' in url:
+                    dict['source'] = 'cnbc'
+                elif 'wsj' in url:
+                    dict['source'] = 'wsj'
+                dict['link'] = link['href']
+                dict['title'] = link.text
+                articles.append(dict)
+
+
+#END OF REORGANAZTION
+new_list = Company.objects.values('name', 'ticker', 'cik')
+list = []
+for item in new_list:
+    list.append(item['name'])
+    list.append(item['ticker'])
+companies = json.dumps(list)
+
+#print('ZOO WEE MAMA')
+#print(CashFlow.objects.values('year__year').filter(accession_number__in=['0001393612-12-000008', '0001193125-11-014919', '0001393612-16-000059', '0001393612-13-000004', '0001393612-14-000012', '0001393612-15-000007', '0001393612-17-000012', '0001393612-18-000012', '0001393612-19-000011']).distinct())
+
+def home(request):
+    context = {
+        'Companies': companies,
+        'Articles': articles,
+    }
+    return render(request, 'aureum/home.html', context)
+
+def information(request):
+    search = request.GET.get('search')
+    #if they enter a ticker make sure a name is displayed rather than the ticker
+    for item in new_list:
+        if item['ticker'] == search or item['name'] == search:
+            ticker = item['ticker']
+            search = item['name']
+    #We've already set search as get. so if get is submitted we dont have to worry about it. just makesure the session is set to the search
+    if request.GET.get('search') is not None:
+        request.session['search'] = search
+    else:
+        search = request.session['search']
+    companyInfo = Company.objects.values('name', 'ticker', 'classification_name', 'cik', 'description').filter(name=search)
+    #NOW GET THE CIK AND PREPARE TO FILTER DOWN THE ACCESSION NUMBER
+    news = company_news(ticker)
+    context = {
+        'Company': search,
+        'Companies': companies,
+        'News': news,
+        'Informations': companyInfo
+    }
+    return render(request, 'aureum/information.html', context)
+
+def balance(request):
+    search = request.GET.get('search')
+    year1 = request.GET.get('yearOne')
+    year2 = request.GET.get('yearTwo')
+    if request.GET.get('search') is not None:
+        request.session['search'] = search
+    else:
+        search = request.session['search']
+    #GET THE CIK AND CORESSPONDING ACCESSION NUMBERS
+    ciks = Company.objects.values('cik').filter(name=search)
+    for item in ciks:
+        cik = item['cik']
+    accessions = Scrape.objects.values('accession_number').filter(cik=cik, filing_type='10-K')
+    access = []
+    for accession in accessions:
+        access.append(accession['accession_number'])
+    #Get Max and Min Year
+    state_years = StandardBalance.objects.values('year__year').filter(accession_number__in=access).distinct().order_by('year__year')
+    #see what the displayed curr min max is
+    new_state_year = []
+    for item in state_years:
+        new_state_year.append(item['year__year'])
+    state_min = min(new_state_year)
+    state_max = max(new_state_year)
+    if year1 is not None:
+        curr_min = year1
+        curr_max = year2
+        newest = []
+        for item in new_state_year:
+            if int(curr_min) <= int(item) <= int(curr_max):
+                newest.append(item)
+        new_state_year = newest
+    else:
+        curr_min = min(new_state_year)
+        curr_max = max(new_state_year)
+    #filter the BALANCE SHEET BASED ON ACCESSION NUMBERS NOW and FILL IN THE BLANKS
+    theStatement = StandardBalance.objects.values('header', 'standard_name', 'eng_name', 'acc_name', 'value', 'unit', 'year__year', 'statement', 'report_period', 'filing_type', 'accession_number').filter(accession_number__in = access).distinct()
+    finStatement = standardization(theStatement, curr_min, curr_max)
+    finStatement = year_cleanup(finStatement, new_state_year)
+    finStatement = sorter(finStatement, 'balance')
+    #SEE IF THERE IS YEAR REQUEST
+    context = {
+        'Datas': finStatement,
+        'Max': state_max,
+        'Min': state_min,
+        'Curr_Max': curr_max,
+        'Curr_Min': curr_min,
+        'Company': search,
+        'Companies': companies,
+        'Statement': 'Balance Sheet'
+    }
+    return render(request, 'aureum/base.html', context)
+
+def income(request):
+    search = request.GET.get('search')
+    year1 = request.GET.get('yearOne')
+    year2 = request.GET.get('yearTwo')
+    if request.GET.get('search') is not None:
+        request.session['search'] = search
+    else:
+        search = request.session['search']
+    #GET THE CIK AND CORESSPONDING ACCESSION NUMBERS
+    ciks = Company.objects.values('cik').filter(name=search)
+    for item in ciks:
+        cik = item['cik']
+    accessions = Scrape.objects.values('accession_number').filter(cik=cik, filing_type='10-K')
+    access = []
+    for accession in accessions:
+        access.append(accession['accession_number'])
+    #Get Max and Min Year
+    state_years = StandardIncome.objects.values('year__year').filter(accession_number__in=access).distinct().order_by('year__year')
+    #see what the displayed curr min max is
+    new_state_year = []
+    for item in state_years:
+        new_state_year.append(item['year__year'])
+    state_min = min(new_state_year)
+    state_max = max(new_state_year)
+    if year1 is not None:
+        curr_min = year1
+        curr_max = year2
+        newest = []
+        for item in new_state_year:
+            if int(curr_min) <= int(item) <= int(curr_max):
+                newest.append(item)
+        new_state_year = newest
+    else:
+        curr_min = min(new_state_year)
+        curr_max = max(new_state_year)
+    #filter the BALANCE SHEET BASED ON ACCESSION NUMBERS NOW and FILL IN THE BLANKS
+    theStatement = StandardIncome.objects.values('header', 'standard_name', 'eng_name', 'acc_name', 'value', 'unit', 'year__year', 'statement', 'report_period', 'filing_type', 'accession_number').filter(accession_number__in = access).distinct()
+    finStatement = standardization(theStatement, curr_min, curr_max)
+    finStatement = year_cleanup(finStatement, new_state_year)
+    finStatement = sorter(finStatement, 'income')
+    #SEE IF THERE IS YEAR REQUEST
+    context = {
+        'Datas': finStatement,
+        'Max': state_max,
+        'Min': state_min,
+        'Curr_Max': curr_max,
+        'Curr_Min': curr_min,
+        'Company': search,
+        'Companies': companies,
+        'Statement': 'Income Statement'
+    }
+    return render(request, 'aureum/base.html', context)
+
+
+
+def cash(request):
+    search = request.GET.get('search')
+    year1 = request.GET.get('yearOne')
+    year2 = request.GET.get('yearTwo')
+    if request.GET.get('search') is not None:
+        request.session['search'] = search
+    else:
+        search = request.session['search']
+    #GET THE CIK AND CORESSPONDING ACCESSION NUMBERS
+    ciks = Company.objects.values('cik').filter(name=search)
+    for item in ciks:
+        cik = item['cik']
+    accessions = Scrape.objects.values('accession_number').filter(cik=cik, filing_type='10-K')
+    access = []
+    for accession in accessions:
+        access.append(accession['accession_number'])
+    #Get Max and Min Year
+    state_years = StandardCash.objects.values('year__year').filter(accession_number__in=access).distinct().order_by('year__year')
+    #see what the displayed curr min max is
+    new_state_year = []
+    for item in state_years:
+        new_state_year.append(item['year__year'])
+    state_min = min(new_state_year)
+    state_max = max(new_state_year)
+    if year1 is not None:
+        curr_min = year1
+        curr_max = year2
+        newest = []
+        for item in new_state_year:
+            if int(curr_min) <= int(item) <= int(curr_max):
+                newest.append(item)
+        new_state_year = newest
+    else:
+        curr_min = min(new_state_year)
+        curr_max = max(new_state_year)
+    #filter the BALANCE SHEET BASED ON ACCESSION NUMBERS NOW and FILL IN THE BLANKS
+    theStatement = StandardCash.objects.values('header', 'standard_name', 'eng_name', 'acc_name', 'value', 'unit', 'year__year', 'statement', 'report_period', 'filing_type', 'accession_number').filter(accession_number__in = access).distinct()
+    finStatement = standardization(theStatement, curr_min, curr_max)
+    finStatement = year_cleanup(finStatement, new_state_year)
+    finStatement = sorter(finStatement, 'cash_flow')
+    #SEE IF THERE IS YEAR REQUEST
+    context = {
+        'Datas': finStatement,
+        'Max': state_max,
+        'Min': state_min,
+        'Curr_Max': curr_max,
+        'Curr_Min': curr_min,
+        'Company': search,
+        'Companies': companies,
+        'Statement': 'Cash Flow'
+        }
+    return render(request, 'aureum/base.html', context)
+
+
+'''
+.grid-container {
+  border-top: 1px solid #DADCE0;
+  overflow-x: hidden;
+}
+
+
+<div class="navbar-header">
+<img style = 'margin-right:20px' alt="" src="{% static 'images/Banner.png' %}">
+</div>
+
+<head>
+  <title>Aureum</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+    var companies = {{ Companies|safe }};
+  </script>
+  <link rel="stylesheet" href='{% static "css/news.css" %}'>
+</head>
+'''
+
+
+
+'''
+
+    <nav class="navbar navbar-dark navbar-fixed-top bg-dark">
+    <div class="container-fluid">
+      <img alt="" src="{% static 'images/Banner.png' %}">
+      <ul class="nav navbar-nav">
+        <li><a href="#"><span class="glyphicon glyphicon-user"></span> ZOINKS</a></li>
+        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      </ul>
+      <form class="form-inline mt-2 mt-md-0" action="/information" onsubmit="return mySubmitFunction(event)">
+        <input style="width:300px;" class="form-control mr-sm-2" type="text" placeholder="Search Company or Ticker" name="search" id="tags" aria-label="Search">
+        <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
+      </form>
+    </div>
+  </nav>
+
+<nav class="navbar navbar-dark navbar-fixed-top bg-dark">
+    <div class="container-fluid">
+      <img alt="" src="{% static 'images/Banner.png' %}">
+      <form class="form-inline mt-2 mt-md-0" action="/information" onsubmit="return mySubmitFunction(event)">
+        <input style="width:300px;" class="form-control mr-sm-2" type="text" placeholder="Search Company or Ticker" name="search" id="tags" aria-label="Search">
+        <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
+      </form>
+    </div>
+  </nav>
+
+<ul class="navbar-nav navbar-right">
+<li>
+<a class="nav-link" href="#">Link</a>
+</li>
+<li>
+<a class="nav-link" href="#">Link</a>
+</li>
+<li>
+<a class="nav-link" href="#">Link</a>
+</li>
+</ul>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script type="text/javascript" src='{% static "js/bootauto.js" %}'></script>
+<script type="text/javascript" src='{% static "js/autocomplete.js" %}'></script>
+
+
+
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <img alt="" src="{% static 'images/Banner.png' %}">
+      <div class="navbar-collapse collapse" id="navbarColor01" style="">
+        <ul class="navbar-nav navbar-right">
+          <li class="nav-item">
+            <a class="nav-link" href="#">About Us</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Contact Us</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Login</a>
+          </li>
+        </ul>
+        <form class="form-inline" action="/information" onsubmit="return mySubmitFunction(event)">
+          <input style="width:300px;" class="form-control mr-sm-2" type="text" placeholder="Search Company or Ticker" name="search" id="tags" aria-label="Search">
+          <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
+        </form>
+      </div>
+    </nav>
+
+
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="navbar-collapse collapse" id="navbarColor01" style="">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Features</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Pricing</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">About</a>
+        </li>
+      </ul>
+      <form class="form-inline">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
+      </form>
+    </div>
+  </nav>
+
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">WebSiteName</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#1">Page 1</a></li>
+      <li><a href="#2">Page 2</a></li>
+    </ul>
+    <nav class="navbar navbar-light bg-light navbar-form"  action="/information">
+      <form class="form-inline" action="/information" onsubmit="return mySubmitFunction(event)">
+        <input style="width:300px;" class="form-control mr-sm-2" type="text" placeholder="Search Company or Ticker" name="search" id="tags" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </form>
+    </nav>
+  </div>
+</nav>
+'''
+
+
+'''
+COMPANY SPECIFIC SEARCH
+
+URL="https://finviz.com/quote.ashx?t=%s"%('aapl')
+print(URL)
+
+req = Request(URL, headers={'User-Agent': 'Mozilla/5.0'})
+page = urlopen(req).read()
+#page = urllib.request.urlopen(URL).read()
+soup = BeautifulSoup(page, features="lxml")
+#print(soup.prettify())
+news = soup.find_all("div", {"class": "news-link-container"})
+all_news = []
+for new in news:
+    single = {}
+    titles = new.findChildren("div", {"class": "news-link-left"})
+    for title in titles:
+        links = title.findChildren('a')
+        for link in links:
+            single['single'] = link['href']
+        single['title'] = title.text
+    sources = new.findChildren("div", {"class": "news-link-right"})
+    for source in sources:
+        single['source'] = source.text
+    print(single)
+
+
+
+
 
 urls = ['https://www.cnbc.com/finance/','https://www.cnn.com/business/investing','https://www.foxbusiness.com/markets']
 articles = []
@@ -273,226 +718,5 @@ for url in urls:
                 i+=1
             else:
                 break
-#END OF REORGANAZTION
-new_list = Company.objects.values('name', 'ticker', 'cik')
-list = []
-for item in new_list:
-    list.append(item['name'])
-    list.append(item['ticker'])
-companies = json.dumps(list)
 
-#print('ZOO WEE MAMA')
-#print(CashFlow.objects.values('year__year').filter(accession_number__in=['0001393612-12-000008', '0001193125-11-014919', '0001393612-16-000059', '0001393612-13-000004', '0001393612-14-000012', '0001393612-15-000007', '0001393612-17-000012', '0001393612-18-000012', '0001393612-19-000011']).distinct())
-
-def home(request):
-    context = {
-        'Companies': companies,
-        'Articles': articles,
-        'Fox': fox,
-        'Cnn': cnn,
-        'Cnbc': cnbc,
-    }
-    return render(request, 'aureum/home.html', context)
-
-def information(request):
-    myCountry = request.GET.get('myCountry')
-    #if they enter a ticker make sure a name is displayed rather than the ticker
-    for item in new_list:
-        if item['ticker'] == myCountry or item['name'] == myCountry:
-            myCountry = item['name']
-    #We've already set mycountry as get. so if get is submitted we dont have to worry about it. just makesure the session is set to the mycountry
-    if request.GET.get('myCountry') is not None:
-        request.session['myCountry'] = myCountry
-    else:
-        myCountry = request.session['myCountry']
-    companyInfo = Company.objects.values('name', 'ticker', 'classification_name', 'cik', 'description').filter(name=myCountry)
-    #NOW GET THE CIK AND PREPARE TO FILTER DOWN THE ACCESSION NUMBER
-    context = {
-        'Company': myCountry,
-        'Companies': companies,
-        'Informations': companyInfo
-    }
-    return render(request, 'aureum/information.html', context)
-
-def balance(request):
-    myCountry = request.GET.get('myCountry')
-    year1 = request.GET.get('yearOne')
-    year2 = request.GET.get('yearTwo')
-    if request.GET.get('myCountry') is not None:
-        request.session['myCountry'] = myCountry
-    else:
-        myCountry = request.session['myCountry']
-    #GET THE CIK AND CORESSPONDING ACCESSION NUMBERS
-    ciks = Company.objects.values('cik').filter(name=myCountry)
-    for item in ciks:
-        cik = item['cik']
-    accessions = Scrape.objects.values('accession_number').filter(cik=cik, filing_type='10-K')
-    access = []
-    for accession in accessions:
-        access.append(accession['accession_number'])
-    #Get Max and Min Year
-    state_years = StandardBalance.objects.values('year__year').filter(accession_number__in=access).distinct().order_by('year__year')
-    #see what the displayed curr min max is
-    new_state_year = []
-    for item in state_years:
-        new_state_year.append(item['year__year'])
-    state_min = min(new_state_year)
-    state_max = max(new_state_year)
-    if year1 is not None:
-        curr_min = year1
-        curr_max = year2
-        newest = []
-        for item in new_state_year:
-            if int(curr_min) <= int(item) <= int(curr_max):
-                newest.append(item)
-        new_state_year = newest
-    else:
-        curr_min = min(new_state_year)
-        curr_max = max(new_state_year)
-    #filter the BALANCE SHEET BASED ON ACCESSION NUMBERS NOW and FILL IN THE BLANKS
-    theStatement = StandardBalance.objects.values('header', 'standard_name', 'eng_name', 'acc_name', 'value', 'unit', 'year__year', 'statement', 'report_period', 'filing_type', 'accession_number').filter(accession_number__in = access).distinct()
-    finStatement = standardization(theStatement, curr_min, curr_max)
-    finStatement = year_cleanup(finStatement, new_state_year)
-    finStatement = sorter(finStatement, 'balance')
-    #SEE IF THERE IS YEAR REQUEST
-    context = {
-        'Datas': finStatement,
-        'Max': state_max,
-        'Min': state_min,
-        'Curr_Max': curr_max,
-        'Curr_Min': curr_min,
-        'Company': myCountry,
-        'Companies': companies,
-        'Statement': 'Balance Sheet'
-    }
-    return render(request, 'aureum/base.html', context)
-
-def income(request):
-    myCountry = request.GET.get('myCountry')
-    year1 = request.GET.get('yearOne')
-    year2 = request.GET.get('yearTwo')
-    if request.GET.get('myCountry') is not None:
-        request.session['myCountry'] = myCountry
-    else:
-        myCountry = request.session['myCountry']
-    #GET THE CIK AND CORESSPONDING ACCESSION NUMBERS
-    ciks = Company.objects.values('cik').filter(name=myCountry)
-    for item in ciks:
-        cik = item['cik']
-    accessions = Scrape.objects.values('accession_number').filter(cik=cik, filing_type='10-K')
-    access = []
-    for accession in accessions:
-        access.append(accession['accession_number'])
-    #Get Max and Min Year
-    state_years = StandardIncome.objects.values('year__year').filter(accession_number__in=access).distinct().order_by('year__year')
-    #see what the displayed curr min max is
-    new_state_year = []
-    for item in state_years:
-        new_state_year.append(item['year__year'])
-    state_min = min(new_state_year)
-    state_max = max(new_state_year)
-    if year1 is not None:
-        curr_min = year1
-        curr_max = year2
-        newest = []
-        for item in new_state_year:
-            if int(curr_min) <= int(item) <= int(curr_max):
-                newest.append(item)
-        new_state_year = newest
-    else:
-        curr_min = min(new_state_year)
-        curr_max = max(new_state_year)
-    #filter the BALANCE SHEET BASED ON ACCESSION NUMBERS NOW and FILL IN THE BLANKS
-    theStatement = StandardIncome.objects.values('header', 'standard_name', 'eng_name', 'acc_name', 'value', 'unit', 'year__year', 'statement', 'report_period', 'filing_type', 'accession_number').filter(accession_number__in = access).distinct()
-    finStatement = standardization(theStatement, curr_min, curr_max)
-    finStatement = year_cleanup(finStatement, new_state_year)
-    finStatement = sorter(finStatement, 'income')
-    #SEE IF THERE IS YEAR REQUEST
-    context = {
-        'Datas': finStatement,
-        'Max': state_max,
-        'Min': state_min,
-        'Curr_Max': curr_max,
-        'Curr_Min': curr_min,
-        'Company': myCountry,
-        'Companies': companies,
-        'Statement': 'Income Statement'
-    }
-    return render(request, 'aureum/base.html', context)
-
-
-
-def cash(request):
-    myCountry = request.GET.get('myCountry')
-    year1 = request.GET.get('yearOne')
-    year2 = request.GET.get('yearTwo')
-    if request.GET.get('myCountry') is not None:
-        request.session['myCountry'] = myCountry
-    else:
-        myCountry = request.session['myCountry']
-    #GET THE CIK AND CORESSPONDING ACCESSION NUMBERS
-    ciks = Company.objects.values('cik').filter(name=myCountry)
-    for item in ciks:
-        cik = item['cik']
-    accessions = Scrape.objects.values('accession_number').filter(cik=cik, filing_type='10-K')
-    access = []
-    for accession in accessions:
-        access.append(accession['accession_number'])
-    #Get Max and Min Year
-    state_years = StandardCash.objects.values('year__year').filter(accession_number__in=access).distinct().order_by('year__year')
-    #see what the displayed curr min max is
-    new_state_year = []
-    for item in state_years:
-        new_state_year.append(item['year__year'])
-    state_min = min(new_state_year)
-    state_max = max(new_state_year)
-    if year1 is not None:
-        curr_min = year1
-        curr_max = year2
-        newest = []
-        for item in new_state_year:
-            if int(curr_min) <= int(item) <= int(curr_max):
-                newest.append(item)
-        new_state_year = newest
-    else:
-        curr_min = min(new_state_year)
-        curr_max = max(new_state_year)
-    #filter the BALANCE SHEET BASED ON ACCESSION NUMBERS NOW and FILL IN THE BLANKS
-    theStatement = StandardCash.objects.values('header', 'standard_name', 'eng_name', 'acc_name', 'value', 'unit', 'year__year', 'statement', 'report_period', 'filing_type', 'accession_number').filter(accession_number__in = access).distinct()
-    finStatement = standardization(theStatement, curr_min, curr_max)
-    finStatement = year_cleanup(finStatement, new_state_year)
-    finStatement = sorter(finStatement, 'cash_flow')
-    #SEE IF THERE IS YEAR REQUEST
-    context = {
-        'Datas': finStatement,
-        'Max': state_max,
-        'Min': state_min,
-        'Curr_Max': curr_max,
-        'Curr_Min': curr_min,
-        'Company': myCountry,
-        'Companies': companies,
-        'Statement': 'Cash Flow'
-        }
-    return render(request, 'aureum/base.html', context)
-
-
-
-
-
-
-    '''
-    {% regroup Members.list|dictsort:"position" by position as Names%}
-{% for Name in Names %}
-<tr>
-<td>
-{{ Members.0.standard_name }}
-</td>
-{% for item in Name.list %}
-<td>
-{{ item.value }}
-</td>
-{% endfor %}
-</tr>
-{% endfor %}
-{% endfor %}
 '''

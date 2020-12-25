@@ -10,4 +10,43 @@
   <p>Company Description: </p>
   <p>{{ Information.description }}</p>
 {% endfor %}
+<div class="fp-cell fp-cell--1">
+    <a class="fp-item" href={{ Articles.0.link }} target="_blank">{{ Articles.0.title }}</a>
+</div>
+<div class="fp-cell fp-cell--2">
+    <a class="fp-item" href={{ Articles.1.link }} target="_blank">{{ Articles.1.title }}</a>
+</div>
+<div class="fp-cell fp-cell--3">
+    <a class="fp-item" href={{ Articles.2.link }} target="_blank">{{ Articles.2.title }}</a>
+</div>
+<div class="fp-cell fp-cell--4">
+  <a class="fp-item" href={{ Articles.3.link }} target="_blank">{{ Articles.3.title }}</a>
+</div>
+<div class="fp-cell fp-cell--5">
+  <a class="fp-item" href={{ Articles.4.link }} target="_blank">{{ Articles.4.title }}</a>
+</div>
+<div class="fp-cell fp-cell--5">
+  <a class="fp-item" href={{ Articles.5.link }} target="_blank">{{ Articles.5.title }}</a>
+</div>
+<div class="fp-hold fp-cell--6 sticky">
+  <h4 style='text-align: center;'>Indeces</h4>
+</div>
+{% for Article in Articles %}
+  {% if Article.title != Articles.5.title %}
+    {% if Article.title != Articles.4.title %}
+      {% if Article.title != Articles.3.title %}
+        {% if Article.title != Articles.2.title %}
+          {% if Article.title != Articles.1.title %}
+            {% if Article.title != Articles.0.title %}
+              <div class="fp-cell fp-cell--7"> <a class="fp-item" href={{ Article.link }} target="_blank">{{ Article.title }}</a> </div>
+            {% endif %}
+          {% endif %}
+        {% endif %}
+      {% endif %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
+{% for New in News %}
+  <p>{{ New.title }}</p>
+{% endfor %}
 {% endblock %}

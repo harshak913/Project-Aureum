@@ -9,11 +9,6 @@ td {
     padding: 5px;
 }
 
-body {
-    font-family: Verdana, Arial, sans-serif;
-    font-size: 12px;
-}
-
 /* Style the tab */
 .tab {
   overflow: hidden;
