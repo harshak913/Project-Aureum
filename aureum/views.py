@@ -196,7 +196,7 @@ def sorter(data_set, statement):
     return copy
     #elif statement == 'balance':
     #elif statement == 'income':
-
+'''
 def company_news(ticker):
     URL="https://finviz.com/quote.ashx?t=%s"%(ticker)
     print(URL)
@@ -222,6 +222,7 @@ def company_news(ticker):
         all_news.append(single)
     print(all_news)
     return all_news
+'''
 
 #UPDATED NEWS SOURCING
 articles = []
@@ -294,11 +295,11 @@ def information(request):
         search = request.session['search']
     companyInfo = Company.objects.values('name', 'ticker', 'classification_name', 'cik', 'description').filter(name=search)
     #NOW GET THE CIK AND PREPARE TO FILTER DOWN THE ACCESSION NUMBER
-    news = company_news(ticker)
+    #news = company_news(ticker)
     context = {
         'Company': search,
         'Companies': companies,
-        'News': news,
+        #'News': news,
         'Informations': companyInfo
     }
     return render(request, 'aureum/information.html', context)
@@ -494,129 +495,6 @@ def cash(request):
 </head>
 '''
 
-
-
-'''
-
-    <nav class="navbar navbar-dark navbar-fixed-top bg-dark">
-    <div class="container-fluid">
-      <img alt="" src="{% static 'images/Banner.png' %}">
-      <ul class="nav navbar-nav">
-        <li><a href="#"><span class="glyphicon glyphicon-user"></span> ZOINKS</a></li>
-        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-      </ul>
-      <form class="form-inline mt-2 mt-md-0" action="/information" onsubmit="return mySubmitFunction(event)">
-        <input style="width:300px;" class="form-control mr-sm-2" type="text" placeholder="Search Company or Ticker" name="search" id="tags" aria-label="Search">
-        <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
-      </form>
-    </div>
-  </nav>
-
-<nav class="navbar navbar-dark navbar-fixed-top bg-dark">
-    <div class="container-fluid">
-      <img alt="" src="{% static 'images/Banner.png' %}">
-      <form class="form-inline mt-2 mt-md-0" action="/information" onsubmit="return mySubmitFunction(event)">
-        <input style="width:300px;" class="form-control mr-sm-2" type="text" placeholder="Search Company or Ticker" name="search" id="tags" aria-label="Search">
-        <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
-      </form>
-    </div>
-  </nav>
-
-<ul class="navbar-nav navbar-right">
-<li>
-<a class="nav-link" href="#">Link</a>
-</li>
-<li>
-<a class="nav-link" href="#">Link</a>
-</li>
-<li>
-<a class="nav-link" href="#">Link</a>
-</li>
-</ul>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script type="text/javascript" src='{% static "js/bootauto.js" %}'></script>
-<script type="text/javascript" src='{% static "js/autocomplete.js" %}'></script>
-
-
-
-
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <img alt="" src="{% static 'images/Banner.png' %}">
-      <div class="navbar-collapse collapse" id="navbarColor01" style="">
-        <ul class="navbar-nav navbar-right">
-          <li class="nav-item">
-            <a class="nav-link" href="#">About Us</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Contact Us</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Login</a>
-          </li>
-        </ul>
-        <form class="form-inline" action="/information" onsubmit="return mySubmitFunction(event)">
-          <input style="width:300px;" class="form-control mr-sm-2" type="text" placeholder="Search Company or Ticker" name="search" id="tags" aria-label="Search">
-          <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
-        </form>
-      </div>
-    </nav>
-
-
-
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">Navbar</a>
-    <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="navbar-collapse collapse" id="navbarColor01" style="">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Features</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Pricing</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">About</a>
-        </li>
-      </ul>
-      <form class="form-inline">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
-      </form>
-    </div>
-  </nav>
-
-
-<nav class="navbar navbar-inverse">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="#">WebSiteName</a>
-    </div>
-    <ul class="nav navbar-nav">
-      <li><a href="#home">Home</a></li>
-      <li><a href="#1">Page 1</a></li>
-      <li><a href="#2">Page 2</a></li>
-    </ul>
-    <nav class="navbar navbar-light bg-light navbar-form"  action="/information">
-      <form class="form-inline" action="/information" onsubmit="return mySubmitFunction(event)">
-        <input style="width:300px;" class="form-control mr-sm-2" type="text" placeholder="Search Company or Ticker" name="search" id="tags" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-      </form>
-    </nav>
-  </div>
-</nav>
-'''
-
-
 '''
 COMPANY SPECIFIC SEARCH
 
@@ -719,4 +597,46 @@ for url in urls:
             else:
                 break
 
+'''
+
+'''
+<div class="fp-cell fp-cell--1">
+    <a class="fp-item" href={{ Articles.0.link }} target="_blank">{{ Articles.0.title }}</a>
+</div>
+<div class="fp-cell fp-cell--2">
+    <a class="fp-item" href={{ Articles.1.link }} target="_blank">{{ Articles.1.title }}</a>
+</div>
+<div class="fp-cell fp-cell--3">
+    <a class="fp-item" href={{ Articles.2.link }} target="_blank">{{ Articles.2.title }}</a>
+</div>
+<div class="fp-cell fp-cell--4">
+  <a class="fp-item" href={{ Articles.3.link }} target="_blank">{{ Articles.3.title }}</a>
+</div>
+<div class="fp-cell fp-cell--5">
+  <a class="fp-item" href={{ Articles.4.link }} target="_blank">{{ Articles.4.title }}</a>
+</div>
+<div class="fp-cell fp-cell--5">
+  <a class="fp-item" href={{ Articles.5.link }} target="_blank">{{ Articles.5.title }}</a>
+</div>
+<div class="fp-hold fp-cell--6 sticky">
+  <h4 style='text-align: center;'>Indeces</h4>
+</div>
+{% for Article in Articles %}
+  {% if Article.title != Articles.5.title %}
+    {% if Article.title != Articles.4.title %}
+      {% if Article.title != Articles.3.title %}
+        {% if Article.title != Articles.2.title %}
+          {% if Article.title != Articles.1.title %}
+            {% if Article.title != Articles.0.title %}
+              <div class="fp-cell fp-cell--7"> <a class="fp-item" href={{ Article.link }} target="_blank">{{ Article.title }}</a> </div>
+            {% endif %}
+          {% endif %}
+        {% endif %}
+      {% endif %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
+{% for New in News %}
+  <p>{{ New.title }}</p>
+{% endfor %}
 '''

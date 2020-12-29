@@ -41,8 +41,8 @@
               </td>
               {% for item in Name.list %}
               <td style="text-align: center; vertical-align: middle;">
-                {{ item.value }}
-              </td>
+                {{ item.value }} {{ item.eng_name }} {{ item.acc_name }}
+               </td>
               {% endfor %}
             </tr>
           {% endfor %}

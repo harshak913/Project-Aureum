@@ -135,7 +135,29 @@ for entry in entries:
         cursor.execute(scrape_query_2)
         johns = cursor.fetchall()
         final_standard = []
-        avoids = ['Net Income', 'Operating Income', 'Total Revenue', 'Net Change in Cash', 'Gross Profit', 'Total Equity', 'Total Liabilities And Equity', 'Total Current Assets', 'Revenue']
+        avoids = ['Net Income',
+        'Operating Income',
+        'Total Revenue',
+        'Net Change in Cash',
+        'Gross Profit',
+        'Total Equity',
+        'Total Liabilities And Equity',
+        'Total Current Assets',
+        'Revenue',
+        'Total Assets',
+        'Total Current Liabilities',
+        'Total Liabilities',
+        'Total Common Equity',
+        'Total Shares Out.'
+        'Total Equity',
+        'Total Liabilities And Equity',
+        'Cost Of Goods Sold',
+        'Operating Exp., Total',
+        'Net Income to Company',
+        'Cash from Ops.',
+        'Cash from Investing',
+        'Cash from Financing',
+        'Net Change in Cash']
         for john in johns:
             standard_name = john[0]
             acc_name = john[1]
