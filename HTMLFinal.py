@@ -11,6 +11,7 @@ from calendar import month_name
 from bs4 import BeautifulSoup
 from collections import OrderedDict
 
+member_list = []
 connection = psycopg2.connect(host="ec2-34-197-188-147.compute-1.amazonaws.com", dbname="d7p3fuehaleleo", user="snbetggfklcniv", password="7798f45239eda70f8278ce3c05dc632ad57b97957b601681a3c516f37153403a")
 connection.autocommit = True
 cursor = connection.cursor()
@@ -670,8 +671,10 @@ def HTMLParse(html_text_filing, strip_htm, accession_number, filing_type, period
                 statement = item['statement']
                 statement_insert = item['insert']
                 sql_statement = "INSERT INTO %s (accession_number, member, header, eng_name, acc_name, value, unit, year, statement, report_period, filing_type, months_ended, row_order) VALUES('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', %s);"%(statement_insert, accession_number, member, header, eng_name, '', value, unit, year, statement, period_of_report, filing_type, '', row_count)
-                cursor.execute(sql_statement)
+                #cursor.execute(sql_statement)
                 print(sql_statement)
+                if 'million' or 'thousand' in member:
+                    member_list.append(accession_number)
             row_count = 0
             
         try:

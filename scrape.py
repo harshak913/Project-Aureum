@@ -7,7 +7,7 @@ from io import BytesIO
 from bs4 import BeautifulSoup
 import psycopg2
 import xml.etree.ElementTree as ET
-from Inter_Table import interParse
+#from Inter_Table import interParse
 import unidecode
 import unicodedata
 import re
@@ -53,8 +53,8 @@ def check_if_incomplete(accession_number):
 
     return (len(balance_entry) == 0 or len(income_entry) == 0 or len(cash_flow_entry) == 0)
 
-#run for just 2010
-years = list(range(2010, 2011))
+#run for just 2009
+years = list(range(2009, 2010))
 
 #total count to keep track of how many files we've gone through
 total_count = 0

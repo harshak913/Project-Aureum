@@ -3,6 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 import psycopg2
 import os
+from Inter_Table import interParse
 
 connection = psycopg2.connect(host="ec2-34-197-188-147.compute-1.amazonaws.com", dbname="d7p3fuehaleleo", user="snbetggfklcniv", password="7798f45239eda70f8278ce3c05dc632ad57b97957b601681a3c516f37153403a")
 connection.autocommit = True
@@ -27,7 +28,7 @@ def check_if_incomplete(accession_number):
     return (len(balance_entry) == 0 or len(income_entry) == 0 or len(cash_flow_entry) == 0)
 
 # Run scrape for HTML insertion
-cursor.execute("SELECT * FROM scrape WHERE year=2010 AND inter_or_htm='HTM' AND status='PENDING';")
+""" cursor.execute("SELECT * FROM scrape WHERE year=2010 AND inter_or_htm='HTM' AND status='PENDING';")
 results = cursor.fetchall()
 for result in results:
     print(result)
@@ -43,12 +44,12 @@ for result in results:
 
         if check_if_incomplete(accession_number):
             sql_statement = "UPDATE scrape SET status='INCOMPLETE' WHERE accession_number='%s';"%(accession_number)
-            cursor.execute(sql_statement)
+            #cursor.execute(sql_statement)
             print(sql_statement)
-            delete_from_tables(accession_number)
+            #delete_from_tables(accession_number)
         else:
             sql_statement = "UPDATE scrape SET status='COMPLETED' WHERE accession_number='%s';"%(accession_number)
-            cursor.execute(sql_statement)
+            #cursor.execute(sql_statement)
             print(sql_statement)
     except:
         if os.path.exists('10k-balance_sheet.csv'):
@@ -57,10 +58,10 @@ for result in results:
             os.remove('10k-income_statement.csv')
         if os.path.exists('10k-cash_flows.csv'):
             os.remove('10k-cash_flows.csv')
-        delete_from_tables(accession_number)
+        #delete_from_tables(accession_number)
         sql_statement = "UPDATE scrape SET status='INCOMPLETE' WHERE accession_number='%s'"%(accession_number)
-        cursor.execute(sql_statement)
-        print(sql_statement)
+        #cursor.execute(sql_statement)
+        print(sql_statement) """
 
 # Delete table rows
 """ cursor.execute("SELECT * FROM scrape WHERE year=2009;")
@@ -100,3 +101,26 @@ for accession in htm_accessions:
 for tup in cursor.fetchall():
     if check_if_incomplete(tup[0]):
         print(tup[0]) """
+
+# Run InterParse
+cursor.execute("SELECT * FROM scrape WHERE year=2009 AND inter_or_htm='Inter' AND filing_type='10-K' AND status='PENDING';")
+results = cursor.fetchall()
+for result in results:
+    print(result)
+    index_page = result[3].strip('.txt') + "-index.htm"
+    accession_number = result[4]
+    response = requests.get(index_page)
+    soup = BeautifulSoup(response.content, 'lxml')
+    period_of_report = soup.find('div', text='Period of Report').find_next_sibling('div').text
+
+    try: # Try to run interParse; any error thrown will result in an ERROR status code for the current master IDX file & any deletions from the scrape, balance, income, cash flow, and non statement tables to prevent errors when parsing again
+        interParse(index_page, accession_number, result[1])
+
+        if check_if_incomplete(accession_number):
+            cursor.execute("UPDATE scrape SET status='INCOMPLETE' WHERE accession_number='%s';"%(accession_number))
+            delete_from_tables(accession_number)
+        else:
+            cursor.execute("UPDATE scrape SET status='COMPLETED' WHERE accession_number='%s';"%(accession_number))
+    except:
+        delete_from_tables(accession_number)
+        cursor.execute("UPDATE scrape SET status='INCOMPLETE' WHERE accession_number='%s'"%(accession_number))
