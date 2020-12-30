@@ -114,13 +114,17 @@ for result in results:
     period_of_report = soup.find('div', text='Period of Report').find_next_sibling('div').text
 
     try: # Try to run interParse; any error thrown will result in an ERROR status code for the current master IDX file & any deletions from the scrape, balance, income, cash flow, and non statement tables to prevent errors when parsing again
+        print(f"PARSING {result[3]} NOW")
         interParse(index_page, accession_number, result[1])
 
         if check_if_incomplete(accession_number):
+            print("UPDATE scrape SET status='INCOMPLETE' WHERE accession_number='%s';"%(accession_number))
             cursor.execute("UPDATE scrape SET status='INCOMPLETE' WHERE accession_number='%s';"%(accession_number))
             delete_from_tables(accession_number)
         else:
+            print("UPDATE scrape SET status='COMPLETED' WHERE accession_number='%s';"%(accession_number))
             cursor.execute("UPDATE scrape SET status='COMPLETED' WHERE accession_number='%s';"%(accession_number))
     except:
         delete_from_tables(accession_number)
+        print("UPDATE scrape SET status='INCOMPLETE' WHERE accession_number='%s'"%(accession_number))
         cursor.execute("UPDATE scrape SET status='INCOMPLETE' WHERE accession_number='%s'"%(accession_number))
