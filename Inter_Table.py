@@ -47,7 +47,7 @@ def interParse(filing_index, accession_number, filing_type):
     #CHECK THE INTERACTIVE PAGE AND GET THE NUMBER LINKS FOR NOTES AND FINANCIAL STATEMENTS
     html = open("%s.htm"%latter).read()
     soup = BeautifulSoup(html, features="lxml")
-    JS_Portion = soup.find("script", attrs={"type" : 'text/javascript' ,"language" : 'javascript'}).text
+    JS_Portion = soup.find("script", attrs={"type" : 'text/javascript' ,"language" : 'javascript'}).string
     for element in soup.find_all('a'):
         if financialStatementsFound != True:
             if str(element.text).strip() == 'Financial Statements' and element.find_next_sibling('ul') is not None:
@@ -86,6 +86,7 @@ def interParse(filing_index, accession_number, filing_type):
     print('matching correct report number with the correct dict')
     #match correct report number with the correct dict
     for report in reports:
+        print(report)
         comp = report.split('] = "/Archives/edgar/data/', 1)[0]
         comp = comp.replace('reports[', '')
         comp = str(eval(comp))
@@ -124,7 +125,8 @@ def interParse(filing_index, accession_number, filing_type):
             with open(filename, "w") as f:
                 f.write(pretty)
     '''
-
+    for item in dicts:
+        print(item)
     #TIME TO PARSE THE ACTUAL FINANCIAL STATEMENTS
     print('TIME TO PARSE THE ACTUAL FINANCIAL STATEMENTS')
     for item in dicts:
