@@ -36,7 +36,7 @@ def cleaning(value):
     return value
 
 #accession_number = '0001193125-11-047795' #NEG ONE EXAMPLE uses -
-accession_number = "0001018724-16-000172" #NEG ONE EXAMPLE uses ()
+accession_number = "0000320193-19-000119" #AAPL Product & Service. 
 tables = ['balance','cash_flow','income']
 numbers_finished = 0
 for table in tables:
@@ -129,7 +129,29 @@ for table in tables:
     cursor.execute(scrape_query_2)
     johns = cursor.fetchall()
     final_standard = []
-    avoids = ['Net Income', 'Operating Income', 'Total Revenue', 'Net Change in Cash', 'Gross Profit', 'Total Equity', 'Total Liabilities And Equity', 'Total Current Assets']
+    avoids = ['Net Income',
+    'Operating Income',
+    'Total Revenue',
+    'Net Change in Cash',
+    'Gross Profit',
+    'Total Equity',
+    'Total Liabilities And Equity',
+    'Total Current Assets',
+    'Revenue',
+    'Total Assets',
+    'Total Current Liabilities',
+    'Total Liabilities',
+    'Total Common Equity',
+    'Total Shares Out.'
+    'Total Equity',
+    'Total Liabilities And Equity',
+    'Cost Of Goods Sold',
+    'Operating Exp., Total',
+    'Net Income to Company',
+    'Cash from Ops.',
+    'Cash from Investing',
+    'Cash from Financing',
+    'Net Change in Cash']
     for john in johns:
         standard_name = john[0]
         acc_name = john[1]

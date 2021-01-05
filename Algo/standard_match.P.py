@@ -35,8 +35,8 @@ def cleaning(value):
         value = n_value
 
     return value
-# years completed: 2009, 2010, 2011, 2012, 2013,2014, 2015, 2016, 2017, 2018
-scrape_query = "select * from scrape where filing_type = '10-K' and inter_or_htm = 'Inter' and year = '2019';"
+# years completed: 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019
+scrape_query = "select * from scrape where filing_type = '10-K' and inter_or_htm = 'Inter' and year = '20XX';"
 cursor.execute(scrape_query)
 entries = cursor.fetchall()
 tables = ['balance','cash_flow','income']
@@ -243,43 +243,5 @@ for entry in entries:
         print('FINAL LINE ITEMS FOR THIS STATEMENT IS: ' +str(line_items))
         print('ITEMS PARSED TO THIS POINT: '+str(numbers_finished))
 
-
-'''
-        cursor.execute(scrape_query)
-        entries = cursor.fetchall()
-        #time to go through the table
-        for entry in entries:
-            member = str(entry[1])
-            header = str(entry[2])
-            eng_name = str(entry[3])
-            acc_name = str(entry[4])
-            value = str(entry[5])
-            unit = str(entry[6])
-            #make sure that it's not a member
-            if '[' not in member:
-                if 'MEMBER' and 'FACILITY 'not in member.upper():
-                    #unit conversion from thousand and as displayed to millions
-                    if unit == 'As Displayed' or 'In Thousand':
-                        #check if there is a period
-                        if '.' in value:
-                            #Check if share or not. "Per" and "Share" or "Stock". If Not Proceed
-                            if 'Per' not in acc_name:
-                                negative = 0
-                                #check if there is a negative indicator
-                                if '(' in value:
-                                    negative+=1
-                                if '-' in value:
-                                    negative+=1
-                                removelist = "."
-                                n_value = re.sub(r'[^\w'+removelist+']', '',value)
-                                #convert to in millions through this
-                                if unit == 'As Displayed':
-                                    n_value = float(n_value)/1000000
-                                elif unit == 'In Thousands':
-                                    n_value = float(n_value)/1000
-                                if negative > 0:
-                                    n_value = '(' + str(n_value) + ')'
-                                print(n_value)
-'''
                         #if not do this
                         # SELECT * FROM cash_flow WHERE position('.' in value)>0;
