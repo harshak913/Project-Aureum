@@ -157,6 +157,10 @@ for entry in entries:
         'Cash from Ops.',
         'Cash from Investing',
         'Cash from Financing',
+        'Basic EPS',
+        'Weighted Avg. Basic Shares Out.',
+        'Diluted EPS',
+        'Weighted Avg. Diluted Shares Out.',
         'Net Change in Cash']
         for john in johns:
             standard_name = john[0]
