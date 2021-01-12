@@ -35,8 +35,8 @@ def cleaning(value):
         value = n_value
 
     return value
-# years completed: 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019
-scrape_query = "select * from scrape where filing_type = '10-K' and inter_or_htm = 'Inter' and year = '20XX';"
+# years completed: 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018
+scrape_query = "select * from scrape where filing_type = '10-K' and inter_or_htm = 'Inter' and year = '2019';"
 cursor.execute(scrape_query)
 entries = cursor.fetchall()
 tables = ['balance','cash_flow','income']

@@ -1,6 +1,6 @@
 
 
-
+#BALANCE SHEET
 ASSETS = ['Cash And Equivalents',
 'Restricted Cash',
 'Short Term Investments',
@@ -51,7 +51,7 @@ LIABILITIES = ['Accounts Payable',
 'Total Equity',
 'Total Liabilities And Equity']
 
-
+#INCOME STATEMENT
 GENERAL = [
 'Revenue',
 'Other Revenue',
@@ -95,7 +95,7 @@ Per_Share_Items = [
 'Diluted EPS',
 'Weighted Avg. Diluted Shares Out.']
 
-
+#CASH FLOW
 
 OPERATING_ACTIVITY = [
 'Net Income',
