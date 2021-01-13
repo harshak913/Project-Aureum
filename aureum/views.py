@@ -107,7 +107,7 @@ def year_cleanup(data_set, all_years):
 
 ASSETS = [{'member': 'ASSETS', 'position': 0, 'item': 'Cash And Equivalents'}, {'member': 'ASSETS', 'position': 1, 'item': 'Restricted Cash'}, {'member': 'ASSETS', 'position': 2, 'item': 'Short Term Investments'}, {'member': 'ASSETS', 'position': 3, 'item': 'Trading Asset Securities'}, {'member': 'ASSETS', 'position': 4, 'item': 'Total Cash & ST Investments'}, {'member': 'ASSETS', 'position': 5, 'item': 'Accounts Receivable'}, {'member': 'ASSETS', 'position': 6, 'item': 'Notes Receivable'}, {'member': 'ASSETS', 'position': 7, 'item': 'Other Receivables'}, {'member': 'ASSETS', 'position': 8, 'item': 'Total Receivables'}, {'member': 'ASSETS', 'position': 9, 'item': 'Inventory'}, {'member': 'ASSETS', 'position': 10, 'item': 'Deferred Tax Assets, Curr.'}, {'member': 'ASSETS', 'position': 11, 'item': 'Other Current Assets'}, {'member': 'ASSETS', 'position': 12, 'item': 'Total Current Assets'}, {'member': 'ASSETS', 'position': 13, 'item': 'Gross Property, Plant & Equipment'}, {'member': 'ASSETS', 'position': 14, 'item': 'Accumulated Depreciation'}, {'member': 'ASSETS', 'position': 15, 'item': 'Net Property, Plant & Equipment'}, {'member': 'ASSETS', 'position': 16, 'item': 'Long-term Investments'}, {'member': 'ASSETS', 'position': 17, 'item': 'Goodwill'}, {'member': 'ASSETS', 'position': 18, 'item': 'Other Intangibles'}, {'member': 'ASSETS', 'position': 19, 'item': 'Deferred Tax Assets, LT'}, {'member': 'ASSETS', 'position': 20, 'item': 'Other Long-Term Assets'}, {'member': 'ASSETS', 'position': 21, 'item': 'Total Assets'}]
 
-LIABILITIES = [{'member': 'LIABILITIES', 'position': 0, 'item': 'Accounts Payable'}, {'member': 'LIABILITIES', 'position': 1, 'item': 'Accrued Exp.'}, {'member': 'LIABILITIES', 'position': 2, 'item': 'Short-term Borrowings'}, {'member': 'LIABILITIES', 'position': 3, 'item': 'Curr. Port. of LT Debt'}, {'member': 'LIABILITIES', 'position': 4, 'item': 'Curr. Income Taxes Payable'}, {'member': 'LIABILITIES', 'position': 5, 'item': 'Unearned Revenue, Current'}, {'member': 'LIABILITIES', 'position': 6, 'item': 'Interest Capitalized'}, {'member': 'LIABILITIES', 'position': 7, 'item': 'Other Current Liabilities'}, {'member': 'LIABILITIES', 'position': 8, 'item': 'Total Current Liabilities'}, {'member': 'LIABILITIES', 'position': 9, 'item': 'Long-Term Debt'}, {'member': 'LIABILITIES', 'position': 10, 'item': 'Capital Leases'}, {'member': 'LIABILITIES', 'position': 11, 'item': 'Unearned Revenue, Non-Current'}, {'member': 'LIABILITIES', 'position': 12, 'item': 'Def. Tax Liability, Non-Curr.'}, {'member': 'LIABILITIES', 'position': 13, 'item': 'Other Non-Current Liabilities'}, {'member': 'LIABILITIES', 'position': 14, 'item': 'Total Liabilities'}, {'member': 'LIABILITIES', 'position': 15, 'item': 'Common Stock'}, {'member': 'LIABILITIES', 'position': 16, 'item': 'Additional Paid In Capital'}, {'member': 'LIABILITIES', 'position': 17, 'item': 'Retained Earnings'}, {'member': 'LIABILITIES', 'position': 18, 'item': 'Treasury Stock'}, {'member': 'LIABILITIES', 'position': 19, 'item': 'Comprehensive Inc. and Other'}, {'member': 'LIABILITIES', 'position': 20, 'item': 'Total Common Equity'}, {'member': 'LIABILITIES', 'position': 21, 'item': 'Total Shares Out.'}, {'member': 'LIABILITIES', 'position': 22, 'item': 'Total Equity'}, {'member': 'LIABILITIES', 'position': 23, 'item': 'Total Liabilities And Equity'}]
+LIABILITIES = [{'member': 'LIABILITIES', 'position': 0, 'item': 'Accounts Payable'}, {'member': 'LIABILITIES', 'position': 1, 'item': 'Accrued Exp.'}, {'member': 'LIABILITIES', 'position': 2, 'item': 'Short-term Borrowings'}, {'member': 'LIABILITIES', 'position': 3, 'item': 'Curr. Port. of LT Debt'}, {'member': 'LIABILITIES', 'position': 4, 'item': 'Curr. Income Taxes Payable'}, {'member': 'LIABILITIES', 'position': 5, 'item': 'Unearned Revenue, Current'}, {'member': 'LIABILITIES', 'position': 6, 'item': 'Interest Capitalized'}, {'member': 'LIABILITIES', 'position': 7, 'item': 'Other Current Liabilities'}, {'member': 'LIABILITIES', 'position': 8, 'item': 'Total Current Liabilities'}, {'member': 'LIABILITIES', 'position': 9, 'item': 'Long-Term Debt'}, {'member': 'LIABILITIES', 'position': 10, 'item': 'Capital Leases'}, {'member': 'LIABILITIES', 'position': 11, 'item': 'Unearned Revenue, Non-Current'}, {'member': 'LIABILITIES', 'position': 12, 'item': 'Def. Tax Liability, Non-Curr.'}, {'member': 'LIABILITIES', 'position': 13, 'item': 'Other Non-Current Liabilities'}, {'member': 'LIABILITIES', 'position': 14, 'item': 'Total Liabilities'}, {'member': 'LIABILITIES', 'position': 15, 'item': 'Common Stock'}, {'member': 'LIABILITIES', 'position': 16, 'item': 'Additional Paid In Capital'}, {'member': 'LIABILITIES', 'position': 17, 'item': 'Retained Earnings'}, {'member': 'LIABILITIES', 'position': 18, 'item': 'Treasury Stock'}, {'member': 'LIABILITIES', 'position': 19, 'item': 'Comprehensive Inc. and Other'}, {'member': 'LIABILITIES', 'position': 21, 'item': 'Total Shares Out.'}, {'member': 'LIABILITIES', 'position': 22, 'item': 'Total Equity'}, {'member': 'LIABILITIES', 'position': 23, 'item': 'Total Liabilities And Equity'}]
 
 GENERAL = [{'member': 'GENERAL', 'position': 0, 'item': 'Revenue'}, {'member': 'GENERAL', 'position': 1, 'item': 'Other Revenue'}, {'member': 'GENERAL', 'position': 2, 'item': 'Total Revenue'}, {'member': 'GENERAL', 'position': 3, 'item': 'Cost Of Goods Sold'}, {'member': 'GENERAL', 'position': 4, 'item': 'Gross Profit'}, {'member': 'GENERAL', 'position': 5, 'item': 'Selling General & Admin Exp. '}, {'member': 'GENERAL', 'position': 6, 'item': 'R & D Exp.'}, {'member': 'GENERAL', 'position': 7, 'item': 'Depreciation & Amort.'}, {'member': 'GENERAL', 'position': 8, 'item': 'Other Operating Expense/(Income)'}, {'member': 'GENERAL', 'position': 9, 'item': 'Operating Exp., Total'}, {'member': 'GENERAL', 'position': 10, 'item': 'Operating Income'}, {'member': 'GENERAL', 'position': 11, 'item': 'Interest Expense'}, {'member': 'GENERAL', 'position': 12, 'item': 'Interest and Invest. Income'}, {'member': 'GENERAL', 'position': 13, 'item': 'Net Interest Exp.'}, {'member': 'GENERAL', 'position': 14, 'item': 'Currency Exchange Gains'}, {'member': 'GENERAL', 'position': 15, 'item': 'Other Non-Operating Inc. (Exp.)'}, {'member': 'GENERAL', 'position': 16, 'item': 'EBT Excl. Unusual Items'}, {'member': 'GENERAL', 'position': 17, 'item': 'Restructuring Charges'}, {'member': 'GENERAL', 'position': 18, 'item': 'Merger & Related Restruct. Charges'}, {'member': 'GENERAL', 'position': 19, 'item': 'Impairment of Goodwill'}, {'member': 'GENERAL', 'position': 20, 'item': 'Gain (Loss) On Sale Of Invest.'}, {'member': 'GENERAL', 'position': 21, 'item': 'Asset Writedown'}, {'member': 'GENERAL', 'position': 22, 'item': 'Other Unusual Items'}, {'member': 'GENERAL', 'position': 23, 'item': 'EBT Incl. Unusual Items'}, {'member': 'GENERAL', 'position': 24, 'item': 'Income Tax Expense'}, {'member': 'GENERAL', 'position': 25, 'item': 'Earnings from Cont. Ops.'}, {'member': 'GENERAL', 'position': 26, 'item': 'Earnings of Discontinued Ops.'}, {'member': 'GENERAL', 'position': 27, 'item': 'Other Changes'}, {'member': 'GENERAL', 'position': 28, 'item': 'Net Income to Company'}, {'member': 'GENERAL', 'position': 29, 'item': 'Minority Int. in Earnings'}, {'member': 'GENERAL', 'position': 30, 'item': 'Net Income'}, {'member': 'GENERAL', 'position': 31, 'item': 'Pref. Dividends and Other Adj.'}]
 
@@ -117,7 +117,7 @@ OPERATING_ACTIVITY = [{'member': 'OPERATING ACTIVITY', 'position': 0, 'item': 'N
 
 INVESTING_ACTIVIES = [{'member': 'INVESTING ACTIVIES', 'position': 0, 'item': 'Capital Expenditure'}, {'member': 'INVESTING ACTIVIES', 'position': 1, 'item': 'Cash Acquisitions'}, {'member': 'INVESTING ACTIVIES', 'position': 2, 'item': 'Divestitures'}, {'member': 'INVESTING ACTIVIES', 'position': 3, 'item': 'Purchase of Marketable Equity Securities'}, {'member': 'INVESTING ACTIVIES', 'position': 4, 'item': 'Sale of Marketable Equity Securities'}, {'member': 'INVESTING ACTIVIES', 'position': 5, 'item': 'Net (Inc.) Dec. in Loans Originated/Sold'}, {'member': 'INVESTING ACTIVIES', 'position': 6, 'item': 'Other Investing Activities'}, {'member': 'INVESTING ACTIVIES', 'position': 7, 'item': 'Cash from Investing'}]
 
-FINANCING_ACTIVITIES = [{'member': 'FINANCING ACTIVITIES', 'position': 0, 'item': 'Short Term Debt Issued'}, {'member': 'FINANCING ACTIVITIES', 'position': 1, 'item': 'Long-Term Debt Issued'}, {'member': 'FINANCING ACTIVITIES', 'position': 2, 'item': 'Total Debt Issued'}, {'member': 'FINANCING ACTIVITIES', 'position': 3, 'item': 'Short Term Debt Repaid'}, {'member': 'FINANCING ACTIVITIES', 'position': 4, 'item': 'Long-Term Debt Repaid'}, {'member': 'FINANCING ACTIVITIES', 'position': 5, 'item': 'Total Debt Repaid'}, {'member': 'FINANCING ACTIVITIES', 'position': 6, 'item': 'Repurchase of Common Stock'}, {'member': 'FINANCING ACTIVITIES', 'position': 7, 'item': 'Issuance of Common Stock'}, {'member': 'FINANCING ACTIVITIES', 'position': 8, 'item': 'Common Dividends Paid'}, {'member': 'FINANCING ACTIVITIES', 'position': 9, 'item': 'Total Dividends Paid'}, {'member': 'FINANCING ACTIVITIES', 'position': 10, 'item': 'Special Dividend Paid'}, {'member': 'FINANCING ACTIVITIES', 'position': 11, 'item': 'Other Financing Activities'}, {'member': 'FINANCING ACTIVITIES', 'position': 12, 'item': 'Cash from Financing'}, {'member': 'FINANCING ACTIVITIES', 'position': 13, 'item': 'Foreign Exchange Rate Adj.'}, {'member': 'FINANCING ACTIVITIES', 'position': 14, 'item': 'Net Change in Cash'}]
+FINANCING_ACTIVITIES = [{'member': 'FINANCING ACTIVITIES', 'position': 0, 'item': 'Short Term Debt Issued'}, {'member': 'FINANCING ACTIVITIES', 'position': 1, 'item': 'Long-Term Debt Issued'}, {'member': 'FINANCING ACTIVITIES', 'position': 2, 'item': 'Total Debt Issued'}, {'member': 'FINANCING ACTIVITIES', 'position': 3, 'item': 'Short Term Debt Repaid'}, {'member': 'FINANCING ACTIVITIES', 'position': 4, 'item': 'Long-Term Debt Repaid'}, {'member': 'FINANCING ACTIVITIES', 'position': 5, 'item': 'Total Debt Repaid'}, {'member': 'FINANCING ACTIVITIES', 'position': 6, 'item': 'Repurchase of Common Stock'}, {'member': 'FINANCING ACTIVITIES', 'position': 7, 'item': 'Issuance of Common Stock'}, {'member': 'FINANCING ACTIVITIES', 'position': 8, 'item': 'Common Dividends Paid'}, {'member': 'FINANCING ACTIVITIES', 'position': 9, 'item': 'Total Dividends Paid'}, {'member': 'FINANCING ACTIVITIES', 'position': 10, 'item': 'Special Dividend Paid'}, {'member': 'FINANCING ACTIVITIES', 'position': 11, 'item': 'Other Financing Activities'}, {'member': 'FINANCING ACTIVITIES', 'position': 12, 'item': 'Cash from Financing'}, {'member': 'FINANCING ACTIVITIES', 'position': 14, 'item': 'Net Change in Cash'}]
 
 
 def sorter(data_set, statement):
@@ -467,176 +467,17 @@ def cash(request):
 
 
 '''
-.grid-container {
-  border-top: 1px solid #DADCE0;
-  overflow-x: hidden;
-}
+ASSETS = [{'member': 'ASSETS', 'position': 0, 'item': 'Cash And Equivalents'}, {'member': 'ASSETS', 'position': 1, 'item': 'Restricted Cash'}, {'member': 'ASSETS', 'position': 2, 'item': 'Short Term Investments'}, {'member': 'ASSETS', 'position': 3, 'item': 'Trading Asset Securities'}, {'member': 'ASSETS', 'position': 4, 'item': 'Total Cash & ST Investments'}, {'member': 'ASSETS', 'position': 5, 'item': 'Accounts Receivable'}, {'member': 'ASSETS', 'position': 6, 'item': 'Notes Receivable'}, {'member': 'ASSETS', 'position': 7, 'item': 'Other Receivables'}, {'member': 'ASSETS', 'position': 8, 'item': 'Total Receivables'}, {'member': 'ASSETS', 'position': 9, 'item': 'Inventory'}, {'member': 'ASSETS', 'position': 10, 'item': 'Deferred Tax Assets, Curr.'}, {'member': 'ASSETS', 'position': 11, 'item': 'Other Current Assets'}, {'member': 'ASSETS', 'position': 12, 'item': 'Total Current Assets'}, {'member': 'ASSETS', 'position': 13, 'item': 'Gross Property, Plant & Equipment'}, {'member': 'ASSETS', 'position': 14, 'item': 'Accumulated Depreciation'}, {'member': 'ASSETS', 'position': 15, 'item': 'Net Property, Plant & Equipment'}, {'member': 'ASSETS', 'position': 16, 'item': 'Long-term Investments'}, {'member': 'ASSETS', 'position': 17, 'item': 'Goodwill'}, {'member': 'ASSETS', 'position': 18, 'item': 'Other Intangibles'}, {'member': 'ASSETS', 'position': 19, 'item': 'Deferred Tax Assets, LT'}, {'member': 'ASSETS', 'position': 20, 'item': 'Other Long-Term Assets'}, {'member': 'ASSETS', 'position': 21, 'item': 'Total Assets'}]
 
+LIABILITIES = [{'member': 'LIABILITIES', 'position': 0, 'item': 'Accounts Payable'}, {'member': 'LIABILITIES', 'position': 1, 'item': 'Accrued Exp.'}, {'member': 'LIABILITIES', 'position': 2, 'item': 'Short-term Borrowings'}, {'member': 'LIABILITIES', 'position': 3, 'item': 'Curr. Port. of LT Debt'}, {'member': 'LIABILITIES', 'position': 4, 'item': 'Curr. Income Taxes Payable'}, {'member': 'LIABILITIES', 'position': 5, 'item': 'Unearned Revenue, Current'}, {'member': 'LIABILITIES', 'position': 6, 'item': 'Interest Capitalized'}, {'member': 'LIABILITIES', 'position': 7, 'item': 'Other Current Liabilities'}, {'member': 'LIABILITIES', 'position': 8, 'item': 'Total Current Liabilities'}, {'member': 'LIABILITIES', 'position': 9, 'item': 'Long-Term Debt'}, {'member': 'LIABILITIES', 'position': 10, 'item': 'Capital Leases'}, {'member': 'LIABILITIES', 'position': 11, 'item': 'Unearned Revenue, Non-Current'}, {'member': 'LIABILITIES', 'position': 12, 'item': 'Def. Tax Liability, Non-Curr.'}, {'member': 'LIABILITIES', 'position': 13, 'item': 'Other Non-Current Liabilities'}, {'member': 'LIABILITIES', 'position': 14, 'item': 'Total Liabilities'}, {'member': 'LIABILITIES', 'position': 15, 'item': 'Common Stock'}, {'member': 'LIABILITIES', 'position': 16, 'item': 'Additional Paid In Capital'}, {'member': 'LIABILITIES', 'position': 17, 'item': 'Retained Earnings'}, {'member': 'LIABILITIES', 'position': 18, 'item': 'Treasury Stock'}, {'member': 'LIABILITIES', 'position': 19, 'item': 'Comprehensive Inc. and Other'}, {'member': 'LIABILITIES', 'position': 20, 'item': 'Total Common Equity'}, {'member': 'LIABILITIES', 'position': 21, 'item': 'Total Shares Out.'}, {'member': 'LIABILITIES', 'position': 22, 'item': 'Total Equity'}, {'member': 'LIABILITIES', 'position': 23, 'item': 'Total Liabilities And Equity'}]
 
-<div class="navbar-header">
-<img style = 'margin-right:20px' alt="" src="{% static 'images/Banner.png' %}">
-</div>
+GENERAL = [{'member': 'GENERAL', 'position': 0, 'item': 'Revenue'}, {'member': 'GENERAL', 'position': 1, 'item': 'Other Revenue'}, {'member': 'GENERAL', 'position': 2, 'item': 'Total Revenue'}, {'member': 'GENERAL', 'position': 3, 'item': 'Cost Of Goods Sold'}, {'member': 'GENERAL', 'position': 4, 'item': 'Gross Profit'}, {'member': 'GENERAL', 'position': 5, 'item': 'Selling General & Admin Exp. '}, {'member': 'GENERAL', 'position': 6, 'item': 'R & D Exp.'}, {'member': 'GENERAL', 'position': 7, 'item': 'Depreciation & Amort.'}, {'member': 'GENERAL', 'position': 8, 'item': 'Other Operating Expense/(Income)'}, {'member': 'GENERAL', 'position': 9, 'item': 'Operating Exp., Total'}, {'member': 'GENERAL', 'position': 10, 'item': 'Operating Income'}, {'member': 'GENERAL', 'position': 11, 'item': 'Interest Expense'}, {'member': 'GENERAL', 'position': 12, 'item': 'Interest and Invest. Income'}, {'member': 'GENERAL', 'position': 13, 'item': 'Net Interest Exp.'}, {'member': 'GENERAL', 'position': 14, 'item': 'Currency Exchange Gains'}, {'member': 'GENERAL', 'position': 15, 'item': 'Other Non-Operating Inc. (Exp.)'}, {'member': 'GENERAL', 'position': 16, 'item': 'EBT Excl. Unusual Items'}, {'member': 'GENERAL', 'position': 17, 'item': 'Restructuring Charges'}, {'member': 'GENERAL', 'position': 18, 'item': 'Merger & Related Restruct. Charges'}, {'member': 'GENERAL', 'position': 19, 'item': 'Impairment of Goodwill'}, {'member': 'GENERAL', 'position': 20, 'item': 'Gain (Loss) On Sale Of Invest.'}, {'member': 'GENERAL', 'position': 21, 'item': 'Asset Writedown'}, {'member': 'GENERAL', 'position': 22, 'item': 'Other Unusual Items'}, {'member': 'GENERAL', 'position': 23, 'item': 'EBT Incl. Unusual Items'}, {'member': 'GENERAL', 'position': 24, 'item': 'Income Tax Expense'}, {'member': 'GENERAL', 'position': 25, 'item': 'Earnings from Cont. Ops.'}, {'member': 'GENERAL', 'position': 26, 'item': 'Earnings of Discontinued Ops.'}, {'member': 'GENERAL', 'position': 27, 'item': 'Other Changes'}, {'member': 'GENERAL', 'position': 28, 'item': 'Net Income to Company'}, {'member': 'GENERAL', 'position': 29, 'item': 'Minority Int. in Earnings'}, {'member': 'GENERAL', 'position': 30, 'item': 'Net Income'}, {'member': 'GENERAL', 'position': 31, 'item': 'Pref. Dividends and Other Adj.'}]
 
-<head>
-  <title>Aureum</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-  <script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <script>
-    var companies = {{ Companies|safe }};
-  </script>
-  <link rel="stylesheet" href='{% static "css/news.css" %}'>
-</head>
-'''
+Per_Share_Items = [{'member': 'Per Share Items', 'position': 0, 'item': 'Basic EPS'}, {'member': 'Per Share Items', 'position': 1, 'item': 'Weighted Avg. Basic Shares Out.'}, {'member': 'Per Share Items', 'position': 2, 'item': 'Diluted EPS'}, {'member': 'Per Share Items', 'position': 3, 'item': 'Weighted Avg. Diluted Shares Out.'}]
 
-'''
-COMPANY SPECIFIC SEARCH
+OPERATING_ACTIVITY = [{'member': 'OPERATING ACTIVITY', 'position': 0, 'item': 'Net Income'}, {'member': 'OPERATING ACTIVITY', 'position': 1, 'item': 'Depreciation & Amort.'}, {'member': 'OPERATING ACTIVITY', 'position': 2, 'item': 'Amort. of Goodwill and Intangibles'}, {'member': 'OPERATING ACTIVITY', 'position': 3, 'item': 'Depreciation & Amort., Total'}, {'member': 'OPERATING ACTIVITY', 'position': 4, 'item': 'Stock-Based Compensation'}, {'member': 'OPERATING ACTIVITY', 'position': 5, 'item': 'Net Cash From Discontinued Ops.'}, {'member': 'OPERATING ACTIVITY', 'position': 6, 'item': 'Other Operating Activities'}, {'member': 'OPERATING ACTIVITY', 'position': 7, 'item': 'Change in Acc. Receivable'}, {'member': 'OPERATING ACTIVITY', 'position': 8, 'item': 'Change In Inventories'}, {'member': 'OPERATING ACTIVITY', 'position': 9, 'item': 'Change in Acc. Payable'}, {'member': 'OPERATING ACTIVITY', 'position': 10, 'item': 'Change in Unearned Rev.'}, {'member': 'OPERATING ACTIVITY', 'position': 11, 'item': 'Cash from Ops.'}]
 
-URL="https://finviz.com/quote.ashx?t=%s"%('aapl')
-print(URL)
+INVESTING_ACTIVIES = [{'member': 'INVESTING ACTIVIES', 'position': 0, 'item': 'Capital Expenditure'}, {'member': 'INVESTING ACTIVIES', 'position': 1, 'item': 'Cash Acquisitions'}, {'member': 'INVESTING ACTIVIES', 'position': 2, 'item': 'Divestitures'}, {'member': 'INVESTING ACTIVIES', 'position': 3, 'item': 'Purchase of Marketable Equity Securities'}, {'member': 'INVESTING ACTIVIES', 'position': 4, 'item': 'Sale of Marketable Equity Securities'}, {'member': 'INVESTING ACTIVIES', 'position': 5, 'item': 'Net (Inc.) Dec. in Loans Originated/Sold'}, {'member': 'INVESTING ACTIVIES', 'position': 6, 'item': 'Other Investing Activities'}, {'member': 'INVESTING ACTIVIES', 'position': 7, 'item': 'Cash from Investing'}]
 
-req = Request(URL, headers={'User-Agent': 'Mozilla/5.0'})
-page = urlopen(req).read()
-#page = urllib.request.urlopen(URL).read()
-soup = BeautifulSoup(page, features="lxml")
-#print(soup.prettify())
-news = soup.find_all("div", {"class": "news-link-container"})
-all_news = []
-for new in news:
-    single = {}
-    titles = new.findChildren("div", {"class": "news-link-left"})
-    for title in titles:
-        links = title.findChildren('a')
-        for link in links:
-            single['single'] = link['href']
-        single['title'] = title.text
-    sources = new.findChildren("div", {"class": "news-link-right"})
-    for source in sources:
-        single['source'] = source.text
-    print(single)
-
-
-
-
-
-urls = ['https://www.cnbc.com/finance/','https://www.cnn.com/business/investing','https://www.foxbusiness.com/markets']
-articles = []
-cnn = []
-cnbc = []
-fox = []
-for url in urls:
-    if 'cnbc' in url:
-        link_head = 'cnbc.com'
-        source = 'cnbc'
-    elif 'foxbusiness'in url:
-        link_head = 'foxbusiness.com'
-        source = 'fox'
-    elif 'cnn'in url:
-        link_head = 'cnn.com'
-        source = 'cnn'
-    page = urllib.request.urlopen(url)
-    soup = BeautifulSoup(page, features="lxml")
-    i = 0
-    if soup.find('article') is not None:
-        for item in soup.find_all('article'):
-            if i != 5:
-                art_dict = {}
-                anchor = item.find('a')
-                title = item.find(re.compile('^h[1-6]$'))
-                if link_head not in anchor['href']:
-                    full_link = link_head + anchor['href']
-                else:
-                    full_link = anchor['href']
-                #print(title.text, full_link)
-                art_dict['title'] = title.text
-                if 'www' not in full_link:
-                    art_dict['link'] = 'https://www.'+full_link
-                else:
-                    art_dict['link'] = full_link
-                art_dict['source'] = source
-                articles.append(art_dict)
-                if source == 'cnn':
-                    cnn.append(art_dict)
-                elif source == 'fox':
-                    fox.append(art_dict)
-                elif source == 'cnbc':
-                    cnbc.append(art_dict)
-                i+=1
-
-            else:
-                break
-    elif soup.find("a", {"class":"Card-title"}) is not None:
-        for item in soup.find_all("a", {"class":"Card-title"}):
-            if i != 5:
-                art_dict = {}
-                if link_head not in item['href']:
-                    full_link = link_head + item['href']
-                else:
-                    full_link = item['href']
-                #print(item.text, full_link)
-                art_dict['title'] = item.text
-                if 'www' not in full_link:
-                    art_dict['link'] = 'https://www.'+full_link
-                else:
-                    art_dict['link'] = full_link
-                art_dict['source'] = source
-                articles.append(art_dict)
-                if source == 'cnn':
-                    cnn.append(art_dict)
-                elif source == 'fox':
-                    fox.append(art_dict)
-                elif source == 'cnbc':
-                    cnbc.append(art_dict)
-                i+=1
-            else:
-                break
-
-'''
-
-'''
-<div class="fp-cell fp-cell--1">
-    <a class="fp-item" href={{ Articles.0.link }} target="_blank">{{ Articles.0.title }}</a>
-</div>
-<div class="fp-cell fp-cell--2">
-    <a class="fp-item" href={{ Articles.1.link }} target="_blank">{{ Articles.1.title }}</a>
-</div>
-<div class="fp-cell fp-cell--3">
-    <a class="fp-item" href={{ Articles.2.link }} target="_blank">{{ Articles.2.title }}</a>
-</div>
-<div class="fp-cell fp-cell--4">
-  <a class="fp-item" href={{ Articles.3.link }} target="_blank">{{ Articles.3.title }}</a>
-</div>
-<div class="fp-cell fp-cell--5">
-  <a class="fp-item" href={{ Articles.4.link }} target="_blank">{{ Articles.4.title }}</a>
-</div>
-<div class="fp-cell fp-cell--5">
-  <a class="fp-item" href={{ Articles.5.link }} target="_blank">{{ Articles.5.title }}</a>
-</div>
-<div class="fp-hold fp-cell--6 sticky">
-  <h4 style='text-align: center;'>Indeces</h4>
-</div>
-{% for Article in Articles %}
-  {% if Article.title != Articles.5.title %}
-    {% if Article.title != Articles.4.title %}
-      {% if Article.title != Articles.3.title %}
-        {% if Article.title != Articles.2.title %}
-          {% if Article.title != Articles.1.title %}
-            {% if Article.title != Articles.0.title %}
-              <div class="fp-cell fp-cell--7"> <a class="fp-item" href={{ Article.link }} target="_blank">{{ Article.title }}</a> </div>
-            {% endif %}
-          {% endif %}
-        {% endif %}
-      {% endif %}
-    {% endif %}
-  {% endif %}
-{% endfor %}
-{% for New in News %}
-  <p>{{ New.title }}</p>
-{% endfor %}
+FINANCING_ACTIVITIES = [{'member': 'FINANCING ACTIVITIES', 'position': 0, 'item': 'Short Term Debt Issued'}, {'member': 'FINANCING ACTIVITIES', 'position': 1, 'item': 'Long-Term Debt Issued'}, {'member': 'FINANCING ACTIVITIES', 'position': 2, 'item': 'Total Debt Issued'}, {'member': 'FINANCING ACTIVITIES', 'position': 3, 'item': 'Short Term Debt Repaid'}, {'member': 'FINANCING ACTIVITIES', 'position': 4, 'item': 'Long-Term Debt Repaid'}, {'member': 'FINANCING ACTIVITIES', 'position': 5, 'item': 'Total Debt Repaid'}, {'member': 'FINANCING ACTIVITIES', 'position': 6, 'item': 'Repurchase of Common Stock'}, {'member': 'FINANCING ACTIVITIES', 'position': 7, 'item': 'Issuance of Common Stock'}, {'member': 'FINANCING ACTIVITIES', 'position': 8, 'item': 'Common Dividends Paid'}, {'member': 'FINANCING ACTIVITIES', 'position': 9, 'item': 'Total Dividends Paid'}, {'member': 'FINANCING ACTIVITIES', 'position': 10, 'item': 'Special Dividend Paid'}, {'member': 'FINANCING ACTIVITIES', 'position': 11, 'item': 'Other Financing Activities'}, {'member': 'FINANCING ACTIVITIES', 'position': 12, 'item': 'Cash from Financing'}, {'member': 'FINANCING ACTIVITIES', 'position': 13, 'item': 'Foreign Exchange Rate Adj.'}, {'member': 'FINANCING ACTIVITIES', 'position': 14, 'item': 'Net Change in Cash'}]
 '''
