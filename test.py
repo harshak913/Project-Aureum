@@ -1,9 +1,9 @@
 import requests
-from HTMLFinal import HTMLParse
+#from HTMLFinal import HTMLParse
 from bs4 import BeautifulSoup
 import psycopg2
 import os
-#from Inter_Table import interParse
+from Inter_Table import interParse
 
 connection = psycopg2.connect(host="ec2-34-197-188-147.compute-1.amazonaws.com", dbname="d7p3fuehaleleo", user="snbetggfklcniv", password="7798f45239eda70f8278ce3c05dc632ad57b97957b601681a3c516f37153403a")
 connection.autocommit = True
@@ -32,7 +32,7 @@ def check_if_incomplete(accession_number):
     return (len(balance_entry) == 0 or len(income_entry) == 0 or len(cash_flow_entry) == 0)
 
 # Run scrape for HTML insertion
-cursor.execute("SELECT * FROM scrape WHERE year=2009 AND inter_or_htm='HTM' AND status='PENDING';")
+""" cursor.execute("SELECT * FROM scrape WHERE year=2009 AND inter_or_htm='HTM' AND status='PENDING';")
 results = cursor.fetchall()
 for count, result in enumerate(results):
     if count >= 10:
@@ -67,7 +67,7 @@ for count, result in enumerate(results):
         delete_from_tables(accession_number)
         sql_statement = "UPDATE scrape SET status='INCOMPLETE' WHERE accession_number='%s'"%(accession_number)
         cursor.execute(sql_statement)
-        print(sql_statement + "\n")
+        print(sql_statement + "\n") """
 
 # Delete table rows
 """ cursor.execute("SELECT * FROM scrape WHERE year=2009;")
@@ -109,7 +109,7 @@ for tup in cursor.fetchall():
         print(tup[0]) """
 
 # Run InterParse
-""" cursor.execute("SELECT * FROM scrape WHERE year=2010 AND inter_or_htm='Inter' AND filing_type='10-K' AND status='PENDING';")
+cursor.execute("SELECT * FROM scrape WHERE year=2010 AND inter_or_htm='Inter' AND filing_type='10-K' AND status='PENDING';")
 results = cursor.fetchall()
 for result in results:
     print(result)
@@ -133,7 +133,7 @@ for result in results:
     except:
         delete_from_tables(accession_number)
         print("UPDATE scrape SET status='INCOMPLETE' WHERE accession_number='%s'"%(accession_number))
-        cursor.execute("UPDATE scrape SET status='INCOMPLETE' WHERE accession_number='%s'"%(accession_number)) """
+        cursor.execute("UPDATE scrape SET status='INCOMPLETE' WHERE accession_number='%s'"%(accession_number))
 
 #Copy standard_dict data to Heroku cloud DB
 """ cursor2.execute("SELECT * FROM standard_dict;")
