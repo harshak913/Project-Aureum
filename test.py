@@ -109,7 +109,7 @@ for tup in cursor.fetchall():
         print(tup[0]) """
 
 # Run InterParse
-cursor.execute("SELECT * FROM scrape WHERE year=2010 AND inter_or_htm='Inter' AND filing_type='10-K' AND status='PENDING';")
+cursor.execute("SELECT * FROM scrape WHERE year=2019 AND inter_or_htm='Inter' AND status='PENDING';")
 results = cursor.fetchall()
 for result in results:
     print(result)
