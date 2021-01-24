@@ -14,12 +14,12 @@ connection = psycopg2.connect(host="ec2-34-197-188-147.compute-1.amazonaws.com",
 connection.autocommit = True
 cursor = connection.cursor()
 
-scrape_query = "select * from standard_dict;"
+scrape_query = "select * from old_stand_dict;"
 cursor.execute(scrape_query)
 entries = cursor.fetchall()
 
 #BALANCE SHEET
-ASSETS = ['Cash And Equivalents',
+balance = ['Cash And Equivalents',
 'Restricted Cash',
 'Short Term Investments',
 'Trading Asset Securities',
@@ -40,11 +40,7 @@ ASSETS = ['Cash And Equivalents',
 'Other Intangibles',
 'Deferred Tax Assets, LT',
 'Other Long-Term Assets',
-'Total Assets']
-
-
-
-LIABILITIES = ['Accounts Payable',
+'Total Assets','Accounts Payable',
 'Accrued Exp.',
 'Short-term Borrowings',
 'Curr. Port. of LT Debt',
@@ -70,7 +66,7 @@ LIABILITIES = ['Accounts Payable',
 'Total Liabilities And Equity']
 
 #INCOME STATEMENT
-GENERAL = [
+income = [
 'Revenue',
 'Other Revenue',
 'Total Revenue',
@@ -102,20 +98,14 @@ GENERAL = [
 'Net Income to Company',
 'Minority Int. in Earnings',
 'Net Income',
-'Pref. Dividends and Other Adj.']
-
-
-
-
-Per_Share_Items = [
-'Basic EPS',
+'Pref. Dividends and Other Adj.','Basic EPS',
 'Weighted Avg. Basic Shares Out.',
 'Diluted EPS',
 'Weighted Avg. Diluted Shares Out.']
 
 #CASH FLOW
 
-OPERATING_ACTIVITY = [
+cash = [
 'Net Income',
 'Depreciation & Amort.',
 'Amort. of Goodwill and Intangibles',
@@ -127,9 +117,7 @@ OPERATING_ACTIVITY = [
 'Change In Inventories',
 'Change in Acc. Payable',
 'Change in Unearned Rev.',
-'Cash from Ops.']
-
-INVESTING_ACTIVIES = [
+'Cash from Ops.',
 'Capital Expenditure',
 'Cash Acquisitions',
 'Divestitures',
@@ -137,9 +125,7 @@ INVESTING_ACTIVIES = [
 'Sale of Marketable Equity Securities',
 'Net (Inc.) Dec. in Loans Originated/Sold',
 'Other Investing Activities',
-'Cash from Investing']
-
-FINANCING_ACTIVITIES = [
+'Cash from Investing',
 'Short Term Debt Issued',
 'Long-Term Debt Issued',
 'Total Debt Issued',
@@ -157,7 +143,7 @@ FINANCING_ACTIVITIES = [
 'Net Change in Cash']
 
 
-document = Document()
+#document = Document()
 
 copy = []
 for entry in entries:
@@ -177,13 +163,60 @@ for d in copy:
 s = 0
 k = itemgetter('standard_name')
 i = groupby(sorted(new_l, key=k), key=k)
+
+finale = []
 for key, new_l in i:
     s+=1
     header = str(key)
-    document.add_paragraph(header)
+    print(header)
+    b_check = [item for item in balance if item == header]
+    c_check = [item for item in cash if item == header]
+    i_check = [item for item in income if item == header]
+    if i_check:
+        print('INCOME')
+    if c_check:
+        print('CASH')
+    if b_check:
+        print('BALANCE')
+    #document.add_paragraph(header)
     for item in new_l:
-        smith = str(item)
-        document.add_paragraph(smith)
+        if i_check:
+            copy = item.copy()
+            copy['statement'] = 'income'
+            print(copy)
+            finale.append(copy)
+            insert_state = 'standard_dict'
+            standard_name = copy['standard_name']
+            acc_name = copy['acc_name']
+            statement = copy['statement']
+            sql_statement = "INSERT INTO %s (standard_name, acc_name, statement) VALUES('%s', '%s', '%s')"%(insert_state,standard_name, acc_name, statement)
+            print(sql_statement)
+            cursor.execute(sql_statement)
+        if c_check:
+            copy = item.copy()
+            copy['statement'] = 'cash_flow'
+            print(copy)
+            finale.append(copy)
+            insert_state = 'standard_dict'
+            standard_name = copy['standard_name']
+            acc_name = copy['acc_name']
+            statement = copy['statement']
+            sql_statement = "INSERT INTO %s (standard_name, acc_name, statement) VALUES('%s', '%s', '%s')"%(insert_state,standard_name, acc_name, statement)
+            print(sql_statement)
+            cursor.execute(sql_statement)
+        if b_check:
+            copy = item.copy()
+            copy['statement'] = 'balance'
+            print(copy)
+            finale.append(copy)
+            insert_state = 'standard_dict'
+            standard_name = copy['standard_name']
+            acc_name = copy['acc_name']
+            statement = copy['statement']
+            sql_statement = "INSERT INTO %s (standard_name, acc_name, statement) VALUES('%s', '%s', '%s')"%(insert_state,standard_name, acc_name, statement)
+            print(sql_statement)
+            cursor.execute(sql_statement)
+        #document.add_paragraph(smith)
 
-print(s)
-document.save('docx_file.docx')
+#print(s)
+#document.save('docx_file.docx')
