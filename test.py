@@ -109,7 +109,7 @@ for tup in cursor.fetchall():
         print(tup[0]) """
 
 # Run InterParse
-""" cursor.execute("SELECT * FROM scrape WHERE year=2009 AND inter_or_htm='Inter' AND filing_type='10-K' AND status='PENDING';")
+""" cursor.execute("SELECT * FROM scrape WHERE year=2010 AND inter_or_htm='Inter' AND filing_type='10-K' AND status='PENDING';")
 results = cursor.fetchall()
 for result in results:
     print(result)
@@ -135,7 +135,7 @@ for result in results:
         print("UPDATE scrape SET status='INCOMPLETE' WHERE accession_number='%s'"%(accession_number))
         cursor.execute("UPDATE scrape SET status='INCOMPLETE' WHERE accession_number='%s'"%(accession_number)) """
 
-# Copy standard_dict data to Heroku cloud DB
+#Copy standard_dict data to Heroku cloud DB
 """ cursor2.execute("SELECT * FROM standard_dict;")
 results = cursor2.fetchall()
 for result in results:
