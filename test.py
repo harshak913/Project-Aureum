@@ -1,13 +1,17 @@
 import requests
-#from HTMLFinal import HTMLParse
+from HTMLFinal import HTMLParse
 from bs4 import BeautifulSoup
 import psycopg2
 import os
-from Inter_Table import interParse
+#from Inter_Table import interParse
 
 connection = psycopg2.connect(host="ec2-34-197-188-147.compute-1.amazonaws.com", dbname="d7p3fuehaleleo", user="snbetggfklcniv", password="7798f45239eda70f8278ce3c05dc632ad57b97957b601681a3c516f37153403a")
 connection.autocommit = True
 cursor = connection.cursor()
+
+""" connection2 = psycopg2.connect(host="localhost", dbname="postgres", user="postgres", password="DB^oo^ec@^h@ckth!$0913")
+connection2.autocommit = True
+cursor2 = connection2.cursor() """
 
 def delete_from_tables(accession_number):
     cursor.execute("DELETE FROM balance WHERE accession_number='%s'"%(accession_number))
@@ -28,9 +32,11 @@ def check_if_incomplete(accession_number):
     return (len(balance_entry) == 0 or len(income_entry) == 0 or len(cash_flow_entry) == 0)
 
 # Run scrape for HTML insertion
-""" cursor.execute("SELECT * FROM scrape WHERE year=2010 AND inter_or_htm='HTM' AND status='PENDING';")
+cursor.execute("SELECT * FROM scrape WHERE year=2009 AND inter_or_htm='HTM' AND status='PENDING';")
 results = cursor.fetchall()
-for result in results:
+for count, result in enumerate(results):
+    if count >= 10:
+        break
     print(result)
     index_page = result[3].strip('.txt') + "-index.htm"
     accession_number = result[4]
@@ -44,13 +50,13 @@ for result in results:
 
         if check_if_incomplete(accession_number):
             sql_statement = "UPDATE scrape SET status='INCOMPLETE' WHERE accession_number='%s';"%(accession_number)
-            #cursor.execute(sql_statement)
-            print(sql_statement)
-            #delete_from_tables(accession_number)
+            cursor.execute(sql_statement)
+            print(sql_statement + "\n")
+            delete_from_tables(accession_number)
         else:
             sql_statement = "UPDATE scrape SET status='COMPLETED' WHERE accession_number='%s';"%(accession_number)
-            #cursor.execute(sql_statement)
-            print(sql_statement)
+            cursor.execute(sql_statement)
+            print(sql_statement + "\n")
     except:
         if os.path.exists('10k-balance_sheet.csv'):
             os.remove('10k-balance_sheet.csv')
@@ -58,10 +64,10 @@ for result in results:
             os.remove('10k-income_statement.csv')
         if os.path.exists('10k-cash_flows.csv'):
             os.remove('10k-cash_flows.csv')
-        #delete_from_tables(accession_number)
+        delete_from_tables(accession_number)
         sql_statement = "UPDATE scrape SET status='INCOMPLETE' WHERE accession_number='%s'"%(accession_number)
-        #cursor.execute(sql_statement)
-        print(sql_statement) """
+        cursor.execute(sql_statement)
+        print(sql_statement + "\n")
 
 # Delete table rows
 """ cursor.execute("SELECT * FROM scrape WHERE year=2009;")
@@ -103,7 +109,7 @@ for tup in cursor.fetchall():
         print(tup[0]) """
 
 # Run InterParse
-cursor.execute("SELECT * FROM scrape WHERE year=2009 AND inter_or_htm='Inter' AND filing_type='10-K' AND status='PENDING';")
+""" cursor.execute("SELECT * FROM scrape WHERE year=2009 AND inter_or_htm='Inter' AND filing_type='10-K' AND status='PENDING';")
 results = cursor.fetchall()
 for result in results:
     print(result)
@@ -127,4 +133,10 @@ for result in results:
     except:
         delete_from_tables(accession_number)
         print("UPDATE scrape SET status='INCOMPLETE' WHERE accession_number='%s'"%(accession_number))
-        cursor.execute("UPDATE scrape SET status='INCOMPLETE' WHERE accession_number='%s'"%(accession_number))
+        cursor.execute("UPDATE scrape SET status='INCOMPLETE' WHERE accession_number='%s'"%(accession_number)) """
+
+# Copy standard_dict data to Heroku cloud DB
+""" cursor2.execute("SELECT * FROM standard_dict;")
+results = cursor2.fetchall()
+for result in results:
+    cursor.execute("INSERT INTO standard_dict (standard_name, acc_name, statement) VALUES ('%s', '%s', '%s');"%(result[0], result[1], result[2])) """
