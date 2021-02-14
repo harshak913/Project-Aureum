@@ -23,20 +23,14 @@ def cleaning(value):
     n_value = re.sub(r'[^\w'+removelist+']', '',value)
     #get rid of both negatives and positives
     if re.sub('[\W_]+', '', n_value).isdigit():
-        #print(n_value)
-        #convert to in millions through this
-        if unit == 'As Displayed':
-            n_value = float(n_value)/1000000
-        elif unit == 'In Thousands':
-            n_value = float(n_value)/1000
         #if it was negative add the bracket to signfigy negative
         if negative > 0:
             n_value = '-' + str(n_value)
         value = n_value
-
     return value
+
 # years completed: 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019
-scrape_query = "select * from scrape where filing_type = '10-K' and inter_or_htm = 'Inter' and year = '2020';"
+scrape_query = "select * from scrape where filing_type = '10-K' and inter_or_htm = 'Inter' and year = '2015';"
 cursor.execute(scrape_query)
 entries = cursor.fetchall()
 tables = ['balance','cash_flow','income']
@@ -77,59 +71,26 @@ for entry in entries:
                     if 'SERIES' not in member.upper():
                         if 'FACILITY' not in member.upper():
                             if '[' not in eng_name:
-                                #unit conversion from thousand and as displayed to millions
-                                if unit == 'As Displayed' or unit == 'In Thousands':
-                                    print(acc_name, unit, value)
-                                    #Check if share or not. "Per" and "Share" or "Stock". If Not Proceed
-                                    if 'Per' not in acc_name:
-                                        value = cleaning(value)
-                                    elif 'Per' and 'Share' not in acc_name:
-                                        value = cleaning(value)
-                                    elif 'Per' and 'Stock' not in acc_name:
-                                        value = cleaning(value)
-                                    #IF PER EXISTS BUT IT'S PERIOD
-                                    if ',' in str(value) and 'Per' in acc_name:
-                                        if 'Period' in acc_name:
-                                            value = cleaning(value)
-                                    dict = {}
-                                    dict['member'] = member
-                                    dict['header'] = header
-                                    dict['eng_name'] = eng_name
-                                    dict['acc_name'] = acc_name
-                                    dict['value'] = value
-                                    dict['unit'] = 'In Millions'
-                                    dict['year'] = year
-                                    dict['report_period'] = report_period
-                                    dict['statement'] = table
-                                    dict['filing_type'] = filing_type
-                                    dict['accession_number'] = accession_number
-                                    if re.sub('[\W_]+', '', str(dict['value'])).isdigit():
-                                        if months_ended == '':
-                                            total_dict.append(dict)
-                                        elif '12' in months_ended:
-                                            total_dict.append(dict)
-                                #if in millions do this
-                                else:
-                                    value = cleaning(value)
-                                    dict = {}
-                                    dict['member'] = member
-                                    dict['header'] = header
-                                    dict['eng_name'] = eng_name
-                                    dict['acc_name'] = acc_name
-                                    dict['value'] = value
-                                    dict['unit'] = 'In Millions'
-                                    dict['year'] = year
-                                    dict['report_period'] = report_period
-                                    dict['statement'] = table
-                                    dict['filing_type'] = filing_type
-                                    dict['accession_number'] = accession_number
-                                    #print(dict)
-                                    if re.sub('[\W_]+', '', str(dict['value'])).isdigit():
-                                        if months_ended == '':
-                                            total_dict.append(dict)
-                                        elif '12' in months_ended:
-                                            total_dict.append(dict)
-        #print(total_dict)
+                                value = cleaning(value)
+                                dict = {}
+                                dict['member'] = member
+                                dict['header'] = header
+                                dict['eng_name'] = eng_name
+                                dict['acc_name'] = acc_name
+                                dict['value'] = value
+                                dict['unit'] = unit
+                                dict['year'] = year
+                                dict['report_period'] = report_period
+                                dict['statement'] = table
+                                dict['filing_type'] = filing_type
+                                dict['accession_number'] = accession_number
+                                if re.sub('[\W_]+', '', str(dict['value'])).isdigit():
+                                    if months_ended == '':
+                                        total_dict.append(dict)
+                                    elif '12' in months_ended:
+                                        total_dict.append(dict)
+
+        #HACK FOR REVENUE: GATHER ALL REVENUE AND THEN GRAB LARGEST VALUE
         #All values from this statement have been properly compiled. Time to standardize
         scrape_query_2 = "select * from standard_dict where statement = '%s';"%(table)
         cursor.execute(scrape_query_2)
@@ -137,13 +98,12 @@ for entry in entries:
         final_standard = []
         avoids = ['Net Income',
         'Operating Income',
-        'Total Revenue',
         'Net Change in Cash',
         'Gross Profit',
         'Total Equity',
         'Total Liabilities And Equity',
         'Total Current Assets',
-        'Revenue',
+        'Total Revenue'
         'Total Assets',
         'Total Current Liabilities',
         'Total Liabilities',
@@ -151,17 +111,22 @@ for entry in entries:
         'Total Shares Out.'
         'Total Equity',
         'Total Liabilities And Equity',
-        'Cost Of Goods Sold',
         'Operating Exp., Total',
         'Net Income to Company',
         'Cash from Ops.',
         'Cash from Investing',
         'Cash from Financing',
+        'Earnings from Cont. Ops.',
+        'Earnings of Discontinued Ops.',
         'Basic EPS',
         'Weighted Avg. Basic Shares Out.',
         'Diluted EPS',
         'Weighted Avg. Diluted Shares Out.',
         'Net Change in Cash']
+
+        highest_val = ['Revenue',
+        'Cost Of Goods Sold']
+
         for john in johns:
             standard_name = john[0]
             acc_name = john[1]
@@ -189,6 +154,27 @@ for entry in entries:
                 seen.add(t)
                 new_l.append(d)
 
+        #unit conversion
+        for new in new_l:
+            unit = new['unit']
+            if unit == 'In Thousands' or unit == 'As Displayed':
+                share_list = ['Basic EPS', 'Diluted EPS']
+                share_check = [item for item in share_list if item == new['standard_name']]
+                if not share_check:
+                    print('PRIOR VALUE: ')
+                    print(new['value'])
+                    if unit == 'As Displayed':
+                        n_value = float(new['value'])/1000000
+                    elif unit == 'In Thousands':
+                        n_value = float(new['value'])/1000
+                    print('NEW VALUE: ')
+                    new['value'] = n_value
+                    print(new['value'])
+                    new['unit'] = 'In Millions'
+                else:
+                    new['unit'] = 'In Millions'
+
+
         the_end = []
         k = itemgetter('standard_name','current_year')
         i = groupby(sorted(new_l, key=k), key=k)
@@ -202,22 +188,30 @@ for entry in entries:
                 avoid_pass = item.copy()
             print(count)
             avoid_check = [item for item in avoids if item == avoid_pass['standard_name']]
+            highest_check = [item for item in highest_val if item == avoid_pass['standard_name']]
             if count > 1:
                 #see if this is an item we cannot compound. if not means the list is empty. if this is empty means there are no matches
                 if not avoid_check:
-                    print('THIS IS COMPOUNDABLE')
-                    first = 0
-                    for item in copy:
-                        if first == 0:
-                            template = item.copy()
-                            first+=1
-                        else:
-                            template['acc_name'] = str(template['acc_name']) +", " + str(item['acc_name'])
-                            template['eng_name'] = str(template['eng_name'])+' + '+str(item['eng_name'])
-                            #COMPILE THE NUMBERS NOW
-                            template['value'] = float(template['value']) + float(item['value'])
-                            template['cumulative'] = True
-                    the_end.append(template)
+                    print('THIS IS POSSIBLY COMPOUNDABLE')
+                    #HIGHEST CHECK TAKES THE HIGHEST VALUE
+                    if highest_check:
+                        maxItem = max(copy, key=lambda x:x['value'])
+                        highest = maxItem.copy()
+                        the_end.append(highest)
+                    #OTHERWISE COMPOUND IT
+                    else:
+                        first = 0
+                        for item in copy:
+                            if first == 0:
+                                template = item.copy()
+                                first+=1
+                            else:
+                                template['acc_name'] = str(template['acc_name']) +", " + str(item['acc_name'])
+                                template['eng_name'] = str(template['eng_name'])+' + '+str(item['eng_name'])
+                                #COMPILE THE NUMBERS NOW
+                                template['value'] = float(template['value']) + float(item['value'])
+                                template['cumulative'] = True
+                        the_end.append(template)
                 #else means that there is a match with the avoid. This means no compounding
                 else:
                     print('THIS IS NOT COMPOUNDABLE')
@@ -243,7 +237,7 @@ for entry in entries:
             #print(item['standard_name'], item['acc_name'], item['value'], item['current_year'])
             sql_statement = "INSERT INTO %s (accession_number, header, standard_name, eng_name, acc_name, value, unit, year, statement, report_period, filing_type) VALUES('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');"%(statement_insert, accession_number, item['header'], item['standard_name'], item['eng_name'], item['acc_name'], item['value'], item['unit'], item['year'], item['statement'], item['report_period'], item['filing_type'])
             print(sql_statement)
-            cursor.execute(sql_statement)
+            #cursor.execute(sql_statement)
         print('FINAL LINE ITEMS FOR THIS STATEMENT IS: ' +str(line_items))
         print('ITEMS PARSED TO THIS POINT: '+str(numbers_finished))
 

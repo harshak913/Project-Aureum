@@ -36,13 +36,15 @@ def cleaning(value):
     return value
 
 #accession_number = '0000014272-18-000197' #NEG ONE EXAMPLE uses -
-accession_number = "0000104169-18-000028" #This one has Revenue at top and bottom 'balance','cash_flow',
+accession_number = "0000014272-18-000197" #This one has Revenue at top and bottom 'balance','cash_flow',
 tables = ['income']
+current_year = '2018'
+months_ended = '9 Months Ended'
 numbers_finished = 0
 for table in tables:
     #grab the balance, cash or income table and match it with the accession_number
-    #scrape_query = "select * from %s where accession_number = '%s' and months_ended  = '%s' and date_part('year', year) = '%s';"%(table, accession_number)
-    scrape_query = "select * from %s where accession_number = '%s';"%(table, accession_number)
+    scrape_query = "select * from %s where accession_number = '%s' and months_ended  = '%s' and date_part('year', year) = '%s';"%(table, accession_number, months_ended, current_year)
+    #scrape_query = "select * from %s where accession_number = '%s';"%(table, accession_number)
     print(scrape_query)
     cursor.execute(scrape_query)
     smiths = cursor.fetchall()
@@ -98,11 +100,7 @@ for table in tables:
                                 dict['statement'] = table
                                 dict['filing_type'] = filing_type
                                 dict['accession_number'] = accession_number
-                                if re.sub('[\W_]+', '', str(dict['value'])).isdigit():
-                                    if months_ended == '':
-                                        total_dict.append(dict)
-                                    elif '12' in months_ended:
-                                        total_dict.append(dict)
+                                total_dict.append(dict)
                             #if in millions do this
                             else:
                                 print(acc_name, unit, value)
@@ -120,11 +118,7 @@ for table in tables:
                                 dict['filing_type'] = filing_type
                                 dict['accession_number'] = accession_number
                                 #print(dict)
-                                if re.sub('[\W_]+', '', str(dict['value'])).isdigit():
-                                    if months_ended == '':
-                                        total_dict.append(dict)
-                                    elif '12' in months_ended:
-                                        total_dict.append(dict)
+                                total_dict.append(dict)
     #print(total_dict)
     #All values from this statement have been properly compiled. Time to standardize
     scrape_query_2 = "select * from standard_dict where statement = '%s';"%(table)
@@ -204,7 +198,7 @@ for table in tables:
         if count > 1:
             #see if this is an item we cannot compound. if not means the list is empty. if this is empty means there are no matches
             if not avoid_check:
-                print('THIS IS POSSIBLY COMPOUNDABLE')
+                print('THIS IS COMPOUNDABLE')
                 if highest_check:
                     maxItem = max(copy, key=lambda x:x['value'])
                     highest = maxItem.copy()
@@ -238,8 +232,6 @@ for item in the_end:
     print(item['standard_name'], item['value'])
 
 
-
-    
 """
     line_items = 0
     for item in the_end:
