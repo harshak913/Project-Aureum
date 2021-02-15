@@ -51,22 +51,40 @@ def quarter_mod(q_current, q_prior):
         for item in q_base:
             count+=1
             list_c.append(item)
+            check = item.copy()
         print(count)
         if count == 2:
-            seq = [x['order'] for x in list_c]
-            highest = max(seq)
-            lowest = min(seq)
-            high_val = next(item for item in list_c if item["order"] == highest).copy()
-            low_val = next(item for item in list_c if item["order"] == lowest).copy()
-            print(high_val['quarter'],high_val['standard_name'], high_val['value'], high_val['accession_number'])
-            print(low_val['quarter'],low_val['standard_name'], low_val['value'], low_val['accession_number'])
-            new_val_q = float(high_val['value']) - float(low_val['value'])
-            #create eng_version with the names and vals concocetnated
-            high_val['eng_name'] = str(high_val['eng_name']) + " - " + str(low_val['eng_name'])
-            high_val['value'] = round(new_val_q, 2)
-            print('MODIFIED WITH SUBTRACTION')
-            modif_q.append(high_val)
-            print(high_val['quarter'],high_val['standard_name'], high_val['value'], high_val['accession_number'], high_val['current_year'])
+            #sharelist determines whether or not we sub or keep current one
+            share_list = ['Basic EPS', 'Diluted EPS', 'Weighted Avg. Diluted Shares Out.','Weighted Avg. Basic Shares Out.']
+            share_check = [share for share in share_list if share == check['standard_name']]
+            if not share_check:
+                seq = [x['order'] for x in list_c]
+                highest = max(seq)
+                lowest = min(seq)
+                high_val = next(item for item in list_c if item["order"] == highest).copy()
+                low_val = next(item for item in list_c if item["order"] == lowest).copy()
+                print(high_val['quarter'],high_val['standard_name'], high_val['value'], high_val['accession_number'])
+                print(low_val['quarter'],low_val['standard_name'], low_val['value'], low_val['accession_number'])
+                new_val_q = float(high_val['value']) - float(low_val['value'])
+                #create eng_version with the names and vals concocetnated
+                high_val['eng_name'] = str(high_val['eng_name']) + " - " + str(low_val['eng_name'])
+                high_val['value'] = round(new_val_q, 2)
+                print('MODIFIED WITH SUBTRACTION')
+                modif_q.append(high_val)
+                print(high_val['quarter'],high_val['standard_name'], high_val['value'], high_val['accession_number'], high_val['current_year'])
+            else:
+                seq = [x['order'] for x in list_c]
+                highest = max(seq)
+                lowest = min(seq)
+                high_val = next(item for item in list_c if item["order"] == highest).copy()
+                low_val = next(item for item in list_c if item["order"] == lowest).copy()
+                print(high_val['quarter'],high_val['standard_name'], high_val['value'], high_val['accession_number'])
+                print(low_val['quarter'],low_val['standard_name'], low_val['value'], low_val['accession_number'])
+                #now tell us what has happened
+                print('CANNOT SUBTRACT SO WE TAKE THE HIGHER ONE')
+                modif_q.append(high_val)
+                print(high_val['quarter'],high_val['standard_name'], high_val['value'], high_val['accession_number'], high_val['current_year'])
+
         elif count == 1:
             for item in list_c.copy():
                 if item['order'] == highest_q:
@@ -87,18 +105,6 @@ def quarter_mod(q_current, q_prior):
 
 
 #START OF MAIN PROGRAM BODY
-q1_cash = []
-q1_income = []
-q1_balance = []
-q2_cash = []
-q2_income = []
-q2_balance = []
-q3_cash = []
-q3_income = []
-q3_balance = []
-q4_cash = []
-q4_income = []
-q4_balance = []
 #Grab company
 scrape_query = "select * from company;"
 cursor.execute(scrape_query)
@@ -120,7 +126,6 @@ for entry in entries:
     q1 = False
     q2 = False
     q3 = False
-    all_q = False
     for item in filing_entries:
         if item[7] == 'Q1':
             q1 = True
@@ -134,6 +139,18 @@ for entry in entries:
     if q1 == True and q2 == True and q3 == True:
         print('THIS YEAR HAS ALL 3Qs ACCOUNTED FOR')
         quarter_list = []
+        q1_cash = []
+        q1_income = []
+        q1_balance = []
+        q2_cash = []
+        q2_income = []
+        q2_balance = []
+        q3_cash = []
+        q3_income = []
+        q3_balance = []
+        q4_cash = []
+        q4_income = []
+        q4_balance = []
         for item in filing_entries:
             if item[7] == 'Q1':
                 indiv = {}
@@ -161,18 +178,28 @@ for entry in entries:
                 indiv['accession_number'] = item[4]
                 indiv['order'] = 4
                 quarter_list.append(indiv)
+
+        def get_order(item):
+            return item.get('order')
+
+        quarter_list.sort(key=get_order)
+
         print(quarter_list)
-        for item in quarter_list:
+
+        for q in quarter_list:
             tables = ['income','cash_flow', 'balance']
-            quarter = str(item['quarter'])
-            order = float(item['order'])
+            quarter = str(q['quarter'])
+            order = float(q['order'])
             print('NOW CURRENTLY RUNNING: '+quarter)
             for table in tables:
-                accession_number = item['accession_number']
-                if 'months_ended' in item:
-                    months_ended = item['months_ended']
+                accession_number = q['accession_number']
+                if 'months_ended' in q and table != 'balance':
+                    print('THERE ARE MONTHS ENDED STATEMENT IS '+table)
+                    print(q['months_ended'])
+                    months_ended = q['months_ended']
                     scrape_query = "select * from %s where accession_number = '%s' and months_ended  = '%s' and date_part('year', year) = '%s';"%(table, accession_number, months_ended, current_year)
                 else:
+                    print('TABLE IS EQUAL TO BALANCE')
                     scrape_query = "select * from %s where accession_number = '%s' and date_part('year', year) = '%s';"%(table, accession_number, current_year)
                 #scrape_query = "select * from %s where accession_number = '%s';"%(table, accession_number)
                 print(scrape_query)
@@ -417,27 +444,43 @@ for entry in entries:
         for item in q4_balance:
             finale.append(item)
 
+
         #INSERT CASH
+        q2_cash_f = []
+        q3_cash_f = []
+        q4_cash_f = []
+        #start of actual processing
         q1_cash_f = q1_cash
-        q2_cash_f = quarter_mod(q2_cash, q1_cash)
-        q3_cash_f = quarter_mod(q3_cash, q2_cash)
-        q4_cash_f = quarter_mod(q4_cash, q3_cash)
-        #if q2_cash_f and q3_cash_f and q4_cash_f:
-        for item in q1_cash_f:
-            print(item)
-            finale.append(item)
-        for item in q2_cash_f:
-            finale.append(item)
-        for item in q3_cash_f:
-            finale.append(item)
-        for item in q4_cash_f:
-            finale.append(item)
+        if q2_cash and q1_cash:
+            q2_cash_f = quarter_mod(q2_cash, q1_cash)
+        if q3_cash and q2_cash:
+            q3_cash_f = quarter_mod(q3_cash, q2_cash)
+        if q4_cash and q3_cash:
+            q4_cash_f = quarter_mod(q4_cash, q3_cash)
+        #if all quarters are present besides Q1 then append
+        if q2_cash_f and q3_cash_f and q4_cash_f:
+            for item in q1_cash_f:
+                finale.append(item)
+            for item in q2_cash_f:
+                finale.append(item)
+            for item in q3_cash_f:
+                finale.append(item)
+            for item in q4_cash_f:
+                finale.append(item)
 
         #INSERT INCOME
+        q2_income_f = []
+        q3_income_f = []
+        q4_income_f = []
+        #start of actual
         q1_income_f = q1_income
-        q2_income_f = quarter_mod(q2_income, q1_income)
-        q3_income_f = quarter_mod(q3_income, q2_income)
-        q4_income_f = quarter_mod(q4_income, q3_income)
+        if q2_income and q1_income:
+            q2_income_f = quarter_mod(q2_income, q1_income)
+        if q3_income and q2_income:
+            q3_income_f = quarter_mod(q3_income, q2_income)
+        if q4_income and q3_income:
+            q4_income_f = quarter_mod(q4_income, q3_income)
+        #if all are present then append all items to finale
         if q2_income_f and q3_income_f and q4_income_f:
             for item in q1_income_f:
                 finale.append(item)
@@ -448,6 +491,7 @@ for entry in entries:
             for item in q4_income_f:
                 finale.append(item)
 
+#895421
 
         line_items = 0
         for item in finale:
@@ -459,9 +503,9 @@ for entry in entries:
                 statement_insert = 'standard_cash'
             elif item['statement'] == 'income':
                 statement_insert = 'standard_income'
-            #print(item['standard_name'], item['acc_name'], item['value'], item['current_year'])
-            sql_statement = "INSERT INTO %s (accession_number, header, standard_name, eng_name, acc_name, value, unit, year, statement, report_period, filing_type, quarter) VALUES('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');"%(statement_insert, item['accession_number'], item['header'], item['standard_name'], item['eng_name'], item['acc_name'], item['value'], item['unit'], item['year'], item['statement'], item['report_period'], item['filing_type'], item['quarter'])
-            print(sql_statement)
+            print(item['standard_name'], item['acc_name'], item['value'], item['quarter'], item['current_year'], item['statement'])
+            #sql_statement = "INSERT INTO %s (accession_number, header, standard_name, eng_name, acc_name, value, unit, year, statement, report_period, filing_type, quarter) VALUES('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');"%(statement_insert, item['accession_number'], item['header'], item['standard_name'], item['eng_name'], item['acc_name'], item['value'], item['unit'], item['year'], item['statement'], item['report_period'], item['filing_type'], item['quarter'])
+            #print(sql_statement)
             #cursor.execute(sql_statement)
         print('FINAL LINE ITEMS FOR THIS STATEMENT IS: ' +str(line_items))
         print('TOTAL COMPANIES PARSED TO THIS POINT: ' + str(total_parse))
@@ -490,136 +534,4 @@ current_year = '2015'
 scrape_query = "select * from scrape where cik_id = '%s' and year = '%s';"%(cik,current_year) #use 2010 and 2011
 cursor.execute(scrape_query)
 filing_entries = cursor.fetchall()
-'''
-
-
-'''
-Q2 Diluted EPS 1.72 0001306830-13-000095 As Displayed
-Q2 Earnings from Cont. Ops. 974000000.0 0001306830-13-000095 As Displayed
-Q2 Earnings of Discontinued Ops. 4000000.0 0001306830-13-000095 As Displayed
-Q2 Gross Profit 652000000 0001306830-13-000095 As Displayed
-Q2 Income Tax Expense -152000000 0001306830-13-000095 As Displayed
-Q2 Interest Expense -87000000 0001306830-13-000095 As Displayed
-Q2 Interest and Invest. Income 1000000 0001306830-13-000095 As Displayed
-Q2 Net Income 275000000 0001306830-13-000095 As Displayed
-Q2 Net Income to Company 275000000 0001306830-13-000095 As Displayed
-Q2 Operating Income 353000000 0001306830-13-000095 As Displayed
-Q2 Other Non-Operating Inc. (Exp.) 3000000 0001306830-13-000095 As Displayed
-Q2 Revenue 3258000000 0001306830-13-000095 As Displayed
-Q2 Weighted Avg. Basic Shares Out. 159679408 0001306830-13-000095 As Displayed
-Q2 Weighted Avg. Diluted Shares Out. 160138959 0001306830-13-000095 As Displayed
-Q4 Basic EPS 0 0001306830-14-000011 In Millions
-Q4 Cost Of Goods Sold 0 0001306830-14-000011 In Millions
-Q4 Depreciation & Amort. -32.0 0001306830-14-000011 In Millions
-Q4 Diluted EPS 0 0001306830-14-000011 In Millions
-Q4 Earnings from Cont. Ops. 3811.0 0001306830-14-000011 In Millions
-Q4 Earnings of Discontinued Ops. 0.0 0001306830-14-000011 In Millions
-Q4 Gross Profit 0 0001306830-14-000011 In Millions
-Q4 Income Tax Expense -508.0 0001306830-14-000011 In Millions
-Q4 Interest Expense -172.0 0001306830-14-000011 In Millions
-Q4 Interest and Invest. Income 1.0 0001306830-14-000011 In Millions
-Q4 Minority Int. in Earnings 0.0 0001306830-14-000011 In Millions
-Q4 Net Income 0 0001306830-14-000011 In Millions
-Q4 Net Income to Company 0 0001306830-14-000011 In Millions
-Q4 Operating Income 1508 0001306830-14-000011 In Millions
-Q4 Other Non-Operating Inc. (Exp.) 0.0 0001306830-14-000011 In Millions
-Q4 Revenue 6510 0001306830-14-000011 In Millions
-Q4 Weighted Avg. Basic Shares Out. 0 0001306830-14-000011 In Millions
-Q4 Weighted Avg. Diluted Shares Out. 0 0001306830-14-000011 In Millions
-'''
-
-'''
-Q2 Diluted EPS 1.72 0001306830-13-000095 In Millions
-Q2 Earnings from Cont. Ops. 974.0 0001306830-13-000095 In Millions
-Q2 Earnings of Discontinued Ops. 4.0 0001306830-13-000095 In Millions
-Q2 Gross Profit 652.0 0001306830-13-000095 In Millions
-Q2 Income Tax Expense -152.0 0001306830-13-000095 In Millions
-Q2 Interest Expense -87.0 0001306830-13-000095 In Millions
-Q2 Interest and Invest. Income 1.0 0001306830-13-000095 In Millions
-Q2 Net Income 275.0 0001306830-13-000095 In Millions
-Q2 Net Income to Company 275.0 0001306830-13-000095 In Millions
-Q2 Operating Income 353.0 0001306830-13-000095 In Millions
-Q2 Other Non-Operating Inc. (Exp.) 3.0 0001306830-13-000095 In Millions
-Q2 Revenue 3258.0 0001306830-13-000095 In Millions
-Q2 Weighted Avg. Basic Shares Out. 159679408 0001306830-13-000095 In Millions
-Q2 Weighted Avg. Diluted Shares Out. 160138959 0001306830-13-000095 In Millions
-Q4 Basic EPS 0 0001306830-14-000011 In Millions
-Q4 Cost Of Goods Sold 0 0001306830-14-000011 In Millions
-Q4 Depreciation & Amort. -32.0 0001306830-14-000011 In Millions
-Q4 Diluted EPS 0 0001306830-14-000011 In Millions
-Q4 Earnings from Cont. Ops. 3811.0 0001306830-14-000011 In Millions
-Q4 Earnings of Discontinued Ops. 0.0 0001306830-14-000011 In Millions
-Q4 Gross Profit 0 0001306830-14-000011 In Millions
-Q4 Income Tax Expense -508.0 0001306830-14-000011 In Millions
-Q4 Interest Expense -172.0 0001306830-14-000011 In Millions
-Q4 Interest and Invest. Income 1.0 0001306830-14-000011 In Millions
-Q4 Minority Int. in Earnings 0.0 0001306830-14-000011 In Millions
-Q4 Net Income 0 0001306830-14-000011 In Millions
-Q4 Net Income to Company 0 0001306830-14-000011 In Millions
-Q4 Operating Income 0 0001306830-14-000011 In Millions
-Q4 Other Non-Operating Inc. (Exp.) 0.0 0001306830-14-000011 In Millions
-Q4 Revenue 6510 0001306830-14-000011 In Millions
-Q4 Weighted Avg. Basic Shares Out. 0 0001306830-14-000011 In Millions
-Q4 Weighted Avg. Diluted Shares Out. 0 0001306830-14-000011 In Millions
-'''
-
-
-'''
-#insert q_current and q_past
-modif_q = []
-#q_base = q2_cash.copy()+q1_cash.copy()
-q_base = q3_cash.copy()+q2_cash.copy()
-#GRAB HIGHEST QUARTER AND ORDER
-seq = [x['order'] for x in q_base.copy()]
-highest_q = max(seq)
-quarter_q = next(item for item in q_base.copy() if item["order"] == highest_q)['quarter']
-print(highest_q, quarter_q)
-print('HIGHEST Q IS: '+str(highest_q))
-#SORT THE ITEMS BY STANDARD NAMES
-k = itemgetter('standard_name')
-i = groupby(sorted(q_base, key=k), key=k)
-for key, q_base in i:
-    print(key)
-    list_c = []
-    count = 0
-    for item in q_base:
-        count+=1
-        list_c.append(item)
-    print(count)
-    if count == 2:
-        seq = [x['order'] for x in list_c]
-        highest = max(seq)
-        lowest = min(seq)
-        high_val = next(item for item in list_c if item["order"] == highest).copy()
-        low_val = next(item for item in list_c if item["order"] == lowest).copy()
-        print(high_val['quarter'],high_val['standard_name'], high_val['value'], high_val['accession_number'])
-        print(low_val['quarter'],low_val['standard_name'], low_val['value'], low_val['accession_number'])
-        new_val_q = float(high_val['value']) - float(low_val['value'])
-        high_val['value'] = new_val_q
-        print('MODIFIED WITH SUBTRACTION')
-        modif_q.append(high_val)
-        print(high_val['quarter'],high_val['standard_name'], high_val['value'], high_val['accession_number'])
-    elif count == 1:
-        for item in list_c.copy():
-            if item['order'] == highest_q:
-                #KEEP THIS THE SAME AND JUST APPEND IT
-                print('Higher Quarter SOLO')
-                modif_q.append(item)
-                print(item['quarter'],item['standard_name'], item ['value'], item['accession_number'])
-            else:
-                #MULTIPLE BY -1 TO IMITATE - AND THEN MODIFY THE QUARTER TO THE CURRENT HIGHEST Q
-                print('Lower Quarter SOLO')
-                print(item['quarter'],item['standard_name'], item ['value'], item['accession_number'])
-                item['value'] = float(item['value']) * -1.0
-                item['quarter'] = quarter_q
-                print('MODIFIED NOW TO BE NEGATIVE')
-                modif_q.append(item)
-                print(item['quarter'],item['standard_name'], item ['value'], item['accession_number'])
-
-k = 0
-print('OPEN')
-for item in modif_q:
-    k+=1
-print('CLOSE')
-print(k)
 '''
