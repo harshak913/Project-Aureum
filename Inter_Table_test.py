@@ -19,8 +19,8 @@ cursor = connection.cursor()
 #accession_number = '0001193125-14-295874' #control Q
 #accession_number = '0001193125-19-051943' #control K
 #accession_number = '0001067701-18-000006' #many 3 months K
-accession_number = '0001067701-14-000004' #many 3 months K with footnotes
-#accession_number = '0001193125-12-333937' #footnote one per months
+#accession_number = '0001067701-14-000004' #many 3 months K with footnotes
+accession_number = '0001193125-12-333937' #footnote one per months
 #accession_number = '0000922864-12-000020' #footnote 2 per months
 
 scrape_query = "select * from scrape where accession_number = '%s';"%(accession_number)
@@ -350,8 +350,8 @@ for item in dicts:
                                     dict['statement'] = statement_name.strip()
                                     dict['acc_name'] = acc_name.strip()
                                     dict['unit'] = unit.strip()
-                                    print(dict)
-                                    #print(dict['eng_name'], dict['value'], dict['date'], dict['months_ended'])
+                                    #print(dict)
+                                    print(dict['eng_name'], dict['value'], dict['date'], dict['months_ended'])
                                     all_dict.append(dict)
         #for item in all_dict:
         #    print(item['eng_name'], item['value'], item['date'], item['months_ended'])
