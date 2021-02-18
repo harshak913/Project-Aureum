@@ -183,67 +183,54 @@ for item in dicts:
         member_header = ''
         header = ''
         months_ended = []
-        extension = 0
-        col_id = 1
+        extension = 1
         #this for loop gets the proper span lengths for the months ended
         for one in ones:
             l = one.text.strip()
             if re.search('months ended', l, re.IGNORECASE) is not None:
                 months = {}
-                if one.has_attr('colspan') and col_id==1:
+                if one.has_attr('colspan'):
                     col = int(one.get('colspan'))
-                    months['start_span'] = extension
-                    months['end_span'] = col
+                    months['start_span'] = int(extension)
                     extension += col
-                    col_id+=1
-                elif one.has_attr('colspan') and col_id != 1:
-                    col = int(one.get('colspan'))
-                    months['start_span'] = extension
-                    extension += col
-                    months['end_span'] = extension
+                    months['end_span'] = int(extension) - 1
                 months['months_ended'] = l.strip()
                 months_ended.append(months)
 
+        #everything from these years must be ###<= x =<###
+        for item in months_ended:
+            print(item)
+
         #TIME TO MATCH THE DATES TO THE MONTHS ENDED
         id = 1
-        extension = 0
-        col_id = 1
         for one in ones:
             l = one.text.strip()
             match = re.match(r'.*([1-3][0-9]{3})', l)
             if match is not None:
                 dates = {}
                 if one.has_attr('colspan'):
-                    if one.has_attr('colspan') and col_id==1:
-                        col = int(one.get('colspan'))
-                        dates['start_span'] = extension
-                        dates['end_span'] = col
-                        extension += col
-                        col_id+=1
-                    elif one.has_attr('colspan') and col_id != 1:
-                        col = int(one.get('colspan'))
-                        dates['start_span'] = extension
-                        extension += col
-                        dates['end_span'] = extension
+                    col = int(one.get('colspan'))
+                    dates['start_span'] = int(id)
+                    id += (col)
+                    dates['end_span'] = int(id) - 1
                     dates['date'] = match.group(0)
-                    id = dates['end_span']
+                    check_id = dates['end_span']
                     for item in months_ended:
                         if item.get('start_span') is not None:
                             start_span = int(item.get('start_span'))
                             end_span = int(item.get('end_span'))
-                            if id > start_span and id <= end_span:
+                            if check_id >= start_span and check_id <= end_span:
                                 dates['months_ended'] = item.get('months_ended')
                     all_dates.append(dates)
-                    id+=1
                 else:
                     date = {}
-                    date['id'] = id
+                    date['id'] = int(id)
                     date['date'] = match.group(0)
                     for item in months_ended:
                         if item.get('start_span') is not None:
                             start_span = int(item.get('start_span'))
                             end_span = int(item.get('end_span'))
-                            if id > start_span and id <= end_span:
+                            if id >= start_span and id <= end_span:
                                 date['months_ended'] = item.get('months_ended')
                     all_dates.append(date)
                     id+=1
@@ -317,7 +304,7 @@ for item in dicts:
                                             date = str(item['date'])
                                             start_span = int(item.get('start_span'))
                                             end_span = int(item.get('end_span'))
-                                            if id > start_span and id <= end_span:
+                                            if id >= start_span and id <= end_span:
                                                 if item.get('months_ended') is not None:
                                                     months_ended = str(item['months_ended'])
                                                     id+=1
@@ -356,6 +343,7 @@ for item in dicts:
         #for item in all_dict:
         #    print(item['eng_name'], item['value'], item['date'], item['months_ended'])
         os.remove(filename)
+
 
 '''
     #XML PARSE SECTION HERE
