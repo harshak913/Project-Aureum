@@ -163,44 +163,63 @@ def interParse(filing_index, accession_number, filing_type):
             #NOW GET THE DATES
             all_dates = []
             ones = soup.find_all('th')
-            id = 1
             member_header = ''
             header = ''
             months_ended = []
-            extension = 0
-            col_id = 1
+            extension = 1
+            #this for loop gets the proper span lengths for the months ended
             for one in ones:
                 l = one.text.strip()
                 if re.search('months ended', l, re.IGNORECASE) is not None:
                     months = {}
-                    if one.has_attr('colspan') and col_id==1:
+                    if one.has_attr('colspan'):
                         col = int(one.get('colspan'))
-                        months['start_span'] = extension
-                        months['end_span'] = col
+                        months['start_span'] = int(extension)
                         extension += col
-                        col_id+=1
-                    elif one.has_attr('colspan') and col_id != 1:
-                        col = int(one.get('colspan'))
-                        months['start_span'] = extension
-                        extension += col
-                        months['end_span'] = extension
+                        months['end_span'] = int(extension) - 1
                     months['months_ended'] = l.strip()
                     months_ended.append(months)
+
+            #everything from these years must be ###<= x =<###
+            for item in months_ended:
+                print(item)
+
+            #TIME TO MATCH THE DATES TO THE MONTHS ENDED
+            id = 1
             for one in ones:
                 l = one.text.strip()
                 match = re.match(r'.*([1-3][0-9]{3})', l)
                 if match is not None:
-                    date = {}
-                    date['id'] = id
-                    date['date'] = match.group(0)
-                    for item in months_ended:
-                        if item.get('start_span') is not None:
-                            start_span = int(item.get('start_span'))
-                            end_span = int(item.get('end_span'))
-                            if id > start_span and id <= end_span:
-                                date['months_ended'] = item.get('months_ended')
-                    all_dates.append(date)
-                    id+=1
+                    dates = {}
+                    if one.has_attr('colspan'):
+                        col = int(one.get('colspan'))
+                        dates['start_span'] = int(id)
+                        id += (col)
+                        dates['end_span'] = int(id) - 1
+                        dates['date'] = match.group(0)
+                        check_id = dates['end_span']
+                        for item in months_ended:
+                            if item.get('start_span') is not None:
+                                start_span = int(item.get('start_span'))
+                                end_span = int(item.get('end_span'))
+                                if check_id >= start_span and check_id <= end_span:
+                                    dates['months_ended'] = item.get('months_ended')
+                        all_dates.append(dates)
+                    else:
+                        date = {}
+                        date['id'] = int(id)
+                        date['date'] = match.group(0)
+                        for item in months_ended:
+                            if item.get('start_span') is not None:
+                                start_span = int(item.get('start_span'))
+                                end_span = int(item.get('end_span'))
+                                if id >= start_span and id <= end_span:
+                                    date['months_ended'] = item.get('months_ended')
+                        all_dates.append(date)
+                        id+=1
+
+            for date in all_dates:
+                print(date)
 
             #CHECK IF THIS STATEMENT IS PARSABLE BECAUSE WE DON'T WANT TO GET THE SHAREHOLDER'S EQUITY
 
@@ -249,13 +268,47 @@ def interParse(filing_index, accession_number, filing_type):
                                 id = 1
                                 #SET ID TO MATCH THE NUMBERS TO THE PROPER YEAR. THE 1: SKIPS OVER THE ENGLISH NAME SO WE CAN ASSIGN THE NUMBERS
                                 for child in children[1:]:
-                                    for item in all_dates:
-                                        if item['id'] == id:
-                                            date = item['date']
-                                            if item.get('months_ended') is not None:
-                                                months_ended = item['months_ended']
+                                    if any('start_span' in d for d in all_dates):
+                                        for item in all_dates:
+                                            #split it further to see if there is id. 0001067701-14-000004 is a good example of when there is id & span mix
+                                            if 'id' in item:
+                                                if item['id'] == id:
+                                                    date = str(item['date'])
+                                                    if item.get('months_ended') is not None:
+                                                        months_ended = str(item['months_ended'])
+                                                        id+=1
+                                                        break
+                                                    else:
+                                                        months_ended = ''
+                                                        id+=1
+                                                        break
+                                            #if not an id do the usual span method
                                             else:
-                                                months_ended = ''
+                                                date = str(item['date'])
+                                                start_span = int(item.get('start_span'))
+                                                end_span = int(item.get('end_span'))
+                                                if id >= start_span and id <= end_span:
+                                                    if item.get('months_ended') is not None:
+                                                        months_ended = str(item['months_ended'])
+                                                        id+=1
+                                                        break
+                                                    else:
+                                                        months_ended = ''
+                                                        id+=1
+                                                        break
+                                    elif any('id' in d for d in all_dates):
+                                        for item in all_dates:
+                                            if item['id'] == id:
+                                                date = str(item['date'])
+                                                if item.get('months_ended') is not None:
+                                                    months_ended = str(item['months_ended'])
+                                                    id+=1
+                                                    break
+                                                else:
+                                                    months_ended = ''
+                                                    id+=1
+                                                    break
+
                                     if child.find('sup') is None and child.find('span') is not None:
                                         dict = {}
                                         dict['member'] = member_header.strip()
@@ -268,9 +321,13 @@ def interParse(filing_index, accession_number, filing_type):
                                         dict['acc_name'] = acc_name.strip()
                                         dict['unit'] = unit.strip()
                                         #print(dict)
+                                        print(dict['eng_name'], dict['value'], dict['date'], dict['months_ended'])
                                         all_dict.append(dict)
-                                        id+=1
+            #for item in all_dict:
+            #    print(item['eng_name'], item['value'], item['date'], item['months_ended'])
             os.remove(filename)
+
+
 
         #XML PARSE SECTION HERE
         elif 'xml' in item['link']:
@@ -366,6 +423,7 @@ def interParse(filing_index, accession_number, filing_type):
                             dict['acc_name'] = acc_name.strip()
                             dict['unit'] = unit.strip()
                             #print(dict)
+                            print(dict['eng_name'], dict['value'], dict['date'], dict['months_ended'])
                             all_dict.append(dict)
             os.remove(filename)
 

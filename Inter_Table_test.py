@@ -23,6 +23,8 @@ cursor = connection.cursor()
 accession_number = '0001193125-12-333937' #footnote one per months
 #accession_number = '0000922864-12-000020' #footnote 2 per months
 
+#accession_number = '0001193125-09-214859' #xml data for apple
+
 scrape_query = "select * from scrape where accession_number = '%s';"%(accession_number)
 print(scrape_query)
 cursor.execute(scrape_query)
@@ -345,7 +347,7 @@ for item in dicts:
         os.remove(filename)
 
 
-'''
+
     #XML PARSE SECTION HERE
     elif 'xml' in item['link']:
         doc_name = str(item.get('name'))
@@ -440,10 +442,11 @@ for item in dicts:
                         dict['acc_name'] = acc_name.strip()
                         dict['unit'] = unit.strip()
                         #print(dict)
+                        print(dict['eng_name'], dict['value'], dict['date'], dict['months_ended'])
                         all_dict.append(dict)
         os.remove(filename)
 
-
+'''
 #store data in POSTGRESQL
 balance_sheet_variations = ['NET ASSET', 'POSITION', 'BALANCE SHEET', 'CONDITION']
 
