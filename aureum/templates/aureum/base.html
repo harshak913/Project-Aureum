@@ -1,8 +1,9 @@
 {% extends 'aureum/index.html' %}
 
 {% block content %}
+  <div class = 'main-fin'>
     <h3>{{ Statement }} Information</h3>
-    <a>In Millions of the reported currency, except per share items.</a>
+    <p>In Millions of the reported currency, except per share items.</p>
     <form id='year-submit' method="GET">
       {% csrf_token %}
       <input type="text" class="sliderValue" name = "yearOne" id="year1" data-index="0" value= {{ Curr_Min }}>
@@ -12,22 +13,24 @@
       <div id="slider" style="width: 80%;"></div>
     </form>
     <p></p>
-    </div>
-    <table>
+    <table class="table table-striped">
     {% regroup Datas|dictsort:"year__year" by year__year as Dates %}
-      <tr>
-        <td>
-        </td>
+      <tr class="text-white">
+        <th style = 'background-color: #2F586E;text-align: center; vertical-align: middle;'>
+          For the Fiscal Period
+        </th>
       {% for Date in Dates %}
-        <td style="text-align: center; vertical-align: middle;">
+        <th style = 'background-color: #2F586E;text-align: center; vertical-align: middle;'>
+          <b>
         {{ Date.grouper }}
-        </td>
+          </b>
+        </th>
       {% endfor %}
       </tr>
       {% regroup Datas|dictsort:"member_position" by member_position as Members %}
         {% for Member in Members %}
-        <tr>
-          <td>
+        <tr class="bg-dark text-white">
+          <td colspan="20">
             <b>
             {{ Member.list.0.member }}
             </b>
@@ -42,10 +45,11 @@
               {% for item in Name.list %}
               <td style="text-align: center; vertical-align: middle;">
                 {{ item.value }}
-               </td>
+              </td>
               {% endfor %}
             </tr>
           {% endfor %}
       {% endfor %}
     </table>
+  </div>
 {% endblock %}
