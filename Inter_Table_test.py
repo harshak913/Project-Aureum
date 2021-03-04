@@ -20,10 +20,23 @@ cursor = connection.cursor()
 #accession_number = '0001193125-19-051943' #control K
 #accession_number = '0001067701-18-000006' #many 3 months K
 #accession_number = '0001067701-14-000004' #many 3 months K with footnotes
-accession_number = '0001193125-12-333937' #footnote one per months
+#accession_number = '0001193125-12-333937' #footnote one per months
 #accession_number = '0000922864-12-000020' #footnote 2 per months
 
-#accession_number = '0001193125-09-214859' #xml data for apple
+#accession_number = '0001590976-18-000071' #small ass boat company with footnote at end of bal
+#cik = '1590976'
+#latter = accession_number
+#report_period = ''
+#filing_type = ''
+
+
+#FOR ALL THOSE THAT ARE INCOMPLETE
+#accession_number = '0001466258-17-000211' #control, 3 statements are in financial statement tab
+#accession_number = '0000874766-14-000007' # 2 financial statement sections and 1 notes contain the main statements
+#accession_number = '0001193125-09-167155' #balance sheet in cover page and cashflow in notes
+#accession_number = '0000935703-20-000006' #2021 format
+accession_number='0000101829-20-000034' #current issues
+print(accession_number)
 
 scrape_query = "select * from scrape where accession_number = '%s';"%(accession_number)
 print(scrape_query)
@@ -64,30 +77,84 @@ with open("%s.htm"%latter, "w") as file:
 print('GETTING THE FINANCIAL STATEMENTS LINK')
 financialStatementsFound = False
 #CHECK THE INTERACTIVE PAGE AND GET THE NUMBER LINKS FOR NOTES AND FINANCIAL STATEMENTS
+balance_sheet_variations = ['NET ASSET', 'POSITION', 'BALANCE SHEET', 'CONDITION']
+
+income_statement_variations = ['EARNING', 'OPERATION', 'INCOME', 'LOSS']
+
+cash_flows_variations = ['CASH FLOW']
+
+non_signs = ['PARENTHETICAL', 'SUPPLEMENTARY', 'TAXES']
+
+#print(all_dict)
+
+income_found = False
+cash_found = False
+balance_found = False
+already_taken = []
+
+
+children = []
 html = open("%s.htm"%latter).read()
 soup = BeautifulSoup(html, features="lxml")
 JS_Portion = soup.find("script", attrs={"type" : 'text/javascript' ,"language" : 'javascript'}).string
-for element in soup.find_all('a'):
+#^ JS_Portion is for later on, don't worry about it
+dicts = []
+for element in soup.find_all('li'):
     if financialStatementsFound != True:
-        if str(element.text).strip() == 'Financial Statements' and element.find_next_sibling('ul') is not None:
-            relevant = element.find_next_sibling('ul')
-            dicts = []
-            children = relevant.findChildren('a')
-            financialStatementsFound = True
+        if element.get('class') is not None:
+            if str(element.get('class')[0]).strip() == 'accordion':
+                if element.get('id') is not None:
+                    print(str(element.text).strip().upper())
+                    child = element.find('a')
+                    #got the child element for the statement and now get the link and name
+                    numbers = {}
+                    number = str(child['href'])
+                    number = number.replace('javascript:loadReport(', '')
+                    number = number.replace(');', '')
+                    numbers['number'] = str(number)
+                    numbers['name'] = str(child.text).strip()
+                    dicts.append(numbers)
+                    statement = str(element.text).strip().upper()
+                    if not any(x in statement.upper() for x in non_signs):
+                        if any(x in statement.upper() for x in cash_flows_variations) and cash_found == False and statement not in already_taken:
+                            true_cash = str(statement)
+                            cash_found = True
+                            already_taken.append(str(statement))
+                            print(statement)
+                            print('CASH FLOW FOUND')
+                        elif any(x in statement.upper() for x in balance_sheet_variations) and balance_found == False and statement not in already_taken:
+                            true_balance = str(statement)
+                            balance_found = True
+                            already_taken.append(str(statement))
+                            print(statement)
+                            print('BALANCE FOUND')
+                        elif any(x in statement.upper() for x in income_statement_variations) and income_found == False and statement not in already_taken:
+                            true_income = str(statement)
+                            income_found = True
+                            already_taken.append(str(statement))
+                            print(statement)
+                            print('INCOME FOUND')
+
+                    if cash_found == True and balance_found == True and income_found == True:
+                        financialStatementsFound = True
+
     else:
         break
-    '''
+'''
     if str(element.text).strip() == 'Notes to Financial Statements' and element.find_next_sibling('ul') is not None:
         john = element.find_next_sibling('ul')
         dict_2 = []
         marks = john.findChildren('a')
     Refer to link bellow to see a case where 'Notes to Financial Statements' comes up twice
-    '''
     #https://www.sec.gov/cgi-bin/viewer?action=view&cik=49826&accession_number=0000049826-16-000151&xbrl_type=v#
 
-print('GETTING THE NAME AND NUMBER FOR THE FINANCIAL REPORTS')
+print('Getting the name and number for the reports')
 #GET THE NAME AND NUMBER FOR THE FINANCIAL REPORTS
+'''
+
+'''
 for child in children:
+    print(child)
     numbers = {}
     number = str(child['href'])
     number = number.replace('javascript:loadReport(', '')
@@ -95,6 +162,7 @@ for child in children:
     numbers['number'] = str(number)
     numbers['name'] = str(child.text).strip()
     dicts.append(numbers)
+'''
 
 reports = []
 #ASSEMBLE THE LIST OF ALL THE POSSIBLE LINKS TO THE ARCHIVE
@@ -118,12 +186,13 @@ all_dict = []
 
 os.remove("%s.htm"%latter)
 
+
 #NOW SAVE THE NOTES OF TO THE FINANCIAL STATEMENTS
 '''
 for item in dict_2:
     if 'htm' in item['link']:
         doc_name = str(item.get('name'))
-        filename = "/Users/octavian/Desktop/HTM/%s/notes/%s.htm"%(latter, doc_name.replace('/', ' '))
+        filename = "%s.htm"%(latter)
         os.makedirs(os.path.dirname(filename), exist_ok=True)
 #        os.makedirs('/Users/octavian/Desktop/XML/%s'%latter)
         report_access = 'https://www.sec.gov%s'%str(item.get('link'))
@@ -144,8 +213,13 @@ for item in dict_2:
         with open(filename, "w") as f:
             f.write(pretty)
 '''
-for item in dicts:
-    print(item)
+
+dummy = dicts.copy()
+dicts = []
+for item in dummy:
+    if item['number'].isdigit():
+        print(item)
+        dicts.append(item)
 #TIME TO PARSE THE ACTUAL FINANCIAL STATEMENTS
 print('TIME TO PARSE THE ACTUAL FINANCIAL STATEMENTS')
 for item in dicts:
@@ -340,7 +414,7 @@ for item in dicts:
                                     dict['acc_name'] = acc_name.strip()
                                     dict['unit'] = unit.strip()
                                     #print(dict)
-                                    print(dict['eng_name'], dict['value'], dict['date'], dict['months_ended'])
+                                    print(dict['eng_name'], dict['value'], dict['date'], dict['months_ended'], dict['unit'])
                                     all_dict.append(dict)
         #for item in all_dict:
         #    print(item['eng_name'], item['value'], item['date'], item['months_ended'])
@@ -446,7 +520,8 @@ for item in dicts:
                         all_dict.append(dict)
         os.remove(filename)
 
-'''
+print('ZOINKS')
+
 #store data in POSTGRESQL
 balance_sheet_variations = ['NET ASSET', 'POSITION', 'BALANCE SHEET', 'CONDITION']
 
@@ -454,27 +529,39 @@ income_statement_variations = ['EARNING', 'OPERATION', 'INCOME', 'LOSS']
 
 cash_flows_variations = ['CASH FLOW']
 
-non_signs = ['PARENTHETICAL', 'SUPPLEMENTARY', 'EQUITY']
+non_signs = ['PARENTHETICAL', 'SUPPLEMENTARY', 'TAXES']
 
+#print(all_dict)
 
 income_found = False
 cash_found = False
 balance_found = False
+already_taken = []
 
 for item in all_dict:
     statement = str(item.get('statement')).replace("'", '').strip()
     if not any(x in statement.upper() for x in non_signs):
-        if any(x in statement.upper() for x in cash_flows_variations) and cash_found == False:
-            true_cash = statement
+        if any(x in statement.upper() for x in cash_flows_variations) and cash_found == False and statement not in already_taken:
+            true_cash = str(statement)
             cash_found = True
-        elif any(x in statement.upper() for x in income_statement_variations) and income_found == False:
-            true_income = statement
-            income_found = True
-        elif any(x in statement.upper() for x in balance_sheet_variations) and balance_found == False:
-            true_balance = statement
+            already_taken.append(str(statement))
+            print(statement)
+            print('CASH FLOW FOUND')
+        elif any(x in statement.upper() for x in balance_sheet_variations) and balance_found == False and statement not in already_taken:
+            true_balance = str(statement)
             balance_found = True
+            already_taken.append(str(statement))
+            print(statement)
+            print('BALANCE FOUND')
+        elif any(x in statement.upper() for x in income_statement_variations) and income_found == False and statement not in already_taken:
+            true_income = str(statement)
+            income_found = True
+            already_taken.append(str(statement))
+            print(statement)
+            print('INCOME FOUND')
 
-
+print(accession_number)
+'''
 for item in all_dict:
     #get the variables for inserting from the item dict
     member = str(item.get('member')).replace("'", '').strip()
@@ -515,12 +602,12 @@ for item in all_dict:
         if any(x in statement.upper() for x in cash_flows_variations) and statement == true_cash:
             print('CASH FLOW')
             statement_insert = 'cash_flow'
-        elif any(x in statement.upper() for x in income_statement_variations) and statement == true_income:
-            print('INCOME STATEMENT')
-            statement_insert = 'income'
         elif any(x in statement.upper() for x in balance_sheet_variations) and statement == true_balance:
             print('BALANCE SHEET')
             statement_insert = 'balance'
+        elif any(x in statement.upper() for x in income_statement_variations) and statement == true_income:
+            print('INCOME STATEMENT')
+            statement_insert = 'income'
         else:
             print('NONSTATEMENT')
             statement_insert = 'non_statement'
@@ -530,10 +617,9 @@ for item in all_dict:
     sql_statement = "INSERT INTO %s (accession_number, member, header, eng_name, acc_name, value, unit, year, statement, report_period, filing_type, months_ended) VALUES('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');"%(statement_insert, accession_number, member, header, eng_name, acc_name, value, unit, year, statement, report_period, filing_type, months_ended)
     try:
         print(sql_statement)
-        #cursor.execute(sql_statement)
+        cursor.execute(sql_statement)
     except:
         continue
 '''
 #print('PROGRAM IS FINISHED')
-
 #print(all_dict)

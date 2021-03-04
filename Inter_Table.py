@@ -45,29 +45,82 @@ def interParse(filing_index, accession_number, filing_type):
     print('GETTING THE FINANCIAL STATEMENTS LINK')
     financialStatementsFound = False
     #CHECK THE INTERACTIVE PAGE AND GET THE NUMBER LINKS FOR NOTES AND FINANCIAL STATEMENTS
+    balance_sheet_variations = ['NET ASSET', 'POSITION', 'BALANCE SHEET', 'CONDITION', 'FINANCIAL STATEMENT']
+
+    income_statement_variations = ['EARNING', 'OPERATION', 'INCOME', 'LOSS']
+
+    cash_flows_variations = ['CASH FLOW']
+
+    non_signs = ['PARENTHETICAL', 'SUPPLEMENTARY', 'TAXES']
+
+    #print(all_dict)
+
+    income_found = False
+    cash_found = False
+    balance_found = False
+    already_taken = []
+
+
+    children = []
     html = open("%s.htm"%latter).read()
     soup = BeautifulSoup(html, features="lxml")
     JS_Portion = soup.find("script", attrs={"type" : 'text/javascript' ,"language" : 'javascript'}).string
-    for element in soup.find_all('a'):
+    #^ JS_Portion is for later on, don't worry about it
+    dicts = []
+    for element in soup.find_all('li'):
         if financialStatementsFound != True:
-            if str(element.text).strip() == 'Financial Statements' and element.find_next_sibling('ul') is not None:
-                relevant = element.find_next_sibling('ul')
-                dicts = []
-                children = relevant.findChildren('a')
-                financialStatementsFound = True
+            if element.get('class') is not None:
+                if str(element.get('class')[0]).strip() == 'accordion':
+                    if element.get('id') is not None:
+                        print(str(element.text).strip().upper())
+                        child = element.find('a')
+                        #got the child element for the statement and now get the link and name
+                        numbers = {}
+                        number = str(child['href'])
+                        number = number.replace('javascript:loadReport(', '')
+                        number = number.replace(');', '')
+                        numbers['number'] = str(number)
+                        numbers['name'] = str(child.text).strip()
+                        dicts.append(numbers)
+                        statement = str(element.text).strip().upper()
+                        if not any(x in statement.upper() for x in non_signs):
+                            if any(x in statement.upper() for x in cash_flows_variations) and cash_found == False and statement not in already_taken:
+                                true_cash = str(statement)
+                                cash_found = True
+                                already_taken.append(str(statement))
+                                print(statement)
+                                print('CASH FLOW FOUND')
+                            elif any(x in statement.upper() for x in balance_sheet_variations) and balance_found == False and statement not in already_taken:
+                                true_balance = str(statement)
+                                balance_found = True
+                                already_taken.append(str(statement))
+                                print(statement)
+                                print('BALANCE FOUND')
+                            elif any(x in statement.upper() for x in income_statement_variations) and income_found == False and statement not in already_taken:
+                                true_income = str(statement)
+                                income_found = True
+                                already_taken.append(str(statement))
+                                print(statement)
+                                print('INCOME FOUND')
+
+                        if cash_found == True and balance_found == True and income_found == True:
+                            financialStatementsFound = True
+
         else:
             break
-        '''
+    '''
         if str(element.text).strip() == 'Notes to Financial Statements' and element.find_next_sibling('ul') is not None:
             john = element.find_next_sibling('ul')
             dict_2 = []
             marks = john.findChildren('a')
         Refer to link bellow to see a case where 'Notes to Financial Statements' comes up twice
-        '''
         #https://www.sec.gov/cgi-bin/viewer?action=view&cik=49826&accession_number=0000049826-16-000151&xbrl_type=v#
 
-    print('GETTING THE NAME AND NUMBER FOR THE FINANCIAL REPORTS')
+    print('Getting the name and number for the reports')
     #GET THE NAME AND NUMBER FOR THE FINANCIAL REPORTS
+    '''
+
+    '''
     for child in children:
         numbers = {}
         number = str(child['href'])
@@ -76,6 +129,7 @@ def interParse(filing_index, accession_number, filing_type):
         numbers['number'] = str(number)
         numbers['name'] = str(child.text).strip()
         dicts.append(numbers)
+    '''
 
     reports = []
     #ASSEMBLE THE LIST OF ALL THE POSSIBLE LINKS TO THE ARCHIVE
@@ -98,6 +152,7 @@ def interParse(filing_index, accession_number, filing_type):
     all_dict = []
 
     os.remove("%s.htm"%latter)
+
 
     #NOW SAVE THE NOTES OF TO THE FINANCIAL STATEMENTS
     '''
@@ -125,8 +180,11 @@ def interParse(filing_index, accession_number, filing_type):
             with open(filename, "w") as f:
                 f.write(pretty)
     '''
-    for item in dicts:
-        print(item)
+    dummy = dicts.copy()
+    dicts = []
+    for item in dummy:
+        if item['number'].isdigit():
+            dicts.append(item)
     #TIME TO PARSE THE ACTUAL FINANCIAL STATEMENTS
     print('TIME TO PARSE THE ACTUAL FINANCIAL STATEMENTS')
     for item in dicts:
@@ -427,34 +485,42 @@ def interParse(filing_index, accession_number, filing_type):
                             all_dict.append(dict)
             os.remove(filename)
 
-
     #store data in POSTGRESQL
-    balance_sheet_variations = ['NET ASSET', 'POSITION', 'BALANCE SHEET', 'CONDITION']
+    balance_sheet_variations = ['NET ASSET', 'POSITION', 'BALANCE SHEET', 'CONDITION', 'FINANCIAL STATEMENT']
 
     income_statement_variations = ['EARNING', 'OPERATION', 'INCOME', 'LOSS']
 
     cash_flows_variations = ['CASH FLOW']
 
-    non_signs = ['PARENTHETICAL', 'SUPPLEMENTARY', 'EQUITY']
+    non_signs = ['PARENTHETICAL', 'SUPPLEMENTARY', 'TAXES']
 
 
     income_found = False
     cash_found = False
     balance_found = False
+    already_taken = []
 
     for item in all_dict:
         statement = str(item.get('statement')).replace("'", '').strip()
         if not any(x in statement.upper() for x in non_signs):
-            if any(x in statement.upper() for x in cash_flows_variations) and cash_found == False:
-                true_cash = statement
+            if any(x in statement.upper() for x in cash_flows_variations) and cash_found == False and statement not in already_taken:
+                true_cash = str(statement)
                 cash_found = True
-            elif any(x in statement.upper() for x in income_statement_variations) and income_found == False:
-                true_income = statement
-                income_found = True
-            elif any(x in statement.upper() for x in balance_sheet_variations) and balance_found == False:
-                true_balance = statement
+                already_taken.append(str(statement))
+                print(statement)
+                print('CASH FLOW FOUND')
+            elif any(x in statement.upper() for x in balance_sheet_variations) and balance_found == False and statement not in already_taken:
+                true_balance = str(statement)
                 balance_found = True
-
+                already_taken.append(str(statement))
+                print(statement)
+                print('BALANCE FOUND')
+            elif any(x in statement.upper() for x in income_statement_variations) and income_found == False and statement not in already_taken:
+                true_income = str(statement)
+                income_found = True
+                already_taken.append(str(statement))
+                print(statement)
+                print('INCOME FOUND')
 
     for item in all_dict:
         #get the variables for inserting from the item dict
