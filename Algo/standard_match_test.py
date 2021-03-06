@@ -36,7 +36,7 @@ def cleaning(value):
     return value
 
 #accession_number = '0000014272-18-000197' #NEG ONE EXAMPLE uses -
-accession_number = "0000104169-18-000028" #This one has Revenue at top and bottom 'balance','cash_flow',
+accession_number = "0001193125-12-333937" #This one has Revenue at top and bottom 'balance','cash_flow',
 tables = ['income']
 numbers_finished = 0
 for table in tables:
@@ -239,7 +239,7 @@ for item in the_end:
 
 
 
-    
+
 """
     line_items = 0
     for item in the_end:

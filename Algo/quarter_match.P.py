@@ -116,7 +116,7 @@ for entry in entries:
     cik = str(entry[0])
     ticker = str(entry[1])
     print(cik)
-    current_year = 2012
+    current_year = 2009
     #years completed =
     scrape_query = "select * from scrape where cik_id = '%s' and year = '%s';"%(cik, current_year)
     print(scrape_query)
@@ -126,17 +126,22 @@ for entry in entries:
     q1 = False
     q2 = False
     q3 = False
+    q4 = True
     for item in filing_entries:
-        if item[7] == 'Q1':
+        if item[7] == 'Q1' and item[6] == 'COMPLETED':
             q1 = True
             print('Q1 TRUE')
-        if item[7] == 'Q2':
+        if item[7] == 'Q2' and item[6] == 'COMPLETED':
             q2 = True
             print('Q2 TRUE')
-        if item[7] == 'Q3':
+        if item[7] == 'Q3' and item[6] == 'COMPLETED':
             q3 = True
             print('Q3 TRUE')
-    if q1 == True and q2 == True and q3 == True:
+        if item[1] == '10-K' and item[6] == 'COMPLETED':
+            q4 = True
+            print('Q4 TRUE')
+
+    if q1 == True and q2 == True and q3 == True and q4 == True:
         print('THIS YEAR HAS ALL 3Qs ACCOUNTED FOR')
         quarter_list = []
         q1_cash = []

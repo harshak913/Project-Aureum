@@ -29,8 +29,8 @@ def cleaning(value):
         value = n_value
     return value
 
-# years completed: 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019
-scrape_query = "select * from scrape where filing_type = '10-K' and inter_or_htm = 'Inter' and year = '2015';"
+# years completed:
+scrape_query = "select * from scrape where filing_type = '10-K' and inter_or_htm = 'Inter' and year = '2020';"
 cursor.execute(scrape_query)
 entries = cursor.fetchall()
 tables = ['balance','cash_flow','income']
@@ -237,7 +237,7 @@ for entry in entries:
             #print(item['standard_name'], item['acc_name'], item['value'], item['current_year'])
             sql_statement = "INSERT INTO %s (accession_number, header, standard_name, eng_name, acc_name, value, unit, year, statement, report_period, filing_type) VALUES('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');"%(statement_insert, accession_number, item['header'], item['standard_name'], item['eng_name'], item['acc_name'], item['value'], item['unit'], item['year'], item['statement'], item['report_period'], item['filing_type'])
             print(sql_statement)
-            #cursor.execute(sql_statement)
+            cursor.execute(sql_statement)
         print('FINAL LINE ITEMS FOR THIS STATEMENT IS: ' +str(line_items))
         print('ITEMS PARSED TO THIS POINT: '+str(numbers_finished))
 
