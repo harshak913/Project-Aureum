@@ -237,7 +237,7 @@ for entry in entries:
             #print(item['standard_name'], item['acc_name'], item['value'], item['current_year'])
             sql_statement = "INSERT INTO %s (accession_number, header, standard_name, eng_name, acc_name, value, unit, year, statement, report_period, filing_type) VALUES('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');"%(statement_insert, accession_number, item['header'], item['standard_name'], item['eng_name'], item['acc_name'], item['value'], item['unit'], item['year'], item['statement'], item['report_period'], item['filing_type'])
             print(sql_statement)
-            cursor.execute(sql_statement)
+            #cursor.execute(sql_statement)
         print('FINAL LINE ITEMS FOR THIS STATEMENT IS: ' +str(line_items))
         print('ITEMS PARSED TO THIS POINT: '+str(numbers_finished))
 

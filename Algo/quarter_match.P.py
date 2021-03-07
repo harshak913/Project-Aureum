@@ -126,7 +126,7 @@ for entry in entries:
     q1 = False
     q2 = False
     q3 = False
-    q4 = True
+    q4 = False
     for item in filing_entries:
         if item[7] == 'Q1' and item[6] == 'COMPLETED':
             q1 = True

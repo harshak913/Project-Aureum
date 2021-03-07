@@ -103,12 +103,18 @@ def quarter_mod(q_current, q_prior):
                     print(item['quarter'],item['standard_name'], item ['value'], item['accession_number'], item['current_year'])
     return(modif_q)
 
+'''
+[{'quarter': 'Q1', 'accession_number': '0001437749-20-010088', 'order': 1}, {'quarter': 'Q2', 'accession_number': '0001437749-20-017012', 'months_ended': '6 Months Ended', 'order': 2}, {'quarter': 'Q3', 'accession_number': '0001437749-20-022728', 'months_ended': '9 Months Ended', 'order': 3}]
+'''
 
 #START OF MAIN PROGRAM BODY
 #Grab company
 scrape_query = "select * from company;"
 cursor.execute(scrape_query)
 entries = cursor.fetchall()
+#cik_breakoff to set for the breakoff period
+cik_breakoff = False
+cik_break = '1396009'
 #Grab CIK number and then connect it to scrape to get 10-Q
 for entry in entries:
     cik = str(entry[0])
@@ -144,7 +150,10 @@ for entry in entries:
                 q4 = True
                 print('Q4 TRUE')
 
-        if q1 == True and q2 == True and q3 == True and q4 == True:
+        if cik == cik_break:
+            cik_breakoff = True
+
+        if q1 == True and q2 == True and q3 == True and q4 == True and cik_breakoff == True:
             print('THIS YEAR HAS ALL 3Qs ACCOUNTED FOR')
             quarter_list = []
             q1_cash = []
@@ -328,6 +337,8 @@ for entry in entries:
                             if not share_check:
                                 print('PRIOR VALUE: ')
                                 print(new['value'])
+                                if not str(new['value']).isdigit(): #new code to account for vulcan miscount
+                                     new['value'] = 0
                                 if unit == 'As Displayed':
                                     n_value = float(new['value'])/1000000
                                 elif unit == 'In Thousands':
