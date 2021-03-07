@@ -35,7 +35,7 @@ cursor = connection.cursor()
 #accession_number = '0000874766-14-000007' # 2 financial statement sections and 1 notes contain the main statements
 #accession_number = '0001193125-09-167155' #balance sheet in cover page and cashflow in notes
 #accession_number = '0000935703-20-000006' #2021 format
-accession_number='0000101829-20-000034' #current issues
+accession_number='0001396009-20-000006' #current issues
 print(accession_number)
 
 scrape_query = "select * from scrape where accession_number = '%s';"%(accession_number)
@@ -329,6 +329,7 @@ for item in dicts:
                     #CHECK THAT THE ROW IS IN FACT A LINE ITEM OR AT LEAST A HEADER
                     if element.find('td') is not None and element.find('td').text.strip() != '':
                         #CHECK IF THIS ITEM HAS A US-GAAP TAG TO MATCH IT
+                        acc_name = ''
                         if element.find('a') is not None and element.find('a').get('onclick') is not None:
                             acc_name = element.find('a').get('onclick').replace("top.Show.showAR( this, 'defref_", '')
                             acc_name = acc_name.split("', window );", 1)[0]
@@ -361,10 +362,44 @@ for item in dicts:
                             id = 1
                             #SET ID TO MATCH THE NUMBERS TO THE PROPER YEAR. THE 1: SKIPS OVER THE ENGLISH NAME SO WE CAN ASSIGN THE NUMBERS
                             for child in children[1:]:
-                                if any('start_span' in d for d in all_dates):
-                                    for item in all_dates:
-                                        #split it further to see if there is id. 0001067701-14-000004 is a good example of when there is id & span mix
-                                        if 'id' in item:
+                                #make sure that the first td isn't a footnote or else it'll mess up the formatting 0001396009-20-000006 is example
+                                footnote1 = False
+                                if child.get('class') is not None:
+                                    if str(child.get('class')[0]) == 'th':
+                                        footnote1 = True
+                                if footnote1 == False:
+                                    #span used for those with spanning dates rather than indiv dates
+                                    if any('start_span' in d for d in all_dates):
+                                        for item in all_dates:
+                                            #split it further to see if there is id. 0001067701-14-000004 is a good example of when there is id & span mix
+                                            if 'id' in item:
+                                                if item['id'] == id:
+                                                    date = str(item['date'])
+                                                    if item.get('months_ended') is not None:
+                                                        months_ended = str(item['months_ended'])
+                                                        id+=1
+                                                        break
+                                                    else:
+                                                        months_ended = ''
+                                                        id+=1
+                                                        break
+                                            #if not an id do the usual span method
+                                            else:
+                                                date = str(item['date'])
+                                                start_span = int(item.get('start_span'))
+                                                end_span = int(item.get('end_span'))
+                                                if id >= start_span and id <= end_span:
+                                                    if item.get('months_ended') is not None:
+                                                        months_ended = str(item['months_ended'])
+                                                        id+=1
+                                                        break
+                                                    else:
+                                                        months_ended = ''
+                                                        id+=1
+                                                        break
+                                    #use this for id only ones
+                                    elif any('id' in d for d in all_dates):
+                                        for item in all_dates:
                                             if item['id'] == id:
                                                 date = str(item['date'])
                                                 if item.get('months_ended') is not None:
@@ -375,47 +410,21 @@ for item in dicts:
                                                     months_ended = ''
                                                     id+=1
                                                     break
-                                        #if not an id do the usual span method
-                                        else:
-                                            date = str(item['date'])
-                                            start_span = int(item.get('start_span'))
-                                            end_span = int(item.get('end_span'))
-                                            if id >= start_span and id <= end_span:
-                                                if item.get('months_ended') is not None:
-                                                    months_ended = str(item['months_ended'])
-                                                    id+=1
-                                                    break
-                                                else:
-                                                    months_ended = ''
-                                                    id+=1
-                                                    break
-                                elif any('id' in d for d in all_dates):
-                                    for item in all_dates:
-                                        if item['id'] == id:
-                                            date = str(item['date'])
-                                            if item.get('months_ended') is not None:
-                                                months_ended = str(item['months_ended'])
-                                                id+=1
-                                                break
-                                            else:
-                                                months_ended = ''
-                                                id+=1
-                                                break
 
-                                if child.find('sup') is None and child.find('span') is not None:
-                                    dict = {}
-                                    dict['member'] = member_header.strip()
-                                    dict['header'] = header.strip()
-                                    dict['eng_name'] = eng_name.strip()
-                                    dict['value'] = child.text.strip()
-                                    dict['date'] = ' '.join(date.split())
-                                    dict['months_ended'] = months_ended
-                                    dict['statement'] = statement_name.strip()
-                                    dict['acc_name'] = acc_name.strip()
-                                    dict['unit'] = unit.strip()
-                                    #print(dict)
-                                    print(dict['eng_name'], dict['value'], dict['date'], dict['months_ended'], dict['unit'])
-                                    all_dict.append(dict)
+                                    if child.find('sup') is None and child.find('span') is not None:
+                                        dict = {}
+                                        dict['member'] = member_header.strip()
+                                        dict['header'] = header.strip()
+                                        dict['eng_name'] = eng_name.strip()
+                                        dict['value'] = child.text.strip()
+                                        dict['date'] = ' '.join(date.split())
+                                        dict['months_ended'] = months_ended
+                                        dict['statement'] = statement_name.strip()
+                                        dict['acc_name'] = acc_name.strip()
+                                        dict['unit'] = unit.strip()
+                                        #print(dict)
+                                        print(dict['eng_name'], dict['value'], dict['date'], dict['months_ended'], dict['unit'], dict['acc_name'] )
+                                        all_dict.append(dict)
         #for item in all_dict:
         #    print(item['eng_name'], item['value'], item['date'], item['months_ended'])
         os.remove(filename)
@@ -560,7 +569,6 @@ for item in all_dict:
             print(statement)
             print('INCOME FOUND')
 
-print(accession_number)
 '''
 for item in all_dict:
     #get the variables for inserting from the item dict
