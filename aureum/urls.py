@@ -6,6 +6,7 @@ urlpatterns = [
     path("income", views.income, name='income'),
     path("balance", views.balance, name='balance'),
     path("cash", views.cash, name='cash'),
+    path("quarter", views.quarter, name='quarter'),
 ]
 
 '''

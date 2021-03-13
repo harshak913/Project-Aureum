@@ -42,7 +42,7 @@ class AuthUser(models.Model):
     last_login = models.DateTimeField(blank=True, null=True)
     is_superuser = models.BooleanField()
     username = models.CharField(unique=True, max_length=150)
-    first_name = models.CharField(max_length=30)
+    first_name = models.CharField(max_length=150)
     last_name = models.CharField(max_length=150)
     email = models.CharField(max_length=254)
     is_staff = models.BooleanField()
@@ -87,6 +87,7 @@ class Balance(models.Model):
     report_period = models.DateField(blank=True, null=True)
     filing_type = models.CharField(max_length=45, blank=True, null=True)
     months_ended = models.CharField(max_length=500, blank=True, null=True)
+    row_order = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -106,6 +107,7 @@ class CashFlow(models.Model):
     report_period = models.DateField(blank=True, null=True)
     filing_type = models.CharField(max_length=45, blank=True, null=True)
     months_ended = models.CharField(max_length=500, blank=True, null=True)
+    row_order = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -193,6 +195,7 @@ class Income(models.Model):
     report_period = models.DateField(blank=True, null=True)
     filing_type = models.CharField(max_length=45, blank=True, null=True)
     months_ended = models.CharField(max_length=500, blank=True, null=True)
+    row_order = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -227,6 +230,16 @@ class NonStatement(models.Model):
         db_table = 'non_statement'
 
 
+class OldStandDict(models.Model):
+    standard_name = models.CharField(max_length=5000, blank=True, null=True)
+    acc_name = models.CharField(max_length=5000, blank=True, null=True)
+    statement = models.CharField(max_length=500, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'old_stand_dict'
+
+
 class Scrape(models.Model):
     cik = models.ForeignKey(Company, models.DO_NOTHING)
     filing_type = models.CharField(max_length=45, blank=True, null=True)
@@ -234,7 +247,7 @@ class Scrape(models.Model):
     file_name = models.CharField(max_length=445, blank=True, null=True)
     accession_number = models.CharField(primary_key=True, max_length=445)
     inter_or_htm = models.CharField(max_length=5, blank=True, null=True)
-    status = models.CharField(max_length=10, blank=True, null=True)
+    status = models.CharField(max_length=11, blank=True, null=True)
     quarter = models.CharField(max_length=50, blank=True, null=True)
 
     class Meta:
@@ -254,6 +267,7 @@ class StandardBalance(models.Model):
     statement = models.CharField(max_length=500, blank=True, null=True)
     report_period = models.DateField(blank=True, null=True)
     filing_type = models.CharField(max_length=45, blank=True, null=True)
+    quarter = models.CharField(max_length=10, blank=True, null=True)
 
     class Meta:
         managed = False
@@ -272,6 +286,7 @@ class StandardCash(models.Model):
     statement = models.CharField(max_length=500, blank=True, null=True)
     report_period = models.DateField(blank=True, null=True)
     filing_type = models.CharField(max_length=45, blank=True, null=True)
+    quarter = models.CharField(max_length=10, blank=True, null=True)
 
     class Meta:
         managed = False
@@ -300,6 +315,7 @@ class StandardIncome(models.Model):
     statement = models.CharField(max_length=500, blank=True, null=True)
     report_period = models.DateField(blank=True, null=True)
     filing_type = models.CharField(max_length=45, blank=True, null=True)
+    quarter = models.CharField(max_length=10, blank=True, null=True)
 
     class Meta:
         managed = False

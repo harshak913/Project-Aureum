@@ -105,6 +105,49 @@ def year_cleanup(data_set, all_years):
 
     return final_set
 
+#JUST USED TO CLEANUP BLANK YEAR SPOTS IN THE QUARTER DATAS
+def quarter_cleanup(currstatement, orders):
+    final_set = []
+    statements = []
+    dates = []
+    #duplicate data
+    for item in currstatement:
+        statements.append(item)
+        final_set.append(item)
+
+    for item in orders:
+        dates.append(item)
+    k = itemgetter('standard_name')
+    #get the one with most recent report year and year
+    i = groupby(sorted(statements, key=k), key=k)
+    for key, statements in i:
+        year_list = []
+        indiv_dates = []
+        #create new list for all dates
+        for date in dates:
+            indiv_dates.append(date)
+        template = {}
+        #check if the years are accounted for
+        for item in statements:
+            #print(itemgetter('year__year')(mark))
+            if itemgetter('order')(item) in indiv_dates:
+                #if year is accounted delete from indiv_dates
+                indiv_dates.remove(itemgetter('order')(item))
+                template = item.copy()
+        #if indiv_dates is not empty, there are unaccounted for years
+        if indiv_dates:
+            for item in indiv_dates:
+                smith = template.copy()
+                smith['order'] = item
+                smith['value'] = '-'
+                smith['eng_name'] = 'N/A'
+                #print(smith)
+                final_set.append(smith)
+
+    final_set = sorted(final_set, key=lambda k: k['order'])
+
+    return final_set
+
 ASSETS = [{'member': 'ASSETS', 'position': 0, 'item': 'Cash And Equivalents'}, {'member': 'ASSETS', 'position': 1, 'item': 'Restricted Cash'}, {'member': 'ASSETS', 'position': 2, 'item': 'Short Term Investments'}, {'member': 'ASSETS', 'position': 3, 'item': 'Trading Asset Securities'}, {'member': 'ASSETS', 'position': 4, 'item': 'Total Cash & ST Investments'}, {'member': 'ASSETS', 'position': 5, 'item': 'Accounts Receivable'}, {'member': 'ASSETS', 'position': 6, 'item': 'Notes Receivable'}, {'member': 'ASSETS', 'position': 7, 'item': 'Other Receivables'}, {'member': 'ASSETS', 'position': 8, 'item': 'Total Receivables'}, {'member': 'ASSETS', 'position': 9, 'item': 'Inventory'}, {'member': 'ASSETS', 'position': 10, 'item': 'Deferred Tax Assets, Curr.'}, {'member': 'ASSETS', 'position': 11, 'item': 'Other Current Assets'}, {'member': 'ASSETS', 'position': 12, 'item': 'Total Current Assets'}, {'member': 'ASSETS', 'position': 13, 'item': 'Gross Property, Plant & Equipment'}, {'member': 'ASSETS', 'position': 14, 'item': 'Accumulated Depreciation'}, {'member': 'ASSETS', 'position': 15, 'item': 'Net Property, Plant & Equipment'}, {'member': 'ASSETS', 'position': 16, 'item': 'Long-term Investments'}, {'member': 'ASSETS', 'position': 17, 'item': 'Goodwill'}, {'member': 'ASSETS', 'position': 18, 'item': 'Other Intangibles'}, {'member': 'ASSETS', 'position': 19, 'item': 'Deferred Tax Assets, LT'}, {'member': 'ASSETS', 'position': 20, 'item': 'Other Long-Term Assets'}, {'member': 'ASSETS', 'position': 21, 'item': 'Total Assets'}]
 
 LIABILITIES = [{'member': 'LIABILITIES', 'position': 0, 'item': 'Accounts Payable'}, {'member': 'LIABILITIES', 'position': 1, 'item': 'Accrued Exp.'}, {'member': 'LIABILITIES', 'position': 2, 'item': 'Short-term Borrowings'}, {'member': 'LIABILITIES', 'position': 3, 'item': 'Curr. Port. of LT Debt'}, {'member': 'LIABILITIES', 'position': 4, 'item': 'Curr. Income Taxes Payable'}, {'member': 'LIABILITIES', 'position': 5, 'item': 'Unearned Revenue, Current'}, {'member': 'LIABILITIES', 'position': 6, 'item': 'Interest Capitalized'}, {'member': 'LIABILITIES', 'position': 7, 'item': 'Other Current Liabilities'}, {'member': 'LIABILITIES', 'position': 8, 'item': 'Total Current Liabilities'}, {'member': 'LIABILITIES', 'position': 9, 'item': 'Long-Term Debt'}, {'member': 'LIABILITIES', 'position': 10, 'item': 'Capital Leases'}, {'member': 'LIABILITIES', 'position': 11, 'item': 'Unearned Revenue, Non-Current'}, {'member': 'LIABILITIES', 'position': 12, 'item': 'Def. Tax Liability, Non-Curr.'}, {'member': 'LIABILITIES', 'position': 13, 'item': 'Other Non-Current Liabilities'}, {'member': 'LIABILITIES', 'position': 14, 'item': 'Total Liabilities'}, {'member': 'LIABILITIES', 'position': 15, 'item': 'Common Stock'}, {'member': 'LIABILITIES', 'position': 16, 'item': 'Additional Paid In Capital'}, {'member': 'LIABILITIES', 'position': 17, 'item': 'Retained Earnings'}, {'member': 'LIABILITIES', 'position': 18, 'item': 'Treasury Stock'}, {'member': 'LIABILITIES', 'position': 19, 'item': 'Comprehensive Inc. and Other'}, {'member': 'LIABILITIES', 'position': 21, 'item': 'Total Shares Out.'}, {'member': 'LIABILITIES', 'position': 22, 'item': 'Total Equity'}, {'member': 'LIABILITIES', 'position': 23, 'item': 'Total Liabilities And Equity'}]
@@ -119,7 +162,7 @@ INVESTING_ACTIVIES = [{'member': 'INVESTING ACTIVIES', 'position': 0, 'item': 'C
 
 FINANCING_ACTIVITIES = [{'member': 'FINANCING ACTIVITIES', 'position': 0, 'item': 'Short Term Debt Issued'}, {'member': 'FINANCING ACTIVITIES', 'position': 1, 'item': 'Long-Term Debt Issued'}, {'member': 'FINANCING ACTIVITIES', 'position': 2, 'item': 'Total Debt Issued'}, {'member': 'FINANCING ACTIVITIES', 'position': 3, 'item': 'Short Term Debt Repaid'}, {'member': 'FINANCING ACTIVITIES', 'position': 4, 'item': 'Long-Term Debt Repaid'}, {'member': 'FINANCING ACTIVITIES', 'position': 5, 'item': 'Total Debt Repaid'}, {'member': 'FINANCING ACTIVITIES', 'position': 6, 'item': 'Repurchase of Common Stock'}, {'member': 'FINANCING ACTIVITIES', 'position': 7, 'item': 'Issuance of Common Stock'}, {'member': 'FINANCING ACTIVITIES', 'position': 8, 'item': 'Common Dividends Paid'}, {'member': 'FINANCING ACTIVITIES', 'position': 9, 'item': 'Total Dividends Paid'}, {'member': 'FINANCING ACTIVITIES', 'position': 10, 'item': 'Special Dividend Paid'}, {'member': 'FINANCING ACTIVITIES', 'position': 11, 'item': 'Other Financing Activities'}, {'member': 'FINANCING ACTIVITIES', 'position': 12, 'item': 'Cash from Financing'}, {'member': 'FINANCING ACTIVITIES', 'position': 14, 'item': 'Net Change in Cash'}]
 
-
+#sorts the data from each sheet based on their order for the 3 different statements
 def sorter(data_set, statement):
     total_count1 = 0
     total_count2 = 0
@@ -196,6 +239,7 @@ def sorter(data_set, statement):
     return copy
     #elif statement == 'balance':
     #elif statement == 'income':
+#grabs company related news from finviz - need to replace with something that doesn't rely on other company's data
 '''
 def company_news(ticker):
     URL="https://finviz.com/quote.ashx?t=%s"%(ticker)
@@ -264,6 +308,8 @@ for url in urls:
 
 
 #END OF REORGANAZTION
+
+#Grab all the companies and insert them into the autocomplete
 new_list = Company.objects.values('name', 'ticker', 'cik')
 list = []
 for item in new_list:
@@ -271,8 +317,20 @@ for item in new_list:
     list.append(item['ticker'])
 companies = json.dumps(list)
 
-#print('ZOO WEE MAMA')
-#print(CashFlow.objects.values('year__year').filter(accession_number__in=['0001393612-12-000008', '0001193125-11-014919', '0001393612-16-000059', '0001393612-13-000004', '0001393612-14-000012', '0001393612-15-000007', '0001393612-17-000012', '0001393612-18-000012', '0001393612-19-000011']).distinct())
+
+theStatement = Income.objects.values('member','header','eng_name', 'value', 'acc_name','year__year').filter(accession_number = '0001193125-12-444068')
+#print(theStatement)
+for item in theStatement:
+    print(item['eng_name'],item['acc_name'], item['year__year'], item['value'])
+
+k = itemgetter('member','header')
+#get the one with most recent report year and year
+final_list = []
+i = groupby(sorted(theStatement, key=k), key=k)
+for key, theStatement in i:
+    for item in theStatement:
+        print(key, item)
+#START OF THE DISPLAYS DO NOT TOUCH UNLESS YOU KNOW WHAT THE FUCK IS GOING ON
 
 def home(request):
     context = {
@@ -361,6 +419,8 @@ def income(request):
     search = request.GET.get('search')
     year1 = request.GET.get('yearOne')
     year2 = request.GET.get('yearTwo')
+    print(request.GET.get('display-option'))
+    print('DISPLAY OPTION HERE')
     if request.GET.get('search') is not None:
         request.session['search'] = search
     else:
@@ -466,7 +526,81 @@ def cash(request):
     return render(request, 'aureum/base.html', context)
 
 
+def quarter(request):
+    ciks = Company.objects.values('cik').filter(name='APPLE INC.')
+    for item in ciks:
+        cik = item['cik']
+    filings = ['10-Q', '10-K']
+    accessions = Scrape.objects.values('accession_number').filter(cik=cik, filing_type__in=filings)
+    access = []
+    for accession in accessions:
+        access.append(accession['accession_number'])
+    #Grab the years from the database but only those with quarter tags
+    quarters = ['Q1', 'Q2', 'Q3', 'Q4']
+    years = StandardIncome.objects.values('year__year', 'quarter').filter(accession_number__in = access, quarter__in = quarters).distinct()
+    i=1
+    #time to create the order to make it easier for me to fill in the gap years for line items and help display ease
+    order_list = []
+    for item in years:
+        item['order'] = i
+        print(item)
+        order_list.append(i)
+        i+=1
+    #grab all the data based on the accession numbers you grabbed and the quarter fields
+    theStatement = StandardIncome.objects.values('standard_name', 'value','year__year', 'quarter').filter(accession_number__in = access, quarter__in = quarters).distinct()
+
+    for item in theStatement:
+        for year in years:
+            if item['year__year'] == year['year__year'] and item['quarter'] == year['quarter']:
+                item['order'] = year['order']
+
+    revisedQuarter = quarter_cleanup(theStatement, order_list)
+    finStatement = sorter(revisedQuarter, 'income')
+    for item in finStatement:
+        print(item)
+    #SEE IF THERE IS YEAR REQUEST
+    context = {
+        'Datas': finStatement,
+        'Quarters': years,
+        'Statement': 'Quarter'
+        }
+    return render(request, 'aureum/quarter.html', context)
+
+
 '''
+
+
+#QUARTER DATA TESTING STARTS HERE
+ciks = Company.objects.values('cik').filter(name='ZIMMER BIOMET HOLDINGS, INC.')
+for item in ciks:
+    cik = item['cik']
+filings = ['10-Q', '10-K']
+accessions = Scrape.objects.values('accession_number').filter(cik=cik, filing_type__in=filings)
+access = []
+for accession in accessions:
+    access.append(accession['accession_number'])
+#Grab the years from the database but only those with quarter tags
+quarters = ['Q1', 'Q2', 'Q3', 'Q4']
+years = StandardIncome.objects.values('year__year', 'quarter').filter(accession_number__in = access, quarter__in = quarters).distinct()
+i=1
+#time to create the order to make it easier for me to fill in the gap years for line items and help display ease
+order_list = []
+for item in years:
+    item['order'] = i
+    print(item)
+    order_list.append(i)
+    i+=1
+#grab all the data based on the accession numbers you grabbed and the quarter fields
+theStatement = StandardIncome.objects.values('standard_name', 'value','year__year', 'quarter').filter(accession_number__in = access, quarter__in = quarters).distinct()
+
+for item in theStatement:
+    for year in years:
+        if item['year__year'] == year['year__year'] and item['quarter'] == year['quarter']:
+            item['order'] = year['order']
+
+revisedQuarter = quarter_cleanup(theStatement, order_list)
+#End of quarter testing
+
 ASSETS = [{'member': 'ASSETS', 'position': 0, 'item': 'Cash And Equivalents'}, {'member': 'ASSETS', 'position': 1, 'item': 'Restricted Cash'}, {'member': 'ASSETS', 'position': 2, 'item': 'Short Term Investments'}, {'member': 'ASSETS', 'position': 3, 'item': 'Trading Asset Securities'}, {'member': 'ASSETS', 'position': 4, 'item': 'Total Cash & ST Investments'}, {'member': 'ASSETS', 'position': 5, 'item': 'Accounts Receivable'}, {'member': 'ASSETS', 'position': 6, 'item': 'Notes Receivable'}, {'member': 'ASSETS', 'position': 7, 'item': 'Other Receivables'}, {'member': 'ASSETS', 'position': 8, 'item': 'Total Receivables'}, {'member': 'ASSETS', 'position': 9, 'item': 'Inventory'}, {'member': 'ASSETS', 'position': 10, 'item': 'Deferred Tax Assets, Curr.'}, {'member': 'ASSETS', 'position': 11, 'item': 'Other Current Assets'}, {'member': 'ASSETS', 'position': 12, 'item': 'Total Current Assets'}, {'member': 'ASSETS', 'position': 13, 'item': 'Gross Property, Plant & Equipment'}, {'member': 'ASSETS', 'position': 14, 'item': 'Accumulated Depreciation'}, {'member': 'ASSETS', 'position': 15, 'item': 'Net Property, Plant & Equipment'}, {'member': 'ASSETS', 'position': 16, 'item': 'Long-term Investments'}, {'member': 'ASSETS', 'position': 17, 'item': 'Goodwill'}, {'member': 'ASSETS', 'position': 18, 'item': 'Other Intangibles'}, {'member': 'ASSETS', 'position': 19, 'item': 'Deferred Tax Assets, LT'}, {'member': 'ASSETS', 'position': 20, 'item': 'Other Long-Term Assets'}, {'member': 'ASSETS', 'position': 21, 'item': 'Total Assets'}]
 
 LIABILITIES = [{'member': 'LIABILITIES', 'position': 0, 'item': 'Accounts Payable'}, {'member': 'LIABILITIES', 'position': 1, 'item': 'Accrued Exp.'}, {'member': 'LIABILITIES', 'position': 2, 'item': 'Short-term Borrowings'}, {'member': 'LIABILITIES', 'position': 3, 'item': 'Curr. Port. of LT Debt'}, {'member': 'LIABILITIES', 'position': 4, 'item': 'Curr. Income Taxes Payable'}, {'member': 'LIABILITIES', 'position': 5, 'item': 'Unearned Revenue, Current'}, {'member': 'LIABILITIES', 'position': 6, 'item': 'Interest Capitalized'}, {'member': 'LIABILITIES', 'position': 7, 'item': 'Other Current Liabilities'}, {'member': 'LIABILITIES', 'position': 8, 'item': 'Total Current Liabilities'}, {'member': 'LIABILITIES', 'position': 9, 'item': 'Long-Term Debt'}, {'member': 'LIABILITIES', 'position': 10, 'item': 'Capital Leases'}, {'member': 'LIABILITIES', 'position': 11, 'item': 'Unearned Revenue, Non-Current'}, {'member': 'LIABILITIES', 'position': 12, 'item': 'Def. Tax Liability, Non-Curr.'}, {'member': 'LIABILITIES', 'position': 13, 'item': 'Other Non-Current Liabilities'}, {'member': 'LIABILITIES', 'position': 14, 'item': 'Total Liabilities'}, {'member': 'LIABILITIES', 'position': 15, 'item': 'Common Stock'}, {'member': 'LIABILITIES', 'position': 16, 'item': 'Additional Paid In Capital'}, {'member': 'LIABILITIES', 'position': 17, 'item': 'Retained Earnings'}, {'member': 'LIABILITIES', 'position': 18, 'item': 'Treasury Stock'}, {'member': 'LIABILITIES', 'position': 19, 'item': 'Comprehensive Inc. and Other'}, {'member': 'LIABILITIES', 'position': 20, 'item': 'Total Common Equity'}, {'member': 'LIABILITIES', 'position': 21, 'item': 'Total Shares Out.'}, {'member': 'LIABILITIES', 'position': 22, 'item': 'Total Equity'}, {'member': 'LIABILITIES', 'position': 23, 'item': 'Total Liabilities And Equity'}]
@@ -480,4 +614,82 @@ OPERATING_ACTIVITY = [{'member': 'OPERATING ACTIVITY', 'position': 0, 'item': 'N
 INVESTING_ACTIVIES = [{'member': 'INVESTING ACTIVIES', 'position': 0, 'item': 'Capital Expenditure'}, {'member': 'INVESTING ACTIVIES', 'position': 1, 'item': 'Cash Acquisitions'}, {'member': 'INVESTING ACTIVIES', 'position': 2, 'item': 'Divestitures'}, {'member': 'INVESTING ACTIVIES', 'position': 3, 'item': 'Purchase of Marketable Equity Securities'}, {'member': 'INVESTING ACTIVIES', 'position': 4, 'item': 'Sale of Marketable Equity Securities'}, {'member': 'INVESTING ACTIVIES', 'position': 5, 'item': 'Net (Inc.) Dec. in Loans Originated/Sold'}, {'member': 'INVESTING ACTIVIES', 'position': 6, 'item': 'Other Investing Activities'}, {'member': 'INVESTING ACTIVIES', 'position': 7, 'item': 'Cash from Investing'}]
 
 FINANCING_ACTIVITIES = [{'member': 'FINANCING ACTIVITIES', 'position': 0, 'item': 'Short Term Debt Issued'}, {'member': 'FINANCING ACTIVITIES', 'position': 1, 'item': 'Long-Term Debt Issued'}, {'member': 'FINANCING ACTIVITIES', 'position': 2, 'item': 'Total Debt Issued'}, {'member': 'FINANCING ACTIVITIES', 'position': 3, 'item': 'Short Term Debt Repaid'}, {'member': 'FINANCING ACTIVITIES', 'position': 4, 'item': 'Long-Term Debt Repaid'}, {'member': 'FINANCING ACTIVITIES', 'position': 5, 'item': 'Total Debt Repaid'}, {'member': 'FINANCING ACTIVITIES', 'position': 6, 'item': 'Repurchase of Common Stock'}, {'member': 'FINANCING ACTIVITIES', 'position': 7, 'item': 'Issuance of Common Stock'}, {'member': 'FINANCING ACTIVITIES', 'position': 8, 'item': 'Common Dividends Paid'}, {'member': 'FINANCING ACTIVITIES', 'position': 9, 'item': 'Total Dividends Paid'}, {'member': 'FINANCING ACTIVITIES', 'position': 10, 'item': 'Special Dividend Paid'}, {'member': 'FINANCING ACTIVITIES', 'position': 11, 'item': 'Other Financing Activities'}, {'member': 'FINANCING ACTIVITIES', 'position': 12, 'item': 'Cash from Financing'}, {'member': 'FINANCING ACTIVITIES', 'position': 13, 'item': 'Foreign Exchange Rate Adj.'}, {'member': 'FINANCING ACTIVITIES', 'position': 14, 'item': 'Net Change in Cash'}]
+
+
+#FOR WHEN WE CAN GET ALL DATA FROM FORMS SUBMITTED
+def statements(request):
+    #need to get form data: display(quarter, annual), statement(inc, bal, cash), search)(company),years(min year max year)
+    #statement = request.GET.get('statement')
+    #display = request.GET.get('display')
+    search = request.GET.get('search')
+    year1 = request.GET.get('yearOne')
+    year2 = request.GET.get('yearTwo')
+    if request.GET.get('search') is not None:
+        request.session['search'] = search
+    else:
+        search = request.session['search']
+    #GET THE CIK AND CORESSPONDING ACCESSION NUMBERS
+    ciks = Company.objects.values('cik').filter(name=search)
+    for item in ciks:
+        cik = item['cik']
+    #filter down the right accession numbers
+    if display == 'annual':
+        accessions = Scrape.objects.values('accession_number').filter(cik=cik, filing_type='10-K')
+    elif display == 'quarter':
+    access = []
+    for accession in accessions:
+        access.append(accession['accession_number'])
+    #Get Max and Min Year from the different compiled statements
+    if statement == 'income':
+        if display == 'annual':
+            state_years = StandardIncome.objects.values('year__year').filter(accession_number__in=access).distinct().order_by('year__year')
+        #elif display == 'quarter':
+    elif statement == 'cash_flow':
+        state_years = StandardCash.objects.values('year__year').filter(accession_number__in=access).distinct().order_by('year__year')
+    elif statement == 'balance':
+        state_years = StandardBalance.objects.values('year__year').filter(accession_number__in=access).distinct().order_by('year__year')
+
+    #see what the displayed curr min max is
+    new_state_year = []
+    for item in state_years:
+        new_state_year.append(item['year__year'])
+    state_min = min(new_state_year)
+    state_max = max(new_state_year)
+    if year1 is not None:
+        curr_min = year1
+        curr_max = year2
+        newest = []
+        for item in new_state_year:
+            if int(curr_min) <= int(item) <= int(curr_max):
+                newest.append(item)
+        new_state_year = newest
+    else:
+        curr_min = min(new_state_year)
+        curr_max = max(new_state_year)
+    #FILTER FINANCIAL STATEMENTS BASED ON ACCESSION NUMBERS NOW and FILL IN THE BLANKS
+    if statement == 'income':
+        if display == 'annual':
+            state_years = StandardIncome.objects.values('year__year').filter(accession_number__in=access).distinct().order_by('year__year')
+        #elif display == 'quarter':
+    elif statement == 'cash_flow':
+        state_years = StandardCash.objects.values('year__year').filter(accession_number__in=access).distinct().order_by('year__year')
+    elif statement == 'balance':
+        state_years = StandardBalance.objects.values('year__year').filter(accession_number__in=access).distinct().order_by('year__year')
+
+    theStatement = StandardIncome.objects.values('header', 'standard_name', 'eng_name', 'acc_name', 'value', 'unit', 'year__year', 'statement', 'report_period', 'filing_type', 'accession_number').filter(accession_number__in = access).distinct()
+    finStatement = standardization(theStatement, curr_min, curr_max)
+    finStatement = year_cleanup(finStatement, new_state_year)
+    finStatement = sorter(finStatement, 'income')
+    #SEE IF THERE IS YEAR REQUEST
+    context = {
+        'Datas': finStatement,
+        'Max': state_max,
+        'Min': state_min,
+        'Curr_Max': curr_max,
+        'Curr_Min': curr_min,
+        'Company': search,
+        'Companies': companies,
+        'Statement':
+    }
+    return render(request, 'aureum/base.html', context)
 '''

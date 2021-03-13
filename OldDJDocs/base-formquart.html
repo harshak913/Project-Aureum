@@ -4,15 +4,14 @@
   <div class = 'main-fin'>
     <h3>{{ Statement }} Information</h3>
     <p>In Millions of the reported currency, except per share items.</p>
-    <div class="dropdown">
-      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Display Options
-      </button>
-      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <a class="dropdown-item" href="#">Annual</a>
-        <a class="dropdown-item" href="/quarter">Quarter</a>
-      </div>
-    </div>
+    <form action="/income" id='display' method="GET">
+      <label>Choose a Display Format:</label>
+      <select id="options">
+        <option value="Annual" name = "display-one">Annual</option>
+        <option value="Quarterly" name = "display-two">Quarterly</option>
+      </select>
+      <input type="submit">
+    </form>
     <p></p>
     <form id='year-submit' method="GET">
       {% csrf_token %}

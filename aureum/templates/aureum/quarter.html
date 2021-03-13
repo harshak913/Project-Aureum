@@ -24,23 +24,21 @@
     </form>
     <p></p>
     <table class="table table-striped">
-    {% regroup Datas|dictsort:"year__year" by year__year as Dates %}
       <tr class="text-white">
         <th style = 'background-color: #2F586E;text-align: center; vertical-align: middle;'>
           For the Fiscal Period
         </th>
-      {% for Date in Dates %}
+      {% for Quarter in Quarters %}
         <th style = 'background-color: #2F586E;text-align: center; vertical-align: middle;'>
           <b>
-        {{ Date.grouper }}
+        {{ Quarter.year__year }} {{ Quarter.quarter }}
           </b>
         </th>
       {% endfor %}
-      </tr>
       {% regroup Datas|dictsort:"member_position" by member_position as Members %}
         {% for Member in Members %}
         <tr class="bg-dark text-white">
-          <td colspan="20">
+          <td colspan="100">
             <b>
             {{ Member.list.0.member }}
             </b>
@@ -52,7 +50,7 @@
               <td>
               {{ Name.list.0.standard_name }}
               </td>
-              {% for item in Name.list %}
+              {% for item in Name.list|dictsort:"order" %}
               <td style="text-align: center; vertical-align: middle;">
                 {{ item.value }}
               </td>
