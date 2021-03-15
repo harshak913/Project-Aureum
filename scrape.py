@@ -53,8 +53,8 @@ def check_if_incomplete(accession_number):
 
     return (len(balance_entry) == 0 or len(income_entry) == 0 or len(cash_flow_entry) == 0)
 
-#run for just 2009
-years = list(range(2009, 2010))
+#run for just 2009 range(2009, 2010)
+years = list(range(2020, 2021))
 
 #total count to keep track of how many files we've gone through
 total_count = 0

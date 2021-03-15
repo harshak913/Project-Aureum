@@ -45,29 +45,82 @@ def interParse(filing_index, accession_number, filing_type):
     print('GETTING THE FINANCIAL STATEMENTS LINK')
     financialStatementsFound = False
     #CHECK THE INTERACTIVE PAGE AND GET THE NUMBER LINKS FOR NOTES AND FINANCIAL STATEMENTS
+    balance_sheet_variations = ['NET ASSET', 'POSITION', 'BALANCE SHEET', 'CONDITION', 'FINANCIAL STATEMENT']
+
+    income_statement_variations = ['EARNING', 'OPERATION', 'INCOME', 'LOSS']
+
+    cash_flows_variations = ['CASH FLOW']
+
+    non_signs = ['PARENTHETICAL', 'SUPPLEMENTARY', 'TAXES']
+
+    #print(all_dict)
+
+    income_found = False
+    cash_found = False
+    balance_found = False
+    already_taken = []
+
+
+    children = []
     html = open("%s.htm"%latter).read()
     soup = BeautifulSoup(html, features="lxml")
     JS_Portion = soup.find("script", attrs={"type" : 'text/javascript' ,"language" : 'javascript'}).string
-    for element in soup.find_all('a'):
+    #^ JS_Portion is for later on, don't worry about it
+    dicts = []
+    for element in soup.find_all('li'):
         if financialStatementsFound != True:
-            if str(element.text).strip() == 'Financial Statements' and element.find_next_sibling('ul') is not None:
-                relevant = element.find_next_sibling('ul')
-                dicts = []
-                children = relevant.findChildren('a')
-                financialStatementsFound = True
+            if element.get('class') is not None:
+                if str(element.get('class')[0]).strip() == 'accordion':
+                    if element.get('id') is not None:
+                        print(str(element.text).strip().upper())
+                        child = element.find('a')
+                        #got the child element for the statement and now get the link and name
+                        numbers = {}
+                        number = str(child['href'])
+                        number = number.replace('javascript:loadReport(', '')
+                        number = number.replace(');', '')
+                        numbers['number'] = str(number)
+                        numbers['name'] = str(child.text).strip()
+                        dicts.append(numbers)
+                        statement = str(element.text).strip().upper()
+                        if not any(x in statement.upper() for x in non_signs):
+                            if any(x in statement.upper() for x in cash_flows_variations) and cash_found == False and statement not in already_taken:
+                                true_cash = str(statement)
+                                cash_found = True
+                                already_taken.append(str(statement))
+                                print(statement)
+                                print('CASH FLOW FOUND')
+                            elif any(x in statement.upper() for x in balance_sheet_variations) and balance_found == False and statement not in already_taken:
+                                true_balance = str(statement)
+                                balance_found = True
+                                already_taken.append(str(statement))
+                                print(statement)
+                                print('BALANCE FOUND')
+                            elif any(x in statement.upper() for x in income_statement_variations) and income_found == False and statement not in already_taken:
+                                true_income = str(statement)
+                                income_found = True
+                                already_taken.append(str(statement))
+                                print(statement)
+                                print('INCOME FOUND')
+
+                        if cash_found == True and balance_found == True and income_found == True:
+                            financialStatementsFound = True
+
         else:
             break
-        '''
+    '''
         if str(element.text).strip() == 'Notes to Financial Statements' and element.find_next_sibling('ul') is not None:
             john = element.find_next_sibling('ul')
             dict_2 = []
             marks = john.findChildren('a')
         Refer to link bellow to see a case where 'Notes to Financial Statements' comes up twice
-        '''
         #https://www.sec.gov/cgi-bin/viewer?action=view&cik=49826&accession_number=0000049826-16-000151&xbrl_type=v#
 
-    print('GETTING THE NAME AND NUMBER FOR THE FINANCIAL REPORTS')
+    print('Getting the name and number for the reports')
     #GET THE NAME AND NUMBER FOR THE FINANCIAL REPORTS
+    '''
+
+    '''
     for child in children:
         numbers = {}
         number = str(child['href'])
@@ -76,6 +129,7 @@ def interParse(filing_index, accession_number, filing_type):
         numbers['number'] = str(number)
         numbers['name'] = str(child.text).strip()
         dicts.append(numbers)
+    '''
 
     reports = []
     #ASSEMBLE THE LIST OF ALL THE POSSIBLE LINKS TO THE ARCHIVE
@@ -98,6 +152,7 @@ def interParse(filing_index, accession_number, filing_type):
     all_dict = []
 
     os.remove("%s.htm"%latter)
+
 
     #NOW SAVE THE NOTES OF TO THE FINANCIAL STATEMENTS
     '''
@@ -125,8 +180,11 @@ def interParse(filing_index, accession_number, filing_type):
             with open(filename, "w") as f:
                 f.write(pretty)
     '''
-    for item in dicts:
-        print(item)
+    dummy = dicts.copy()
+    dicts = []
+    for item in dummy:
+        if item['number'].isdigit():
+            dicts.append(item)
     #TIME TO PARSE THE ACTUAL FINANCIAL STATEMENTS
     print('TIME TO PARSE THE ACTUAL FINANCIAL STATEMENTS')
     for item in dicts:
@@ -163,44 +221,63 @@ def interParse(filing_index, accession_number, filing_type):
             #NOW GET THE DATES
             all_dates = []
             ones = soup.find_all('th')
-            id = 1
             member_header = ''
             header = ''
             months_ended = []
-            extension = 0
-            col_id = 1
+            extension = 1
+            #this for loop gets the proper span lengths for the months ended
             for one in ones:
                 l = one.text.strip()
                 if re.search('months ended', l, re.IGNORECASE) is not None:
                     months = {}
-                    if one.has_attr('colspan') and col_id==1:
+                    if one.has_attr('colspan'):
                         col = int(one.get('colspan'))
-                        months['start_span'] = extension
-                        months['end_span'] = col
+                        months['start_span'] = int(extension)
                         extension += col
-                        col_id+=1
-                    elif one.has_attr('colspan') and col_id != 1:
-                        col = int(one.get('colspan'))
-                        months['start_span'] = extension
-                        extension += col
-                        months['end_span'] = extension
+                        months['end_span'] = int(extension) - 1
                     months['months_ended'] = l.strip()
                     months_ended.append(months)
+
+            #everything from these years must be ###<= x =<###
+            for item in months_ended:
+                print(item)
+
+            #TIME TO MATCH THE DATES TO THE MONTHS ENDED
+            id = 1
             for one in ones:
                 l = one.text.strip()
                 match = re.match(r'.*([1-3][0-9]{3})', l)
                 if match is not None:
-                    date = {}
-                    date['id'] = id
-                    date['date'] = match.group(0)
-                    for item in months_ended:
-                        if item.get('start_span') is not None:
-                            start_span = int(item.get('start_span'))
-                            end_span = int(item.get('end_span'))
-                            if id > start_span and id <= end_span:
-                                date['months_ended'] = item.get('months_ended')
-                    all_dates.append(date)
-                    id+=1
+                    dates = {}
+                    if one.has_attr('colspan'):
+                        col = int(one.get('colspan'))
+                        dates['start_span'] = int(id)
+                        id += (col)
+                        dates['end_span'] = int(id) - 1
+                        dates['date'] = match.group(0)
+                        check_id = dates['end_span']
+                        for item in months_ended:
+                            if item.get('start_span') is not None:
+                                start_span = int(item.get('start_span'))
+                                end_span = int(item.get('end_span'))
+                                if check_id >= start_span and check_id <= end_span:
+                                    dates['months_ended'] = item.get('months_ended')
+                        all_dates.append(dates)
+                    else:
+                        date = {}
+                        date['id'] = int(id)
+                        date['date'] = match.group(0)
+                        for item in months_ended:
+                            if item.get('start_span') is not None:
+                                start_span = int(item.get('start_span'))
+                                end_span = int(item.get('end_span'))
+                                if id >= start_span and id <= end_span:
+                                    date['months_ended'] = item.get('months_ended')
+                        all_dates.append(date)
+                        id+=1
+
+            for date in all_dates:
+                print(date)
 
             #CHECK IF THIS STATEMENT IS PARSABLE BECAUSE WE DON'T WANT TO GET THE SHAREHOLDER'S EQUITY
 
@@ -211,12 +288,17 @@ def interParse(filing_index, accession_number, filing_type):
             #IF GO IS NOT 0 THEN IT CONTAINS DATES AND IS PARSABLE
             if go != 0:
                 #FIND ALL THE ROWS IN THE TABLE
+                #the orders keep track of where the items belong
+                member_order = 0
+                header_order = 0
+                row_order = 0
                 for element in soup.find('table').find_all('tr'):
                     if element.find_all('td') is not None:
                         children = element.find_all('td')
                         #CHECK THAT THE ROW IS IN FACT A LINE ITEM OR AT LEAST A HEADER
                         if element.find('td') is not None and element.find('td').text.strip() != '':
                             #CHECK IF THIS ITEM HAS A US-GAAP TAG TO MATCH IT
+                            acc_name = ''
                             if element.find('a') is not None and element.find('a').get('onclick') is not None:
                                 acc_name = element.find('a').get('onclick').replace("top.Show.showAR( this, 'defref_", '')
                                 acc_name = acc_name.split("', window );", 1)[0]
@@ -241,36 +323,89 @@ def interParse(filing_index, accession_number, filing_type):
                             #RUN THE GAUNTLET TO SEE IF IT IS MEMBER, HEADER OF JUST A REGULAR LINE ITEM
                             if header_check == 1 and 'MEMBER' in eng_name.upper() and '[' in eng_name.upper():
                                 member_header = eng_name
+                                member_order+=1
                             elif header_check == 1 and next_check == 1:
                                 member_header = eng_name
+                                member_order+=1
                             elif header_check == 1 and next_check != 1:
                                 header = eng_name
+                                header_order+=1
                             elif header_check > 1:
                                 id = 1
                                 #SET ID TO MATCH THE NUMBERS TO THE PROPER YEAR. THE 1: SKIPS OVER THE ENGLISH NAME SO WE CAN ASSIGN THE NUMBERS
                                 for child in children[1:]:
-                                    for item in all_dates:
-                                        if item['id'] == id:
-                                            date = item['date']
-                                            if item.get('months_ended') is not None:
-                                                months_ended = item['months_ended']
-                                            else:
-                                                months_ended = ''
-                                    if child.find('sup') is None and child.find('span') is not None:
-                                        dict = {}
-                                        dict['member'] = member_header.strip()
-                                        dict['header'] = header.strip()
-                                        dict['eng_name'] = eng_name.strip()
-                                        dict['value'] = child.text.strip()
-                                        dict['date'] = ' '.join(date.split())
-                                        dict['months_ended'] = months_ended
-                                        dict['statement'] = statement_name.strip()
-                                        dict['acc_name'] = acc_name.strip()
-                                        dict['unit'] = unit.strip()
-                                        #print(dict)
-                                        all_dict.append(dict)
-                                        id+=1
+                                    #make sure that the first td isn't a footnote or else it'll mess up the formatting 0001396009-20-000006 is example
+                                    footnote1 = False
+                                    if child.get('class') is not None:
+                                        if str(child.get('class')[0]) == 'th':
+                                            footnote1 = True
+                                    if footnote1 == False:
+                                        #span used for those with spanning dates rather than indiv dates
+                                        if any('start_span' in d for d in all_dates):
+                                            for item in all_dates:
+                                                #split it further to see if there is id. 0001067701-14-000004 is a good example of when there is id & span mix
+                                                if 'id' in item:
+                                                    if item['id'] == id:
+                                                        date = str(item['date'])
+                                                        if item.get('months_ended') is not None:
+                                                            months_ended = str(item['months_ended'])
+                                                            id+=1
+                                                            break
+                                                        else:
+                                                            months_ended = ''
+                                                            id+=1
+                                                            break
+                                                #if not an id do the usual span method
+                                                else:
+                                                    date = str(item['date'])
+                                                    start_span = int(item.get('start_span'))
+                                                    end_span = int(item.get('end_span'))
+                                                    if id >= start_span and id <= end_span:
+                                                        if item.get('months_ended') is not None:
+                                                            months_ended = str(item['months_ended'])
+                                                            id+=1
+                                                            break
+                                                        else:
+                                                            months_ended = ''
+                                                            id+=1
+                                                            break
+                                        #use this for id only ones
+                                        elif any('id' in d for d in all_dates):
+                                            for item in all_dates:
+                                                if item['id'] == id:
+                                                    date = str(item['date'])
+                                                    if item.get('months_ended') is not None:
+                                                        months_ended = str(item['months_ended'])
+                                                        id+=1
+                                                        break
+                                                    else:
+                                                        months_ended = ''
+                                                        id+=1
+                                                        break
+
+                                        if child.find('sup') is None and child.find('span') is not None:
+                                            dict = {}
+                                            dict['member'] = member_header.strip()
+                                            dict['header'] = header.strip()
+                                            dict['eng_name'] = eng_name.strip()
+                                            dict['value'] = child.text.strip()
+                                            dict['date'] = ' '.join(date.split())
+                                            dict['months_ended'] = months_ended
+                                            dict['statement'] = statement_name.strip()
+                                            dict['acc_name'] = acc_name.strip()
+                                            dict['unit'] = unit.strip()
+                                            dict['member_order'] =int(member_order)
+                                            dict['header_order'] = int(header_order)
+                                            dict['row_order'] = int(row_order)
+                                            #print(dict)
+                                            print(dict['member'], dict['member_order'], dict['header'], dict['header_order'], dict['eng_name'],dict['row_order'], dict['value'], dict['date'], dict['months_ended'], dict['unit'], dict['acc_name'] )
+                                            all_dict.append(dict)
+                                row_order+=1
+            #for item in all_dict:
+            #    print(item['eng_name'], item['value'], item['date'], item['months_ended'])
             os.remove(filename)
+
+
 
         #XML PARSE SECTION HERE
         elif 'xml' in item['link']:
@@ -318,10 +453,15 @@ def interParse(filing_index, accession_number, filing_type):
                 if 'date' in item:
                     go +=1
             if go != 0:
+                #keep track the order of things for "as displayed"
+                member_order = 0
+                header_order = 0
+                row_order = 0
                 for element in soup.find_all('row'):
                     this_row = []
                     #clean up english name
                     eng_name = ' '.join(str(element.find('label').text).strip().split())
+                    acc_name = ''
                     acc_name = str(element.find('elementname').text).strip()
                     if acc_name != '':
                         acc_name = str(element.find('elementname').text).strip().split('_', 1)[1]
@@ -340,11 +480,15 @@ def interParse(filing_index, accession_number, filing_type):
 
                     if header_check == 0 and 'MEMBER' in str(eng_name).upper() and '[' in str(eng_name).upper():
                         member_header = eng_name
+                        member_order+=1
                     elif header_check == 0 and next_check == 0:
                         member_header = eng_name
+                        member_order+=1
                     elif header_check == 0 and 'MEMBER' not in str(eng_name).upper() and next_check != 0:
                         header = eng_name
+                        header_order+=1
                     else:
+                        #this is for actual line items
                         for child in children:
                             dict = {}
                             value = child.find('numericamount').text
@@ -365,38 +509,51 @@ def interParse(filing_index, accession_number, filing_type):
                             dict['statement'] = statement_name.strip()
                             dict['acc_name'] = acc_name.strip()
                             dict['unit'] = unit.strip()
+                            dict['member_order'] =int(member_order)
+                            dict['header_order'] = int(header_order)
+                            dict['row_order'] = int(row_order)
                             #print(dict)
+                            print(dict['member'], dict['member_order'], dict['header'], dict['header_order'], dict['eng_name'],dict['row_order'], dict['value'], dict['date'], dict['months_ended'], dict['unit'], dict['acc_name'] )
                             all_dict.append(dict)
+                        row_order+=1
             os.remove(filename)
 
-
     #store data in POSTGRESQL
-    balance_sheet_variations = ['NET ASSET', 'POSITION', 'BALANCE SHEET', 'CONDITION']
+    balance_sheet_variations = ['NET ASSET', 'POSITION', 'BALANCE SHEET', 'CONDITION', 'FINANCIAL STATEMENT']
 
     income_statement_variations = ['EARNING', 'OPERATION', 'INCOME', 'LOSS']
 
     cash_flows_variations = ['CASH FLOW']
 
-    non_signs = ['PARENTHETICAL', 'SUPPLEMENTARY', 'EQUITY']
+    non_signs = ['PARENTHETICAL', 'SUPPLEMENTARY', 'TAXES']
 
 
     income_found = False
     cash_found = False
     balance_found = False
+    already_taken = []
 
     for item in all_dict:
         statement = str(item.get('statement')).replace("'", '').strip()
         if not any(x in statement.upper() for x in non_signs):
-            if any(x in statement.upper() for x in cash_flows_variations) and cash_found == False:
-                true_cash = statement
+            if any(x in statement.upper() for x in cash_flows_variations) and cash_found == False and statement not in already_taken:
+                true_cash = str(statement)
                 cash_found = True
-            elif any(x in statement.upper() for x in income_statement_variations) and income_found == False:
-                true_income = statement
-                income_found = True
-            elif any(x in statement.upper() for x in balance_sheet_variations) and balance_found == False:
-                true_balance = statement
+                already_taken.append(str(statement))
+                print(statement)
+                print('CASH FLOW FOUND')
+            elif any(x in statement.upper() for x in balance_sheet_variations) and balance_found == False and statement not in already_taken:
+                true_balance = str(statement)
                 balance_found = True
-
+                already_taken.append(str(statement))
+                print(statement)
+                print('BALANCE FOUND')
+            elif any(x in statement.upper() for x in income_statement_variations) and income_found == False and statement not in already_taken:
+                true_income = str(statement)
+                income_found = True
+                already_taken.append(str(statement))
+                print(statement)
+                print('INCOME FOUND')
 
     for item in all_dict:
         #get the variables for inserting from the item dict
@@ -431,7 +588,9 @@ def interParse(filing_index, accession_number, filing_type):
         statement = str(item.get('statement')).replace("'", '').strip()
         months_ended = str(item.get('months_ended')).replace("'", '').strip()
         unit = str(item.get('unit')).replace("'", '').strip()
-
+        member_order = str(item.get('member_order')).replace("'", '').strip()
+        header_order = str(item.get('header_order')).replace("'", '').strip()
+        row_order = str(item.get('row_order')).replace("'", '').strip()
 #.replace("'", '')
         #run the code for unit and context first
         if not any(x in statement.upper() for x in non_signs):
@@ -450,7 +609,7 @@ def interParse(filing_index, accession_number, filing_type):
         else:
             statement_insert = 'non_statement'
 
-        sql_statement = "INSERT INTO %s (accession_number, member, header, eng_name, acc_name, value, unit, year, statement, report_period, filing_type, months_ended) VALUES('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');"%(statement_insert, accession_number, member, header, eng_name, acc_name, value, unit, year, statement, report_period, filing_type, months_ended)
+        sql_statement = "INSERT INTO %s (accession_number, member, header, eng_name, acc_name, value, unit, year, statement, report_period, filing_type, months_ended, member_order, header_order, row_order) VALUES('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');"%(statement_insert, accession_number, member, header, eng_name, acc_name, value, unit, year, statement, report_period, filing_type, months_ended, member_order, header_order, row_order)
         try:
             print(sql_statement)
             cursor.execute(sql_statement)

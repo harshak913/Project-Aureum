@@ -8,10 +8,19 @@ cursor = connection.cursor()
 cursor.execute("SELECT * FROM scrape WHERE filing_type='10-Q';")
 tenQs = cursor.fetchall()
 
+#0000711404-15-000015 breakoff point
+breakoff = '0000711404-15-000015'
+breakoff_found = False
 for tenQ in tenQs:
-    print(f"Now checking: {tenQ[3]}")
-    if tenQ[7] is None:
-        print("Quarter value is NULL, so checking cash flow table now")
+    accession_number = str(tenQ[4])
+    if accession_number == breakoff:
+        breakoff_found = True
+    else:
+        print('not at breakoff yet')
+    if breakoff_found == True:
+        print(f"Now checking: {tenQ[3]}")
+        #if tenQ[7] is None:
+        print("Now checking cash flow table now")
         accession_number = tenQ[4]
         cursor.execute("SELECT months_ended FROM cash_flow WHERE accession_number='%s';"%(accession_number))
         quarters = cursor.fetchall()
