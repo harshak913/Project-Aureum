@@ -34,8 +34,8 @@ cursor = connection.cursor()
 #accession_number = '0001466258-17-000211' #control, 3 statements are in financial statement tab
 #accession_number = '0000874766-14-000007' # 2 financial statement sections and 1 notes contain the main statements
 #accession_number = '0001193125-09-167155' #balance sheet in cover page and cashflow in notes
-#accession_number = '0000935703-20-000006' #2021 format
-accession_number='0001396009-20-000006' #current issues
+accession_number = '0001193125-09-214859' #2021 format
+#accession_number='0001396009-20-000006' #current issues
 print(accession_number)
 
 scrape_query = "select * from scrape where accession_number = '%s';"%(accession_number)
@@ -60,6 +60,9 @@ cik = int(result.index('data'))+1
 cik = str(result[cik]) #CIK IS THE CIK NUMBER
 '''
 
+#constant report period:
+report_period = 'now'
+filing_type = '10-Q/10-K'
 
 print('WRITING THE INTERACTIVE PAGE')
 
@@ -323,6 +326,10 @@ for item in dicts:
         #IF GO IS NOT 0 THEN IT CONTAINS DATES AND IS PARSABLE
         if go != 0:
             #FIND ALL THE ROWS IN THE TABLE
+            #the orders keep track of where the items belong
+            member_order = 0
+            header_order = 0
+            row_order = 0
             for element in soup.find('table').find_all('tr'):
                 if element.find_all('td') is not None:
                     children = element.find_all('td')
@@ -354,10 +361,13 @@ for item in dicts:
                         #RUN THE GAUNTLET TO SEE IF IT IS MEMBER, HEADER OF JUST A REGULAR LINE ITEM
                         if header_check == 1 and 'MEMBER' in eng_name.upper() and '[' in eng_name.upper():
                             member_header = eng_name
+                            member_order+=1
                         elif header_check == 1 and next_check == 1:
                             member_header = eng_name
+                            member_order+=1
                         elif header_check == 1 and next_check != 1:
                             header = eng_name
+                            header_order+=1
                         elif header_check > 1:
                             id = 1
                             #SET ID TO MATCH THE NUMBERS TO THE PROPER YEAR. THE 1: SKIPS OVER THE ENGLISH NAME SO WE CAN ASSIGN THE NUMBERS
@@ -422,9 +432,13 @@ for item in dicts:
                                         dict['statement'] = statement_name.strip()
                                         dict['acc_name'] = acc_name.strip()
                                         dict['unit'] = unit.strip()
+                                        dict['member_order'] =int(member_order)
+                                        dict['header_order'] = int(header_order)
+                                        dict['row_order'] = int(row_order)
                                         #print(dict)
-                                        print(dict['eng_name'], dict['value'], dict['date'], dict['months_ended'], dict['unit'], dict['acc_name'] )
+                                        print(dict['member'], dict['member_order'], dict['header'], dict['header_order'], dict['eng_name'],dict['row_order'], dict['value'], dict['date'], dict['months_ended'], dict['unit'], dict['acc_name'] )
                                         all_dict.append(dict)
+                            row_order+=1
         #for item in all_dict:
         #    print(item['eng_name'], item['value'], item['date'], item['months_ended'])
         os.remove(filename)
@@ -477,10 +491,15 @@ for item in dicts:
             if 'date' in item:
                 go +=1
         if go != 0:
+            #keep track the order of things for "as displayed"
+            member_order = 0
+            header_order = 0
+            row_order = 0
             for element in soup.find_all('row'):
                 this_row = []
                 #clean up english name
                 eng_name = ' '.join(str(element.find('label').text).strip().split())
+                acc_name = ''
                 acc_name = str(element.find('elementname').text).strip()
                 if acc_name != '':
                     acc_name = str(element.find('elementname').text).strip().split('_', 1)[1]
@@ -499,11 +518,15 @@ for item in dicts:
 
                 if header_check == 0 and 'MEMBER' in str(eng_name).upper() and '[' in str(eng_name).upper():
                     member_header = eng_name
+                    member_order+=1
                 elif header_check == 0 and next_check == 0:
                     member_header = eng_name
+                    member_order+=1
                 elif header_check == 0 and 'MEMBER' not in str(eng_name).upper() and next_check != 0:
                     header = eng_name
+                    header_order+=1
                 else:
+                    #this is for actual line items
                     for child in children:
                         dict = {}
                         value = child.find('numericamount').text
@@ -524,9 +547,13 @@ for item in dicts:
                         dict['statement'] = statement_name.strip()
                         dict['acc_name'] = acc_name.strip()
                         dict['unit'] = unit.strip()
+                        dict['member_order'] =int(member_order)
+                        dict['header_order'] = int(header_order)
+                        dict['row_order'] = int(row_order)
                         #print(dict)
-                        print(dict['eng_name'], dict['value'], dict['date'], dict['months_ended'])
+                        print(dict['member'], dict['member_order'], dict['header'], dict['header_order'], dict['eng_name'],dict['row_order'], dict['value'], dict['date'], dict['months_ended'], dict['unit'], dict['acc_name'] )
                         all_dict.append(dict)
+                    row_order+=1
         os.remove(filename)
 
 print('ZOINKS')
@@ -569,7 +596,7 @@ for item in all_dict:
             print(statement)
             print('INCOME FOUND')
 
-'''
+
 for item in all_dict:
     #get the variables for inserting from the item dict
     member = str(item.get('member')).replace("'", '').strip()
@@ -603,6 +630,9 @@ for item in all_dict:
     statement = str(item.get('statement')).replace("'", '').strip()
     months_ended = str(item.get('months_ended')).replace("'", '').strip()
     unit = str(item.get('unit')).replace("'", '').strip()
+    member_order = str(item.get('member_order')).replace("'", '').strip()
+    header_order = str(item.get('header_order')).replace("'", '').strip()
+    row_order = str(item.get('row_order')).replace("'", '').strip()
 
 #.replace("'", '')
     #run the code for unit and context first
@@ -622,12 +652,11 @@ for item in all_dict:
     else:
         statement_insert = 'non_statement'
 
-    sql_statement = "INSERT INTO %s (accession_number, member, header, eng_name, acc_name, value, unit, year, statement, report_period, filing_type, months_ended) VALUES('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');"%(statement_insert, accession_number, member, header, eng_name, acc_name, value, unit, year, statement, report_period, filing_type, months_ended)
+    sql_statement = "INSERT INTO %s (accession_number, member, header, eng_name, acc_name, value, unit, year, statement, report_period, filing_type, months_ended, member_order, header_order, row_order) VALUES('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');"%(statement_insert, accession_number, member, header, eng_name, acc_name, value, unit, year, statement, report_period, filing_type, months_ended, member_order, header_order, row_order)
     try:
         print(sql_statement)
-        cursor.execute(sql_statement)
+        #cursor.execute(sql_statement)
     except:
         continue
-'''
 #print('PROGRAM IS FINISHED')
 #print(all_dict)
