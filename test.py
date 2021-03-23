@@ -3,7 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 import psycopg2
 import os
-#from Inter_Table import interParse
+from Inter_Table import interParse
 
 connection = psycopg2.connect(host="ec2-34-197-188-147.compute-1.amazonaws.com", dbname="d7p3fuehaleleo", user="snbetggfklcniv", password="7798f45239eda70f8278ce3c05dc632ad57b97957b601681a3c516f37153403a")
 connection.autocommit = True
@@ -31,10 +31,11 @@ def check_if_incomplete(accession_number):
 
     return (len(balance_entry) == 0 or len(income_entry) == 0 or len(cash_flow_entry) == 0)
 
-cursor.execute("SELECT accession_number FROM scrape WHERE inter_or_htm='Inter';")
+#Reset all inters in scrape to pending and delete them from 3 statements
+"""cursor.execute("SELECT accession_number FROM scrape WHERE inter_or_htm='Inter';")
 for test in cursor.fetchall():
     delete_from_tables(test[0])
-    cursor.execute("UPDATE scrape SET status='PENDING' WHERE accession_number='%s';"%(test[0]))
+    cursor.execute("UPDATE scrape SET status='PENDING' WHERE accession_number='%s';"%(test[0]))"""
 
 # Run scrape for HTML insertion
 """ cursor.execute("SELECT * FROM scrape WHERE year=2009 AND inter_or_htm='HTM' AND status='PENDING';")
@@ -114,31 +115,34 @@ for tup in cursor.fetchall():
         print(tup[0]) """
 
 # Run InterParse
-""" cursor.execute("SELECT * FROM scrape WHERE year=2020 AND inter_or_htm='Inter' AND status='PENDING';")
-results = cursor.fetchall()
-for result in results:
-    print(result)
-    index_page = result[3].strip('.txt') + "-index.htm"
-    accession_number = result[4]
-    response = requests.get(index_page)
-    soup = BeautifulSoup(response.content, 'lxml')
-    period_of_report = soup.find('div', text='Period of Report').find_next_sibling('div').text
+years = list(range(2010, 2021))
 
-    try: # Try to run interParse; any error thrown will result in an ERROR status code for the current master IDX file & any deletions from the scrape, balance, income, cash flow, and non statement tables to prevent errors when parsing again
-        print(f"PARSING {result[3]} NOW")
-        interParse(index_page, accession_number, result[1])
+for year in years:
+    cursor.execute("SELECT * FROM scrape WHERE year=%s AND inter_or_htm='Inter' AND status='PENDING';"%(year))
+    results = cursor.fetchall()
+    for result in results:
+        print(result)
+        index_page = result[3].strip('.txt') + "-index.htm"
+        accession_number = result[4]
+        response = requests.get(index_page)
+        soup = BeautifulSoup(response.content, 'lxml')
+        period_of_report = soup.find('div', text='Period of Report').find_next_sibling('div').text
 
-        if check_if_incomplete(accession_number):
-            print("UPDATE scrape SET status='INCOMPLETE' WHERE accession_number='%s';"%(accession_number))
-            cursor.execute("UPDATE scrape SET status='INCOMPLETE' WHERE accession_number='%s';"%(accession_number))
+        try: # Try to run interParse; any error thrown will result in an ERROR status code for the current master IDX file & any deletions from the scrape, balance, income, cash flow, and non statement tables to prevent errors when parsing again
+            print(f"PARSING {result[3]} NOW")
+            interParse(index_page, accession_number, result[1])
+
+            if check_if_incomplete(accession_number):
+                print("UPDATE scrape SET status='INCOMPLETE' WHERE accession_number='%s';"%(accession_number))
+                cursor.execute("UPDATE scrape SET status='INCOMPLETE' WHERE accession_number='%s';"%(accession_number))
+                delete_from_tables(accession_number)
+            else:
+                print("UPDATE scrape SET status='COMPLETED' WHERE accession_number='%s';"%(accession_number))
+                cursor.execute("UPDATE scrape SET status='COMPLETED' WHERE accession_number='%s';"%(accession_number))
+        except:
             delete_from_tables(accession_number)
-        else:
-            print("UPDATE scrape SET status='COMPLETED' WHERE accession_number='%s';"%(accession_number))
-            cursor.execute("UPDATE scrape SET status='COMPLETED' WHERE accession_number='%s';"%(accession_number))
-    except:
-        delete_from_tables(accession_number)
-        print("UPDATE scrape SET status='INCOMPLETE' WHERE accession_number='%s'"%(accession_number))
-        cursor.execute("UPDATE scrape SET status='INCOMPLETE' WHERE accession_number='%s'"%(accession_number)) """
+            print("UPDATE scrape SET status='INCOMPLETE' WHERE accession_number='%s'"%(accession_number))
+            cursor.execute("UPDATE scrape SET status='INCOMPLETE' WHERE accession_number='%s'"%(accession_number))
 
 #Copy standard_dict data to Heroku cloud DB
 """ cursor2.execute("SELECT * FROM standard_dict;")

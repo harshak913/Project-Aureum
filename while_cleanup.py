@@ -25,33 +25,31 @@ def check_if_incomplete(accession_number):
     else:
         return False
 
-years = list(range(2020, 2021))
+years = list(range(2019, 2021))
 
 for year in years:
-    complete = False
-    while complete == False:
-        cursor.execute("SELECT * FROM scrape WHERE status='INCOMPLETE' AND year=%s;"%(year))
-        unfinished_list = cursor.fetchall()
+    #complete = False
+    #while complete == False:
+    cursor.execute("SELECT * FROM scrape WHERE status='INCOMPLETE' AND year=%s;"%(year))
+    unfinished_list = cursor.fetchall()
+        #if len(unfinished_list) == 0:
+        #    complete = True
+        #    break
+    for unfinished in unfinished_list:
+        print(unfinished)
+        accession_number = unfinished[4]
+        filing_type = unfinished[1]
+        index_url = unfinished[3].strip('.txt') + '-index.htm'
 
-        if len(unfinished_list) == 0:
-            complete = True
-            break
-
-        for unfinished in unfinished_list:
-            print(unfinished)
-            accession_number = unfinished[4]
-            filing_type = unfinished[1]
-            index_url = unfinished[3].strip('.txt') + '-index.htm'
-
-            try:
-                interParse(index_url, accession_number, filing_type)
-                if check_if_incomplete(accession_number):
-                    print(f"Did not parse this completely, URL:{index_url}")
-                    delete_from_tables(accession_number)
-                    continue
-                else:
-                    cursor.execute("UPDATE scrape SET status='COMPLETED' WHERE accession_number='%s';"%(accession_number))
-                    print(f"Parsed successfully & updated status to COMPLETED, URL: {index_url}")
-            except:
-                print(f"Something went wrong, URL: {index_url}")
+        try:
+            interParse(index_url, accession_number, filing_type)
+            if check_if_incomplete(accession_number):
+                print(f"Did not parse this completely, URL:{index_url}")
                 delete_from_tables(accession_number)
+                continue
+            else:
+                cursor.execute("UPDATE scrape SET status='COMPLETED' WHERE accession_number='%s';"%(accession_number))
+                print(f"Parsed successfully & updated status to COMPLETED, URL: {index_url}")
+        except:
+            print(f"Something went wrong, URL: {index_url}")
+            delete_from_tables(accession_number)

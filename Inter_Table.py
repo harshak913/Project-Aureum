@@ -286,7 +286,7 @@ def interParse(filing_index, accession_number, filing_type):
                 if 'date' in item:
                     go +=1
             #IF GO IS NOT 0 THEN IT CONTAINS DATES AND IS PARSABLE
-            if go != 0:
+            if go >= 1:
                 #FIND ALL THE ROWS IN THE TABLE
                 #the orders keep track of where the items belong
                 member_order = 0
@@ -452,7 +452,7 @@ def interParse(filing_index, accession_number, filing_type):
             for item in all_dates:
                 if 'date' in item:
                     go +=1
-            if go != 0:
+            if go >= 1:
                 #keep track the order of things for "as displayed"
                 member_order = 0
                 header_order = 0

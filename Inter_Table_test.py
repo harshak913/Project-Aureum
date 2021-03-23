@@ -34,7 +34,7 @@ cursor = connection.cursor()
 #accession_number = '0001466258-17-000211' #control, 3 statements are in financial statement tab
 #accession_number = '0000874766-14-000007' # 2 financial statement sections and 1 notes contain the main statements
 #accession_number = '0001193125-09-167155' #balance sheet in cover page and cashflow in notes
-accession_number = '0001193125-09-214859' #2021 format
+accession_number = '0001193125-17-056969' #2021 format
 #accession_number='0001396009-20-000006' #current issues
 print(accession_number)
 
@@ -324,7 +324,7 @@ for item in dicts:
             if 'date' in item:
                 go +=1
         #IF GO IS NOT 0 THEN IT CONTAINS DATES AND IS PARSABLE
-        if go != 0:
+        if go > 0:
             #FIND ALL THE ROWS IN THE TABLE
             #the orders keep track of where the items belong
             member_order = 0
@@ -490,7 +490,7 @@ for item in dicts:
         for item in all_dates:
             if 'date' in item:
                 go +=1
-        if go != 0:
+        if go > 1:
             #keep track the order of things for "as displayed"
             member_order = 0
             header_order = 0
