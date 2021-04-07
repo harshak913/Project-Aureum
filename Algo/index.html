@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="text/javascript" src=
+        "https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore.js">
+        </script>
+    </head>
+<body>
+
+<p>As Displayed</p>
+
+<p id="demo"></p>
+
+
+<script  type="text/javascript">
+var data = [
+{eng_name: "Net revenues",	value: "13,286",    year: "2012-06-30",	months_ended: "3 Months Ended"},
+{eng_name: "Net revenues",	value: "13,878",	year: "2011-06-30",	months_ended: "3 Months Ended"},
+{eng_name: "Net revenues",	value: "26,379",	year: "2012-06-30",	months_ended: "6 Months Ended"},
+{eng_name: "Net revenues",	value: "26,451",	year: "2011-06-30",	months_ended: "6 Months Ended"},
+{eng_name: "Gross Margin",	value: "12",    year: "2012-06-30",	months_ended: "3 Months Ended"},
+{eng_name: "Gross Margin",	value: "23",	year: "2011-06-30",	months_ended: "3 Months Ended"},
+{eng_name: "Gross Margin",	value: "34",	year: "2012-06-30",	months_ended: "6 Months Ended"},
+{eng_name: "Gross Margin",	value: "45",	year: "2011-06-30",	months_ended: "6 Months Ended"},
+]
+
+//groupby function that allows me to group by multiple keys
+function groupBy(array , f )
+{
+  var groups = {};
+  array.forEach( function( o )
+  {
+    var group = JSON.stringify( f(o) );
+    groups[group] = groups[group] || [];
+    groups[group].push( o );
+  });
+  return Object.keys(groups).map( function( group )
+  {
+    return groups[group];
+  })
+}
+
+
+//group items to
+var newarray = groupBy(data, function(item)
+{
+  return [item.year, item.months_ended];
+});
+
+console.log(newarray)
+
+years = []
+
+for ( i=0; i<newarray.length; i++ ){
+   var clone = {}
+   clone['year'] = newarray[i][0].year;
+   clone['months_ended'] = newarray[i][0].months_ended;
+   clone['id'] = i;
+   years.push(clone)
+   }
+
+console.log(years)
+</script>
+
+</body>
+</html>

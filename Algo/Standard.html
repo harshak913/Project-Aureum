@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="text/javascript" src=
+        "https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore.js">
+        </script>
+    </head>
+<body>
+
+<p>Standardized Display</p>
+
+<p id="demo"></p>
+
+
+<script  type="text/javascript">
+
+/*
+var data = [
+    { year__year: "2016", standard_name: "Net Income", report_period: "2016-02-26", value: "5" },
+    { year__year: "2016", standard_name: "Net Income", report_period: "2018-02-26", value: "6" },
+    { year__year: "2018", standard_name: "Net Income", report_period: "2018-02-26", value: "10" },
+    { year__year: "2018", standard_name: "Operating Cash", report_period: "2019-02-26", value: "15" },
+    { year__year: "2018", standard_name: "Operating Cash", report_period: "2020-02-26", value: "16" },
+    { year__year: "2019", standard_name: "Operating Cash", report_period: "2018-02-26", value: "15" },
+    { year__year: "2019", standard_name: "Operating Cash", report_period: "2019-02-26", value: "20" },
+    { year__year: "2019", standard_name: "Gross Margin", report_period: "2018-02-26", value: "25" },
+    { year__year: "2020", standard_name: "Gross Margin", report_period: "2020-02-26", value: "33" },
+    { year__year: "2020", standard_name: "Gross Margin", report_period: "2021-02-26", value: "34" },
+    { year__year: "2020", standard_name: "Gross Margin", report_period: "2022-02-26", values: "35" },
+];
+*/
+
+var data = [
+    { year__year: "2016", quarter: 'Q1',standard_name: "Net Income", report_period: "2018-02-26", value: "6" },
+    { year__year: "2016", quarter: 'Q3',standard_name: "Net Income", report_period: "2018-02-26", value: "6" },
+    { year__year: "2018", quarter: 'Q2',standard_name: "Net Income", report_period: "2018-02-26", value: "10" },
+    { year__year: "2018", quarter: 'Q1',standard_name: "Operating Cash", report_period: "2019-02-26", value: "15" },
+    { year__year: "2018", quarter: 'Q1',standard_name: "Operating Cash", report_period: "2020-02-26", value: "16" },
+    { year__year: "2019", quarter: 'Q1',standard_name: "Operating Cash", report_period: "2018-02-26", value: "15" },
+    { year__year: "2019", quarter: 'Q1',standard_name: "Operating Cash", report_period: "2019-02-26", value: "20" },
+    { year__year: "2019", quarter: 'Q1',standard_name: "Gross Margin", report_period: "2018-02-26", value: "25" },
+    { year__year: "2020", quarter: 'Q1',standard_name: "Gross Margin", report_period: "2020-02-26", value: "33" },
+    { year__year: "2020", quarter: 'Q2',standard_name: "Gross Margin", report_period: "2021-02-26", value: "34" },
+    { year__year: "2020", quarter: 'Q3',standard_name: "Gross Margin", report_period: "2022-02-26", values: "35" },
+];
+
+//this will decide if we got to use the additional quarter processing code
+var quarterCheck = true;
+
+//Generate all numbers between the two years
+function getAllNumbersBetween(x, y) {
+  var b = 0
+  var numbers = [];
+  // Set a temporary variable i to start at value x.
+  // As long as the value of i is less than the value y, increment it.
+  // The loop will end when i is equal to y.
+  for (var i = x; i <= y; i++) {
+    z = {}
+    z['id'] = b;
+    z['year'] = String(i);
+    numbers.push(z);
+    b++
+  }
+  return numbers;
+}
+
+//groupby function that allows me to group by multiple keys
+function groupBy(array , f )
+{
+  var groups = {};
+  array.forEach( function( o )
+  {
+    var group = JSON.stringify( f(o) );
+    groups[group] = groups[group] || [];
+    groups[group].push( o );
+  });
+  return Object.keys(groups).map( function( group )
+  {
+    return groups[group];
+  })
+}
+
+//get min and max years for filling in the blanks.
+var min_year = new Number(Math.min.apply(null, data.map(function(e) {
+        return new Number(e.year__year);
+    })));
+
+var max_year = new Number(Math.max.apply(null, data.map(function(e) {
+        return new Number(e.year__year);
+    })));
+
+console.log(min_year)
+console.log(max_year)
+
+//get all the numbers between the two
+years = getAllNumbersBetween(min_year, max_year);
+
+console.log(years)
+
+
+quarterYears = []
+//quarter year display additional processing
+if ( quarterCheck ){
+    for ( q=0; q<data.length; q++ ){
+        data[q]['year__year'] = data[q]['year__year'] + ' ' + data[q]['quarter']
+    }
+    quarters = ['Q1', 'Q2', 'Q3', 'Q4'];
+    console.log('We are looking at quarters baby');
+    var id = 0;
+    for ( i=0; i<years.length; i++ ){
+        var currYear = years[i].year;
+        for ( j=0; j<quarters.length; j++ ){
+            var temp = {};
+            temp['year'] = years[i].year + ' ' +quarters[j];
+            temp['id'] = id;
+            id++
+            quarterYears.push(temp);
+       }
+    }
+    years = quarterYears
+}
+
+console.log(quarterYears)
+console.log(data)
+
+
+//group the pulled items together by standard name and years
+var newarray = groupBy(data, function(item)
+{
+  return [item.standard_name, item.year__year];
+});
+
+//print to see if groupBy worked
+console.log(newarray)
+
+//create empty array to insert singular cleaned latest years for line items
+var singular_years = [];
+
+//Process the data and get the year with the most recent report time
+for ( i=0; i<newarray.length; i++ ){
+  //get the latest date
+  var latest_date = new Date(Math.max.apply(null, newarray[i].map(function(e) {
+        return new Date(e.report_period);
+    })));
+
+   console.log('Latest Date: ' + latest_date)
+
+   for ( j=0; j<newarray[i].length; j++ ){
+   //see if the item within array of array is the obj with the latest filing
+    if (newarray[i][j].report_period === latest_date.toISOString().substring(0, 10)) {
+        //if it is insert it into singular_years
+        console.log('Latest report period for ' + newarray[i][j].standard_name + " " + newarray[i][j].year__year + " " + newarray[i][j].report_period)
+        const target = {};
+        const returnedTarget = Object.assign(target, newarray[i][j]);
+        singular_years.push(returnedTarget);
+     }
+   }
+}
+
+//singular years is the complete list
+console.log(singular_years)
+
+var cleaned_years = groupBy(singular_years, function(item)
+{
+  return [item.standard_name];
+});
+
+console.log(cleaned_years)
+finList = [...singular_years];
+
+for ( i=0; i<cleaned_years.length; i++ ){
+  //create copy of years to see which years will need to be filtered out
+  yearCopy1 = [...years];
+  for ( j=0; j<cleaned_years[i].length; j++ ){
+    var currentYear = String(cleaned_years[i][j].year__year)
+    console.log(cleaned_years[i][j].standard_name + currentYear)
+    //filter out the obj with that year from yearCopy1
+    yearCopy1 = yearCopy1.filter(function( obj ) {
+      return obj.year !== currentYear;
+    });
+  }
+  const template = Object.assign({}, cleaned_years[i][0]);
+  template['value'] = '-'
+  template['report_period'] = '-'
+  console.log(template)
+  console.log(yearCopy1)
+  for ( k=0; k<yearCopy1.length; k++ ) {
+    var newTemp = Object.assign({}, template);
+    newTemp['id'] = yearCopy1[k].id;
+    newTemp['year__year'] = yearCopy1[k].year;
+    finList.push(newTemp);
+  }
+}
+
+for ( k=0; k<finList.length; k++ ) {
+    finList[k]['year__year'] = String(finList[k]['year__year']);
+    var matchYear = years.find(obj => {return obj.year === finList[k].year__year})
+    finList[k]['id'] = matchYear['id']
+  }
+
+console.log(finList)
+
+finList.sort(function(a, b) {
+    return a.id - b.id;
+});
+
+var cleaned_years = groupBy(finList, function(item)
+{
+  return [item.standard_name];
+});
+
+console.log(cleaned_years)
+
+
+
+</script>
+
+</body>
+</html>
