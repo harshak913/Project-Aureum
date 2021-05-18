@@ -21,6 +21,7 @@ for entry in entries:
         #    breakOff = True
         print(name)
         newsQ = "https://news.google.com/rss/search?q="+name+"&hl=en-US&gl=US&ceid=US%3Aen"
+        newsQ = "https://news.google.com/rss/search?q="+ticker+" ticker"+"&hl=en-US&gl=US&ceid=US%3Aen"
         NewsFeed = feedparser.parse(newsQ) #company specific
         #print(NewsFeed)
         i=0
