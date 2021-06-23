@@ -36,7 +36,7 @@ with open("C:/Users/Harsh/OneDrive - The University of Texas at Dallas/Documents
                 cik = cik + '0'
             cik = cik + index[1]
             name = edgar.get_company_name_by_cik(cik)
-            url = 'https://www.sec.gov/cgi-bin/browse-edgar?CIK=%s&action=getcompany&owner=exclude'%(ticker)
+            url = 'https://www.sec.gov/cgi-bin/browse-edgar?CIK=%s&owner=exclude'%(ticker)
             response = requests.get(url)
             soup = BeautifulSoup(response.content, 'lxml')
             sic_tag = soup.find('acronym', text='SIC')
