@@ -35,6 +35,7 @@ cursor = connection.cursor()
 #accession_number = '0000874766-14-000007' # 2 financial statement sections and 1 notes contain the main statements
 #accession_number = '0001193125-09-167155' #balance sheet in cover page and cashflow in notes
 accession_number = '0001193125-17-056969' #2021 format
+#accession_number = '0001193125-09-214859' #test xml changes work
 #accession_number='0001396009-20-000006' #current issues
 print(accession_number)
 
@@ -226,7 +227,7 @@ for item in dummy:
 #TIME TO PARSE THE ACTUAL FINANCIAL STATEMENTS
 print('TIME TO PARSE THE ACTUAL FINANCIAL STATEMENTS')
 for item in dicts:
-    #HTM PARSE SECTION HERE
+    #HTM PARSE SECTION HERE--------------------------------->
     if 'htm' in item['link']:
         #CREATE THE DOCUMENT AND BEAUTIFULSOUP PARSE IT
         doc_name = str(item.get('name'))
@@ -235,217 +236,229 @@ for item in dicts:
         #filename = "/Users/Harsh/OneDrive - The University of Texas at Dallas/Documents/Project A/HTM/%s.htm"%(doc_name)
         os.makedirs(os.path.dirname(filename), exist_ok=True)
         report_access = 'https://www.sec.gov%s'%str(item.get('link'))
-        page = requests.get(report_access)
-        soup = BeautifulSoup(page.content, features="lxml")
-        pretty = soup.prettify()
-        with open(filename, "w") as f:
-            f.write(pretty)
-        htm = open(filename).read()
-        soup = BeautifulSoup(htm , features="lxml")
+        #Request counter queries the webpage multiple times until SEC relents
+        request_counter = 19
+        while request_counter > 0:
+            page = requests.get(report_access)
+            if page.status_code==200:
+                print('L239 PRINT PAGE ',page)
+                soup = BeautifulSoup(page.content, features="lxml")
+                pretty = soup.prettify()
+                with open(filename, "w") as f:
+                    f.write(pretty)
+                htm = open(filename).read()
+                soup = BeautifulSoup(htm , features="lxml")
 
-        #GET THE STATEMENT'S NAME
-        statement_name = str(soup.find('th').text).strip()
-        statement_name = statement_name.split()
-        statement_name = ' '.join(statement_name)
+                #GET THE STATEMENT'S NAME
+                statement_name = str(soup.find('th').text).strip()
+                statement_name = statement_name.split()
+                statement_name = ' '.join(statement_name)
 
-        #CHECK IF THE UNIT IS GIVEN
-        if 'IN MILLIONS' in statement_name.upper():
-            unit = 'In Millions'
-        elif 'IN THOUSANDS' in statement_name.upper():
-            unit = 'In Thousands'
-        else:
-            unit = 'As Displayed'
-
-        #NOW GET THE DATES
-        all_dates = []
-        ones = soup.find_all('th')
-        member_header = ''
-        header = ''
-        months_ended = []
-        extension = 1
-        #this for loop gets the proper span lengths for the months ended
-        for one in ones:
-            l = one.text.strip()
-            if re.search('months ended', l, re.IGNORECASE) is not None:
-                months = {}
-                if one.has_attr('colspan'):
-                    col = int(one.get('colspan'))
-                    months['start_span'] = int(extension)
-                    extension += col
-                    months['end_span'] = int(extension) - 1
-                months['months_ended'] = l.strip()
-                months_ended.append(months)
-
-        #everything from these years must be ###<= x =<###
-        for item in months_ended:
-            print(item)
-
-        #TIME TO MATCH THE DATES TO THE MONTHS ENDED
-        id = 1
-        for one in ones:
-            l = one.text.strip()
-            match = re.match(r'.*([1-3][0-9]{3})', l)
-            if match is not None:
-                dates = {}
-                if one.has_attr('colspan'):
-                    col = int(one.get('colspan'))
-                    dates['start_span'] = int(id)
-                    id += (col)
-                    dates['end_span'] = int(id) - 1
-                    dates['date'] = match.group(0)
-                    check_id = dates['end_span']
-                    for item in months_ended:
-                        if item.get('start_span') is not None:
-                            start_span = int(item.get('start_span'))
-                            end_span = int(item.get('end_span'))
-                            if check_id >= start_span and check_id <= end_span:
-                                dates['months_ended'] = item.get('months_ended')
-                    all_dates.append(dates)
+                #CHECK IF THE UNIT IS GIVEN
+                if 'IN MILLIONS' in statement_name.upper():
+                    unit = 'In Millions'
+                elif 'IN THOUSANDS' in statement_name.upper():
+                    unit = 'In Thousands'
                 else:
-                    date = {}
-                    date['id'] = int(id)
-                    date['date'] = match.group(0)
-                    for item in months_ended:
-                        if item.get('start_span') is not None:
-                            start_span = int(item.get('start_span'))
-                            end_span = int(item.get('end_span'))
-                            if id >= start_span and id <= end_span:
-                                date['months_ended'] = item.get('months_ended')
-                    all_dates.append(date)
-                    id+=1
+                    unit = 'As Displayed'
 
-        for date in all_dates:
-            print(date)
+                #NOW GET THE DATES
+                all_dates = []
+                ones = soup.find_all('th')
+                member_header = ''
+                header = ''
+                months_ended = []
+                extension = 1
+                #this for loop gets the proper span lengths for the months ended
+                for one in ones:
+                    l = one.text.strip()
+                    if re.search('months ended', l, re.IGNORECASE) is not None:
+                        months = {}
+                        if one.has_attr('colspan'):
+                            col = int(one.get('colspan'))
+                            months['start_span'] = int(extension)
+                            extension += col
+                            months['end_span'] = int(extension) - 1
+                        months['months_ended'] = l.strip()
+                        months_ended.append(months)
 
-        #CHECK IF THIS STATEMENT IS PARSABLE BECAUSE WE DON'T WANT TO GET THE SHAREHOLDER'S EQUITY
+                #everything from these years must be ###<= x =<###
+                for item in months_ended:
+                    print(item)
 
-        go = 0
-        for item in all_dates:
-            if 'date' in item:
-                go +=1
-        #IF GO IS NOT 0 THEN IT CONTAINS DATES AND IS PARSABLE
-        if go > 0:
-            #FIND ALL THE ROWS IN THE TABLE
-            #the orders keep track of where the items belong
-            member_order = 0
-            header_order = 0
-            row_order = 0
-            for element in soup.find('table').find_all('tr'):
-                if element.find_all('td') is not None:
-                    children = element.find_all('td')
-                    #CHECK THAT THE ROW IS IN FACT A LINE ITEM OR AT LEAST A HEADER
-                    if element.find('td') is not None and element.find('td').text.strip() != '':
-                        #CHECK IF THIS ITEM HAS A US-GAAP TAG TO MATCH IT
-                        acc_name = ''
-                        if element.find('a') is not None and element.find('a').get('onclick') is not None:
-                            acc_name = element.find('a').get('onclick').replace("top.Show.showAR( this, 'defref_", '')
-                            acc_name = acc_name.split("', window );", 1)[0]
-                            acc_name = acc_name.split("_", 1)[1]
-                        #SAVE THE ENGLISH NAME
-                        eng_name = element.find('td').text.strip()
+                #TIME TO MATCH THE DATES TO THE MONTHS ENDED
+                id = 1
+                for one in ones:
+                    l = one.text.strip()
+                    match = re.match(r'.*([1-3][0-9]{3})', l)
+                    if match is not None:
+                        dates = {}
+                        if one.has_attr('colspan'):
+                            col = int(one.get('colspan'))
+                            dates['start_span'] = int(id)
+                            id += (col)
+                            dates['end_span'] = int(id) - 1
+                            dates['date'] = match.group(0)
+                            check_id = dates['end_span']
+                            for item in months_ended:
+                                if item.get('start_span') is not None:
+                                    start_span = int(item.get('start_span'))
+                                    end_span = int(item.get('end_span'))
+                                    if check_id >= start_span and check_id <= end_span:
+                                        dates['months_ended'] = item.get('months_ended')
+                            all_dates.append(dates)
+                        else:
+                            date = {}
+                            date['id'] = int(id)
+                            date['date'] = match.group(0)
+                            for item in months_ended:
+                                if item.get('start_span') is not None:
+                                    start_span = int(item.get('start_span'))
+                                    end_span = int(item.get('end_span'))
+                                    if id >= start_span and id <= end_span:
+                                        date['months_ended'] = item.get('months_ended')
+                            all_dates.append(date)
+                            id+=1
 
-                        #CHECK IF THIS IS A HEADER, AND THUS ONLY CONTAINS AN ENGLISH NAME
-                        header_check = 0
-                        for child in children:
-                            if child.text.strip() != '':
-                                header_check += 1
+                for date in all_dates:
+                    print(date)
 
-                        #CHECK IF NEXT ROW IS A HEADER. IF THIS IS FULFILLED THAT MEANS THE CURRENT ROW IS A MEMBER
-                        next_check = 0
-                        if element.find_next_sibling('tr') is not None:
-                            nexts = element.find_next_sibling('tr').find_all('td')
-                            for next in nexts:
-                                if next.text.strip() != '':
-                                    next_check +=1
+                #CHECK IF THIS STATEMENT IS PARSABLE BECAUSE WE DON'T WANT TO GET THE SHAREHOLDER'S EQUITY
 
-                        #RUN THE GAUNTLET TO SEE IF IT IS MEMBER, HEADER OF JUST A REGULAR LINE ITEM
-                        if header_check == 1 and 'MEMBER' in eng_name.upper() and '[' in eng_name.upper():
-                            member_header = eng_name
-                            member_order+=1
-                        elif header_check == 1 and next_check == 1:
-                            member_header = eng_name
-                            member_order+=1
-                        elif header_check == 1 and next_check != 1:
-                            header = eng_name
-                            header_order+=1
-                        elif header_check > 1:
-                            id = 1
-                            #SET ID TO MATCH THE NUMBERS TO THE PROPER YEAR. THE 1: SKIPS OVER THE ENGLISH NAME SO WE CAN ASSIGN THE NUMBERS
-                            for child in children[1:]:
-                                #make sure that the first td isn't a footnote or else it'll mess up the formatting 0001396009-20-000006 is example
-                                footnote1 = False
-                                if child.get('class') is not None:
-                                    if str(child.get('class')[0]) == 'th':
-                                        footnote1 = True
-                                if footnote1 == False:
-                                    #span used for those with spanning dates rather than indiv dates
-                                    if any('start_span' in d for d in all_dates):
-                                        for item in all_dates:
-                                            #split it further to see if there is id. 0001067701-14-000004 is a good example of when there is id & span mix
-                                            if 'id' in item:
-                                                if item['id'] == id:
-                                                    date = str(item['date'])
-                                                    if item.get('months_ended') is not None:
-                                                        months_ended = str(item['months_ended'])
-                                                        id+=1
-                                                        break
+                go = 0
+                for item in all_dates:
+                    if 'date' in item:
+                        go +=1
+                #IF GO IS NOT 0 THEN IT CONTAINS DATES AND IS PARSABLE
+                if go > 0:
+                    #FIND ALL THE ROWS IN THE TABLE
+                    #the orders keep track of where the items belong
+                    member_order = 0
+                    header_order = 0
+                    row_order = 0
+                    for element in soup.find('table').find_all('tr'):
+                        if element.find_all('td') is not None:
+                            children = element.find_all('td')
+                            #CHECK THAT THE ROW IS IN FACT A LINE ITEM OR AT LEAST A HEADER
+                            if element.find('td') is not None and element.find('td').text.strip() != '':
+                                #CHECK IF THIS ITEM HAS A US-GAAP TAG TO MATCH IT
+                                acc_name = ''
+                                if element.find('a') is not None and element.find('a').get('onclick') is not None:
+                                    acc_name = element.find('a').get('onclick').replace("top.Show.showAR( this, 'defref_", '')
+                                    acc_name = acc_name.split("', window );", 1)[0]
+                                    acc_name = acc_name.split("_", 1)[1]
+                                #SAVE THE ENGLISH NAME
+                                eng_name = element.find('td').text.strip()
+
+                                #CHECK IF THIS IS A HEADER, AND THUS ONLY CONTAINS AN ENGLISH NAME
+                                header_check = 0
+                                for child in children:
+                                    if child.text.strip() != '':
+                                        header_check += 1
+
+                                #CHECK IF NEXT ROW IS A HEADER. IF THIS IS FULFILLED THAT MEANS THE CURRENT ROW IS A MEMBER
+                                next_check = 0
+                                if element.find_next_sibling('tr') is not None:
+                                    nexts = element.find_next_sibling('tr').find_all('td')
+                                    for next in nexts:
+                                        if next.text.strip() != '':
+                                            next_check +=1
+
+                                #RUN THE GAUNTLET TO SEE IF IT IS MEMBER, HEADER OF JUST A REGULAR LINE ITEM
+                                if header_check == 1 and 'MEMBER' in eng_name.upper() and '[' in eng_name.upper():
+                                    member_header = eng_name
+                                    member_order+=1
+                                elif header_check == 1 and next_check == 1:
+                                    member_header = eng_name
+                                    member_order+=1
+                                elif header_check == 1 and next_check != 1:
+                                    header = eng_name
+                                    header_order+=1
+                                elif header_check > 1:
+                                    id = 1
+                                    #SET ID TO MATCH THE NUMBERS TO THE PROPER YEAR. THE 1: SKIPS OVER THE ENGLISH NAME SO WE CAN ASSIGN THE NUMBERS
+                                    for child in children[1:]:
+                                        #make sure that the first td isn't a footnote or else it'll mess up the formatting 0001396009-20-000006 is example
+                                        footnote1 = False
+                                        if child.get('class') is not None:
+                                            if str(child.get('class')[0]) == 'th':
+                                                footnote1 = True
+                                        if footnote1 == False:
+                                            #span used for those with spanning dates rather than indiv dates
+                                            if any('start_span' in d for d in all_dates):
+                                                for item in all_dates:
+                                                    #split it further to see if there is id. 0001067701-14-000004 is a good example of when there is id & span mix
+                                                    if 'id' in item:
+                                                        if item['id'] == id:
+                                                            date = str(item['date'])
+                                                            if item.get('months_ended') is not None:
+                                                                months_ended = str(item['months_ended'])
+                                                                id+=1
+                                                                break
+                                                            else:
+                                                                months_ended = ''
+                                                                id+=1
+                                                                break
+                                                    #if not an id do the usual span method
                                                     else:
-                                                        months_ended = ''
-                                                        id+=1
-                                                        break
-                                            #if not an id do the usual span method
-                                            else:
-                                                date = str(item['date'])
-                                                start_span = int(item.get('start_span'))
-                                                end_span = int(item.get('end_span'))
-                                                if id >= start_span and id <= end_span:
-                                                    if item.get('months_ended') is not None:
-                                                        months_ended = str(item['months_ended'])
-                                                        id+=1
-                                                        break
-                                                    else:
-                                                        months_ended = ''
-                                                        id+=1
-                                                        break
-                                    #use this for id only ones
-                                    elif any('id' in d for d in all_dates):
-                                        for item in all_dates:
-                                            if item['id'] == id:
-                                                date = str(item['date'])
-                                                if item.get('months_ended') is not None:
-                                                    months_ended = str(item['months_ended'])
-                                                    id+=1
-                                                    break
-                                                else:
-                                                    months_ended = ''
-                                                    id+=1
-                                                    break
+                                                        date = str(item['date'])
+                                                        start_span = int(item.get('start_span'))
+                                                        end_span = int(item.get('end_span'))
+                                                        if id >= start_span and id <= end_span:
+                                                            if item.get('months_ended') is not None:
+                                                                months_ended = str(item['months_ended'])
+                                                                id+=1
+                                                                break
+                                                            else:
+                                                                months_ended = ''
+                                                                id+=1
+                                                                break
+                                            #use this for id only ones
+                                            elif any('id' in d for d in all_dates):
+                                                for item in all_dates:
+                                                    if item['id'] == id:
+                                                        date = str(item['date'])
+                                                        if item.get('months_ended') is not None:
+                                                            months_ended = str(item['months_ended'])
+                                                            id+=1
+                                                            break
+                                                        else:
+                                                            months_ended = ''
+                                                            id+=1
+                                                            break
 
-                                    if child.find('sup') is None and child.find('span') is not None:
-                                        dict = {}
-                                        dict['member'] = member_header.strip()
-                                        dict['header'] = header.strip()
-                                        dict['eng_name'] = eng_name.strip()
-                                        dict['value'] = child.text.strip()
-                                        dict['date'] = ' '.join(date.split())
-                                        dict['months_ended'] = months_ended
-                                        dict['statement'] = statement_name.strip()
-                                        dict['acc_name'] = acc_name.strip()
-                                        dict['unit'] = unit.strip()
-                                        dict['member_order'] =int(member_order)
-                                        dict['header_order'] = int(header_order)
-                                        dict['row_order'] = int(row_order)
-                                        #print(dict)
-                                        print(dict['member'], dict['member_order'], dict['header'], dict['header_order'], dict['eng_name'],dict['row_order'], dict['value'], dict['date'], dict['months_ended'], dict['unit'], dict['acc_name'] )
-                                        all_dict.append(dict)
-                            row_order+=1
-        #for item in all_dict:
-        #    print(item['eng_name'], item['value'], item['date'], item['months_ended'])
-        os.remove(filename)
+                                            if child.find('sup') is None and child.find('span') is not None:
+                                                dict = {}
+                                                dict['member'] = member_header.strip()
+                                                dict['header'] = header.strip()
+                                                dict['eng_name'] = eng_name.strip()
+                                                dict['value'] = child.text.strip()
+                                                dict['date'] = ' '.join(date.split())
+                                                dict['months_ended'] = months_ended
+                                                dict['statement'] = statement_name.strip()
+                                                dict['acc_name'] = acc_name.strip()
+                                                dict['unit'] = unit.strip()
+                                                dict['member_order'] =int(member_order)
+                                                dict['header_order'] = int(header_order)
+                                                dict['row_order'] = int(row_order)
+                                                #print(dict)
+                                                print(dict['member'], dict['member_order'], dict['header'], dict['header_order'], dict['eng_name'],dict['row_order'], dict['value'], dict['date'], dict['months_ended'], dict['unit'], dict['acc_name'] )
+                                                all_dict.append(dict)
+                                    row_order+=1
+                #for item in all_dict:
+                #    print(item['eng_name'], item['value'], item['date'], item['months_ended'])
+                os.remove(filename)
+                break
+
+            else:
+                request_counter-=1
+                print('Error Occurred')
+                print('Request Counter '+str(request_counter))
+                continue
 
 
 
-    #XML PARSE SECTION HERE
+    #XML PARSE SECTION HERE-------------------------------->
     elif 'xml' in item['link']:
         doc_name = str(item.get('name'))
         print('NOW PARSING '+doc_name+ ' (A XML DOC)')
@@ -453,108 +466,119 @@ for item in dicts:
         #filename = "/Users/Harsh/OneDrive - The University of Texas at Dallas/Documents/Project A/HTM/%s.xml"%(doc_name)
         os.makedirs(os.path.dirname(filename), exist_ok=True)
         report_access = 'https://www.sec.gov%s'%str(item.get('link'))
-        page = requests.get(report_access)
-        soup = BeautifulSoup(page.content, features="lxml")
-        pretty = soup.prettify()
-        with open(filename, "w") as f:
-            f.write(pretty)
-        # parse the tables and match the values
-        xml = open(filename).read()
-        soup = BeautifulSoup(xml , features="lxml")
-        statement_name = str(soup.find('reportname').text).strip()
-        #clean up the statement name
-        statement_name = statement_name.split()
-        statement_name = ' '.join(statement_name)
-        if 'IN MILLIONS' in statement_name.upper():
-            unit = 'In Millions'
-        elif 'IN THOUSANDS' in statement_name.upper():
-            unit = 'In Thousands'
-        else:
-            unit = 'As Displayed'
-        all_dates = []
-        for element in soup.find_all('column'):
-            dates = {}
-            labels = element.find_all('label')
-            for label in labels:
-                l = label.get('label')
-                match = re.match(r'.*([1-3][0-9]{3})', l)
-                if match is not None:
-                    dates['date'] = match.group(0)
-                if re.search('months ended', l, re.IGNORECASE) is not None:
-                    dates['months_ended'] = l.strip()
-            dates['id'] = element.find('id').text.strip()
-            all_dates.append(dates)
-        member_header = ''
-        header = ''
-        go = 0
-        for item in all_dates:
-            if 'date' in item:
-                go +=1
-        if go > 1:
-            #keep track the order of things for "as displayed"
-            member_order = 0
-            header_order = 0
-            row_order = 0
-            for element in soup.find_all('row'):
-                this_row = []
-                #clean up english name
-                eng_name = ' '.join(str(element.find('label').text).strip().split())
-                acc_name = ''
-                acc_name = str(element.find('elementname').text).strip()
-                if acc_name != '':
-                    acc_name = str(element.find('elementname').text).strip().split('_', 1)[1]
-                children = element.find_all('cell')
-                header_check = 0
-                for child in children:
-                    if child.find('numericamount').text.strip() != '0':
-                        header_check +=1
 
-                next_check = 0
-                if element.find_next_sibling('row') is not None:
-                    nexts = element.find_next_sibling('row').find_all('cell')
-                    for next in nexts:
-                        if next.find('numericamount').text.strip() != '0':
-                            next_check +=1
-
-                if header_check == 0 and 'MEMBER' in str(eng_name).upper() and '[' in str(eng_name).upper():
-                    member_header = eng_name
-                    member_order+=1
-                elif header_check == 0 and next_check == 0:
-                    member_header = eng_name
-                    member_order+=1
-                elif header_check == 0 and 'MEMBER' not in str(eng_name).upper() and next_check != 0:
-                    header = eng_name
-                    header_order+=1
+        #Request counter queries the webpage multiple times until SEC relents
+        request_counter = 19
+        while request_counter > 0:
+            page = requests.get(report_access)
+            if page.status_code==200:
+                soup = BeautifulSoup(page.content, features="lxml")
+                pretty = soup.prettify()
+                with open(filename, "w") as f:
+                    f.write(pretty)
+                # parse the tables and match the values
+                xml = open(filename).read()
+                soup = BeautifulSoup(xml , features="lxml")
+                statement_name = str(soup.find('reportname').text).strip()
+                #clean up the statement name
+                statement_name = statement_name.split()
+                statement_name = ' '.join(statement_name)
+                if 'IN MILLIONS' in statement_name.upper():
+                    unit = 'In Millions'
+                elif 'IN THOUSANDS' in statement_name.upper():
+                    unit = 'In Thousands'
                 else:
-                    #this is for actual line items
-                    for child in children:
-                        dict = {}
-                        value = child.find('numericamount').text
-                        id = child.find('id').text.strip()
-                        for item in all_dates:
-                            if id == item['id']:
-                                current_date = item['date']
-                                if item.get('months_ended') is not None:
-                                    months_ended = item['months_ended']
-                                else:
-                                    months_ended = ''
-                        dict['member'] = member_header.strip()
-                        dict['header'] = header.strip()
-                        dict['eng_name'] = eng_name.strip()
-                        dict['value'] = value.strip()
-                        dict['date'] = current_date.strip()
-                        dict['months_ended'] = months_ended
-                        dict['statement'] = statement_name.strip()
-                        dict['acc_name'] = acc_name.strip()
-                        dict['unit'] = unit.strip()
-                        dict['member_order'] =int(member_order)
-                        dict['header_order'] = int(header_order)
-                        dict['row_order'] = int(row_order)
-                        #print(dict)
-                        print(dict['member'], dict['member_order'], dict['header'], dict['header_order'], dict['eng_name'],dict['row_order'], dict['value'], dict['date'], dict['months_ended'], dict['unit'], dict['acc_name'] )
-                        all_dict.append(dict)
-                    row_order+=1
-        os.remove(filename)
+                    unit = 'As Displayed'
+                all_dates = []
+                for element in soup.find_all('column'):
+                    dates = {}
+                    labels = element.find_all('label')
+                    for label in labels:
+                        l = label.get('label')
+                        match = re.match(r'.*([1-3][0-9]{3})', l)
+                        if match is not None:
+                            dates['date'] = match.group(0)
+                        if re.search('months ended', l, re.IGNORECASE) is not None:
+                            dates['months_ended'] = l.strip()
+                    dates['id'] = element.find('id').text.strip()
+                    all_dates.append(dates)
+                member_header = ''
+                header = ''
+                go = 0
+                for item in all_dates:
+                    if 'date' in item:
+                        go +=1
+                if go > 1:
+                    #keep track the order of things for "as displayed"
+                    member_order = 0
+                    header_order = 0
+                    row_order = 0
+                    for element in soup.find_all('row'):
+                        this_row = []
+                        #clean up english name
+                        eng_name = ' '.join(str(element.find('label').text).strip().split())
+                        acc_name = ''
+                        acc_name = str(element.find('elementname').text).strip()
+                        if acc_name != '':
+                            acc_name = str(element.find('elementname').text).strip().split('_', 1)[1]
+                        children = element.find_all('cell')
+                        header_check = 0
+                        for child in children:
+                            if child.find('numericamount').text.strip() != '0':
+                                header_check +=1
+
+                        next_check = 0
+                        if element.find_next_sibling('row') is not None:
+                            nexts = element.find_next_sibling('row').find_all('cell')
+                            for next in nexts:
+                                if next.find('numericamount').text.strip() != '0':
+                                    next_check +=1
+
+                        if header_check == 0 and 'MEMBER' in str(eng_name).upper() and '[' in str(eng_name).upper():
+                            member_header = eng_name
+                            member_order+=1
+                        elif header_check == 0 and next_check == 0:
+                            member_header = eng_name
+                            member_order+=1
+                        elif header_check == 0 and 'MEMBER' not in str(eng_name).upper() and next_check != 0:
+                            header = eng_name
+                            header_order+=1
+                        else:
+                            #this is for actual line items
+                            for child in children:
+                                dict = {}
+                                value = child.find('numericamount').text
+                                id = child.find('id').text.strip()
+                                for item in all_dates:
+                                    if id == item['id']:
+                                        current_date = item['date']
+                                        if item.get('months_ended') is not None:
+                                            months_ended = item['months_ended']
+                                        else:
+                                            months_ended = ''
+                                dict['member'] = member_header.strip()
+                                dict['header'] = header.strip()
+                                dict['eng_name'] = eng_name.strip()
+                                dict['value'] = value.strip()
+                                dict['date'] = current_date.strip()
+                                dict['months_ended'] = months_ended
+                                dict['statement'] = statement_name.strip()
+                                dict['acc_name'] = acc_name.strip()
+                                dict['unit'] = unit.strip()
+                                dict['member_order'] =int(member_order)
+                                dict['header_order'] = int(header_order)
+                                dict['row_order'] = int(row_order)
+                                #print(dict)
+                                print(dict['member'], dict['member_order'], dict['header'], dict['header_order'], dict['eng_name'],dict['row_order'], dict['value'], dict['date'], dict['months_ended'], dict['unit'], dict['acc_name'] )
+                                all_dict.append(dict)
+                            row_order+=1
+                os.remove(filename)
+                break
+            else:
+                request_counter-=1
+                print('Error Occurred')
+                print('Request Counter '+str(request_counter))
+                continue
 
 print('ZOINKS')
 
