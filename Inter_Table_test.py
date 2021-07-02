@@ -34,8 +34,8 @@ cursor = connection.cursor()
 #accession_number = '0001466258-17-000211' #control, 3 statements are in financial statement tab
 #accession_number = '0000874766-14-000007' # 2 financial statement sections and 1 notes contain the main statements
 #accession_number = '0001193125-09-167155' #balance sheet in cover page and cashflow in notes
-accession_number = '0001193125-17-056969' #2021 format
-#accession_number = '0001193125-09-214859' #test xml changes work
+#accession_number = '0001193125-17-056969' #2021 format
+accession_number = '0001193125-09-214859' #test xml changes work
 #accession_number='0001396009-20-000006' #current issues
 print(accession_number)
 
@@ -232,9 +232,7 @@ for item in dicts:
         #CREATE THE DOCUMENT AND BEAUTIFULSOUP PARSE IT
         doc_name = str(item.get('name'))
         print('NOW PARSING '+doc_name+ ' (A HTM DOC)')
-        filename = "/Users/octavian/Desktop/HTM/%s.htm"%(doc_name)
-        #filename = "/Users/Harsh/OneDrive - The University of Texas at Dallas/Documents/Project A/HTM/%s.htm"%(doc_name)
-        os.makedirs(os.path.dirname(filename), exist_ok=True)
+        filename = "%s.htm"%(doc_name)
         report_access = 'https://www.sec.gov%s'%str(item.get('link'))
         #Request counter queries the webpage multiple times until SEC relents
         request_counter = 19
@@ -244,7 +242,7 @@ for item in dicts:
                 print('L239 PRINT PAGE ',page)
                 soup = BeautifulSoup(page.content, features="lxml")
                 pretty = soup.prettify()
-                with open(filename, "w") as f:
+                with open(filename, "w+") as f:
                     f.write(pretty)
                 htm = open(filename).read()
                 soup = BeautifulSoup(htm , features="lxml")
@@ -462,9 +460,7 @@ for item in dicts:
     elif 'xml' in item['link']:
         doc_name = str(item.get('name'))
         print('NOW PARSING '+doc_name+ ' (A XML DOC)')
-        filename = "/Users/octavian/Desktop/HTM/%s.xml"%(doc_name)
-        #filename = "/Users/Harsh/OneDrive - The University of Texas at Dallas/Documents/Project A/HTM/%s.xml"%(doc_name)
-        os.makedirs(os.path.dirname(filename), exist_ok=True)
+        filename = "%s.xml"%(doc_name)
         report_access = 'https://www.sec.gov%s'%str(item.get('link'))
 
         #Request counter queries the webpage multiple times until SEC relents
@@ -474,7 +470,7 @@ for item in dicts:
             if page.status_code==200:
                 soup = BeautifulSoup(page.content, features="lxml")
                 pretty = soup.prettify()
-                with open(filename, "w") as f:
+                with open(filename, "w+") as f:
                     f.write(pretty)
                 # parse the tables and match the values
                 xml = open(filename).read()
